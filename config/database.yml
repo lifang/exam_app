@@ -1,0 +1,34 @@
+# SQLite version 3.x
+#   gem install sqlite3
+development:
+  adapter: mysql2
+  database: exam_app
+  username: examapp
+  password: examapp2011
+  encoding: utf8
+  pool: 5
+  timeout: 5000
+  host: 192.168.10.189
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  adapter: mysql2
+  database: exam_app_test
+  username: examapp
+  password: examapp2011
+  encoding: utf8
+  pool: 5
+  timeout: 5000
+  host: 192.168.10.189
+
+production:
+  adapter: mysql2
+  database: exam_app
+  username: examapp
+  password: examapp2011
+  encoding: utf8
+  pool: 5
+  timeout: 5000
+  host: 192.168.10.189
