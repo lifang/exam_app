@@ -32,7 +32,7 @@ input, textarea, select {
 }
 /*全局设定*/
 html{
-	background:#FFF url(/images/shop/biz_page_bg_back.gif) repeat-x;
+	background:#FFF url(/images/biz_page_bg_back.gif) repeat-x;
 	overflow-y:scroll;
 }
 body {
@@ -99,11 +99,11 @@ a:hover{
 }
 /*背景加载*/
 #logo, .nav_1, .nav_2, .nav_3, .nav li span, .top_soso ul li .sel, .soso_input, .soso_input button, .ppzt .in, .more, .ppzt h2, .tfjj .in, .tfjj h2, .assort_all h2, .wz, .gn, .fg, .cl, .jw, .assort_small{
-	background:url(/images/shop/bg.png) no-repeat;
+	background:url(/images/bg.png) no-repeat;
 	overflow:hidden;
 }
 .side_box h2{
-	background:url(/images/shop/bg_x.gif) repeat-x;
+	background:url(/images/bg_x.gif) repeat-x;
 }
 /*图片替代文字*/
 #logo span, .nav li a span, .more span, .ppzt h2 span, .tfjj h2 span{
@@ -373,10 +373,10 @@ a:hover{
 	height:100%;
 }
 #tf_info_open_btn{
-	background:url(/images/shop/triangle_down.gif) no-repeat center center;
+	background:url(/images/triangle_down.gif) no-repeat center center;
 }
 #tf_info_close_btn{
-	background:url(/images/shop/triangle_up.gif) no-repeat center center;
+	background:url(/images/triangle_up.gif) no-repeat center center;
 }
 .tfjj .in .right .pic_box .dot_line{
 	font-size:0;
@@ -384,7 +384,7 @@ a:hover{
 	width:390px;
 	clear:both;
 	height:1px;
-	background:url(/images/shop/dot_line.gif) repeat-x;
+	background:url(/images/dot_line.gif) repeat-x;
 }
 .good_facturer{
 	float:left;
@@ -493,10 +493,10 @@ a:hover{
 	background:none;
 }
 .assort_all .in .left ul li{
-	background:url(/images/shop/b_line.gif) no-repeat center bottom;
+	background:url(/images/b_line.gif) no-repeat center bottom;
 }
 .assort_all .in .right ul li{
-	background:url(/images/shop/dot_line.gif) repeat-x bottom;
+	background:url(/images/dot_line.gif) repeat-x bottom;
 }
 .assort_all .in .left ul .jw_box{
 	background:none;
@@ -542,7 +542,7 @@ a:hover{
 	padding:8px;
 }
 .affiche ul li{
-	background:url(/images/shop/list_point.gif) no-repeat left center;
+	background:url(/images/list_point.gif) no-repeat left center;
 	padding-left:8px;
 }
 .readme{
@@ -569,19 +569,19 @@ a:hover{
 	height:28px;
 	line-height:28px;
 	padding-left:8px;
-	background:url(/images/shop/triangle_left.gif) no-repeat 195px center;
+	background:url(/images/triangle_left.gif) no-repeat 195px center;
 }
 .commend_product ul li .name:hover{
 	color:#a10000;
 	text-decoration:none;
 }
 .commend_product ul li .name span{
-	background:url(/images/shop/list_point_1.gif) no-repeat left center;
+	background:url(/images/list_point_1.gif) no-repeat left center;
 	padding-left:8px;
 }
 .commend_product ul li .sel{
 	color:#a10000;
-	background:url(/images/shop/triangle_down.gif) no-repeat 192px center;
+	background:url(/images/triangle_down.gif) no-repeat 192px center;
 }
 .top_show{
 	width:730px;
@@ -623,16 +623,16 @@ a:hover{
 	z-index:9;
 	top:-49px;
 	left:0;
-	background:url(/images/shop/cam_bg_index.gif) no-repeat;
+	background:url(/images/cam_bg_index.gif) no-repeat;
 	width:232px;
 	height:199px;
 	padding:18px 0 0 3px;
 }
 .open_cam {
-    background: url(/images/shop/cam_btn_oc_open.gif) no-repeat;
+    background: url(/images/cam_btn_oc_open.gif) no-repeat;
 }
 .close_cam {
-    background: url(/images/shop/cam_btn_oc_close.gif) no-repeat;
+    background: url(/images/cam_btn_oc_close.gif) no-repeat;
 }
 .open_cam, .close_cam {
 	display:block;
@@ -655,7 +655,7 @@ a:hover{
 	color:#900;
 }
 .cam_box .default .read_help{
-	background: url(/images/shop/check_explain_x.gif) no-repeat;
+	background: url(/images/check_explain_x.gif) no-repeat;
     display:block;
     float: left;
     height: 23px;
@@ -664,7 +664,7 @@ a:hover{
 	_margin:94px 0 0 60px;
 }
 .cam_box .default{
-	background:url(/images/shop/cam_bg_x.gif) no-repeat;
+	background:url(/images/cam_bg_x.gif) no-repeat;
 	width:214px;
 	height:160px;
 }
@@ -740,7 +740,7 @@ a:hover{
 }
 .tab_nav li{
 	float:left;
-	background:url(/images/shop/tab_bg.gif) no-repeat;
+	background:url(/images/tab_bg.gif) no-repeat;
 	background-position:right -50px;
 	height:26px;
 	line-height:26px;
@@ -751,7 +751,7 @@ a:hover{
 	background-position:right 0px;
 }
 .tab_nav li a{
-	background:url(/images/shop/tab_bg.gif) no-repeat;
+	background:url(/images/tab_bg.gif) no-repeat;
 	background-position:left -50px;
 	padding-left:15px;
 	height:26px;
@@ -814,7 +814,7 @@ a:hover{
 }
 .index_big_pic p{
 	float:left;
-	background:url(/images/shop/bg.png) no-repeat left -200px;
+	background:url(/images/bg.png) no-repeat left -200px;
 	padding-top:24px;
 	width:222px;
 }
@@ -823,7 +823,7 @@ a:hover{
 }
 .shop_detail{
 	float:right;
-	background:url(/images/shop/bg.png) no-repeat;
+	background:url(/images/bg.png) no-repeat;
 	width:58px;
 	height:17px;
 	display:block;
@@ -854,7 +854,7 @@ a:hover{
 	display:block;
 	padding:0 5px 0 5px;
 	float:left;
-	background:url(/images/shop/anjuroom_pagination_a_bg.gif) repeat-x;
+	background:url(/images/anjuroom_pagination_a_bg.gif) repeat-x;
 	height:23px;
 	text-align:center;
 	line-height:23px;
@@ -862,7 +862,7 @@ a:hover{
 	border-right:#CCC 1px solid;
 }
 .pagination .current {
-	background:url(/images/shop/anjuroom_pagination_actived_bg.gif) repeat-x;
+	background:url(/images/anjuroom_pagination_actived_bg.gif) repeat-x;
 	display:block;
 	padding:0 5px 0 5px;
 	height:23px;
@@ -876,7 +876,7 @@ a:hover{
 	border-right:#d8d8d8 1px solid;
 }
 .pagination .prev_page, .pagination .next_page {
-	background:url(/images/shop/anjuroom_pagination_a_bg.gif) repeat-x;
+	background:url(/images/anjuroom_pagination_a_bg.gif) repeat-x;
 	text-align:center;
 	height:23px;
 	line-height:23px;
@@ -890,7 +890,7 @@ a:hover{
 	border-right:#CCC 1px solid;
 }
 .pagination .disabled {
-	background:url(/images/shop/anjuroom_pagination_a_bg.gif) repeat-x;
+	background:url(/images/anjuroom_pagination_a_bg.gif) repeat-x;
 	border-left:1px solid #CCCCCC;
 	border-right:1px solid #CCCCCC;
 	display:block;
@@ -912,7 +912,7 @@ a:hover{
 	line-height:23px;
 	padding:0 3px 0 3px;
 	margin:15px 0 0 3px;
-	background:url(/images/shop/anjuroom_pagination_a_bg.gif) repeat-x;
+	background:url(/images/anjuroom_pagination_a_bg.gif) repeat-x;
 }
 .pagination_index{
 	border-left:1px solid #CCCCCC;
@@ -923,7 +923,7 @@ a:hover{
 	line-height:23px;
 	padding:0 3px 0 3px;
 	margin:15px 3px 0 0;
-	background:url(/images/shop/anjuroom_pagination_a_bg.gif) repeat-x;
+	background:url(/images/anjuroom_pagination_a_bg.gif) repeat-x;
 }
 .pagination_last_end{
 	border-left:1px solid #CCCCCC;
@@ -935,7 +935,7 @@ a:hover{
 	line-height:23px;
 	padding:0 3px 0 3px;
 	margin:15px 3px 0 3px;
-	background:url(/images/shop/anjuroom_pagination_a_bg.gif) repeat-x;
+	background:url(/images/anjuroom_pagination_a_bg.gif) repeat-x;
 }
 .pagination_index_end{
 	border-left:1px solid #CCCCCC;
@@ -947,7 +947,7 @@ a:hover{
 	line-height:23px;
 	padding:0 3px 0 3px;
 	margin:15px 3px 0 0;
-	background:url(/images/shop/anjuroom_pagination_a_bg.gif) repeat-x;
+	background:url(/images/anjuroom_pagination_a_bg.gif) repeat-x;
 }
 .pagination .gap {
 	font-size:14px;
@@ -958,7 +958,7 @@ a:hover{
 }
 .pagination_index_page, .pagination_last_page {
 	float:left;
-	background:url(/images/shop/anjuroom_pagination_new_bg.gif) no-repeat;
+	background:url(/images/anjuroom_pagination_new_bg.gif) no-repeat;
 	width:30px;
 	height:23px;
 	text-align:center;
@@ -987,14 +987,14 @@ a:hover{
 .soso_title{
 	height:25px;
 	line-height:25px;
-	background:url(/images/shop/soso_title_bg.gif) repeat-x;
+	background:url(/images/soso_title_bg.gif) repeat-x;
 	border:#e5e5e5 1px solid;
 	padding:0 10px 0px 5px;
 	margin-bottom:10px;
 }
 .soso_title span{
 	display:inline-block;
-	background:url(/images/shop/soso_title_icon.gif) no-repeat right center;
+	background:url(/images/soso_title_icon.gif) no-repeat right center;
 	padding-right:15px;
 	padding-left:5px;
 }
@@ -1007,7 +1007,7 @@ a:hover{
 	margin-bottom:10px;
 }
 .soso_sel_box .in{
-	background:#FFF url(/images/shop/soso_sel_box_bg.gif) repeat-x;
+	background:#FFF url(/images/soso_sel_box_bg.gif) repeat-x;
 	padding:8px 8px 0 8px;
 	float:left;
 	width:710px;
@@ -1029,7 +1029,7 @@ a:hover{
 	color:#06F;
 }
 .soso_sel_box .in ul li .sel_more{
-	background:url(/images/shop/index_small_logo_bg.gif) repeat-x;
+	background:url(/images/index_small_logo_bg.gif) repeat-x;
 	display:block;
 	border:#dcdcdc 1px solid;
 	color:#6c6c6c;
@@ -1043,14 +1043,14 @@ a:hover{
 .soso_ctrl_bar{
 	float:left;
 	width:710px;
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:0 -180px;
 	height:28px;
 	padding:8px 10px 0 10px;
 	margin-bottom:10px;
 }
 .soso_ctrl_bar .thumb_mode{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-90px 0px;
 	width:86px;
 	height:20px;
@@ -1059,7 +1059,7 @@ a:hover{
 	margin-right:10px;
 }
 .soso_ctrl_bar .list_mode{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:0px 0px;
 	width:86px;
 	height:20px;
@@ -1077,7 +1077,7 @@ a:hover{
 	display:none;
 }
 .soso_ctrl_bar .sel_list{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-370px 0px;
 	display:block;
 	float:left;
@@ -1097,7 +1097,7 @@ a:hover{
 	margin-right:3px;
 }
 .soso_ctrl_bar .price_up{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-180px 0px;
 	width:46px;
 	height:20px;
@@ -1106,7 +1106,7 @@ a:hover{
 	margin-right:10px;
 }
 .soso_ctrl_bar .price_up_actived{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-180px -30px;
 	width:46px;
 	height:20px;
@@ -1115,7 +1115,7 @@ a:hover{
 	margin-right:10px;
 }
 .soso_ctrl_bar .price_down{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-230px -30px;
 	width:46px;
 	height:20px;
@@ -1157,7 +1157,7 @@ a:hover{
 	right:0px;
 	z-index:99999;
 	border:medium none;
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	cursor:pointer;
 	background-position:-660px 0px;
 	width:41px;
@@ -1202,21 +1202,21 @@ a:hover{
 	border-bottom:#a6a6a6 1px solid;
 }
 .soso_ctrl_bar .sel_list_box .order_options .price_htod a{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-710px 3px;
 }
 .soso_ctrl_bar .sel_list_box .price_htod span{
 	padding-left:21px;
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-710px 3px;
 }
 .soso_ctrl_bar .sel_list_box .order_options .price_dtoh a{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-710px -17px;
 }
 .soso_ctrl_bar .sel_list_box .price_dtoh span{
 	padding-left:21px;
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-710px -17px;
 }
 .soso_ctrl_bar .address_sel_box{
@@ -1225,7 +1225,7 @@ a:hover{
 	z-index:9999;
 }
 .soso_ctrl_bar .address_sel_box .address_sel{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-300px -30px;
 	width:74px;
 	height:20px;
@@ -1243,7 +1243,7 @@ a:hover{
 	float:right;
 }
 .soso_ctrl_bar .page_sel_box .page_up{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-500px -30px;
 	width:22px;
 	height:20px;
@@ -1253,7 +1253,7 @@ a:hover{
 	line-height:20px;
 }
 .soso_ctrl_bar .page_sel_box .page_up_dark{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-500px 0px;
 	width:22px;
 	height:20px;
@@ -1263,7 +1263,7 @@ a:hover{
 	line-height:20px;
 }
 .soso_ctrl_bar .page_sel_box .page_down{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-530px -0px;
 	width:59px;
 	height:20px;
@@ -1272,7 +1272,7 @@ a:hover{
 	line-height:20px;
 }
 .soso_ctrl_bar .page_sel_box .page_down_dark{
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	background-position:-530px -30px;
 	width:59px;
 	height:20px;
@@ -1302,7 +1302,7 @@ a:hover{
 }
 .page_sel_box_botm button{
 	border:medium none;
-	background:url(/images/shop/soso_ctrbar_icon.png) no-repeat;
+	background:url(/images/soso_ctrbar_icon.png) no-repeat;
 	cursor:pointer;
 	background-position:-660px 0px;
 	width:41px;
@@ -1322,7 +1322,7 @@ a:hover{
 	float:left;
 }
 .soso_ctrl_bar .address_sel_box .address_list button{
-	background: url(/images/shop/soso_ctrbar_icon.png) no-repeat -660px 0;
+	background: url(/images/soso_ctrbar_icon.png) no-repeat -660px 0;
     border: medium none;
     cursor: pointer;
     height: 19px;
@@ -1393,7 +1393,7 @@ a:hover{
 	left:90px;
 	top:0px;
 	display:block;
-	background:url(/images/shop/big_pic_arrow_icon.gif) no-repeat;
+	background:url(/images/big_pic_arrow_icon.gif) no-repeat;
 	width:6px;
 	height:11px;
 }
@@ -1426,13 +1426,13 @@ a:hover{
 	float:left;
 }
 .biz_back_nav .title{
-	background:url(/images/shop/back_nav_title_bg.gif) repeat-y;
+	background:url(/images/back_nav_title_bg.gif) repeat-y;
 	border-bottom:#ccc 1px solid;
 	padding:5px 0 5px 10px;
 	font-weight:bold;
 }
 .biz_back_nav .title span{
-	background:url(/images/shop/back_nav_title_icon.gif) no-repeat left center;
+	background:url(/images/back_nav_title_icon.gif) no-repeat left center;
 	padding-left:8px;
 }
 .biz_back_nav a{
@@ -1451,7 +1451,7 @@ a:hover{
 	padding:1px;
 }
 .main_box_back h2{
-	background:url(/images/shop/biz_main_h2_bg.gif) repeat-x;
+	background:url(/images/biz_main_h2_bg.gif) repeat-x;
 	height:25px;
 	font-weight:bold;
 	line-height:25px;
@@ -1473,7 +1473,7 @@ a:hover{
 	padding:10px;
 }
 .main_box_back .in h3{
-	background:url(/images/shop/biz_main_h3_bg.gif) repeat-x;
+	background:url(/images/biz_main_h3_bg.gif) repeat-x;
 	height:23px;
 	line-height:23px;
 	border:#ccc 1px solid;
@@ -1484,7 +1484,7 @@ a:hover{
 	margin-bottom:10px;
 }
 .main_box_back table thead th{
-	background:url(/images/shop/biz_main_h3_bg.gif) repeat-x;
+	background:url(/images/biz_main_h3_bg.gif) repeat-x;
 	height:23px;
 	line-height:23px;
 	border:#ccc 1px solid;
@@ -1529,7 +1529,7 @@ a:hover{
 .back_dt_list .each_box .right .title .user_name{
 	color:#06F;
 	float:left;
-	background:url(/images/shop/biz_say_icon.png) no-repeat left center;
+	background:url(/images/biz_say_icon.png) no-repeat left center;
 	padding-left:25px;
 }
 .back_dt_list .each_box .right .title span{
@@ -1557,13 +1557,13 @@ a:hover{
 .tab_biz li {
 	float:left;
 	margin-right:3px;
-	background:url(/images/shop/tab_bg_biz.png) no-repeat right -30px;
+	background:url(/images/tab_bg_biz.png) no-repeat right -30px;
 	height:29px;
 	line-height:29px;
 	padding-right:2px;
 }
 .tab_biz .actived {
-	background:url(/images/shop/tab_bg_biz.png) no-repeat right 0px;
+	background:url(/images/tab_bg_biz.png) no-repeat right 0px;
 	height:30px;
 	line-height:30px;
 	_margin-bottom:-1px;
@@ -1573,7 +1573,7 @@ a:hover{
 	display:block;
 	height:29px;
 	line-height:29px;
-	background:url(/images/shop/tab_bg_biz.png) no-repeat left -30px;
+	background:url(/images/tab_bg_biz.png) no-repeat left -30px;
 	padding:0 13px 0 15px;
 	float:left;
 }
@@ -1582,7 +1582,7 @@ a:hover{
 	text-decoration:none;
 }
 .tab_biz .actived a {
-	background:url(/images/shop/tab_bg_biz.png) no-repeat left 0px;
+	background:url(/images/tab_bg_biz.png) no-repeat left 0px;
 	height:30px;
 	line-height:30px;
 	font-size:14px;
@@ -1602,7 +1602,7 @@ a:hover{
 }
 .soso {
 	margin-bottom:20px;
-	background:#fff2f2 url(/images/shop/biz_soso_icon.gif) left center no-repeat;
+	background:#fff2f2 url(/images/biz_soso_icon.gif) left center no-repeat;
 	padding:5px 0 5px 90px;
 	border:#fedbe6 1px solid;
 	float:left;
@@ -1618,13 +1618,13 @@ a:hover{
 	padding:4px 2px 0px 3px\9;
 	color:#666;
 	line-height:1;
-	background:#FFF url(/images/shop/input_select_bg.gif) no-repeat;
+	background:#FFF url(/images/input_select_bg.gif) no-repeat;
 }
 .moker_out_table{
 	width:100%;
 }
 .moker_out_table thead th{
-	background:url(/images/shop/biz_main_h3_bg.gif) repeat-x;
+	background:url(/images/biz_main_h3_bg.gif) repeat-x;
     border: 1px solid #CCCCCC;
     height: 23px;
     line-height: 23px;
@@ -1650,7 +1650,7 @@ a:hover{
 	margin:0 auto;
 }
 .open_box table thead tr th {
-	background:url(/images/shop/biz_main_h3_bg.gif) repeat-x;
+	background:url(/images/biz_main_h3_bg.gif) repeat-x;
 	padding-left:5px;
 	color:#000;
 	font-weight:normal;
@@ -1660,11 +1660,11 @@ a:hover{
 }
 .tr_close {
 	padding-right:15px;
-	background:url(/images/shop/close_icon.gif) no-repeat right center;
+	background:url(/images/close_icon.gif) no-repeat right center;
 }
 .tr_open {
 	padding-right:15px;
-	background:url(/images/shop/open_icon.gif) no-repeat right center;
+	background:url(/images/open_icon.gif) no-repeat right center;
 }
 .must_r{
 	color:#CC0000;
@@ -1713,14 +1713,14 @@ a:hover{
 	left:0;
 }
 .check_big_pic {
-	background:url(/images/shop/sp_ctrl_icon.gif) no-repeat;
+	background:url(/images/sp_ctrl_icon.gif) no-repeat;
 	background-position:left 1px;
 	padding-left:15px;
 	color:#06F;
 	margin:0 10px 0 10px;
 }
 .collection {
-	background:url(/images/shop/sp_ctrl_icon.gif) no-repeat;
+	background:url(/images/sp_ctrl_icon.gif) no-repeat;
 	background-position:left -21px;
 	padding-left:15px;
 	color:#06F;
@@ -1816,13 +1816,13 @@ a:hover{
 	display:block;
 	float:left;
 	cursor:pointer;
-	background:url(/images/shop/size_actived.gif) no-repeat right bottom;
+	background:url(/images/size_actived.gif) no-repeat right bottom;
 }
 .products_particular_box .fit_size_actived:hover {
 	text-decoration:none;
 }
 .products_particular_box .pop_unity_btn {
-	background:url(/images/shop/tiyan_btn.gif) no-repeat;
+	background:url(/images/tiyan_btn.gif) no-repeat;
 	width:91px;
 	height:36px;
 	display:block;
@@ -1830,7 +1830,7 @@ a:hover{
 	margin-right:10px;
 }
 .products_particular_box .use_fit_btn {
-	background:url(/images/shop/use_btn.gif) no-repeat;
+	background:url(/images/use_btn.gif) no-repeat;
 	width:91px;
 	height:36px;
 	display:block;
@@ -1858,13 +1858,13 @@ a:hover{
 .tab_biz li {
 	float:left;
 	margin-right:3px;
-	background:url(/images/shop/tab_bg_biz.png) no-repeat right -30px;
+	background:url(/images/tab_bg_biz.png) no-repeat right -30px;
 	height:29px;
 	line-height:29px;
 	padding-right:2px;
 }
 .tab_biz .actived {
-	background:url(/images/shop/tab_bg_biz.png) no-repeat right 0px;
+	background:url(/images/tab_bg_biz.png) no-repeat right 0px;
 	height:30px;
 	line-height:30px;
 	_margin-bottom:-1px;
@@ -1875,7 +1875,7 @@ a:hover{
 	height:29px;
 
 	line-height:29px;
-	background:url(/images/shop/tab_bg_biz.png) no-repeat left -30px;
+	background:url(/images/tab_bg_biz.png) no-repeat left -30px;
 	padding:0 13px 0 15px;
 	float:left;
 }
@@ -1884,7 +1884,7 @@ a:hover{
 	text-decoration:none;
 }
 .tab_biz .actived a {
-	background:url(/images/shop/tab_bg_biz.png) no-repeat left 0px;
+	background:url(/images/tab_bg_biz.png) no-repeat left 0px;
 	height:30px;
 	line-height:30px;
 	font-size:14px;
@@ -2006,7 +2006,7 @@ a:hover{
 	margin-left:-377px;
 	width:746px;
 	height:506px;
-	background:#FFF url(/images/shop/unity_pop_box_bg.gif) bottom repeat-x;
+	background:#FFF url(/images/unity_pop_box_bg.gif) bottom repeat-x;
 	border:#FFF 1px solid;
 	padding:4px 4px 10px 4px;
 	_padding:4px 4px 5px 4px;
@@ -2033,7 +2033,7 @@ a:hover{
 	margin-bottom:5px;
 }
 .unity_pop_box .close_btn_pop {
-	background:url(/images/shop/pop_close_btn.gif) no-repeat;
+	background:url(/images/pop_close_btn.gif) no-repeat;
 	width:15px;
 	height:15px;
 	display:block;
@@ -2047,7 +2047,7 @@ a:hover{
 	position:relative;
 }
 .unity_pop_box .use_btn {
-	background:url(/images/shop/unity_pop_btn.gif) no-repeat left 0px;
+	background:url(/images/unity_pop_btn.gif) no-repeat left 0px;
 	width:63px;
 	height:22px;
 	display:block;
@@ -2109,14 +2109,14 @@ a:hover{
 	padding:4px 2px 0px 3px\9;
 	color:#666;
 	line-height:1;
-	background:url(/images/shop/input_select_bg.gif) no-repeat;
+	background:url(/images/input_select_bg.gif) no-repeat;
 }
 .login_pop_box .login_btn {
 	cursor:pointer;
 	border:medium none;
 	width:86px;
 	height:26px;
-	background:url(/images/shop/login_page_bg.gif) no-repeat;
+	background:url(/images/login_page_bg.gif) no-repeat;
 	background-position:-140px 0px;
 	margin-right:20px;
 }
@@ -2164,7 +2164,7 @@ a:hover{
 	color:#900;
 }
 .login_pop_close_btn {
-	background:url(/images/shop/pop_close_btn.gif) no-repeat;
+	background:url(/images/pop_close_btn.gif) no-repeat;
 	width:15px;
 	height:15px;
 	display:block;
@@ -2223,7 +2223,7 @@ a:hover{
 }
 .cl_list_box h2{
 	float:left;
-	background:url(/images/shop/cl_list_box_h2_bg.gif) no-repeat;
+	background:url(/images/cl_list_box_h2_bg.gif) no-repeat;
 	width:68px;
 	height:74px;
 	margin-right:15px;
@@ -2243,13 +2243,13 @@ a:hover{
 }
 .cl_list_box .up_btn a{
 	display:block;
-	background:url(/images/shop/cl_list_box_up_btn.gif) no-repeat;
+	background:url(/images/cl_list_box_up_btn.gif) no-repeat;
 	width:15px;
 	height:24px;
 }
 .cl_list_box .down_btn a{
 	display:block;
-	background:url(/images/shop/cl_list_box_down_btn.gif) no-repeat;
+	background:url(/images/cl_list_box_down_btn.gif) no-repeat;
 	width:15px;
 	height:24px;
 }
@@ -2258,14 +2258,14 @@ a:hover{
 }
 .cl_list_box .up_btn_dark{
 	float:left;
-	background:url(/images/shop/cl_list_box_up_btn_dark.gif) no-repeat;
+	background:url(/images/cl_list_box_up_btn_dark.gif) no-repeat;
 	width:15px;
 	height:24px;
 	margin:25px 10px 0 0;
 }
 .cl_list_box .down_btn_dark{
 	float:left;
-	background:url(/images/shop/cl_list_box_down_btn_dark.gif) no-repeat;
+	background:url(/images/cl_list_box_down_btn_dark.gif) no-repeat;
 	width:15px;
 	height:24px;
 	margin:25px 0 0 10px;
@@ -2318,7 +2318,7 @@ a:hover{
 .soso_sel_top_box .each .del_btn{
 	display:block;
 	float:left;
-	background:url(/images/shop/biz_soso_sel_del_btn.gif) no-repeat;
+	background:url(/images/biz_soso_sel_del_btn.gif) no-repeat;
 	width:13px;
 	height:13px;
 	margin-top:1px;
@@ -2340,7 +2340,7 @@ a:hover{
 	left:20px;
 	width:220px;
 	height:115px;
-	background:url(/images/shop/anjuroom_user_pop_bg.gif) top repeat-x;
+	background:url(/images/anjuroom_user_pop_bg.gif) top repeat-x;
 	border:#cc96e5 1px solid;
 	padding:10px;
 }
@@ -2364,7 +2364,7 @@ a:hover{
 	color:#00486c;
 }
 .in_room_btn {
-	background:url(/images/shop/anjuroom_in_room_btn.gif) no-repeat;
+	background:url(/images/anjuroom_in_room_btn.gif) no-repeat;
 	width:70px;
 	height:24px;
 	display:block;
@@ -2373,7 +2373,7 @@ a:hover{
 	margin-left:5px;
 }
 .fdx_btn {
-	background:url(/images/shop/anjuroom_fdx_btn.gif) no-repeat;
+	background:url(/images/anjuroom_fdx_btn.gif) no-repeat;
 	width:55px;
 	height:24px;
 	display:block;
