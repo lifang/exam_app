@@ -3,3 +3,5 @@ class PaperBlock < ActiveRecord::Base
    belongs_to  :paper
    has_many :question,:through=>:block_question_relations,:foreign_key=>:question_id
 end
+
+

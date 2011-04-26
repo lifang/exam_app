@@ -1,3 +1,5 @@
 class ExamPlan < ActiveRecord::Base
-  has_many:examnation
+  belongs_to:examnation
+  has_many:exam_users
+  has_many:exam_raters
 end
