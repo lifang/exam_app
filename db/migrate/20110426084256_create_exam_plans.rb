@@ -6,7 +6,7 @@ class CreateExamPlans < ActiveRecord::Migration
       t.integer :creater_id
       t.string :description
       t.datetime :start_end_time
-      t.datetime :exam-time
+      t.datetime :exam_time
 
       t.timestamps
     end
