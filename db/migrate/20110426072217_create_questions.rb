@@ -15,3 +15,4 @@ class CreateQuestions < ActiveRecord::Migration
     drop_table :questions
   end
 end
+

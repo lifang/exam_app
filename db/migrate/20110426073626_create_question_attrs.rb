@@ -3,7 +3,7 @@ class CreateQuestionAttrs < ActiveRecord::Migration
     create_table :question_attrs do |t|
       t.integer :question_point_id
       t.string :key
-      t.string :value
+      t.string :value    
 
       t.timestamps
     end
