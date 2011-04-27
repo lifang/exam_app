@@ -61,6 +61,6 @@ module ApplicationHelper
   end
 
   def current_user
-    User.find_by_email(session[:user_email])
+    User.find_by_id(cookies[id])
   end
 end

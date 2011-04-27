@@ -8,45 +8,43 @@
   <div>出卷时间：<%=  @paper.created_at%></div>
   <div>总题数：<%=  @paper.total_question_num %></div>
 </div>
-<h1 class="biz_art_title">一、单项选择题</h1><br/>
+<h1 class="biz_art_title">一、<%= @block1.title %></h1><br/>
 <div class="biz_art_list_box">
   <ul>
-    <li>
-      <h2><a target="_blank" href="#">Rodman met with Tony to try and __settle__ the dispute over his contract</a></h2>
-      <p>Rodman met with Tony to try and __settle__ the dispute over his contract</p>
-      <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
-    </li>
-    <li>
-      <h2><a target="_blank" href="#">Rodman met with Tony to try and __settle__ the dispute over his contract</a></h2>
-      <p>Rodman met with Tony to try and __settle__ the dispute over his contract......</p>
-      <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
-    </li>
-    <li>
-      <h2><a target="_blank" href="#">Rodman met with Tony to try and __settle__ the dispute over his contract</a></h2>
-      <p>Rodman met with Tony to try and __settle__ the dispute over his contract......</p>
-      <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
-    </li>
+    <% @block1.questions.each do |question| %>
+      <li>
+        <h2><%= question.title %></a></h2>
+        <% question.question_points.each do |point| %>
+          <p><%=  point.description %></p>
+          <p>
+            <% point.question_attrs.each do |attr| %>
+              &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= attr.key %>.&nbsp;<%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;
+            <% end %>
+          </p>
+        <% end %>
+        <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
+      </li>
+    <% end %>
   </ul>
 </div>
 <div class="clear"></div>
-<h1 class="biz_art_title">二、多项选择题</h1>
+<h1 class="biz_art_title">二、<%= @block2.title %></h1>
 <div class="biz_art_list_box">
   <ul>
-    <li>
-      <h2><a target="_blank" href="#">Rodman met with Tony to try and __settle__ the dispute over his contract</a></h2>
-      <p>Rodman met with Tony to try and __settle__ the dispute over his contract......</p>
-      <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
-    </li>
-    <li>
-      <h2><a target="_blank" href="#">Rodman met with Tony to try and __settle__ the dispute over his contract</a></h2>
-      <p>Rodman met with Tony to try and __settle__ the dispute over his contract......</p>
-      <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
-    </li>
-    <li>
-      <h2><a target="_blank" href="#">Rodman met with Tony to try and __settle__ the dispute over his contract</a></h2>
-      <p>Rodman met with Tony to try and __settle__ the dispute over his contract......</p>
-      <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
-    </li>
+    <% @block2.questions.each do |question| %>
+      <li>
+        <h2><%= question.title %></a></h2>
+        <% question.question_points.each do |point| %>
+          <p><%=  point.description %></p>
+          <p>
+            <% point.question_attrs.each do |attr| %>
+              &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= attr.key %>.&nbsp;<%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;
+            <% end %>
+          </p>
+        <% end %>
+        <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
+      </li>
+    <% end %>
   </ul>
 </div>
 

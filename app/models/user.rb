@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
-  has_many:papers,:foreign_key=>"creater_id"
 
+  has_many:papers
+  has_many:papers,:foreign_key=>"creater_id"
   default_scope :order=>'users.created_at desc'
 
   email_regex=/\A[\w+\.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -13,10 +14,12 @@ class User < ActiveRecord::Base
 	#validates:telephone,  :presence=>true,
 	#                      :length=>{:within=>8..12},
 	#					  :format=>{:with=>telephone_regex}
-
 	validates:email,  :presence=>true,:uniqueness=>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
-
   validates:password, :presence=>true,:confirmation=>true,:length=>{:within=>6..20}
-  
 
+  def self.authenticate(email, submitted_password)
+    user = find_by_email(email)
+    return nil if user.nil?
+    return user if user.has_password?(submitted_password)
+  end
 end

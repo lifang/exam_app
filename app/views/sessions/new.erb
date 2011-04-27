@@ -1,21 +1,27 @@
-  <div class="login_show_img" id="login_back"></div>
-  <div class="login_box">
-    <div class="top">
-      <ul>
-        <li id="normal_user" class="actived" onclick="normal_user()">个人用户</li>
-        <li id="enterprise_user" onclick="enterprise_user()">企业用户</li>
-      </ul>
-    </div>
-    <div id="normal_user_form" style="display: block">
-      <div class="body">
+
+<div class="login_show_img" id="login_back"></div>
+<div class="login_box">
+  <div class="top">
+    <ul>
+      <li id="normal_user" class="actived" onclick="normal_user()">个人用户</li>
+      <li id="enterprise_user" onclick="enterprise_user()">企业用户</li>
+    </ul>
+  </div>
+  <div id="normal_user_form" style="display: block">
+    <div class="body">
+        <% form_for(:session,:html => {:onsubmit => "return check()"}, :url => sessions_path) do |f| %>
         <table>
-          <tr>
-            <td>用户名：</td>
-            <td><input class="required input_style" name="username" id="username" type="text" /></td>
-          </tr>
+
+          <td>用户名：</td>
+
+          <td><%= f.text_field :user_name%></td>
+          <div id="user_name"></div>
+
+
           <tr>
             <td>密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
-            <td><input class="required input_style" name="password" type="password" /></td>
+            <td><%= f.text_field :password%></td>
+            <div id=""></div>
           </tr>
           <tr>
             <td>验证码：</td>
@@ -27,50 +33,50 @@
           </tr>
           <tr>
             <td align="center" colspan="2">
-
             </td>
           </tr>
           <tr>
             <td></td>
             <td>
-              <button type="submit" class="login_btn"></button>
+              <button type="submit" class="login_btn" ></button>
               <a href="javascript:void(0);" onclick="get_value();" >忘记密码？</a></td>
           </tr>
         </table>
-      </div>
-      <div class="bottom">
-        <a href="/">免费注册</a>
-      </div>
+      <%end%>
     </div>
-    <div id="enterprise_user_form" style="display :none">
-      <div class="body">
-
-
-        <table>
-          <tr>
-            <td>用户名：</td>
-            <td><input class="required input_style" name="username2" id="username2" type="text" /></td>
-          </tr>
-          <tr>
-            <td>密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
-            <td><input class="required input_style" name="password2" id="password2" type="password" /></td>
-          </tr>
-          <tr>
-            <td>验证码：</td>
-            <td><input class="required input_style check_w max-length-4 min-length-4" type="text" name="proof_code2" id="proof_code2" class="required min-length-4 max-length-4" />
-              <span  class="check_num" id="proofcode2" title="看不清楚？可以点击此处换一张">123456
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td align="center" colspan="2"><div class="mes_erro_login"></div></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><button type="submit" class="login_btn"></button></td>
-          </tr>
-        </table>
-      </div>
+    <div class="bottom">
+      <a href="/">免费注册</a>
     </div>
   </div>
-  <div class="clear"></div>
+  <div id="enterprise_user_form" style="display :none">
+    <div class="body">
+
+
+      <table>
+        <tr>
+          <td>用户名：</td>
+          <td><input class="required input_style" name="username2" id="username2" type="text" /></td>
+        </tr>
+        <tr>
+          <td>密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+          <td><input class="required input_style" name="password2" id="password2" type="password" /></td>
+        </tr>
+        <tr>
+          <td>验证码：</td>
+          <td><input class="required input_style check_w max-length-4 min-length-4" type="text" name="proof_code2" id="proof_code2" class="required min-length-4 max-length-4" />
+            <span  class="check_num" id="proofcode2" title="看不清楚？可以点击此处换一张">123456
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" colspan="2"><div class="mes_erro_login"></div></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><button type="submit" class="login_btn"></button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
