@@ -1,0 +1,39 @@
+<style type="text/css">
+  
+</style>
+  <div class="reg_content">
+    <div class="step_one"></div>
+    <div ></div>
+    <table>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</td>
+        <td><input class="input_style required max-length-20 min-length-3 validate-alphanum-chinese" type="text" name="username" id="username" value="<%= session[:username] if session[:username] %>"/><span class="expForEmail">请输入一个由中文、英文字母、数字或下划线组成的用户名</span><span  id="username_span"></span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r ">*</span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+        <td><input class="input_style required min-length-6 max-length-20" id ="newpwd" name="newpwd" type="password" /><span class="expForEmail">请填写一个6-20位的密码</span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>确认密码：</td>
+        <td><input class="input_style required equals-newpwd min-length-6 max-length-20"  name="repwd" id="repwd" type="password" /></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>注册邮箱：</td>
+        <td><input class="input_style required validate-email" type="text" name="email" id="email" value="" /><span class="expForEmail">请确保邮箱有效，我们将发送激活说明到这个地址</span><span  id="email_span"></span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</td>
+        <td><input class="input_style required" type="text"  name="proof_code" id="proof_code"/> <span id="proofcode" class="check_num" title="看不清楚？可以点击此处换一张">
+            111111
+          </span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="checkbox" id="checkbox" class ="required" onclick="javascript:checks();"/>&nbsp;&nbsp;同意安居丽业<a href="/app/users/servers" target="blank">服务条款</a></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><button type="submit" class="reg_btn_no" disabled="true" id="s_button" name="s_button"></button></td>
+      </tr>
+    </table>
+  </div>

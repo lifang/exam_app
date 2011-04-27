@@ -94,8 +94,11 @@ a:hover{
 #top, #top .left, #ft p, #ft ul li, #hd, #bd, #ft, #top ul li, #logo, .nav, .nav li, .hd_middle, .top_soso ul, .top_soso ul li, .soso_input, .soso_input button, .soso_input input, .top_soso, .fl, .left, .pic_box ul li{
 	float:left;
 }
-#top .right, #ft ul, .fr, .right, .ppzt h2 a, .tfjj h2 a, .tfjj .in .right .pic_box ul li span{
+#top .right, #ft ul, .right, .ppzt h2 a, .tfjj h2 a, .tfjj .in .right .pic_box ul li span{
 	float:right;
+}
+.fr {
+    float :left;
 }
 /*背景加载*/
 #logo, .nav_1, .nav_2, .nav_3, .nav li span, .top_soso ul li .sel, .soso_input, .soso_input button, .ppzt .in, .more, .ppzt h2, .tfjj .in, .tfjj h2, .assort_all h2, .wz, .gn, .fg, .cl, .jw, .assort_small{
@@ -282,7 +285,7 @@ a:hover{
 	_margin-top:-2px;
 }
 #bd .main{
-	width:730px;
+	width:930px;
 }
 #bd .side{
 	width:210px;
@@ -1446,7 +1449,7 @@ a:hover{
 }
 .main_box_back{
 	float:left;
-	width:726px;
+	width:826px;
 	border:#ccc 1px solid;
 	padding:1px;
 }

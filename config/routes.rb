@@ -1,12 +1,8 @@
 ExamApp::Application.routes.draw do
- 
- 
 
-  get "papers/show"
-
-  get "papers/edit"
-
-  get "papers/index"
+  resources :users
+  resources :sessions
+  resources :pages
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
