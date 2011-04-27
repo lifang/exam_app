@@ -1,0 +1,197 @@
+<style type="text/css">
+  table {
+    border-collapse:collapse;
+    border-spacing:0;
+  }
+  fieldset, img {
+    border:0;
+  }
+  th{
+    text-align:left;
+    font-style:normal;
+    font-weight:normal;
+  }
+  li {
+    list-style:none;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-size:12px;
+    font-weight:normal;
+  }
+  q:before, q:after {
+    content:'';
+  }
+  input, textarea, select {
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+  }
+  input, textarea, select {
+    *font-size:100%;
+  }
+  .input_style, .textarea_style{
+    border:#a9a9a9 1px solid;
+    padding:2px;
+    padding:4px 2px 0px 3px\9;
+    color:#666;
+    line-height:1;
+    background:url(/images/input_select_bg.gif) no-repeat;
+  }
+  .reg_content{
+    width:950px;
+    margin:0 auto;
+  }
+  .login_page_logo{
+    background:url(/images/login_page_bg.gif) no-repeat;
+    overflow:hidden;
+  }
+  .login_page_logo{
+    display:block;
+    margin:10px 0 30px 0;
+    width:133px;
+    height:69px;
+    background-position:0px 0px;
+  }
+  .check_num{
+    background:#e6e6e6;
+    color:#515151;
+    display:inline-block;
+    padding:3px;
+    font-size:14px;
+    margin-left:10px;
+    cursor:pointer;
+    margin-right:10px;
+  }
+  .reg_content .input_style{
+    width:180px;
+    padding:4px;
+    padding:8px 2px 0px 3px\9;
+  }
+  .reg_content table{
+    margin-left:200px;
+  }
+  .reg_content table td{
+    padding:5px 5px 10px 5px;
+  }
+  .must_r{
+    color:#F00;
+    margin-right:5px;
+  }
+  .reg_content a{
+    color:#0f45b0;
+    text-decoration:none;
+  }
+  .reg_content a:hover{
+    text-decoration:underline;
+  }
+  .expForEmail{
+    margin-left:10px;
+  }
+  .reg_btn{
+    cursor:pointer;
+    border:medium none;
+    background:url(/images/reg_btn.gif) no-repeat;
+    width:86px;
+    height:26px;
+  }
+  .reg_btn_no{
+    cursor:pointer;
+    border:medium none;
+    background:url(/images/reg_btn_dark.gif) no-repeat;
+    width:86px;
+    height:26px;
+  }
+  .erro_email{
+    margin-top:5px;
+    padding:5px;
+    background:#fff2f2;
+    border:#ff8080 1px solid;
+  }
+  .erro_email span{
+    display:block;
+    padding-left:20px;
+    background:url(/images/mes_erro.gif) no-repeat;
+  }
+  .step_one{
+    background:url(/images/reg_setp.gif) no-repeat;
+    height:35px;
+    width:950px;
+    overflow:hidden;
+    margin-bottom:40px;
+  }
+  .step_one{
+    background-position:0px 0px;
+  }
+  .top_nav{
+    background:#f0f0f0;
+    float:left;
+    width:100%;
+    padding:3px 0 3px 0;
+    border-bottom:#CCC 1px solid;
+  }
+  .top_nav li{
+    float:left;
+    margin-left:8px;
+  }
+  .top_nav li a{
+    color:#333;
+    text-decoration:none;
+  }
+  .top_nav li a:hover{
+    text-decoration:underline;
+  }
+  .top_nav ul{
+    float:right;
+  }
+  .top_nav .in{
+    width:950px;
+    margin:0 auto;
+  }
+  .fgx{
+    margin-top:-2px\9;
+    +margin-top:-3px;
+    _margin-top:-3px;
+  }
+  .flash_warn,.flash_pic_warn, .flash_notice, .flash_error{margin:7px;padding:8px;padding-left:15px;-moz-border-radius:8px; -webkit-border-radius:8px; font-size:14px;}
+  .flash_warn{background:#FFF9D7 none repeat scroll 0 0;border:1px solid #f6edbb;color:#cbb014;}
+  .flash_pic_warn{background:#FFF9D7 none repeat scroll 0 0;border:1px solid #E2C822;color:#cbb014;}
+  .flash_notice{background:#e9f3aa none repeat scroll 0 0;border:1px solid #e0ec93;color:#718203;}
+  .flash_error{background:#fcabb8 none repeat scroll 0 0;border:1px solid #f38f9f;color:#c80424;}
+  .require{color:#F00;width:10px;margin-left:5px;}
+</style>
+  <div class="reg_content">
+    <div class="step_one"></div>
+    <div ></div>
+    <table>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</td>
+        <td><input class="input_style required max-length-20 min-length-3 validate-alphanum-chinese" type="text" name="username" id="username" value="<%= session[:username] if session[:username] %>"/><span class="expForEmail">请输入一个由中文、英文字母、数字或下划线组成的用户名</span><span  id="username_span"></span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r ">*</span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+        <td><input class="input_style required min-length-6 max-length-20" id ="newpwd" name="newpwd" type="password" /><span class="expForEmail">请填写一个6-20位的密码</span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>确认密码：</td>
+        <td><input class="input_style required equals-newpwd min-length-6 max-length-20"  name="repwd" id="repwd" type="password" /></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>注册邮箱：</td>
+        <td><input class="input_style required validate-email" type="text" name="email" id="email" value="" /><span class="expForEmail">请确保邮箱有效，我们将发送激活说明到这个地址</span><span  id="email_span"></span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</td>
+        <td><input class="input_style required" type="text"  name="proof_code" id="proof_code"/> <span id="proofcode" class="check_num" title="看不清楚？可以点击此处换一张">
+            111111
+          </span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="checkbox" id="checkbox" class ="required" onclick="javascript:checks();"/>&nbsp;&nbsp;同意安居丽业<a href="/app/users/servers" target="blank">服务条款</a></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><button type="submit" class="reg_btn_no" disabled="true" id="s_button" name="s_button"></button></td>
+      </tr>
+    </table>
+  </div>
