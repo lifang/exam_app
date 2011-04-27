@@ -8,8 +8,6 @@ class CreateExamUsers < ActiveRecord::Migration
       t.string :email
       t.string :comfir_password
       t.boolean :user_affirm
-
-      t.timestamps
     end
     add_index :exam_users,:exam_plan_id
   end

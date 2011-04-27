@@ -21,6 +21,16 @@
           <th></th>
         </tr>
       </thead>
+         <% @papers.each do |paper| %>
+        <tr>
+          <td><%= paper.id  %></td>
+          <td>  <%= paper.title  %></td>
+          <td> <%= paper.created_at  %></td>
+          <td> <%= paper.total_question_num %></td>
+          <td> <%= paper.description  %></td>
+            <td> <%= paper.types  %></td>
+        </tr>
+      <% end  %>
       <tbody>
         <tr>
           <td>jenson</td>
