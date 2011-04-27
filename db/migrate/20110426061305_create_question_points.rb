@@ -4,9 +4,7 @@ class CreateQuestionPoints < ActiveRecord::Migration
       t.integer :question_id
       t.string :description
       t.string :answer
-      t.string :correct_type
-
-      t.timestamps
+      t.integer :correct_type
     end
   end
 

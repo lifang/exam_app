@@ -9,6 +9,7 @@ class CreatePaperBlocks < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :paper_blocks, :paper_id
   end
 
   def self.down

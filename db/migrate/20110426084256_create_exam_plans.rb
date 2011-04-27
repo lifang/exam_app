@@ -10,6 +10,8 @@ class CreateExamPlans < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :exam_plans, :examnation_id
+    add_index :exam_plans, :creater_id
   end
 
   def self.down

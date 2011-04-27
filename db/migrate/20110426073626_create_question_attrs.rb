@@ -4,8 +4,6 @@ class CreateQuestionAttrs < ActiveRecord::Migration
       t.integer :question_point_id
       t.string :key
       t.string :value    
-
-      t.timestamps
     end
     add_index :question_attrs, :question_point_id
   end

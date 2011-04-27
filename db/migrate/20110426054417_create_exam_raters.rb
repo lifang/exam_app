@@ -6,8 +6,6 @@ class CreateExamRaters < ActiveRecord::Migration
       t.string :password
       t.string :mobilephone
       t.string :email
-
-      t.timestamps
     end
     add_index :exam_raters,:exam_plan_id
   end
