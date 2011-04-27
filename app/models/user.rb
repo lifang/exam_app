@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
   has_many:papers
-  has_many :papers,:forein_key=>:creater_id
 
   default_scope :order=>'users.created_at desc'
 

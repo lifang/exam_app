@@ -1,8 +1,13 @@
 class PapersController < ApplicationController
   def show
+    @paper=Paper.find(params[:id])
+
   end
 
   def edit
-  end
 
+  end
+  def index
+     @papers=User.find(params[:id]).papers
+  end
 end

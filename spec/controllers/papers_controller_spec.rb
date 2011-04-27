@@ -1,7 +1,7 @@
-require 'spec_helper'
-render views
-describe PapersController do
 
+
+describe PapersController do
+render_views
 #  describe "GET 'show'" do
 #    it "should be successful" do
 #      get 'show'
@@ -14,8 +14,8 @@ describe PapersController do
    @attr={:title=>"example",:types=>"java",:user_id=>1,:description=>"ssdfgggg",:total_question_num=>12,:total_score=>"100"}
  end
     it "should have the right show" do
-      get 'edit',:paper=>@attr
-      response.shold have_selector("td"[1],:content=>"example")
+      get 'index',:paper=>@attr
+      response.shold have_selector("td",:content=>"example")
     end
   end
 
