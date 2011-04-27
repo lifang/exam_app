@@ -1,14 +1,13 @@
 class Paper < ActiveRecord::Base
   has_many:paper_blocks
   has_many:examinations
-  belongs_to :user
+  belongs_to:user,:foreign_key=>"creater_id"
 
   attr_accessible :title,:type,:creater_id,:description,:total_score,:total_question_num
   
 	validates:title,  :presence=>true
 	validates:types,  :presence=>true
 
-  
 end
 
 

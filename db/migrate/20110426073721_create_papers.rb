@@ -5,7 +5,7 @@ class CreatePapers < ActiveRecord::Migration
       t.string :types
       t.integer :creater_id
       t.string :description
-      t.string :total_score
+      t.integer :total_score
       t.integer :total_question_num
 
       t.timestamps

@@ -6,7 +6,7 @@ function check(){
 	var myReg =new RegExp(/^\w+([-+.])*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
 	var check_value = new RegExp(/[a-z0-9_]/g);
 	var strEmail=document.getElementById("user_email").value;
-        var proof_code=document.getElementById("proof_code").value
+        
          if (name == null || name.length ==0||name.length>20){
 				document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过20</font>";
 				return false;
@@ -46,9 +46,5 @@ function check(){
 					document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名只能由字母，数字和下划线组成</font>";
 					return ;
 		}
-                if (proof_code != 123456){
-                    document.getElementById("proofErr").innerHTML="<font color = 'red'></font>";
-                    return false;
-                }
 
  }

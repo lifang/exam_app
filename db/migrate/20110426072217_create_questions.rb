@@ -3,7 +3,7 @@ class CreateQuestions < ActiveRecord::Migration
     create_table :questions do |t|
       t.integer :question_category_id
       t.string :title
-      t.string :types
+      t.integer :types
       t.boolean :is_used
 
       t.timestamps

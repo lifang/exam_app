@@ -3,11 +3,12 @@ class CreateExamnations < ActiveRecord::Migration
     create_table :examnations do |t|
       t.integer :paper_id 
       t.string :title
-      t.integer :type
+      t.integer :types
       t.string :description
 
-      t.timestamps
+      t.timestamps 
     end
+    add_index :examnations, :paper_id
   end
 
   def self.down
