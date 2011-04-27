@@ -1,0 +1,39 @@
+<div class="border">
+  <% form_for :paper,:url=>"/back/create" do |f| %>
+  试卷标题：<%= f.text_field :paper_title,:value=>"期中考试" %><br/><br/> 
+  类型：<%= f.text_field :paper_type,:value=>"数学" %>&nbsp;&nbsp;&nbsp;组卷人：<%= f.text_field :paper_creater,:value=>"cookie[:user_id],隐藏" %><br/><br/>
+总分：<%= f.text_field :paper_total_score,:value=>100 %>&nbsp;&nbsp;&nbsp;题目数：<input type="text"><br/><br/>
+  &nbsp;&nbsp;&nbsp;描述：<%= f.text_area :paper_describe %>
+  
+  <% end %>
+</div>
+<div class="border">
+  <font color="green">创建考卷</font><br /><br /><br />
+  试卷标题：<input type="text" value="期中考试"> &nbsp;&nbsp;&nbsp;类型：<input type="text" value="数学"> <br/><br />
+  组卷人：<input type="text" value="user.id,隐藏">&nbsp;&nbsp;&nbsp;描述：<input type="text"><br /><br />
+  总分：<input type="text">&nbsp;&nbsp;&nbsp;题目数：<input type="text"><br/><br/>
+  <input type="button" value="确认">
+</div>
+<br/><br/><br/>
+<div class="border">
+  <font color="green">创建块</font><br /><br /><br />
+  所属试卷：<input type="text" value="paper.id,隐藏">&nbsp;&nbsp;&nbsp;类型：<input type="text" value="选择题"> <br/><br />
+  组卷人：<input type="text" value="user.id">&nbsp;&nbsp;&nbsp;描述：<input type="text"><br /><br />
+  块总分：<input type="text"><br/><br/>
+  <input type="button" value="确认">
+</div>
+<br/>
+------- 转入块试题创建页面 ，建立block_question_relations----------
+<br/><br/>
+<div class="border">
+  <font color="green">创建试题</font><br /><br /><br />
+  所属学科： <input type="text" value="数学">
+      类型：<select name="type">
+           <option value="选择题" selected="selected">选择题</option>
+           <option value="填空题">填空题</option>
+           <option value="是非题">是非题</option>
+           <option value="问答题">问答题</option>
+           </select><br/><br />
+  标题：<input type="text" value="什么是RUBY语言？">&nbsp;&nbsp;&nbsp;已被使用?：<input type="text" value="boolean,隐藏"><br /><br />
+  <input type="button" value="建下一题"><input type="button" value="全部完成">
+</div>
