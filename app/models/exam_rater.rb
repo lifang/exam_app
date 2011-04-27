@@ -10,7 +10,7 @@ class ExamRater < ActiveRecord::Base
 	#mobilephone_regex=/^[1-9]\d*$/
 
   validates :name,:presence=>true,:format=>{:with=>name_regex},:length=>{:maximum=>30}
-  validates :email,:presence=>true,:uniqueness=>true,:format=>{:with=>email_regex},:uniqueness=>true,:length=>{:maximum=>50}
+  validates :email,:presence=>true,:uniqueness=>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
   validates:password,:presence=>true,:confirmation=>true,:length=>{:within=>6..20}
   
 end

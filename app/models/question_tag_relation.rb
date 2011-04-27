@@ -1,6 +1,6 @@
 class QuestionTagRelation < ActiveRecord::Base
-  belongs_to:question, :class_name =>"questions"
-  belongs_to:tag, :class_name =>"tags"
+  belongs_to:question, :class_name =>"Question"
+  belongs_to:tag, :class_name =>"Tag"
 end
 
 
