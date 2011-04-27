@@ -13,12 +13,13 @@
 ActiveRecord::Schema.define(:version => 20110426084352) do
 
   create_table "block_question_relations", :force => true do |t|
-    t.integer  "question_id"
-    t.integer  "paper_id"
-    t.integer  "score"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "question_id"
+    t.integer "paper_id"
+    t.integer "score"
   end
+
+  add_index "block_question_relations", ["paper_id"], :name => "index_block_question_relations_on_paper_id"
+  add_index "block_question_relations", ["question_id"], :name => "index_block_question_relations_on_question_id"
 
   create_table "exam_plans", :force => true do |t|
     t.integer  "examnation_id"
@@ -31,41 +32,38 @@ ActiveRecord::Schema.define(:version => 20110426084352) do
     t.datetime "updated_at"
   end
 
+  add_index "exam_plans", ["creater_id"], :name => "index_exam_plans_on_creater_id"
+  add_index "exam_plans", ["examnation_id"], :name => "index_exam_plans_on_examnation_id"
+
   create_table "exam_raters", :force => true do |t|
-    t.integer  "exam_plan_id"
-    t.string   "name"
-    t.string   "password"
-    t.string   "mobilephone"
-    t.string   "email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "exam_plan_id"
+    t.string  "name"
+    t.string  "password"
+    t.string  "mobilephone"
+    t.string  "email"
   end
 
   add_index "exam_raters", ["exam_plan_id"], :name => "index_exam_raters_on_exam_plan_id"
 
   create_table "exam_records", :force => true do |t|
-    t.integer  "exam_user_id"
-    t.integer  "examination_id"
-    t.boolean  "is_submited"
-    t.boolean  "is_marked"
-    t.string   "answer_sheet_url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "exam_user_id"
+    t.integer "examination_id"
+    t.boolean "is_submited"
+    t.boolean "is_marked"
+    t.string  "answer_sheet_url"
   end
 
   add_index "exam_records", ["exam_user_id"], :name => "index_exam_records_on_exam_user_id"
   add_index "exam_records", ["examination_id"], :name => "index_exam_records_on_examination_id"
 
   create_table "exam_users", :force => true do |t|
-    t.integer  "exam_plan_id"
-    t.string   "name"
-    t.string   "password"
-    t.string   "mobilephone"
-    t.string   "email"
-    t.string   "comfir_password"
-    t.boolean  "user_affirm"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "exam_plan_id"
+    t.string  "name"
+    t.string  "password"
+    t.string  "mobilephone"
+    t.string  "email"
+    t.string  "comfir_password"
+    t.boolean "user_affirm"
   end
 
   add_index "exam_users", ["exam_plan_id"], :name => "index_exam_users_on_exam_plan_id"
@@ -73,11 +71,13 @@ ActiveRecord::Schema.define(:version => 20110426084352) do
   create_table "examnations", :force => true do |t|
     t.integer  "paper_id"
     t.string   "title"
-    t.integer  "type"
+    t.integer  "types"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "examnations", ["paper_id"], :name => "index_examnations_on_paper_id"
 
   create_table "paper_blocks", :force => true do |t|
     t.integer  "paper_id"
@@ -89,57 +89,49 @@ ActiveRecord::Schema.define(:version => 20110426084352) do
     t.datetime "updated_at"
   end
 
+  add_index "paper_blocks", ["paper_id"], :name => "index_paper_blocks_on_paper_id"
+
   create_table "papers", :force => true do |t|
     t.string   "title"
     t.string   "types"
     t.integer  "creater_id"
     t.string   "description"
-    t.string   "total_score"
+    t.integer  "total_score"
     t.integer  "total_question_num"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "question_attrs", :force => true do |t|
-    t.integer  "question_point_id"
-    t.string   "key"
-    t.string   "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "question_point_id"
+    t.string  "key"
+    t.string  "value"
   end
 
   add_index "question_attrs", ["question_point_id"], :name => "index_question_attrs_on_question_point_id"
 
   create_table "question_categories", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "name"
   end
 
   create_table "question_points", :force => true do |t|
-    t.integer  "question_id"
-    t.string   "description"
-    t.string   "answer"
-    t.string   "correct_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "question_id"
+    t.string  "description"
+    t.string  "answer"
+    t.integer "correct_type"
   end
 
   create_table "question_tag_relations", :force => true do |t|
-    t.integer  "tag_id"
-    t.integer  "question_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "tag_id"
+    t.integer "question_id"
   end
 
   add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "question_tags", :force => true do |t|
-    t.integer  "question_id"
-    t.integer  "total_num"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "question_id"
+    t.integer "total_num"
   end
 
   add_index "question_tags", ["question_id"], :name => "index_question_tags_on_question_id"
@@ -147,7 +139,7 @@ ActiveRecord::Schema.define(:version => 20110426084352) do
   create_table "questions", :force => true do |t|
     t.integer  "question_category_id"
     t.string   "title"
-    t.string   "types"
+    t.integer  "types"
     t.boolean  "is_used"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -166,9 +158,7 @@ ActiveRecord::Schema.define(:version => 20110426084352) do
   add_index "rater_record_relations", ["exam_record_id"], :name => "index_rater_record_relations_on_exam_record_id"
 
   create_table "tags", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "name"
   end
 
   create_table "users", :force => true do |t|

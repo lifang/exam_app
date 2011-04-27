@@ -6,8 +6,6 @@ class CreateExamRecords < ActiveRecord::Migration
       t.boolean :is_submited
       t.boolean :is_marked
       t.string :answer_sheet_url
-
-      t.timestamps
     end
     add_index :exam_records,:exam_user_id
     add_index :exam_records,:examination_id

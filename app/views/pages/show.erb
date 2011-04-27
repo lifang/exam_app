@@ -1,13 +1,14 @@
+
 <ul class="tab_biz">
-  <li class="actived"><a href="#">2011年英语模拟试卷</a></li>
+  <li class="actived"><a href="#"><%= @paper.title %></li>
 </ul>
 <div class="soso">
-  <div>试卷编号：101101</div>
-  <div>录入：lifang</div>
-  <div>出卷时间：2011-03-12 21:20:20</div>
-  <div>总题数：20</div>
+  <div>试卷编号：<%=  @paper.id %></div>
+  <div>录入：<%=  @paper.user.name%></div>
+  <div>出卷时间：<%=  @paper.created_at%></div>
+  <div>总题数：<%=  @paper.total_question_num %></div>
 </div>
-<h1 class="biz_art_title">一、单项选择题</h1>
+<h1 class="biz_art_title">一、单项选择题</h1><br/>
 <div class="biz_art_list_box">
   <ul>
     <li>
@@ -48,5 +49,6 @@
     </li>
   </ul>
 </div>
+
 
 
