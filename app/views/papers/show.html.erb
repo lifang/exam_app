@@ -16,10 +16,11 @@
     <td><%= paper.description %></td>
   </tr>
 <% end %>
+  <% end %>
 </table>
 <tr>
   <td><%= @paper.total_score %></td>
-  <td><%= @paper.totalquestion_num %></td>
+  <td><%= @paper.total_question_num %></td>
 </tr>
  <%= link_to "前一份","",:method=>:get %>
 <br />
