@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110426084352) do
+ActiveRecord::Schema.define(:version => 20110428040534) do
 
   create_table "block_question_relations", :force => true do |t|
     t.integer "question_id"
@@ -68,16 +68,22 @@ ActiveRecord::Schema.define(:version => 20110426084352) do
 
   add_index "exam_users", ["exam_plan_id"], :name => "index_exam_users_on_exam_plan_id"
 
-  create_table "examnations", :force => true do |t|
+  create_table "examination_categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "examinations", :force => true do |t|
     t.integer  "paper_id"
     t.string   "title"
-    t.integer  "types"
+    t.integer  "examination_category_id"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "examnations", ["paper_id"], :name => "index_examnations_on_paper_id"
+  add_index "examinations", ["paper_id"], :name => "index_examinations_on_paper_id"
 
   create_table "paper_blocks", :force => true do |t|
     t.integer  "paper_id"
@@ -91,9 +97,15 @@ ActiveRecord::Schema.define(:version => 20110426084352) do
 
   add_index "paper_blocks", ["paper_id"], :name => "index_paper_blocks_on_paper_id"
 
+  create_table "paper_categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "papers", :force => true do |t|
     t.string   "title"
-    t.string   "types"
+    t.string   "paper_category_id"
     t.integer  "creater_id"
     t.string   "description"
     t.integer  "total_score"

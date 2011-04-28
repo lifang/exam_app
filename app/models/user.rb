@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   attr_accessor :password
 
 	attr_accessible :name,:username,:mobilephone,:address,:email,:password,:salt,:encryted_password,:password_confirmation
-	validates:name,  :presence=>true,:uniqueness=>true,:format=>{:with=>name_regex},:length=>{:maximum=>30}
+	validates:username,  :presence=>true,:uniqueness=>true,:format=>{:with=>name_regex},:length=>{:maximum=>30}
 	validates:email,  :presence=>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
   validates:password, :presence=>true,:confirmation=>true,:length=>{:within=>6..20}
 
