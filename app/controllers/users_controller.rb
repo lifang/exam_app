@@ -10,9 +10,9 @@ class UsersController < ApplicationController
   def create
     @user=User.new(params[:user])
     if @user.save
-      redirect_to @user
+      redirect_to "/sessions/new"
     else
-      render 'new'
+      redirect_to '/users/new'
     end
   end
   def show

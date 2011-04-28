@@ -3,40 +3,56 @@
   <div ></div>
   <table>
     <%= form_for @user, :html =>{:onsubmit => 'return check()'} do |f| %>
-    <tr>
-      <td valign="top" align="right"><span class="must_r">*</span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</td>
-      <td><%= f.text_field :username, :class => "input_style" %><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span></span><span  id="username_span"></span></td>
-    </tr>
-    <tr>
-      <td valign="top" align="right"><span class="must_r ">*</span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
-      <td><%= f.password_field :password, :class => "input_style" %><span class="expForEmail"><span id="passwordErr"></span></span></td>
-    </tr>
-    <tr>
-      <td valign="top" align="right"><span class="must_r">*</span>确认密码：</td>
-      <td><%= f.password_field :password_confirmation, :class => "input_style" %><span class="expForEmail"><span id="confirmationErr"></span></span></td>
-    </tr>
-    <tr>
-      <td valign="top" align="right"><span class="must_r">*</span>注册邮箱：</td>
-      <td><%= f.text_field :email, :class => "input_style" %><span class="expForEmail">请确保邮箱有效，我们将发送激活说明到这个地址</span><span  id="email_span"></span></td>
-    </tr>
-    <tr>
-      <td valign="top" align="right"><span class="must_r">*</span>手机号码：</td>
-      <td><%= f.text_field :mobilephone, :class => "input_style" %><span class="expForEmail">请确保手机号码有效，我们将发送一些即时信息给您</span><span  id="mobilephone_span"></span></td>
-    </tr>
-    <tr>
-      <td valign="top" align="right"><span class="must_r">*</span>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</td>
-      <td><input class="input_style required" type="text"  name="proof_code" id="proof_code"/> <span id="proofcode" class="check_num" title="看不清楚？可以点击此处换一张">
-          111111
-        </span></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><input type="checkbox" id="checkbox" class ="required" onclick="javascript:checks();"/>&nbsp;&nbsp;同意安居丽业<a href="/app/users/servers" target="blank">服务条款</a></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><%= f.submit"", :class =>"reg_btn_no" %></td>
-    </tr>
+      <tr>
+        <td><font color="green"> -----必填内容：-----</font></td>
+      </tr>
+      <tr>
+
+        <td valign="top" align="right"><span class="must_r">*</span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</td>
+        <td><%= f.text_field :username, :class => "input_style" %><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span></span><span  id="username_span"></span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r ">*</span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+        <td><%= f.password_field :password, :class => "input_style" %><span class="expForEmail"><span id="passwordErr"></span></span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>确认密码：</td>
+        <td><%= f.password_field :password_confirmation, :class => "input_style" %><span class="expForEmail"><span id="confirmationErr"></span></span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>注册邮箱：</td>
+        <td><%= f.text_field :email, :class => "input_style" %><span class="expForEmail">确保邮箱有效，我们将发送激活说明到此地址<span  id="emailErr"></span></span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">*</span>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</td>
+        <td><input class="input_style required" type="text"  name="proof_code" id="proof_code"/> <span id="proofcode" class="check_num" title="看不清楚？可以点击此处换一张">
+            111111
+          </span></td>
+      </tr>
+      <tr>
+        <td><font color="green"> -----选填内容：-----</font></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp名：</td>
+        <td><%= f.text_field :name, :class => "input_style" %></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>手机号码：</td>
+        <td><%= f.text_field :mobilephone, :class => "input_style" %><span  id="mobilephone_span"></span></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>用户地址：</td>
+        <td><%= f.text_field :address, :class => "input_style" %><span  id="address_span"></span></td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td><input type="checkbox" id="checkbox" class ="required"  value="jjkkll" onclick="javascript:buttoncontrol();"/>&nbsp;&nbsp;同意安居丽业<a href="/app/users/servers" target="blank">服务条款</a></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><%= f.submit"", :class =>"reg_btn_no", :disabled=>"disabled" %></td>
+      </tr>
     <% end %>
   </table>
 </div>
