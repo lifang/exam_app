@@ -161,12 +161,12 @@ ActiveRecord::Schema.define(:version => 20110426084352) do
 
   create_table "users", :force => true do |t|
     t.string   "name"
-    t.string   "user_name"
-    t.string   "password"
-    t.string   "password_confirmation"
+    t.string   "username"
     t.string   "mobilephone"
     t.string   "email"
     t.string   "address"
+    t.string   "salt"
+    t.string   "encrypted_password"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
