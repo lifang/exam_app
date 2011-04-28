@@ -29,6 +29,7 @@ function check(){
         document.getElementById("passwordErr").innerHTML="<font color = 'red'>密码不能为空，长度在6和20之间</font>";
         return false;
     } else	{
+        document.getElementById("passwordErr").innerHTML="";
         if (confirmation != password){
 
             document.getElementById("confirmationErr").innerHTML="<font color = 'red'>两次输入的密码不一致，请重新输入</font>";
