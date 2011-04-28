@@ -54,8 +54,6 @@ function check(){
 }
 
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -77,5 +75,3 @@ function signin_page(){
     }
         
 }
-
->>>>>>> d9c47f23579cfb947ed0f923fa8e550936f55d6b
