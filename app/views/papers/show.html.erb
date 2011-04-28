@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ul class="tab_biz">
   <li class="actived"><a href="#"><%= @paper.title %></li>
 </ul>
@@ -49,3 +50,31 @@
 
 
 
+=======
+<h1>Papers</h1>
+<table>
+  <tr>
+    <th>title</th>
+    <th>types</th>
+    <th>description</th>
+  </tr>
+<% @papers.each do |paper_block| %>
+  <tr><td><%= paper_block.title %></td>
+  <td><%= paper_block.description %></td>
+  <td><%= paper_block.block_total_score %></td></tr>
+  <% paper_block.block_question_relations.each do |question| %>
+  <tr>
+    <td><%= paper.title %></td>
+    <td><%= paper.types %></td>
+    <td><%= paper.description %></td>
+  </tr>
+<% end %>
+  <% end %>
+</table>
+<tr>
+  <td><%= @paper.total_score %></td>
+  <td><%= @paper.total_question_num %></td>
+</tr>
+ <%= link_to "前一份","",:method=>:get %>
+<br />
+>>>>>>> 57484d50ca2d26565574768805b9e41f611a2803
