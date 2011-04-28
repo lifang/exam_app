@@ -5,4 +5,8 @@ class PagesController < ApplicationController
   def show
    
   end
+
+  def create_step_one
+
+  end
 end

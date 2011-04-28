@@ -12,7 +12,44 @@
 <div class="title_list_style_box">
   <div class="arrow" style="top:35px;"></div>
   <div class="block_pic_box" style="top:0px;">
-    <div class="in">注：编辑试卷模块和增加试题，都可以在此处完成。</div>
+    <div class="in">
+      <div class="paper_block">
+        试卷模块标题：<input type="text" class="input_style" name="block" size="39" value="一、单项选择题"/>
+      </div>
+      <div class="paper_block">
+        试卷模块备注：<textarea cols="37" rows="3" class="textarea_style" name="block_desc">共10题，总分10分</textarea>
+      </div>
+      <div><input type="submit" value="更新" class="submit_btn"/></div>
+    </div> 
+  </div>
+</div>
+<div class="question_list_style_box">
+  <div class="arrow" style="top:35px;"></div>
+  <div class="question_pic_box" style="top:0px;">
+    <div class="in">
+      <div class="title">题面：</div>
+      <textarea name="title" cols="45" rows="3" class="textarea_style"></textarea>
+      <div class="title">题面类型：</div>
+      <div class="type"><input type="radio" name="type" /> 单选题</div>
+      <div class="type"><input type="radio" name="type" /> 多选题</div>
+      <div class="type"><input type="radio" name="type" /> 判断题</div>
+      <div class="type"><input type="radio" name="type" /> 完形填空题</div>
+      <div class="type"><input type="radio" name="type" /> 综合题</div>
+      <div class="clear"></div>
+      <div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
+      <div class="clear"></div>
+      <div class="question">
+        <div class="attr">A <input type="text" name="chose" class="input_style" value="" /><a href="#">删除</a></div>
+        <div class="attr">B <input type="text" name="chose" class="input_style" value="" /><a href="#">删除</a></div>
+        <div class="attr">C <input type="text" name="chose" class="input_style" value="" /><a href="#">删除</a></div>
+        <div class="attr">D <input type="text" name="chose" class="input_style" value="" /><a href="#">删除</a></div>
+      </div>
+      <div class="answer">答案：<input type="text" name="chose" class="input_style" value="" size="40" /></div>
+      <div class="answer">分值：<input type="text" name="chose" class="input_style" value="" /> 分</div>
+      <div class="title">评分规则：</div>
+      <textarea name="title" cols="45" rows="3" class="textarea_style"></textarea>
+      <input type="submit" value="提交" class="submit_btn"/>
+    </div>
   </div>
 </div>
 <h1 class="biz_art_title">一、单项选择题(共10题，总分10分)<a href="#">[编辑]</a><a href="#">[添加题目]</a></h1>

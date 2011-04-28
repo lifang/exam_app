@@ -8,7 +8,11 @@ ExamApp::Application.routes.draw do
   end
 
   
-  resources :pages
+  resources :pages do
+    collection do
+      get "create_step_one"
+    end
+  end
   resources :back
   resources :papers
   # The priority is based upon order of creation:
