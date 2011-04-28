@@ -22,17 +22,15 @@ class User < ActiveRecord::Base
 
 	#validates_inclusion_of :size, :in => %w(small medium large),:message => "%{value} is not a valid size"
 
-  def self.authenticate(email, submitted_password)
-    user = find_by_email(email)
+  def self.authenticate(username, submitted_password)
+    user = find_by_username(username)
     return nil if user.nil?
     return user if user.has_password?(submitted_password)
   end
 
-	def right_password?(varnum)
-
-    self.encrypted_password==encrypt(varnum)
-
-  end
+	def has_password?(submitted_password)
+		encrypted_password == encrypt(submitted_password)
+	end
 
 	before_save:encrypt_password
 
