@@ -9,4 +9,8 @@ class PagesController < ApplicationController
   def create_step_one
 
   end
+
+  def create_step_two
+
+  end
 end
