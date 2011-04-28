@@ -1,5 +1,5 @@
 function check(){
-	var name=document.getElementById("user_name").value;
+	var username=document.getElementById("user_username").value;
 	var strEmail=document.getElementById("user_email").value;
 	var password=document.getElementById("user_password").value;
 	var confirmation=document.getElementById("user_password_confirmation").value;
@@ -7,8 +7,8 @@ function check(){
 	var check_value = new RegExp(/[a-z0-9_]/g);
 	var strEmail=document.getElementById("user_email").value;
         
-         if (name == null || name.length ==0||name.length>20){
-				document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过20</font>";
+         if (username == null || username.length ==0||username.length>20){
+				document.getElementById("usernameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过20</font>";
 				return false;
 		 }else{
 
@@ -43,7 +43,7 @@ function check(){
 					}
 
 			} else
-					document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名只能由字母，数字和下划线组成</font>";
+					document.getElementById("usernameErr").innerHTML="<font color = 'red'>用户名只能由字母，数字和下划线组成</font>";
 					return ;
 		}
 
