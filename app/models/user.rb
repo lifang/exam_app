@@ -7,40 +7,24 @@ class User < ActiveRecord::Base
   email_regex=/\A[\w+\.]+@[a-z\d\-.]+\.[a-z]+\z/i
 	name_regex=/[a-zA-Z]{1,20}|[\u4e00-\u9fa5]{1,10}/
 
-	attr_accessible :name,:username,:email,:password,:mobilephone,:address,:encryted_password,:password_confirmation
 	telephone_regex=/^[1-9]\d*$/
   attr_accessor :password
-<<<<<<< HEAD
-=======
+
 	attr_accessible :name,:username,:mobilephone,:address,:email,:password,:salt,:encryted_password,:password_confirmation
->>>>>>> e78e6bf0a6d9d5ddb734bc201c26148c0afb8208
-
 	validates:name,  :presence=>true,:uniqueness=>true,:format=>{:with=>name_regex},:length=>{:maximum=>30}
-
-
 	validates:email,  :presence=>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
   validates:password, :presence=>true,:confirmation=>true,:length=>{:within=>6..20}
 
-<<<<<<< HEAD
+
   
 	def right_password?(varnum)
 
     self.encrypted_password==encrypt(varnum)
 
   end
-=======
-	#validates_inclusion_of :size, :in => %w(small medium large),:message => "%{value} is not a valid size"
 
-  def self.authenticate(username, submitted_password)
-    user = find_by_username(username)
-    return nil if user.nil?
-    return user if user.has_password?(submitted_password)
-  end
 
-	def has_password?(submitted_password)
-		encrypted_password == encrypt(submitted_password)
-	end
->>>>>>> e78e6bf0a6d9d5ddb734bc201c26148c0afb8208
+
 
 	before_save:encrypt_password
   

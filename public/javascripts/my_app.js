@@ -51,15 +51,16 @@ function check(){
         }
     }
 }
-   function buttoncontrol(){
 
-    var sles=document.getElementsByName("checkbox");
-    var ss=document.getElementsByName("checkbox").id;
-    var checked_ids = new Array();
-        if (sles.checked) {
-            checked_ids.push(ss);
-    }
-   alert(checked_ids)
-    if (checked_ids==[])
-    document.getElementById("user_submit").disabled=false;
-   }
+      //function buttoncontrol(){
+
+    //var sles=document.getElementsByName("checkbox");
+   
+        //if (sles.checked) {
+            //document.getElementById("user_submit").disabled=false;  }
+            //else
+         //document.getElementById("user_submit").disabled=true;
+
+
+
+//}
