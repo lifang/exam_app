@@ -7,7 +7,7 @@ class CreateBlockQuestionRelations < ActiveRecord::Migration
 
     end
     add_index :block_question_relations, :question_id
-    add_index :block_question_relations, :paper_id
+    add_index :block_question_relations, :paper_block_id
   end
 
   def self.down

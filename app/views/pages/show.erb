@@ -8,7 +8,7 @@
   <div>出卷时间：<%=  @paper.created_at%></div>
   <div>总题数：<%=  @paper.total_question_num %></div>
 </div>
-<h1 class="biz_art_title">一、<%= @block1.title %></h1><br/>
+<h1 class="biz_art_title"><%= @block1.title %></h1><br/>
 <div class="biz_art_list_box">
   <ul>
     <% @block1.questions.each do |question| %>
@@ -28,7 +28,7 @@
   </ul>
 </div>
 <div class="clear"></div>
-<h1 class="biz_art_title">二、<%= @block2.title %></h1>
+<h1 class="biz_art_title"><%= @block2.title %></h1>
 <div class="biz_art_list_box">
   <ul>
     <% @block2.questions.each do |question| %>

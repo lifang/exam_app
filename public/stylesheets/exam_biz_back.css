@@ -1366,8 +1366,8 @@ a:hover{
 }
 .products_list_style_box{
     position:relative;
-    float:left;
-    width:730px;
+    float:right;
+    width:80px;
 }
 .big_pic_box{
     position:absolute;
@@ -1375,20 +1375,50 @@ a:hover{
     top:0px;
     border:#a6a6a6 1px solid;
     background:#e8e8e8;
-    width:300px;
-    height:300px;
+    width:350px;
+    height:520px;
     padding:3px;
     z-index:9;
 }
 .big_pic_box .in{
     background:#FFF;
     padding:5px;
-    width:290px;
-    height:290px;
+    width:340px;
+    height:510px;
+    
 }
-.big_pic_box .in img{
-    width:290px;
-    height:290px;
+.big_pic_box .in .title {
+    font-size:12px;
+    font-weight:bold;
+    word-wrap:break-word;
+    word-break:break-all;
+}
+.big_pic_box .in .question {
+    padding-left: 20px;
+}
+.big_pic_box .in .attr {
+    margin-top: 8px;
+}
+.big_pic_box .in .attr a {
+    margin-right: 8px;
+}
+
+.big_pic_box .in .answer {
+    margin-top: 8px;
+    color:royalblue;
+    font-weight:bold;
+}
+.big_pic_box .in .type {
+    margin-top: 8px;
+    margin-left: 15px;
+    margin-right: 5px;
+    float: left;
+}
+.big_pic_box .in .chose_add {
+    float: right;
+    font-weight:normal;
+    margin-right: 5px;
+    color:blue;
 }
 .arrow{
     position:absolute;
@@ -1609,7 +1639,7 @@ a:hover{
     padding:5px 0 5px 90px;
     border:#fedbe6 1px solid;
     float:left;
-    width:738px;
+    width:538px;
 }
 .soso button {
     font-size:12px;
@@ -2386,14 +2416,14 @@ a:hover{
 .biz_art_title {
     font-weight:bold;
     float:left;
-    width:812px;
+    width:612px;
     padding:3px 8px 3px 8px;
     border:#CCC 1px solid;
     border-bottom:none;
     background:url(/images/fit_test_h3_bg.gif) repeat-x;
 }
 .biz_art_list_box {
-    width:808px;
+    width:608px;
     border:#CCC 1px solid;
     padding:10px;
     float:left;
@@ -2401,7 +2431,7 @@ a:hover{
 }
 .biz_art_list_box h2 {
     float:left;
-    width:808px;
+    width:608px;
     margin-bottom:5px;
 }
 .biz_art_list_box h2 a {
@@ -2420,14 +2450,14 @@ a:hover{
 }
 .biz_art_list_box ul {
     float:left;
-    width:808px;
+    width:608px;
     margin-top:10px;
     margin-bottom:10px;
     background:url(/images/dot_line.gif) repeat-x top;
 }
 .biz_art_list_box ul li {
     float:left;
-    width:808px;
+    width:608px;
     background:url(/images/dot_line.gif) repeat-x bottom;
     padding-bottom:8px;
     padding-top:8px;
@@ -2442,6 +2472,15 @@ a:hover{
     font-weight:bold;
     margin-bottom:10px;
     border-bottom:#CCC 1px solid;
+}
+.submit_btn {
+    cursor:pointer;
+    border:medium none;
+    width:86px;
+    height:26px;
+    background-position:-140px 0px;
+    margin-top: 10px;
+    margin-right:20px;
 }
 
 

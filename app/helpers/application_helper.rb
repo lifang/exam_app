@@ -61,6 +61,6 @@ module ApplicationHelper
   end
 
   def current_user
-    User.find_by_id(cookies[id])
+    User.find_by_id(cookies[:user_id])
   end
 end
