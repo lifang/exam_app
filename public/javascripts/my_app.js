@@ -9,8 +9,8 @@ function check(){
 
     
         
-    if (username == null || username.length ==0||username.length>20){
-        document.getElementById("usernameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过20</font>";
+    if (username == null || username.length ==0||username.length>30){
+        document.getElementById("usernameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过30</font>";
         return false;
     }else{
         if (check_value.test(username)) {
