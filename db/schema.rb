@@ -16,6 +16,8 @@ ActiveRecord::Schema.define(:version => 20110428040534) do
     t.integer "question_id"
     t.integer "paper_block_id"
     t.integer "score"
+    t.integer "assess_role"
+    t.boolean "is_in_used"
   end
 
   add_index "block_question_relations", ["paper_block_id"], :name => "index_block_question_relations_on_paper_block_id"
