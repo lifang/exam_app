@@ -6,6 +6,7 @@ class Paper < ActiveRecord::Base
   #attr_accessible :title,:type,:creater_id,:description,:total_score,:total_question_num
 	#validates:title,  :presence=>true
 	#validates:type,  :presence=>true
+  
 end
 
 
