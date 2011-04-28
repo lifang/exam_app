@@ -1,7 +1,7 @@
 <div class="border">
   <% form_for :paper,:url=>"/papers/create" do |f| %>
     <font color="green">基本信息：</font><br /><br />
-    标题：<%= f.text_field :paper_title,:value=>"2011 ruby class examination" %>&nbsp|&nbsp;类型：<%= f.text_field :paper_type,:value=>"数学" %>&nbsp|&nbsp;组卷人：<%= f.text_field :paper_creater,:value=>"#{session[:user].name}" %><br/><br/>
+    标题：<%= f.text_field :paper_title,:value=>"2011 ruby class examination" %>&nbsp|&nbsp;类型：<%= f.text_field :paper_type,:value=>"数学" %>&nbsp|&nbsp;组卷人：<%= f.text_field :paper_creater,:value=>"#{cookies[:user_name]}" %><br/><br/>
     总分：<%= f.text_field :paper_total_score,:value=>100 %>&nbsp|&nbsp;题数：<%= f.text_field :paper_total_question_num ,:value=>"20"%><br /><br />
     描述：<%= f.text_area :paper_describe ,:size=>"40"%>
     <hr /><br/>

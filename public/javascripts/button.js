@@ -10,7 +10,7 @@ function buttoncontrol(){
             else 
                {
                    all.className="reg_btn_no";
-                document.getElementById("submit_button").disabled=true;
+                   document.getElementById("submit_button").disabled=true;
             }
         }
     }
