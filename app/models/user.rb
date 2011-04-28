@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
 
 	validates:email,  :presence=>true,:uniqueness=>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
   validates:password, :presence=>true,:confirmation=>true,:length=>{:within=>6..20}
+
   
 before_save :encrypt_password
 
@@ -26,6 +27,8 @@ before_save :encrypt_password
     return nil if user.nil?
     return user if user.has_password?(submitted_password)
   end
+
+
 
   def self.authenticate_with_salt(id, cookie_salt)
     user = find_by_id(id)
@@ -49,8 +52,7 @@ before_save :encrypt_password
 	def secure_hash(string)
 		Digest::SHA2.hexdigest(string)
 	end
-
-
-
-
 end
+
+
+

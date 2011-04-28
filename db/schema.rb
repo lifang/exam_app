@@ -14,11 +14,11 @@ ActiveRecord::Schema.define(:version => 20110426084352) do
 
   create_table "block_question_relations", :force => true do |t|
     t.integer "question_id"
-    t.integer "paper_id"
+    t.integer "paper_block_id"
     t.integer "score"
   end
 
-  add_index "block_question_relations", ["paper_id"], :name => "index_block_question_relations_on_paper_id"
+  add_index "block_question_relations", ["paper_block_id"], :name => "index_block_question_relations_on_paper_block_id"
   add_index "block_question_relations", ["question_id"], :name => "index_block_question_relations_on_question_id"
 
   create_table "exam_plans", :force => true do |t|
@@ -148,10 +148,8 @@ ActiveRecord::Schema.define(:version => 20110426084352) do
   add_index "questions", ["question_category_id"], :name => "index_questions_on_question_category_id"
 
   create_table "rater_record_relations", :force => true do |t|
-    t.integer  "exam_record_id"
-    t.integer  "exam_rater_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "exam_record_id"
+    t.integer "exam_rater_id"
   end
 
   add_index "rater_record_relations", ["exam_rater_id"], :name => "index_rater_record_relations_on_exam_rater_id"

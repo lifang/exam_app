@@ -1,7 +1,13 @@
 ExamApp::Application.routes.draw do
 
   resources :users
-  resources :sessions
+  resources :sessions do
+    member do
+      post 'create'
+    end
+  end
+
+  
   resources :pages
   resources :back
   resources :papers
