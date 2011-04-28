@@ -7,9 +7,7 @@ class Paper < ActiveRecord::Base
   
 	validates:title,  :presence=>true
 	validates:types,  :presence=>true
-
 end
-
 
 
 

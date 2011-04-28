@@ -4,6 +4,7 @@ ExamApp::Application.routes.draw do
   resources :sessions
   resources :pages
   resources :back
+  resources :papers
   # The priority is based upon order of creation:
   # first created -> highest priority.
   # Sample of regular route:
