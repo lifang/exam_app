@@ -52,15 +52,15 @@ function check(){
     }
 }
 
-      //function buttoncontrol(){
+function buttoncontrol(){
 
-    //var sles=document.getElementsByName("checkbox");
-   
-        //if (sles.checked) {
-            //document.getElementById("user_submit").disabled=false;  }
-            //else
-         //document.getElementById("user_submit").disabled=true;
+   var sles=document.getElementsByName("checkbox");
+    for (var i=0;i<sles.length;i++) {
+        if (sles[i].checked)
+        document.getElementById("user_submit").disabled=false;
+    else
+       document.getElementById("user_submit").disabled=true;
+    }
 
+}
 
-
-//}
