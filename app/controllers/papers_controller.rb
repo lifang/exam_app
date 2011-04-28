@@ -12,7 +12,7 @@ class PapersController < ApplicationController
   end
 
   def create
-    Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>session[:user].id,:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
+    Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
     
     #模块1
     PaperBlock.create(:paper_id=>params[:paper][:block1_paper_id],:title=>params[:paper][:block1_title],:types=>1,:description=>params[:paper][:block1_describe],:block_total_score=>params[:paper][:block1_total_score])
