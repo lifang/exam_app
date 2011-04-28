@@ -14,8 +14,8 @@
 
           <td>用户名：</td>
 
-          <td><%= f.text_field :user_name%></td>
-          <div id="user_name"></div>
+          <td><%= f.text_field :username%></td>
+          <div id="username"></div>
 
 
           <tr>
@@ -45,7 +45,7 @@
       <%end%>
     </div>
     <div class="bottom">
-      <a href="/">免费注册</a>
+      <%= link_to "免费注册","/users/new" %>
     </div>
   </div>
   <div id="enterprise_user_form" style="display :none">

@@ -1,0 +1,12 @@
+<div class="border">
+  <% form_for :paper,:url=>"/back/create" do |f| %>
+    <font color="green">基本信息：</font><br /><br />
+    标题：<%= f.text_field :paper_title,:value=>"期中考试" %>&nbsp|&nbsp;类型：<%= f.text_field :paper_type,:value=>"数学" %>&nbsp|&nbsp;组卷人：<%= f.text_field :paper_creater,:value=>"cookie[:user_id],修改成隐藏" %><br/><br/>
+    总分：<%= f.text_field :paper_total_score,:value=>100 %>&nbsp|&nbsp;题数：<%= f.text_field :paper_total_question_num %><br /><br />
+    描述：<%= f.text_area :paper_describe ,:size=>"40"%>
+    <hr /><br/>
+    <font color="green">模块信息：</font><br /><br />
+    试卷：<%= f.text_field :block_paper_id,:value=>"paper_id,修改成隐藏" %>
+    标题：<%= f.text_field :block_title,:value=>"单项选择题" %>&nbsp|&nbsp;
+  <% end %>
+</div>
