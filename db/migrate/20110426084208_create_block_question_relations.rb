@@ -4,6 +4,8 @@ class CreateBlockQuestionRelations < ActiveRecord::Migration
       t.integer :question_id 
       t.integer :paper_block_id
       t.integer :score
+      t.integer :assess_role
+      t.boolean :is_in_used
 
     end
     add_index :block_question_relations, :question_id

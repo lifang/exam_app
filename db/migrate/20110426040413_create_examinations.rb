@@ -3,7 +3,7 @@ class CreateExaminations < ActiveRecord::Migration
     create_table :examinations do |t|
       t.integer :paper_id 
       t.string :title
-      t.integer :types
+      t.integer :examination_category_id
       t.string :description
 
       t.timestamps 

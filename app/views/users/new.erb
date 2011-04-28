@@ -47,11 +47,11 @@
 
       <tr>
         <td></td>
-        <td><input type="checkbox" id="checkbox"  value="999" onclick="javascript:buttoncontrol();"/>&nbsp;&nbsp;同意安居丽业<a href="/app/users/servers" target="blank">服务条款</a></td>
+        <td><input type="checkbox" name="checkbox"  value="999" onclick="javascript:buttoncontrol();"/>&nbsp;&nbsp;同意安居丽业<a href="/app/users/servers" target="blank">服务条款</a></td>
       </tr>
       <tr>
         <td></td>
-        <td><%= f.submit"", :class =>"reg_btn_no" %></td>
+        <td><%= f.submit"", :class =>"reg_btn", :disabled=>"disabled" %></td>
       </tr>
     <% end %>
   </table>

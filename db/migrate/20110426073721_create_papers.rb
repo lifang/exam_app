@@ -2,7 +2,7 @@ class CreatePapers < ActiveRecord::Migration
   def self.up
     create_table :papers do |t|
       t.string :title
-      t.string :types
+      t.string :paper_category_id
       t.integer :creater_id
       t.string :description
       t.integer :total_score

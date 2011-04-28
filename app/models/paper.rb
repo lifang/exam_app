@@ -4,10 +4,6 @@ class Paper < ActiveRecord::Base
 
   belongs_to:user,:foreign_key=>"creater_id"
 
-  attr_accessible :title,:type,:creater_id,:description,:total_score,:total_question_num
-  
-	validates:title,  :presence=>true
-	validates:types,  :presence=>true
 end
 
 

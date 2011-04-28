@@ -1,6 +1,6 @@
 
 <div class="main_box_back">
-  <h2><span>试卷列表</span><div class="right"><a href="#">新建试卷</a></div></h2>
+  <h2><span>试卷列表</span><div class="right"><%= link_to "新建卷子","/papers/new" %></div></h2>
   <div class="in">
     <table>
       <colgroup>
@@ -31,7 +31,7 @@
             <td> <%= paper.created_at.strftime("%Y-%m-%d")  %></td>
             <td> <%= paper.total_question_num %></td>
             <td> <%= paper.description  %></td>
-            <td> <%= paper.types  %></td>
+            <td> <%= paper.paper_category_id %></td>
             <td><a><%= link_to " 查看" ,paper %>
                 &nbsp;|&nbsp; <%= link_to "编辑 ", paper %></a></td>
           </tr>
