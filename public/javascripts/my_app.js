@@ -52,15 +52,4 @@ function check(){
     }
 }
 
-      //function buttoncontrol(){
 
-    //var sles=document.getElementsByName("checkbox");
-   
-        //if (sles.checked) {
-            //document.getElementById("user_submit").disabled=false;  }
-            //else
-         //document.getElementById("user_submit").disabled=true;
-
-
-
-//}
