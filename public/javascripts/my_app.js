@@ -52,15 +52,26 @@ function check(){
     }
 }
 
-function buttoncontrol(){
 
-   var sles=document.getElementsByName("checkbox");
-    for (var i=0;i<sles.length;i++) {
-        if (sles[i].checked)
-        document.getElementById("user_submit").disabled=false;
-    else
-       document.getElementById("user_submit").disabled=true;
+
+
+
+function signin_page(){
+
+
+    var user_name= document.getElementById("session_username").value;
+    var user_password= document.getElementById("session_password").value;
+    if (user_name == null||user_name.length==0){
+        document.getElementById("error_msg").style.color="#FF0000"
+        document.getElementById("error_msg").innerHTML="请输入正确的名字";
     }
+    else {
+        if(user_password == null||user_password.length==0){
+            document.getElementById("error_msg").style.color="#FF0000"
+            document.getElementById("error_msg").innerHTML="请输入正确的密码";
+        }
 
+    }
+        
 }
 
