@@ -2,7 +2,7 @@
 // This file is automatically included by javascript_include_tag :defaults
 function check(){
     
-    var user_name= document.getElementById("user_name").value;
+    var user_name= document.getElementById("session_user_name").value;
     
     if (user_name == null){
         

@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
     else
       session[:user_name]=@user.user_name
       session[:user_password]=@user.password
-      redirect_to "/users/#{@user.id}"
+      redirect_to "/papers"
    end
   end
 end
