@@ -2,7 +2,7 @@
   <div class="step_one"></div>
   <div ></div>
   <table>
-    <%= form_for :user, :html =>{:onsubmit => 'return check()'} do |f| %>
+    <%= form_for @user, :html =>{:onsubmit => 'return check()'} do |f| %>
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</td>
         <td><%= f.text_field :username, :class => "input_style" %><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span></span><span  id="username_span"></span></td>
@@ -45,7 +45,7 @@
       </tr>
       <tr>
         <td></td>
-        <td><%= f.submit "", :class =>"reg_btn_no" ,:disabled=>"disabled", :id=> "submit_button" %></td>
+        <td><%= f.submit"", :class =>"reg_btn_no" ,:disabled=>"disabled", :id=> "submit_button" %></td>
       </tr>
     <% end %>
   </table>
