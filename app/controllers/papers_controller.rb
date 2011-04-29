@@ -2,7 +2,6 @@ class PapersController < ApplicationController
 
 
   def new
-    
   end
   
   def show

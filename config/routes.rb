@@ -12,6 +12,7 @@ ExamApp::Application.routes.draw do
     collection do
       get "create_step_one"
       get "create_step_two"
+      get "edit"
     end
   end
   resources :back
@@ -66,7 +67,7 @@ ExamApp::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => "users#new"
+  root :to => "sessions#new"
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
