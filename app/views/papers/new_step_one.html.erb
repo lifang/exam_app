@@ -3,43 +3,40 @@
   <li>添加试卷</li>
 </ul>
 <div class="main_box_back">
+  <% form_for :paper ,:url=>"/papers/create_step_one" do |f|%>
   <h2><span>添加试卷</span><div class="right"><%= link_to "返回试卷列表","/papers" %></div></h2>
   <div class="in">
     <div class="paper_base_info">试卷基本信息<span>（为您的试卷添加一些基本的信息）</span></div>
-    <% form_for :paper ,:url=>"/papers/create" do |f|%>
+    
       <div class="add_details">
         <font color="red">*</font>
-        <%= f.text_field :title,:value=>"2011 ruby examination" %>
+       试卷标题： <%= f.text_field :title, :class => "input_style", :value=>"2011 ruby examination", :size => "65" %>
         <span>&nbsp;请输入试卷标题，长度为1~30个字</span>
       </div>
       <div class="add_details">
         <div class="detail">&nbsp;&nbsp;&nbsp;描述：</div>
-        <div class="detail"><%= f.text_area :describe ,:size=>"40"%></div>
+        <div class="detail"><%= f.text_area :description , :class => "textarea_style", :cols=>"69", :rows=>"4",:value=>"第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。"%></div>
         <div class="detail">&nbsp;&nbsp;请填写对试卷必要的一些文字描述</div>
       </div>
       <div class="clear"></div>
     </div>
-    <div class="in"><input type="submit" value="下一步" class="submit_btn"/></div>
-  <% end %>
-</div>
-<br/>
-<div class="main_box_back">
-  <h2><span>添加模块（为您的试卷设置一个基本的模块，如："一、单选题；二、多选题；三、简答题"）</span><div class="right"><%= link_to "返回试卷列表","/papers" %></div></h2>
+
   <div class="clear"></div>
   <div class="in">
     <div class="paper_base_info">试卷模块<span>（为您的试卷设置第一个基本的模块，如："一、单选题；二、多选题；三、简答题"）</span></div>
     <div class="add_details">
-      模块标题：<input type="text" class="input_style" name="title" value="" size="65"/>
+      &nbsp&nbsp模块标题： <%= f.text_field :block_title, :class => "input_style", :value=>"单项选择题", :size => "65" %>
       <span>&nbsp;请输入模块的标题，长度为1~30个字</span>
     </div>
     <div class="add_details">
       <div class="detail">&nbsp;&nbsp;&nbsp;描述：</div>
-      <div class="detail"><textarea cols="69" rows="4" class="textarea_style"></textarea></div>
+      <div class="detail"><%= f.text_area :block_description , :class => "textarea_style", :cols=>"69", :rows=>"4",:value=>"请把你认为正确的选项填入每题后面的括号内。每一题只有一个正确选项。"%>
       <div class="detail">&nbsp;&nbsp;请填写对试卷模块必要的一些文字描述</div>
     </div>
     <div class="clear"></div>
   </div>
-  <div class="in"><input type="submit" value="下一步" class="submit_btn"/></div>
+  <div class="in"><%= f.submit "下一步" ,:class=>"submit_btn" %></div>
+  <% end %>
 </div>
 
 

@@ -1,5 +1,3 @@
-
-
 <div class="login_show_img" id="login_back"></div>
 <div class="login_box">
   <div class="top">
@@ -12,13 +10,9 @@
     <div class="body">
       <% form_for(:session,:html => {:onsubmit => "return signin_page()"}, :url => sessions_path) do |f| %>
         <table>
-
           <td>用户名：</td>
-
           <td><%= f.text_field :username, :class => "input_style"%></td>
           <div id="username"></div>
-
-
           <tr>
             <td>密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
             <td><%= f.password_field :password, :class => "input_style"%></td>
@@ -40,7 +34,9 @@
           </tr>
           <tr>
             <td align="center" colspan="2">
-              <div id="error_msg">&nbsp;</div>
+             
+              <div id="error_msg">&nbsp; <font color="red"> <%= flash[:error2] %></font></div>
+
             </td>
           </tr>
         </table>
