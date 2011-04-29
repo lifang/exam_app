@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
 	#telephone_regex=/^[1-9]\d*$/
   attr_accessor :password
 	attr_accessible :name,:username,:mobilephone,:address,:email,:password,:salt,:encryted_password,:password_confirmation
-	validates:username,  :presence=>true,:uniqueness =>true,:format=>{:with=>name_regex},:length=>{:maximum=>30}
-	validates:email,  :presence=>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
+	validates:username,  :presence=>true,:format=>{:with=>name_regex},:length=>{:maximum=>30}
+	validates:email,  :presence=>true,:uniqueness =>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
   validates:password, :presence=>true,:confirmation=>true,:length=>{:within=>6..20}
 
 
@@ -23,6 +23,11 @@ class User < ActiveRecord::Base
   end
 
 
+  def username_exist?
+   
+  end
+
+
 
 
 	before_save:encrypt_password
@@ -31,7 +36,7 @@ class User < ActiveRecord::Base
 		encrypted_password == encrypt(submitted_password)
 	end
 
-  def self.authenticate(username, submitted_password)
+ def self.authenticate(username, submitted_password)
     user = find_by_username(username)
     return nil if user.nil?
     return user if user.has_password?(submitted_password)

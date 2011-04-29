@@ -1,12 +1,17 @@
+
 <div class="reg_content">
   <div class="step_one"></div>
   <div ></div>
+  <tr> <td valign="top" align="center"><span class="must_r"><%= flash[:nameused] %></span></td></tr>
+  <tr> <td valign="top" align="center"><span class="must_r"><%= flash[:emailused] %></span></td></tr>
   <table>
     <%= form_for @user, :html =>{:onsubmit => 'return check()'} do |f| %>
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</td>
         <td><%= f.text_field :username, :class => "input_style" %><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span></span><span  id="username_span"></span></td>
       </tr>
+      
+
       <tr>
         <td valign="top" align="right"><span class="must_r ">*</span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
         <td><%= f.password_field :password, :class => "input_style" %><span class="expForEmail">密码长度在6到20位之间<span id="passwordErr"></span></span></td>
