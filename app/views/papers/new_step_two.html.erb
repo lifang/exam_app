@@ -4,8 +4,8 @@
 <div class="soso">
   <div>试卷编号：<%= @paper.id %></div>
   <div>录入：<%= @paper.user.name %></div>
-  <div>出卷时间：2011-03-12 21:20:20</div>
-  <div>总题数：20</div>
+  <div>出卷时间：<%= @paper.created_at %></div>
+  <div>总题数：<%= @paper.total_question_num %></div>
   <div>备注：第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。</div>
   <input type="submit" value="修改基本信息" class="submit_btn"/>
   <input type="submit" value="增加试卷模块" class="submit_btn"/>
