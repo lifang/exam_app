@@ -15,8 +15,7 @@ class PapersController < ApplicationController
 
   def show
     @paper=Paper.find(params[:id])
-    @block1=PaperBlock.find(1)     #修改
-    @block2=PaperBlock.find(2)     #修改
+    @blocks= @paper.paper_blocks
   end
   
   def create
@@ -33,6 +32,7 @@ class PapersController < ApplicationController
     @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
+
 
   def create_step_two
    
