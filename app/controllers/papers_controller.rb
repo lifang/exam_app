@@ -45,7 +45,8 @@ class PapersController < ApplicationController
   end
   
   def index
-    @papers=Paper.find_by_sql("select * from papers p where p.creater_id=#{ cookies[:user_id]}").paginate(:per_page =>10, :page => params[:page],:order => "created_at desc")
+ cookies[:user_id]=1
+    @papers=Paper.find_by_sql("select * from papers p where p.creater_id='#{cookies[:user_id]}'").paginate(:per_page =>10, :page => params[:page],:order => "created_at desc")
   end
 
   def new
