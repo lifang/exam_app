@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   include ApplicationHelper
-  def current_user
-    User.find(cookies[:user_id])
+
+   def access?
+    deny_access unless signed_in?
   end
 
 end

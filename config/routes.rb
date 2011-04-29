@@ -75,21 +75,12 @@ ExamApp::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-<<<<<<< HEAD
-
-  root :to => "sessions#new"
-=======
 
 
   root :to => "sessions#new"
 
 
 
-  root :to => "sessions#new"
-  root :to => "sessions#new"
-
-
->>>>>>> 6fc9f4958f2b6b6b039903a54a88431d283614cc
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.

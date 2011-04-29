@@ -64,10 +64,19 @@ module ApplicationHelper
     User.find_by_id(cookies[:user_id])
   end
 
+  def deny_access
+    
+    redirect_to "/sessions/new"
+  end
+
+  def signed_in?
+    return cookies[:user_email] != nil
+  end
+
 
   def username_used
-     flash[:notice] = "用户名已经存在,请重新输入！"
-     redirect_to "/users/new"
+    flash[:notice] = "用户名已经存在,请重新输入！"
+    redirect_to "/users/new"
   end
   def unused?
     return session[:user_email] == nil
