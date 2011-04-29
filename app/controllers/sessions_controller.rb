@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
      # flash[:error] = "您输入的邮箱或者密码错误，请重新输入。"
       render '/sessions/new'
     else
+      cookies[:user_id]=@user.id
       cookies[:user_name]=@user.name
       redirect_to "/papers"
    end

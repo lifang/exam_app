@@ -11,13 +11,13 @@ class PapersController < ApplicationController
   end
 
   def new_step_two
-    
+    @paper=Paper.find(params[:id])
   end
 
   def create_step_one
-    @paper=Paper.create(:title=>params[:paper][:title],:description=>params[:paper][:description])
+    @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],:description=>params[:paper][:description])
     @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
-    redirect_to "/papers/new_step_two"
+    redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
    def create_step_two

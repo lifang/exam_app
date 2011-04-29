@@ -20,6 +20,10 @@ ExamApp::Application.routes.draw do
     collection do
       get "new_step_one"
       post "create_step_one"
+    
+    end
+    member do
+      get "new_step_two"
       post "create_step_two"
     end
   end
