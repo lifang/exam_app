@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
       flash[:error2] = "用户名不存在"
       render '/sessions/new'
     else
+      cookies[:user_id]=@user.id
       cookies[:user_name]=@user.name
       redirect_to "/papers"
    end
