@@ -16,7 +16,11 @@
     <div id="container">
       <div id="hd">
         <a id="logo" href="/"><span>考试系统</span></a>
+         <%if cookies[:user_id]!= nil%>
         <p class="back_welcome">welcome!</p>
+         <li><%= link_to"登出",'/sessions/new'%></li>
+     <%end%>
+      
       </div>
       <div id="bd">
         <div class="main fr">
