@@ -1,3 +1,4 @@
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
 <div class="main_box_back">
   <h2><span>试卷列表</span><div class="right"><a href="#">新建试卷</a>|&nbsp;&nbsp;<a href="#">创建考试</a></div></h2>
   <div class="in">
@@ -7,10 +8,10 @@
         <option>--请选择--</option>
       </select>
       &nbsp;&nbsp;&nbsp;&nbsp;创建时间：
-      从&nbsp;<input class="input_style" type="text" />&nbsp;
-      到&nbsp;<input class="input_style" type="text" />
+      从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly/>&nbsp;
+      到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly/>
       <div class="clear"></div>
-      试卷标题<input class="input_style" type="text" size="60" />&nbsp;&nbsp;
+      试卷标题：<input class="input_style" type="text" size="60" />&nbsp;&nbsp;
       <button type="submit">查询</button>
     </div>
     <div class="clear"></div>
