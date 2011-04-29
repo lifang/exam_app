@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   def create
     @user=User.new(params[:user])
     if  (User.find_by_username(params[:user][:username]) !=nil)
-      flash[:nameused] = "用户名已经存在,您可能已经注册过此账号，请去登录界面尝试能否成功登录。"
+      flash[:nameused] = "用户名已经存在,您可能已经注册过此账号，请去登录界面尝试能否成功登录"
       redirect_to "/users/new"
     else
     if (User.find_by_email(params[:user][:email]) !=nil)
