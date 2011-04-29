@@ -4,13 +4,15 @@ class PapersController < ApplicationController
   def new
     
   end
-  
+  def destroy
+    Paper.find(params[:id]).destroy
+    redirect_to "/papers"
+  end
   def show
     @paper=Paper.find(params[:id])
     @block1=PaperBlock.find(1)     #修改
     @block2=PaperBlock.find(2)     #修改
   end
-
   def create
     Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
     

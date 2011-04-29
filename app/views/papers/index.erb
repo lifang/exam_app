@@ -33,7 +33,7 @@
             <td> <%= paper.description  %></td>
             <td> <%= paper.paper_category_id %></td>
             <td><a><%= link_to " 查看" ,paper %>
-                &nbsp;|&nbsp; <%= link_to "编辑 ", paper %></a></td>
+                &nbsp;|&nbsp; <%= link_to "删除 ", paper,:method=>:delete %></a></td>
           </tr>
         <% end  %>  
            </tbody>
