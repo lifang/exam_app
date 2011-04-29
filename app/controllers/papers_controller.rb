@@ -1,7 +1,13 @@
 class PapersController < ApplicationController
+ def index
+    @papers=Paper.find_by_sql("select * from papers p where p.creater_id=#{cookies[:user_id]}").paginate(:per_page =>10, :page => params[:page],:order => "created_at desc",:conditions => ["title like ? " , "%#{params[:search]}%"])
+
+<<<<<<< HEAD
+ end
+=======
 
 
-
+>>>>>>> 6fc9f4958f2b6b6b039903a54a88431d283614cc
   def new
     
   end
@@ -9,12 +15,22 @@ class PapersController < ApplicationController
     Paper.find(params[:id]).destroy
     redirect_to "/papers"
   end
+<<<<<<< HEAD
+=======
 
+>>>>>>> 6fc9f4958f2b6b6b039903a54a88431d283614cc
   def show
     @paper=Paper.find(params[:id])
     @block1=PaperBlock.find(1)     #修改
     @block2=PaperBlock.find(2)     #修改
   end
+<<<<<<< HEAD
+  def create
+    Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
+  end
+
+  def new_step_one
+=======
 
   def create
     Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
@@ -22,6 +38,7 @@ class PapersController < ApplicationController
 
   def new_step_one
 
+>>>>>>> 6fc9f4958f2b6b6b039903a54a88431d283614cc
     
   end
 
@@ -44,10 +61,14 @@ class PapersController < ApplicationController
 
   end
   
+<<<<<<< HEAD
+ 
+=======
   def index
  cookies[:user_id]=1
     @papers=Paper.find_by_sql("select * from papers p where p.creater_id='#{cookies[:user_id]}'").paginate(:per_page =>10, :page => params[:page],:order => "created_at desc")
   end
+>>>>>>> 6fc9f4958f2b6b6b039903a54a88431d283614cc
 
   def new
   
