@@ -2641,6 +2641,15 @@ a:hover{
     float:left;
 }
 
+.paper_search {
+    margin-bottom:20px;
+    background:#fff2f2 url(/images/biz_soso_icon.gif) left center no-repeat;
+    padding:5px 0 5px 90px;
+    border:#fedbe6 1px solid;
+    float:left;
+    width:712px;
+}
+
 
 
 

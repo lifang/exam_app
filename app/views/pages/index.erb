@@ -1,19 +1,36 @@
 <div class="main_box_back">
-  <h2><span>试卷列表</span><div class="right"><a href="#">新建试卷</a></div></h2>
+  <h2><span>试卷列表</span><div class="right"><a href="#">新建试卷</a>|&nbsp;&nbsp;<a href="#">创建考试</a></div></h2>
   <div class="in">
+    <div class="paper_search">
+      试卷分类：
+      <select>
+        <option>--请选择--</option>
+      </select>
+      &nbsp;&nbsp;&nbsp;&nbsp;创建时间：
+      从&nbsp;<input class="input_style" type="text" />&nbsp;
+      到&nbsp;<input class="input_style" type="text" />
+      <div class="clear"></div>
+      试卷标题<input class="input_style" type="text" size="60" />&nbsp;&nbsp;
+      <button type="submit">查询</button>
+    </div>
+    <div class="clear"></div>
     <table>
       <colgroup>
-        <col width="140" />
-        <col width="100" />
+        <col width="20"/>
+        <col width="60" />
+        <col width="210" />
+        <col width="60" />
         <col width="80" />
-        <col width="140" />
-        <col width="180" />
+        <col width="60" />
+        <col width="240" />
         <col width="" />
       </colgroup>
       <thead>
         <tr>
+          <th></th>
           <th>试卷编号</th>
           <th>标题</th>
+          <th>所属分类</th>
           <th>创建日期</th>
           <th>试题数</th>
           <th>备注</th>
@@ -22,12 +39,29 @@
       </thead>
       <tbody>
         <tr>
-          <td>jenson</td>
+          <td><input type="checkbox" name="checkbox"/></td>
+          <td>1011</td>
+          <td>2011英语模拟试题</td>
+          <td>英语试卷</td>
           <td>2010-09-08</td>
-          <td>5</td>
-          <td>梧桐花园</td>
+          <td>20</td>
           <td></td>
           <td><a href="#">查看&nbsp;|&nbsp;删除</a></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="checkbox"/></td>
+          <td>1011</td>
+          <td>2011英语模拟试题</td>
+          <td>英语试卷</td>
+          <td>2010-09-08</td>
+          <td>20</td>
+          <td></td>
+          <td><a href="#">查看&nbsp;|&nbsp;删除</a></td>
+        </tr>
+        <tr>
+          <td class="allselect_box" colspan="8">
+            <input type="checkbox" />&nbsp;&nbsp;全选&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除选中试卷</a>
+          </td>
         </tr>
       </tbody>
     </table>
