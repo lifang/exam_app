@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110428040534) do
+ActiveRecord::Schema.define(:version => 20110428085833) do
 
   create_table "block_question_relations", :force => true do |t|
     t.integer "question_id"
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(:version => 20110428040534) do
     t.integer "score"
     t.integer "assess_role"
     t.boolean "is_in_used"
+    t.integer "assecc_role"
+    t.integer "is_in_user"
   end
 
   add_index "block_question_relations", ["paper_block_id"], :name => "index_block_question_relations_on_paper_block_id"

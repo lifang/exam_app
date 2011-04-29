@@ -2,19 +2,61 @@
   <li class="actived"><a href="#">2011年英语模拟试卷</a></li>
 </ul>
 <div class="soso">
-  <div>试卷编号：101101</div>
-  <div>录入：lifang</div>
-  <div>出卷时间：2011-03-12 21:20:20</div>
-  <div>总题数：20</div>
-  <div>备注：第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。</div>
-  <input type="submit" value="修改基本信息" class="submit_btn"/>
-  <input type="submit" value="增加试卷模块" class="submit_btn"/>
+  <div>编号：101101</div>
+  <div>标题：<input type="text" class="input_style" name="title" value="2011年英语模拟试卷" size="65"/></div>
+  <div>备注：
+    <textarea cols="69" rows="4" class="textarea_style">第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。</textarea>
+  </div>
+  <input type="submit" value="更新" class="submit_btn"/>
+</div>
+<div class="title_list_style_box">
+  <div class="arrow" style="top:35px;"></div>
+  <div class="block_pic_box" style="top:0px;">
+    <div class="in">
+      <div class="paper_block">
+        试卷模块标题：<input type="text" class="input_style" name="block" size="39" value="一、单项选择题"/>
+      </div>
+      <div class="paper_block">
+        试卷模块备注：<textarea cols="37" rows="3" class="textarea_style" name="block_desc">共10题，总分10分</textarea>
+      </div>
+      <div><input type="submit" value="更新" class="submit_btn"/></div>
+    </div> 
+  </div>
+</div>
+<div class="question_list_style_box">
+  <div class="arrow" style="top:35px;"></div>
+  <div class="question_pic_box" style="top:0px;">
+    <div class="in">
+      <div class="title">题面：</div>
+      <textarea name="title" cols="45" rows="3" class="textarea_style"></textarea>
+      <div class="title">题面类型：</div>
+      <div class="type"><input type="radio" name="type" /> 单选题</div>
+      <div class="type"><input type="radio" name="type" /> 多选题</div>
+      <div class="type"><input type="radio" name="type" /> 判断题</div>
+      <div class="type"><input type="radio" name="type" /> 完形填空题</div>
+      <div class="type"><input type="radio" name="type" /> 综合题</div>
+      <div class="clear"></div>
+      <div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
+      <div class="clear"></div>
+      <div class="question">
+        <div class="attr">A <input type="text" name="chose" class="input_style" value="" /><a href="#">删除</a></div>
+        <div class="attr">B <input type="text" name="chose" class="input_style" value="" /><a href="#">删除</a></div>
+        <div class="attr">C <input type="text" name="chose" class="input_style" value="" /><a href="#">删除</a></div>
+        <div class="attr">D <input type="text" name="chose" class="input_style" value="" /><a href="#">删除</a></div>
+      </div>
+      <div class="answer">答案：<input type="text" name="chose" class="input_style" value="" size="40" /></div>
+      <div class="answer">分值：<input type="text" name="chose" class="input_style" value="" /> 分</div>
+      <div class="title">评分规则：</div>
+      <textarea name="title" cols="45" rows="3" class="textarea_style"></textarea>
+      <input type="submit" value="提交" class="submit_btn"/>
+    </div>
+  </div>
 </div>
 <h1 class="biz_art_title">一、单项选择题(共10题，总分10分)<a href="#">[编辑]</a><a href="#">[添加题目]</a></h1>
 <div class="biz_art_list_box">
   <ul>
     <li>
-      <div class="products_list_style_box">
+      <div class="products_list_style_box" style="display:none;">
         <div class="arrow" style="top:35px;"></div>
         <div class="big_pic_box" style="top:0px;">
           <div class="in">
