@@ -14,7 +14,7 @@ class UsersController < ApplicationController
       redirect_to "/users/new"
     else
     if (User.find_by_email(params[:user][:email]) !=nil)
-      flash[:emailused] = "此邮箱已被使用过，请使用其他邮箱。"
+      flash[:emailused] = "此邮箱已被使用，请使用其他邮箱。"
       redirect_to "/users/new"
       else
         if @user.save
