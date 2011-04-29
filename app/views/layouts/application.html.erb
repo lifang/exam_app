@@ -8,7 +8,7 @@
 
     <%= javascript_include_tag 'pileadd' %>
 
-     <%= javascript_include_tag 'button' %>
+    <%= javascript_include_tag 'button' %>
     <link href="/stylesheets/exam_biz_back.css" rel="stylesheet" />
     <link href="/stylesheets/login.css" rel="stylesheet" />
   </head>
@@ -16,12 +16,12 @@
     <div id="container">
       <div id="hd">
         <a id="logo" href="/"><span>考试系统</span></a>
-         <%if cookies[:user_id]!= nil%>
-        <%user=User.find_by_id(cookies[:user_id])%>
-        <p class="back_welcome"> <%= user.username %>欢迎使用   &nbsp;&nbsp;&nbsp; <%= link_to"登出",'/sessions/signout',:method => :delete %></p>
-      
-     <%end%>
-      
+        <%if cookies[:user_id]!= nil%>
+          <%user=User.find_by_id(cookies[:user_id])%>
+          <p class="back_welcome"> <%= user.username %>欢迎使用   &nbsp;&nbsp;&nbsp; <%= link_to"登出",'/sessions/signout',:method => :delete %></p>
+
+        <%end%>
+
       </div>
       <div id="bd">
         <div class="main fr">
