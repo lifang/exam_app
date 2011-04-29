@@ -25,10 +25,9 @@
         <%if cookies[:user_id]!= nil%>
           <p class="back_welcome">
             <a href="#">lifang@hotmail.com</a> welcome!
-            <%= link_to"[登出]",'/sessions/new'%>
+            <%= link_to"[登出]",'/sessions/signout',:method => :delete %>
           </p>
         <%end%>
-        
       </div>
       <div id="bd">
         <div class="main fr">

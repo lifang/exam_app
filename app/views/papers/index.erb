@@ -2,40 +2,75 @@
 <div class="main_box_back">
   <h2><span>试卷列表</span><div class="right"><%= link_to "新建卷子","/papers/new_step_one" %></div></h2>
   <div class="in">
+    <div class="paper_search">
+      试卷分类：
+      <select>
+        <option>--请选择--</option>
+      </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;创建时间：
+      从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly/>&nbsp;
+      到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly/>
+      <div class="clear"></div>
+      试卷标题<input class="input_style" type="text" size="60" />&nbsp;&nbsp;
+    <% form_tag users_path, :method => 'get' do %>
+<p>
+ <select name="search" id="search">
+  <option value="1">用户名</option>
+  <option value="2">邮箱</option>
+</select>
+&nbsp;&nbsp; &nbsp;&nbsp;<%= text_field_tag :search, params[:search] %>
+<td><%= submit_tag "Search", :title => nil %>
+    </td>
+</p>
+<% end %>
+<% form_tag users_path, :method => 'get' do %>
+<input id="postfile" type="file" name="hhh" value="ta hao"/>
+<%= submit_tag "上传文件", :name => nil %>
+<% end %>
+    </div>
+    <div class="clear"></div>
     <table>
       <colgroup>
-        <col width="140" />
-        <col width="100" />
+        <col width="20"/>
+        <col width="60" />
+        <col width="210" />
+        <col width="60" />
         <col width="80" />
-        <col width="140" />
-        <col width="180" />
+        <col width="60" />
+        <col width="240" />
         <col width="" />
       </colgroup>
       <thead>
-        <tr>
+       <tr>
+          <th></th>
           <th>试卷编号</th>
           <th>标题</th>
+          <th>所属分类</th>
           <th>创建日期</th>
           <th>试题数</th>
           <th>备注</th>
-         <th>类型</th>
           <th></th>
         </tr>
-      </thead>
-     
+      </thead>  
            <tbody>
         <% @papers.each do |paper| %>
           <tr>
+            <td><input type="checkbox" name="checkbox" /></td>
             <td><%= paper.id  %></td>
             <td>  <%= paper.title  %></td>
+              <td>  <%= paper.title  %></td>
             <td> <%= paper.created_at.strftime("%Y-%m-%d")  %></td>
             <td> <%= paper.total_question_num %></td>
             <td> <%= paper.description  %></td>
-            <td> <%= paper.paper_category_id %></td>
             <td><a><%= link_to " 查看" ,paper %>
                 &nbsp;|&nbsp; <%= link_to "删除 ", paper,:method=>:delete %></a></td>
           </tr>
-        <% end  %>  
+        <% end  %>
+           <tr>
+          <td class="allselect_box" colspan="8">
+            <input type="checkbox"  />&nbsp;&nbsp;全选&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除选中试卷</a>
+          </td>
+        </tr>
            </tbody>
     </table>
     <div class="pagination_box">

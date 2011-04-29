@@ -8,7 +8,7 @@
   </div>
   <div id="normal_user_form" style="display: block">
     <div class="body">
-      <% form_for(:session,:html => {:onsubmit => "return signin_page()"}, :url => sessions_path) do |f| %>
+      <% form_for(:session, :url => sessions_path ,:html => {:onsubmit => "return signin_page()"} ) do |f| %>
         <table>
           <td>用户名：</td>
           <td><%= f.text_field :username, :class => "input_style"%></td>
