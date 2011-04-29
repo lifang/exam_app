@@ -1,5 +1,12 @@
 ExamApp::Application.routes.draw do
 
+  get "blocks/new"
+
+  get "blocks/edit"
+
+  get "questions/new"
+  post "questions/create"
+
   resources :users
   resources :sessions do
     member do
@@ -7,6 +14,7 @@ ExamApp::Application.routes.draw do
     end
   end
 
+  resources :questions
   
   resources :pages do
     collection do

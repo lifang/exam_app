@@ -20,6 +20,11 @@ class PapersController < ApplicationController
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
+
+  def create_question
+
+  end
+
    def create_step_two
    
     redirect_to "/papers"
