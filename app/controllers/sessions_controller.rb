@@ -5,7 +5,6 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by_username(params[:session][:username])
-   
     if @user.nil?
       flash[:error2] = "用户不存在"
       redirect_to '/sessions/new'
@@ -21,5 +20,11 @@ class SessionsController < ApplicationController
 
       end
     end
+  end
+
+  def destroy
+    cookies.delete(:user_id)
+    
+    redirect_to root_path
   end
 end
