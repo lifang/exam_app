@@ -16,9 +16,13 @@ ExamApp::Application.routes.draw do
     end
   end
   resources :back
-  resources :papers
-
-  post '/papers/create'
+  resources :papers do
+    collection do
+      get "new_step_one"
+      post "create_step_one"
+      post "create_step_two"
+    end
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
   # Sample of regular route:
