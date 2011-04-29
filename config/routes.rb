@@ -8,7 +8,12 @@ ExamApp::Application.routes.draw do
   end
 
   
-  resources :pages
+  resources :pages do
+    collection do
+      get "create_step_one"
+      get "create_step_two"
+    end
+  end
   resources :back
   resources :papers
 

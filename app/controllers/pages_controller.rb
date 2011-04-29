@@ -5,4 +5,12 @@ class PagesController < ApplicationController
   def show
    
   end
+
+  def create_step_one
+
+  end
+
+  def create_step_two
+
+  end
 end
