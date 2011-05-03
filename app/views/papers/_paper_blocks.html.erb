@@ -3,56 +3,21 @@
 <% index = 0 %>
 <% @paper.paper_blocks.each do |block| %>
 
-  <h1 class="biz_art_title"><%= sum[index] %>、<%= block.title %> (共<%= block.questions.count%>题，总分:<%= block.block_total_score %>分) <input type="button" value="添加题目" onclick="javascript:create_question();"></input> </h1>
+  <h1 class="biz_art_title"><%= sum[index] %>、<%= block.title %> (共<%= block.questions.count%>题，总分:<%= block.block_total_score %>分)|<input  type="button" value="添加题目" onclick="javascript:create_question(<%= block.id %>);"></input> </h1>
   <% index = index + 1 %>
-
-  <div class="question_list_style_box" id="create_question" style="display: none;">
-    <div class="arrow" style="top:35px;"></div>
-    <div class="question_pic_box" style="top:0px;">
-      <div class="in">
-        <div class="title">添加题目：</div>
-        <% form_for :question ,:url=>"/questions/create" do |f| %>
-          <%= f.hidden_field :block_id ,:value=>block.id  %>
-          <%= f.hidden_field :paper_id ,:value=>@paper.id  %>
-          <%= f.text_area :title ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
-          <div class="title">题目类型：</div>
-          <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio1"%>单选题</div>
-          <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio2"%>多选题</div>
-          <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio3"%>判断题</div>
-          <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio4"%>完形填空题</div>
-          <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio51"%>综合题</div>
-          <div class="clear"></div>
-
-          <div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
-          <div class="clear"></div>
-          <div class="question">
-            <div class="attr"><%= f.text_field :attr1_key ,:class=>"input_style",:value=>"A",:size=>"5"%> 、 <%= f.text_field :attr1_value ,:class=>"input_style"%></div>
-            <div class="attr"><%= f.text_field :attr2_key ,:class=>"input_style",:value=>"B",:size=>"5"%> 、 <%= f.text_field :attr2_value ,:class=>"input_style"%></div>
-            <div class="attr"><%= f.text_field :attr3_key ,:class=>"input_style",:value=>"C",:size=>"5"%> 、 <%= f.text_field :attr3_value ,:class=>"input_style"%></div>
-            <div class="attr"><%= f.text_field :attr4_key ,:class=>"input_style",:value=>"D",:size=>"5"%> 、 <%= f.text_field :attr4_value ,:class=>"input_style"%></div>
-          </div>
-          <div class="answer">答案：<%= f.text_field :answer ,:name=>"chose",:class=>"input_style",:size=>"40"%></div>
-          <div class="answer">分值：<%= f.text_field :score ,:name=>"chose",:class=>"input_style"%></div>
-          <div class="title">评分规则：</div>
-          <%= f.text_area :assess_role ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
-          <%= f.submit "提交" ,:class=>"submit_btn" %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-
-
-
+        <%= render :partial=>"/papers/new_question_for_block",:object=>block  %>
+          
   <div class="biz_art_list_box">
-     <%= block.description %>
+    <%= block.description %>
     <ul>
       <% block.questions.each do |question| %>
+      <%= render :partial=>"/papers/question_info",:object=>question %>
         <li>
           <h2><%= question.title %></h2>
           <%  question.question_points.each do |point| %>
             <p><%= point.description  %></p>
 
-            <%= link_to "| 查看" ,"#"%><%= link_to "| 编辑" ,"#"%><%= link_to "删除" ,"/questions/destory"%>
+            <a href="#" onMouseOver="javascript:question_info(<%= question.id %>)" >查看</a> &nbsp;&nbsp;<%= link_to "编辑" ,"#"%>&nbsp;&nbsp;<%= link_to "删除" ,"/questions/destory"%>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <% point.question_attrs.each do |attr| %>
               <%= attr.key %>、 <%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -68,27 +33,5 @@
 
 
 
-<div>
-  <h1 class="biz_art_title">添加新的模块</h1>
 
-  <div class="biz_art_list_box">
-    <% form_for :module ,:url=>"/papers/create_step_two"  do |f|%>
-    <%= f.hidden_field :paper_id ,:value=>@paper.id %>
-      <ul>
-        <li>
-          <div class="add_details">
-            模块标题：<%= f.text_field :title ,:class=>"input_style",:size=>"70" %>
-            <div style="padding-left:60px;">请输入模块的标题，长度为1~30个字</div>
-          </div>
-          <div class="add_details">
-            <div class="detail">描述：</div>
-            <div class="detail"><%= f.text_area :description ,:cols=>"70",:rows=>"4",:class=>"textarea_style" %></div>
-            <div class="detail" style="padding-left:60px;">请填写对试卷模块必要的一些文字描述</div>
-          </div>
-          <div class="clear"></div>
-          <%= f.submit "提交" ,:class=>"submit_btn" %>
-        </li>
-      </ul>
-    <% end %>
-  </div>
 </div>
