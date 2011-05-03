@@ -8,48 +8,28 @@
   <div>出卷时间：<%=  @paper.created_at%></div>
   <div>总题数：<%=  @paper.total_question_num %></div>
 </div>
-<h1 class="biz_art_title"><%= @block1.title %></h1><br/>
-<div class="biz_art_list_box">
-  <ul>
-    <% @block1.questions.each do |question| %>
-      <li>
-        <%  %>
-        <h2><%= question.title %></h2>
-        <% question.question_points.each do |point| %>
-          <p><%=  point.description %></p>
-          <p>
-            <% point.question_attrs.each do |attr| %>
-              &nbsp;&nbsp;&nbsp;<%= attr.key %>.&nbsp;<%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;
-            <% end %>
-          </p>
-        <% end %>
-        <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
-      </li>
-    <% end %>
-  </ul>
-</div>
+<% @blocks.each do |block| %>
+  <h1 class="biz_art_title"><%= block.title %></h1><br/>
+  <div class="biz_art_list_box">
+    <ul>
 
-<div class="clear"></div>
-<h1 class="biz_art_title"><%= @block2.title %></h1>
-<div class="biz_art_list_box">
-  <ul>
-    <% @block2.questions.each do |question| %>
-      <li>
-        <h2><%= question.title %></h2>
-        <% question.question_points.each do |point| %>
-          <p><%=  point.description %></p>
-          <p>
-            <% point.question_attrs.each do |attr| %>
-              &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= attr.key %>.&nbsp;<%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;
-            <% end %>
-          </p>
-        <% end %>
-        <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
-      </li>
-    <% end %>
-  </ul>
-</div>
-<<<<<<< HEAD
-=======
+      <% block.questions.each do |question| %>
+        <li>
+          <%  %>
+          <h2><%= question.title %></h2>
+          <% question.question_points.each do |point| %>
+            <p><%=  point.description %></p>
+            <p>
+              <% point.question_attrs.each do |attr| %>
+                &nbsp;&nbsp;&nbsp;<%= attr.key %>.&nbsp;<%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;
+              <% end %>
+            </p>
+          <% end %>
+          <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
+        </li>
+      <% end %>
 
->>>>>>> 4de4cb4fdf9c1b950d285a202690bfc3012614be
+    </ul>
+  </div>
+<% end %>
+
