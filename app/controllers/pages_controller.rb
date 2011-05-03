@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
   def index
-     
+     flash[:notice] = "ssdfsfsfs"
   end
+
   def show
    
   end
