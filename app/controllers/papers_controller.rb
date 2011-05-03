@@ -10,10 +10,18 @@ before_filter :access?
   def new
     
   end
+
+  
   def destroy
     Paper.find(params[:id]).destroy
     redirect_to "/papers"
   end
+
+def change_info
+    @paper=Paper.find(params[:id])
+    @paper.update_attributes(:total_question_num=>params[:info][:total_question_num],:description=>params[:info][:description])
+    redirect_to "/papers/#{@paper.id}/new_step_two"
+end
 
 
   def show
@@ -24,7 +32,6 @@ before_filter :access?
   
   def create
     Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
-
   end
 
   def new_step_two

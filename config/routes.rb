@@ -20,11 +20,10 @@ ExamApp::Application.routes.draw do
       get "new_step_one"
       post "create_step_one"
       post "create_step_two"
-    
     end
     member do
       get "new_step_two"
-      post "create_step_two"
+      post "change_info"
     end
   end
   # The priority is based upon order of creation:
