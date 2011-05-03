@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
 
   has_many:papers
   has_many:papers,:foreign_key=>"creater_id"
-  	default_scope :order=>'users.created_at desc'
-
+  default_scope :order=>'users.created_at desc'
+   
   email_regex=/\A[\w+\.]+@[a-z\d\-.]+\.[a-z]+\z/i
 	name_regex=/[a-zA-Z]{1,20}|[\u4e00-\u9fa5]{1,10}/
 
@@ -14,7 +14,11 @@ class User < ActiveRecord::Base
 	validates:email,  :presence=>true,:uniqueness =>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
   validates:password, :presence=>true,:confirmation=>true,:length=>{:within=>6..20}
 
+
+  STATUS = [:lock=>0]
+
   STATUS = {:LOCK => 0, :NOMAL => 1} #0 未激活用户  1 已激活用户
+
 
 
   
@@ -25,9 +29,6 @@ class User < ActiveRecord::Base
   end
 
 
-  def username_exist?
-   
-  end
 
 
 
@@ -38,7 +39,7 @@ class User < ActiveRecord::Base
 		encrypted_password == encrypt(submitted_password)
 	end
 
- def self.authenticate(username, submitted_password)
+  def self.authenticate(username, submitted_password)
     user = find_by_username(username)
     return nil if user.nil?
     return user if user.has_password?(submitted_password)
