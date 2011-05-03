@@ -5,7 +5,7 @@ ExamApp::Application.routes.draw do
   resources :questions
 
   post "/questions/create"
-   
+
   match '/signout'=> 'sessions#destroy'
   resources :pages do
     collection do
@@ -19,6 +19,7 @@ ExamApp::Application.routes.draw do
     collection do
       get "new_step_one"
       post "create_step_one"
+      post "create_step_two"
     
     end
     member do

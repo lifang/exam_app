@@ -70,7 +70,7 @@ module ApplicationHelper
   end
 
   def signed_in?
-    return cookies[:user_email] != nil
+    return cookies[:user_id] != nil
   end
 
 

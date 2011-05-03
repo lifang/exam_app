@@ -39,8 +39,8 @@ before_filter :access?
 
 
   def create_step_two
-   
-    redirect_to "/papers"
+    PaperBlock.create(:paper_id=>params[:module][:paper_id],:title=>params[:module][:title],:description=>params[:module][:description])
+    redirect_to "/papers/#{params[:module][:paper_id]}/new_step_two"
   end
   
   def edit
