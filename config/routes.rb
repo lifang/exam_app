@@ -3,10 +3,6 @@ ExamApp::Application.routes.draw do
   resources :users
   resources :sessions 
    
-  
-
-
-
   match '/signout'=> 'sessions#destroy'
   resources :pages do
     collection do
@@ -77,10 +73,8 @@ ExamApp::Application.routes.draw do
   # just remember to delete public/index.html.
 
 
+
   root :to => "sessions#new"
-
-
-
 
   # See how all your routes lay out with "rake routes"
 
