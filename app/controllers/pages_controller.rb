@@ -15,4 +15,10 @@ class PagesController < ApplicationController
   def create_step_two
 
   end
+  def create_exam_one
+    
+  end
+  def create_exam_three
+    
+  end
 end

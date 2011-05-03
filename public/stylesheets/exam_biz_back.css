@@ -1540,6 +1540,15 @@ a:hover{
 .main_box_back table .block{
     display:block;
 }
+.main_box_back table .never{
+    background-color:#f8c0c0;
+}
+.main_box_back table .now{
+    background-color:#f9dbdb;
+}
+.main_box_back table .ever{
+    background-color:#ccc;
+}
 .shop_name_address{
     font-weight:bold;
     font-size:14px;

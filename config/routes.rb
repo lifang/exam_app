@@ -12,6 +12,10 @@ ExamApp::Application.routes.draw do
       get "create_step_one"
       get "create_step_two"
       get "edit"
+      get "create_exam_one"
+      get "create_exam_two"
+      get "create_exam_three"
+      get "exam_list"
     end
   end
   resources :back

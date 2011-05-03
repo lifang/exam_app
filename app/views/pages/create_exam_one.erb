@@ -1,0 +1,86 @@
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
+<ul class="new_biz">
+  <li>创建考试</li>
+</ul>
+<div class="main_box_back">
+  <h2><span>创建考试</span></h2>
+  <div class="in">
+    <div class="paper_base_info">设置考试基本属性</div>
+    <div class="add_details">
+      <font color="red">*</font>
+      是否开放考试：<input type="radio" checked="true"/>开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio"/>封闭
+      <span>&nbsp;&nbsp;&nbsp;开放即所有人都能参加，封闭即只有收到邮件的人可以参加</span>
+    </div>
+    <div class="add_details">
+      <font color="red">*</font>
+      考试类型：<select>
+        <option>请选择考试类型</option>
+        <option>自测</option>
+        <option>模拟</option>
+      </select>
+    </div>
+    <div class="add_details">
+      考试标题：<input type="text" class="input_style" name="title" value="" size="65"/>
+      <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
+    </div>
+    <div class="add_details">
+      <div class="detail">&nbsp;&nbsp;&nbsp;描述：</div>
+      <div class="detail"><textarea cols="69" rows="4" class="textarea_style"></textarea></div>
+      <div class="detail">&nbsp;&nbsp;请填写对考试必要的一些文字描述</div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <div class="paper_base_info">考试时长设置</div>
+    <div class="add_details">
+      <font color="red">*</font>
+      是否限制考试时段：<input type="radio" checked="true"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio"/>否
+      <span>&nbsp;&nbsp;&nbsp;</span>
+    </div>
+    <div class="add_details">
+      开始开始于：<input type="text" class="input_style" name="title" value="/ 年/ 月/ 日" size="20" onClick="WdatePicker();" readonly/>
+      <select>
+        <option>/ 时</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+      </select>
+      <select>
+        <option>/ 分</option>
+        <option>00</option>
+        <option>10</option>
+        <option>20</option>
+      </select>
+      <span>&nbsp;</span>
+    </div>
+    <div class="add_details">
+      考试时长：<input type="text" class="input_style" name="title" value="" size="20"/>小时
+      <span>&nbsp;</span>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <div class="paper_base_info">设置考试成绩等级</div>
+    <div class="add_details">
+      <div class="detail">&nbsp;&nbsp;&nbsp;成绩等级：</div>
+      <div class="detail">
+        <textarea cols="30" rows="6" class="textarea_style">
+          100-90  优秀
+          89-80 良好
+          79-60 通过
+          59- 不通过
+        </textarea>
+      </div>
+      <div class="detail">
+        &nbsp;&nbsp;如上编辑框中为设置考试等级的例子，请参考例子描述自己的等级
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <input type="submit" value="创建" title="只创建考试基本信息" class="submit_btn"/>
+    <input type="submit" value="下一步" title="创建考试，并且跳转到添加考生界面" class="submit_btn"/>
+  </div>
+</div>
