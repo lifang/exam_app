@@ -3,13 +3,13 @@
 development:
   adapter: mysql2
   database: exam_app
-<<<<<<< HEAD
+
   username: root
-  password: qianjun
-=======
+  password: examapp2011
+
   username: examapp
   password: examapp2011
->>>>>>> 4de4cb4fdf9c1b950d285a202690bfc3012614be
+
   encoding: utf8
   pool: 5
   timeout: 5000

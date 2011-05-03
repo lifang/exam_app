@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-
+before_filter :access?
   def index
     
   end

@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-
+before_filter :access?
   def index
      
   end
