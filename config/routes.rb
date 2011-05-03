@@ -79,7 +79,10 @@ ExamApp::Application.routes.draw do
   # just remember to delete public/index.html.
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5bded1487312891432fafb512207d6f001743ef2
   root :to => "sessions#new"
   # See how all your routes lay out with "rake routes"
 

@@ -1,17 +1,24 @@
 class PapersController < ApplicationController
 before_filter :access?
+<<<<<<< HEAD
   def index
      @papers=User.find(cookies[:user_id]).papers.paginate(:per_page =>10, :page => params[:page],:order => "created_at desc")
   end
 
 
 
+=======
+ def index
+    @papers=Paper.find_by_sql("select * from papers p where p.creater_id=#{cookies[:user_id]}").paginate(:per_page =>10, :page => params[:page],:order => "created_at desc",:conditions => ["title like ? " , "%#{params[:search]}%"])
+ end
+>>>>>>> 5bded1487312891432fafb512207d6f001743ef2
 
 
 
   def new
     
   end
+
   def destroy
     Paper.find(params[:id]).destroy
     redirect_to "/papers"
@@ -34,7 +41,10 @@ before_filter :access?
     @blocks= @paper.paper_blocks
   end
 
-  
+
+  def new_step_one
+  end
+
   def create
     Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
 
@@ -78,6 +88,7 @@ before_filter :access?
   
   def edit
   end
+<<<<<<< HEAD
   def new
   end
   def user_exist?
@@ -85,5 +96,22 @@ before_filter :access?
       redirect_to root_path
     end
   end
+=======
+
+
+  
+
+ 
+
+
+  def user_exist?
+    if User.find_by_id(cookies[:user_id]) != current_user
+      redirect_to root_path
+    end
+  end
+
+
+
+>>>>>>> 5bded1487312891432fafb512207d6f001743ef2
 end
 
