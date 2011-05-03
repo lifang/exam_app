@@ -17,7 +17,7 @@
           <%  question.question_points.each do |point| %>
             <p><%= point.description  %></p>
 
-            <input type="button" value="查看" style="float:right" onMouseOver="javascript:question_info(<%= question.id %>)" /> <%= link_to "| 编辑" ,"#"%><%= link_to "删除" ,"/questions/destory"%>
+            <a href="#" onMouseOver="javascript:question_info(<%= question.id %>)" >查看</a> &nbsp;&nbsp;<%= link_to "编辑" ,"#"%>&nbsp;&nbsp;<%= link_to "删除" ,"/questions/destory"%>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <% point.question_attrs.each do |attr| %>
               <%= attr.key %>、 <%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
