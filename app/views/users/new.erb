@@ -2,13 +2,11 @@
 <div class="reg_content">
   <div class="step_one"></div>
   <div ></div>
-  <tr> <td valign="top" align="center"><span class="must_r"><%= flash[:nameused] %></span></td></tr>
-  <tr> <td valign="top" align="center"><span class="must_r"><%= flash[:emailused] %></span></td></tr>
   <table>
     <%= form_for @user, :html =>{:onsubmit => 'return check()'} do |f| %>
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</td>
-        <td><%= f.text_field :username, :class => "input_style" %><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span></span><span  id="username_span"></span></td>
+        <td><%= f.text_field :username, :class => "input_style" %><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span><span class="must_r"><%= flash[:nameused] %></span></span><span  id="username_span"></span></td>
       </tr>
       
 
@@ -26,7 +24,7 @@
       </tr>
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>注册邮箱：</td>
-        <td><%= f.text_field :email, :class => "input_style" %><span class="expForEmail">确保邮箱有效，我们将发送激活说明到此地址<span  id="emailErr"></span></span></td>
+        <td><%= f.text_field :email, :class => "input_style" %><span class="expForEmail">确保邮箱有效，我们将发送激活说明到此地址，每个邮箱只能使用一次<span  id="emailErr"></span><span class="must_r"><%= flash[:emailused] %></span></span></td>
       </tr>
 
 
@@ -41,8 +39,8 @@
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</td>
         <td><input class="input_style required" type="text"  name="proof_code" id="proof_code"/> <span id="proofcode" class="check_num" title="看不清楚？可以点击此处换一张">
-            111111
-          </span></td>
+            <%= @ss %>
+          </span><span class="must_r"><%= flash[:prooferror] %></span></td>
       </tr>
       <tr>
         <td></td>

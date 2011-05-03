@@ -1486,7 +1486,11 @@ a:hover{
 }
 .main_box_back{
     float:left;
+<<<<<<< HEAD
+    width:826px;
+=======
     width:825px;
+>>>>>>> fbc9117dd4a28bfc697969cbd0d7037a871e8bd3
     border:#ccc 1px solid;
     padding:1px;
 }
