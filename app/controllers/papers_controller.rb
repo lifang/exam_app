@@ -1,7 +1,14 @@
 class PapersController < ApplicationController
+before_filter :access?
   def index
      @papers=User.find(cookies[:user_id]).papers.paginate(:per_page =>10, :page => params[:page],:order => "created_at desc")
   end
+
+
+
+
+
+
   def new
     
   end
@@ -9,6 +16,7 @@ class PapersController < ApplicationController
     Paper.find(params[:id]).destroy
     redirect_to "/papers"
   end
+
   def show
     @paper=Paper.find(params[:id])
     @block1=PaperBlock.find(1)     #修改
@@ -18,7 +26,19 @@ class PapersController < ApplicationController
     Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
   end
 
-  def new_step_one
+
+
+
+  def show
+    @paper=Paper.find(params[:id])
+    @blocks= @paper.paper_blocks
+  end
+
+  
+  def create
+    Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
+
+
   end
 
   def new_step_two
@@ -32,8 +52,8 @@ class PapersController < ApplicationController
   end
 
   def create_step_two
-   
-    redirect_to "/papers"
+    PaperBlock.create(:paper_id=>params[:module][:paper_id],:title=>params[:module][:title],:description=>params[:module][:description])
+    redirect_to "/papers/#{params[:module][:paper_id]}/new_step_two"
   end
   def search
     @sql="select * from papers where creater_id=#{cookies[:user_id]}"
@@ -54,6 +74,7 @@ class PapersController < ApplicationController
     end
     render 'index'
   end
+
   
   def edit
   end

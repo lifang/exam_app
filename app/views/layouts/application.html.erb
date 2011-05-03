@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -7,8 +8,8 @@
     <%= javascript_include_tag 'my_app' %>
 
     <%= javascript_include_tag 'pileadd' %>
-
-     <%= javascript_include_tag 'button' %>
+    <%= javascript_include_tag 'jeffrey' %>
+    <%= javascript_include_tag 'button' %>
     <link href="/stylesheets/exam_biz_back.css" rel="stylesheet" />
     <link href="/stylesheets/login.css" rel="stylesheet" />
   </head>
@@ -16,31 +17,39 @@
     <div id="container">
       <div id="hd">
         <a id="logo" href="/"><span>考试系统</span></a>
-         <%if cookies[:user_id]!= nil%>
-        <%user=User.find_by_id(cookies[:user_id])%>
-        <p class="back_welcome"> <%= user.username %>欢迎使用   &nbsp;&nbsp;&nbsp; <%= link_to"登出",'/sessions/signout',:method => :delete %></p>
-      
-     <%end%>
-      
-      </div>
-      <div id="bd">
-        <div class="main fr">
-          <%= display_flash %>
-          <%= yield %>
+        <div class="clear"></div>
+        <p class="title_link">
+          <a href="#">试卷</a>
+          &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">考试</a>
+          &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">成绩</a>
+        </p>
+        <%if cookies[:user_id]!= nil%>
+          
+            <% user=User.find_by_id(cookies[:user_id]) %>
+            <p class="back_welcome">
+              <a href="/users/<%=user.id%>"><%=user.email%></a> welcome!
+              <%= link_to"[登出]",'/sessions/signout',:method => :delete %>
+            </p>
+          <%end%>
         </div>
-        <div  id="tishikuang" style="display:block"></div>
+        <div id="bd">
+          <div class="main fr">
+  <%#= display_flash %>
+            <%= yield %>
+          </div>
+          <div  id="tishikuang" style="display:block"></div>
+        </div>
+        <div id="ft">
+          <p>Copyright &copy; 2009-2010 考试系统, All Rights Reserved&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+          <ul>
+            <li><a href="#" target="_blank">版权声明</a></li>
+            <li><a href="#" target="_blank">关于我们</a></li>
+            <li><a href="#" target="_blank">免责声明</a></li>
+            <li><a href="#" target="_blank">隐私声明</a></li>
+            <li><a href="#" target="_blank">征稿说明</a></li>
+            <li><a href="#" target="_blank">站长统计</a></li>
+          </ul>
+        </div>
       </div>
-      <div id="ft">
-        <p>Copyright &copy; 2009-2010 考试系统, All Rights Reserved&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-        <ul>
-          <li><a href="#" target="_blank">版权声明</a></li>
-          <li><a href="#" target="_blank">关于我们</a></li>
-          <li><a href="#" target="_blank">免责声明</a></li>
-          <li><a href="#" target="_blank">隐私声明</a></li>
-          <li><a href="#" target="_blank">征稿说明</a></li>
-          <li><a href="#" target="_blank">站长统计</a></li>
-        </ul>
-      </div>
-    </div>
-  </body>
-</html>
+    </body>
+  </html>

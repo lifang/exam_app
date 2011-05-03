@@ -2,6 +2,10 @@ ExamApp::Application.routes.draw do
 
   resources :users
   resources :sessions 
+  resources :questions
+
+  post "/questions/create"
+
   match '/signout'=> 'sessions#destroy'
   resources :pages do
     collection do
@@ -16,6 +20,9 @@ ExamApp::Application.routes.draw do
       get "new_step_one"
       post "create_step_one"
       post  "search"
+
+      post "create_step_two"
+    
     end
     member do
       get "new_step_two"
@@ -72,8 +79,8 @@ ExamApp::Application.routes.draw do
   # just remember to delete public/index.html.
 
 
-  root :to => "sessions#new"
 
+  root :to => "sessions#new"
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.

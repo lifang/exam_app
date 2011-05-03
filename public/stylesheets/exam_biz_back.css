@@ -160,6 +160,7 @@ a:hover{
     margin-top:5px;
 }
 .nav li{
+    margin-top:10px;
     margin-right:20px;
 }
 .nav li a{
@@ -1485,7 +1486,11 @@ a:hover{
 }
 .main_box_back{
     float:left;
+<<<<<<< HEAD
     width:826px;
+=======
+    width:825px;
+>>>>>>> fbc9117dd4a28bfc697969cbd0d7037a871e8bd3
     border:#ccc 1px solid;
     padding:1px;
 }
@@ -2368,10 +2373,28 @@ a:hover{
 }
 .back_welcome{
     float:left;
-    width:950px;
+    width:450px;
     text-align:right;
     color:#FFF;
     padding-top:17px;
+}
+.back_welcome a {
+    color:#dadada;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.title_link {
+    float:left;
+    width:490px;
+    text-align:left;
+    color:#FFF;
+    padding-top:17px;
+}
+.title_link a {
+    color:#dadada;
+    font-size:14px;
+    font-weight:bold;
 }
 .user_pop_box {
     position:absolute;

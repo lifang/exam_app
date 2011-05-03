@@ -1,5 +1,5 @@
 class BackController < ApplicationController
-
+before_filter :access?
   def paper
     
   end
