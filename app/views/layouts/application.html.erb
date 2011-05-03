@@ -24,30 +24,32 @@
           &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">成绩</a>
         </p>
         <%if cookies[:user_id]!= nil%>
-          <p class="back_welcome">
-            <a href="#">lifang@hotmail.com</a> welcome!
-            <%= link_to"[登出]",'/sessions/signout',:method => :delete %>
-          </p>
-        <%end%>
-      </div>
-      <div id="bd">
-        <div class="main fr">
-        <%#= display_flash %>
-          <%= yield %>
+          
+            <% user=User.find_by_id(cookies[:user_id]) %>
+            <p class="back_welcome">
+              <a href="/users/<%=user.id%>"><%=user.email%></a> welcome!
+              <%= link_to"[登出]",'/sessions/signout',:method => :delete %>
+            </p>
+          <%end%>
         </div>
-        <div  id="tishikuang" style="display:block"></div>
+        <div id="bd">
+          <div class="main fr">
+  <%#= display_flash %>
+            <%= yield %>
+          </div>
+          <div  id="tishikuang" style="display:block"></div>
+        </div>
+        <div id="ft">
+          <p>Copyright &copy; 2009-2010 考试系统, All Rights Reserved&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+          <ul>
+            <li><a href="#" target="_blank">版权声明</a></li>
+            <li><a href="#" target="_blank">关于我们</a></li>
+            <li><a href="#" target="_blank">免责声明</a></li>
+            <li><a href="#" target="_blank">隐私声明</a></li>
+            <li><a href="#" target="_blank">征稿说明</a></li>
+            <li><a href="#" target="_blank">站长统计</a></li>
+          </ul>
+        </div>
       </div>
-      <div id="ft">
-        <p>Copyright &copy; 2009-2010 考试系统, All Rights Reserved&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-        <ul>
-          <li><a href="#" target="_blank">版权声明</a></li>
-          <li><a href="#" target="_blank">关于我们</a></li>
-          <li><a href="#" target="_blank">免责声明</a></li>
-          <li><a href="#" target="_blank">隐私声明</a></li>
-          <li><a href="#" target="_blank">征稿说明</a></li>
-          <li><a href="#" target="_blank">站长统计</a></li>
-        </ul>
-      </div>
-    </div>
-  </body>
-</html>
+    </body>
+  </html>
