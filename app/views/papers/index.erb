@@ -1,32 +1,21 @@
-
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
 <div class="main_box_back">
   <h2><span>试卷列表</span><div class="right"><%= link_to "新建卷子","/papers/new_step_one" %></div></h2>
+   
   <div class="in">
     <div class="paper_search">
-      试卷分类：
-      <select>
-        <option>--请选择--</option>
-      </select>
-    &nbsp;&nbsp;&nbsp;&nbsp;创建时间：
-      从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly/>&nbsp;
-      到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly/>
-      <div class="clear"></div>
-      试卷标题<input class="input_style" type="text" size="60" />&nbsp;&nbsp;
-    <% form_tag users_path, :method => 'get' do %>
-<p>
- <select name="search" id="search">
-  <option value="1">用户名</option>
-  <option value="2">邮箱</option>
-</select>
-&nbsp;&nbsp; &nbsp;&nbsp;<%= text_field_tag :search, params[:search] %>
-<td><%= submit_tag "Search", :title => nil %>
-    </td>
-</p>
-<% end %>
-<% form_tag users_path, :method => 'get' do %>
-<input id="postfile" type="file" name="hhh" value="ta hao"/>
-<%= submit_tag "上传文件", :name => nil %>
-<% end %>
+     <% form_for :found,  :url => "/papers/search", :method => 'get' do %>
+        试卷分类：
+        <select>
+          <option>--请选择--</option>
+        </select>
+        &nbsp;&nbsp;&nbsp;&nbsp;创建时间：
+        从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly name="mintime" id="mintime" value="" />&nbsp;
+        到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly name ="maxtime" id ="maxtime" value=""  />
+        <div class="clear"></div>
+        试卷标题&nbsp;&nbsp; &nbsp;&nbsp;<input class="input_style" type="text"  name="search" id="mintime" value="" />
+        <%= submit_tag "查询",:title=>nil %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="red"><%= flash[:nosearch] %></font>
+    <% end %>
     </div>
     <div class="clear"></div>
     <table>
@@ -41,7 +30,7 @@
         <col width="" />
       </colgroup>
       <thead>
-       <tr>
+        <tr>
           <th></th>
           <th>试卷编号</th>
           <th>标题</th>
@@ -52,13 +41,13 @@
           <th></th>
         </tr>
       </thead>  
-           <tbody>
+      <tbody>
         <% @papers.each do |paper| %>
           <tr>
             <td><input type="checkbox" name="checkbox" /></td>
             <td><%= paper.id  %></td>
             <td>  <%= paper.title  %></td>
-              <td>  <%= paper.title  %></td>
+            <td>  <%= paper.title  %></td>
             <td> <%= paper.created_at.strftime("%Y-%m-%d")  %></td>
             <td> <%= paper.total_question_num %></td>
             <td> <%= paper.description  %></td>
@@ -66,20 +55,21 @@
                 &nbsp;|&nbsp; <%= link_to "删除 ", paper,:method=>:delete %></a></td>
           </tr>
         <% end  %>
-           <tr>
+        <tr>
           <td class="allselect_box" colspan="8">
             <input type="checkbox"  />&nbsp;&nbsp;全选&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">删除选中试卷</a>
           </td>
         </tr>
-           </tbody>
+      </tbody>
     </table>
     <div class="pagination_box">
       <tr>
-         <div class="pagination">
-    <%=will_paginate @papers ,:previous_label=>"«", :next_label=>"»", :inner_window => 1 %></div>
-<span class="disabled prev_page"><div>当前第<%= @papers.current_page%>页 | 共 <%= @papers.total_entries %> 条 | 共 <%= @papers.total_pages %> 页</div></span>
+      <div class="pagination">
+        <%=will_paginate @papers ,:previous_label=>"«", :next_label=>"»", :inner_window => 1 %></div>
+      <span class="disabled prev_page"><div>当前第<%= @papers.current_page%>页 | 共 <%= @papers.total_entries %> 条 | 共 <%= @papers.total_pages %> 页</div></span>
       </tr>
 
     </div>
   </div>
+    
 </div>

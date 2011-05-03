@@ -2,11 +2,6 @@ ExamApp::Application.routes.draw do
 
   resources :users
   resources :sessions 
-   
-  
-
-
-
   match '/signout'=> 'sessions#destroy'
   resources :pages do
     collection do
@@ -20,7 +15,7 @@ ExamApp::Application.routes.draw do
     collection do
       get "new_step_one"
       post "create_step_one"
-    
+      post  "search"
     end
     member do
       get "new_step_two"
@@ -75,21 +70,10 @@ ExamApp::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-<<<<<<< HEAD
-
-  root :to => "sessions#new"
-=======
 
 
   root :to => "sessions#new"
 
-
-
-  root :to => "sessions#new"
-  root :to => "sessions#new"
-
-
->>>>>>> 6fc9f4958f2b6b6b039903a54a88431d283614cc
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
