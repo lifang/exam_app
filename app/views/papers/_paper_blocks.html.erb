@@ -3,10 +3,9 @@
 <% index = 0 %>
 <% @paper.paper_blocks.each do |block| %>
 
-  <h1 class="biz_art_title"><%= sum[index] %>、<%= block.title %> (共<%= block.questions.count%>题，总分:<%= block.block_total_score %>分) <input type="button" value="添加题目" onclick="javascript:create_question();"></input> </h1>
+  <h1 class="biz_art_title"><%= sum[index] %>、<%= block.title %> (共<%= block.questions.count%>题，总分:<%= block.block_total_score %>分)|<input  type="button" value="添加题目" onclick="javascript:create_question(<%= block.id %>);"></input> </h1>
   <% index = index + 1 %>
-
-  <div class="question_list_style_box" id="create_question" style="display: none;">
+  <div class="question_list_style_box" id="create_question_<%= block.id %>" style="display: none;">
     <div class="arrow" style="top:35px;"></div>
     <div class="question_pic_box" style="top:0px;">
       <div class="in">
@@ -68,7 +67,7 @@
 
 
 
-<div>
+<div id="new_module" style="display:none">
   <h1 class="biz_art_title">添加新的模块</h1>
 
   <div class="biz_art_list_box">

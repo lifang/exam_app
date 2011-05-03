@@ -39,5 +39,13 @@ class UsersController < ApplicationController
   def show
     @user=User.find(params[:id])
   end
+  def get_proof_code
+    session[:proof_code] = proof_code()
+    render :inline => session[:proof_code]
+  end
+end
 
+def get_proof_code
+  session[:proof_code] = proof_code()
+  render :inline => session[:proof_code]
 end

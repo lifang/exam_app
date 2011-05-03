@@ -15,7 +15,6 @@ class User < ActiveRecord::Base
   validates:password, :presence=>true,:confirmation=>true,:length=>{:within=>6..20}
 
 
-
   STATUS = {:LOCK => 0, :NOMAL => 1} #0 未激活用户  1 已激活用户
 
 
