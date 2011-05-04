@@ -47,3 +47,4 @@ class UsersController < ApplicationController
     render :inline => session[:proof_code]
   end
 end
+
