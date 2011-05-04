@@ -3,33 +3,47 @@
   <li class="actived"><a href="#"><%= @paper.title %></li>
 </ul>
 <div class="soso">
-  <div>试卷编号：<%=  @paper.id %></div>
-  <div>录入：<%=  @paper.user.name%></div>
-  <div>出卷时间：<%=  @paper.created_at%></div>
-  <div>总题数：<%=  @paper.total_question_num %></div>
+  <div>试卷编号：<%= @paper.id %></div>
+  <div>录入：<%= @paper.user.name %></div>
+  <div>出卷时间：<%= @paper.created_at.strftime("%Y年%m月%d日%H时%M分") %></div>
+  <div>最后修改时间：<%= @paper.updated_at.strftime("%Y年%m月%d日%H时%M分") %></div>
+  <div>总题数：<%= @paper.total_question_num %></div>
+  <div>备注：<%= @paper.description %></div>
+  <% if cookies[:user_name]==@paper.user.name %>
+    <input type="submit" value="编辑试卷" class="submit_btn" onclick="javascript:window.location.href= '/papers/<%=  @paper.id %>/new_step_two'" />
+    <input type="submit" value="返回列表" class="submit_btn" onclick="javascript:window.location.href= '/papers'" />
+  <% end %>
 </div>
+
+<% sum=["一","二","三","四","五","六","七","八","九","十"] %>
+<% index = 0 %>
 <% @blocks.each do |block| %>
-  <h1 class="biz_art_title"><%= block.title %></h1><br/>
+
+  <% total_block_score = 0 %>
+  <% block.block_question_relations.each do |relation| %>
+    <% if relation.score != nil %>
+      <% total_block_score = total_block_score+relation.score %>
+    <% end %>
+  <% end %>
+  <h1 class="biz_art_title"><%= sum[index] %>、<%= block.title %> (共<%= block.questions.count%>题，总分:<%= total_block_score %>分)</h1>
+  <% index +=1 %>
   <div class="biz_art_list_box">
     <ul>
-
       <% block.questions.each do |question| %>
         <li>
-          <%  %>
-          <h2><%= question.title %></h2>
+          <%= render :partial=>"/papers/question_info",:object=>question %>
+          <h2><a href="#" onMouseOver="javascript:question_info(<%= question.id %>)"><%= question.title %></a></h2>
           <% question.question_points.each do |point| %>
             <p><%=  point.description %></p>
-            <p>
-              <% point.question_attrs.each do |attr| %>
-                &nbsp;&nbsp;&nbsp;<%= attr.key %>.&nbsp;<%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;
-              <% end %>
-            </p>
+            <% point.question_attrs.each do |attr| %>
+              <%= attr.key %>、 <%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <% end %>
           <% end %>
-          <a target="_blank" href="#">查看&nbsp;|&nbsp;编辑</a>
         </li>
       <% end %>
-
     </ul>
   </div>
+  <div class="clear"></div>
+
 <% end %>
 
