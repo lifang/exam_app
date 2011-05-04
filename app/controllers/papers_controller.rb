@@ -28,7 +28,6 @@ class PapersController < ApplicationController
 
   def show
     @paper=Paper.find(params[:id])
-    @blocks= @paper.paper_blocks
   end
 
 

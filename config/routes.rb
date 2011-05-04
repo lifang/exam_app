@@ -7,7 +7,11 @@ ExamApp::Application.routes.draw do
   end
   end
   resources :sessions 
-  resources :questions
+  resources :questions do
+    collection do
+      post :edit
+    end
+  end
 
   post "/questions/create"
 
