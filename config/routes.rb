@@ -25,6 +25,12 @@ ExamApp::Application.routes.draw do
       get "edit_exam_users"
       get "edit_exam_raters"
       get "setting"
+      get "result_list"
+      get "my_exam_list"
+      get "exam_results"
+      get "result_list"
+      get "show_result"
+      get "my_results"
     end
   end
   resources :back
