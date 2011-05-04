@@ -23,8 +23,8 @@
             <div class="attr"><%= f.text_field :attr3_key ,:class=>"input_style",:value=>"C",:size=>"5"%> 、 <%= f.text_field :attr3_value ,:class=>"input_style"%></div>
             <div class="attr"><%= f.text_field :attr4_key ,:class=>"input_style",:value=>"D",:size=>"5"%> 、 <%= f.text_field :attr4_value ,:class=>"input_style"%></div>
           </div>
-          <div class="answer">答案：<%= f.text_field :answer ,:name=>"chose",:class=>"input_style",:size=>"40"%></div>
-          <div class="answer">分值：<%= f.text_field :score ,:name=>"chose",:class=>"input_style"%></div>
+          <div class="answer">答案：<%= f.text_field :answer ,:class=>"input_style",:size=>"40"%></div>
+          <div class="answer">分值：<%= f.text_field :score ,:class=>"input_style"%></div>
           <div class="title">评分规则：</div>
           <%= f.text_area :assess_role ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
           <%= f.submit "提交" ,:class=>"submit_btn" %>

@@ -13,7 +13,9 @@ class QuestionsController < ApplicationController
     redirect_to  "/papers/#{params[:question][:paper_id]}/new_step_two"
   end
 
-  def  destory
-    
+  def  destroy
+    @question=Question.find(params[:id])
+    @question.destroy
+    redirect_to request.referrer
   end
 end
