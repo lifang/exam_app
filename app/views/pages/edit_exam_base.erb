@@ -1,0 +1,187 @@
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
+<ul class="new_biz">
+  <li>查看考试(注：此处也可以考虑页卡形式)</li>
+</ul>
+<div class="main_box_back">
+  <h2><span>修改考试基本信息</span></h2>
+  <div class="in">
+    <div class="paper_base_info">设置考试基本属性</div>
+    <div class="add_details">
+      <font color="red">*</font>
+      是否开放考试：<input type="radio" checked="true"/>开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio"/>封闭
+      <span>&nbsp;&nbsp;&nbsp;开放即所有人都能参加，封闭即只有收到邮件的人可以参加</span>
+    </div>
+    <div class="add_details">
+      <font color="red">*</font>
+      考试类型：<select>
+        <option>自测</option>
+        <option>模拟</option>
+      </select>
+    </div>
+    <div class="add_details">
+      考试标题：<input type="text" class="input_style" name="title" value="2011年第一次数学模拟测试" size="65"/>
+      <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
+    </div>
+    <div class="add_details">
+      <div class="detail">&nbsp;&nbsp;&nbsp;描述：</div>
+      <div class="detail"><textarea cols="69" rows="4" class="textarea_style">本次考试由软件工程系**老师组织，考试范围为第一章到第十二章内容。</textarea></div>
+      <div class="detail">&nbsp;&nbsp;请填写对考试必要的一些文字描述</div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <div class="paper_base_info">考试时长设置</div>
+    <div class="add_details">
+      <font color="red">*</font>
+      是否限制考试时段：<input type="radio" checked="true"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio"/>否
+      <span>&nbsp;&nbsp;&nbsp;</span>
+    </div>
+    <div class="add_details">
+      考试开始于：<input type="text" class="input_style" name="title" value="2001-05-18" size="20" onClick="WdatePicker();" readonly/>
+      <select>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+      </select>
+      <select>
+        <option>00</option>
+        <option>10</option>
+        <option>20</option>
+      </select>
+      <span>&nbsp;</span>
+    </div>
+    <div class="add_details">
+      考试时长：<input type="text" class="input_style" name="title" value="120" size="20"/>分钟
+      <span>&nbsp;</span>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <div class="paper_base_info">设置考试成绩等级</div>
+    <div class="add_details">
+      <div class="detail">&nbsp;&nbsp;&nbsp;成绩等级：</div>
+      <div class="detail">
+        <textarea cols="30" rows="6" class="textarea_style">100-90  优秀
+89-80 良好
+79-60 通过
+59- 不通过
+        </textarea>
+      </div>
+      <div class="detail">
+        &nbsp;&nbsp;如上编辑框中为设置考试等级的例子：分数段<font color="red">[tab键]</font>等级描述，请参考例子描述自己的等级
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+    <div class="in">
+      <input type="submit" value="更新" class="submit_btn" title="更新基本信息"/>
+    </div>
+</div>
+<div class="clear">&nbsp;</div>
+<div class="main_box_back">
+  <h2><span>考生信息</span></h2>
+  <div class="in">
+    <div class="add_details">
+      <div>是否需要考生确认信息：是</div>
+      <div>是否要生成考试码：是</div>
+    </div>
+  </div>
+  <div class="in">
+    <table>
+      <colgroup>
+        <col width="100"/>
+        <col width="120" />
+        <col width="120" />
+        <col width="60"/>
+        <col width="60"/>
+        <col width="60"/>
+        <col width="60"/>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>手机号码</th>
+          <th>email</th>
+          <th>是否确认信息</th>
+          <th>是否参加考试</th>
+          <th>得分</th>
+          <th>答卷</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>张三</td>
+          <td>zhangsan@hotmail.com</td>
+          <td>13234567898</td>
+          <td>是</td>
+          <td>是</td>
+          <td>90</td>
+          <td><a href="#">查看</a></td>
+        </tr>
+        <tr>
+          <td>李四</td>
+          <td>lisi@126.com</td>
+          <td>13445678908</td>
+          <td>是</td>
+          <td>是</td>
+          <td>87</td>
+          <td><a href="#">查看</a></td>
+        </tr>
+        <tr>
+          <td>王五</td>
+          <td>wangwu@gmail.com</td>
+          <td>18912345654</td>
+          <td>否</td>
+          <td>否</td>
+          <td>无</td>
+          <td>无</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="in">
+    <input type="submit" value="编辑" class="submit_btn" title="编辑考生信息"/>
+  </div>
+</div>
+<div class="clear">&nbsp;</div>
+<div class="main_box_back">
+  <h2><span>阅卷老师信息</span></h2>
+  <div class="in">
+    <table>
+      <colgroup>
+        <col width="220"/>
+        <col width="220" />
+        <col width="220" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>手机号码</th>
+          <th>email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>张老师</td>
+          <td>zhangsan@hotmail.com</td>
+          <td>13234567898</td>
+        </tr>
+        <tr>
+          <td>李老师</td>
+          <td>lisi@126.com</td>
+          <td>13445678908</td>
+        </tr>
+        <tr>
+          <td>王老师</td>
+          <td>wangwu@gmail.com</td>
+          <td>18912345654</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="in">
+    <input type="submit" value="编辑" class="submit_btn" title="编辑阅卷老师信息"/>
+  </div>
+</div>
