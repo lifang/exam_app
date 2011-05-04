@@ -6,6 +6,7 @@
   <div>录入：lifang</div>
   <div>出卷时间：2011-03-12 21:20:20</div>
   <div>总题数：20</div>
+  <div>总分：100</div>
   <div>备注：第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。</div>
   <input type="submit" value="修改基本信息" class="submit_btn"/>
   <input type="submit" value="增加试卷模块" class="submit_btn"/>
@@ -18,15 +19,6 @@
         <div class="arrow" style="top:35px;"></div>
         <div class="big_pic_box" style="top:0px;">
           <div class="in">
-            <div class="title">Rodman met with Tony to try and __settle__ the dispute over his contract．[1分]</div>
-            <div class="question">
-              <div class="attr"><input type="radio" name="attr"/><label> A mark</label></div>
-              <div class="attr"><input type="radio" name="attr"/><label> B involve</label></div>
-              <div class="attr"><input type="radio" name="attr"/><label> C solve</label></div>
-              <div class="attr"><input type="radio" name="attr"/><label> D avoid</label></div>
-            </div>
-            <div class="answer">我的答案：A</div>
-            <div>-------------------------------------------------------------------------------------</div>
             <div class="title">题面：</div>
             <textarea name="title" cols="45" rows="3" class="textarea_style">Rodman met with Tony to try and __settle__ the dispute over his contract．</textarea>
             <div class="title">题面类型：</div>
@@ -48,6 +40,10 @@
             <div class="answer">分值：<input type="text" name="chose" class="input_style" value="1" size="5" /> 分</div>
             <div class="title">评分规则：</div>
             <textarea name="title" cols="45" rows="3" class="textarea_style">本题共3个答案，共3分，漏选同样给分，答对一个给1分，答对两个给2分，选错0分。</textarea>
+            <div class="tag">知识点标签：
+              <span class="tag_input"><input type="text" name="tag" class="input_style" value="词汇 动词" size="35"/></span>
+              <span class="tag_input">多个标签，以“<font color="red">空格</font>”隔开</span>
+            </div>
             <input type="submit" value="提交" class="submit_btn"/>
           </div>
         </div>

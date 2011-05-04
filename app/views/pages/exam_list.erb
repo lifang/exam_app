@@ -1,6 +1,6 @@
 <script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
 <div class="main_box_back">
-  <h2><span>考试列表</span></h2>
+  <h2><span>我的考试</span></h2>
   <div class="in">
     <div class="paper_search">
       考试分类：
@@ -17,7 +17,8 @@
     <div class="clear"></div>
     <table>
       <colgroup>
-        <col width="210" />
+        <col width="100" />
+        <col width="130" />
         <col width="80" />
         <col width="120" />
         <col width="80" />
@@ -27,6 +28,7 @@
       </colgroup>
       <thead>
         <tr>
+          <th>考试名称</th>
           <th>试卷标题</th>
           <th>考试分类</th>
           <th>考试开始时间</th>
@@ -38,65 +40,71 @@
       </thead>
       <tbody>
         <tr class="never">
-          <td><a href="#">2011英语模拟试题</a></td>
+          <td>2011摸底测试</td>
+          <td><a href="#">2011英语模拟试题</a><br/><a href="#">[重选试卷]</a></td>
           <td>模拟考试</td>
           <td>2011-05-18 9:00</td>
           <td>2011-05-03</td>
           <td>否</td>
           <td>未开始</td>
           <td>
-            <a href="#">查看</a>&nbsp;|&nbsp;<a href="#">编辑</a>&nbsp;|&nbsp;<a href="#">设置考生</a><br/>
-            <a href="#">设置阅卷老师</a>&nbsp;|&nbsp;<a href="#">取消考试</a><br/>
-            <a href="#">导出考试码</a>
+            <a href="#">详情</a>&nbsp;|&nbsp;<a href="#">编辑</a>&nbsp;|&nbsp;<a href="#">发布</a><br/>
+            <a href="#">设置考生</a>&nbsp;|&nbsp;<a href="#">设置阅卷老师</a><br/>
+            <a href="#">取消考试</a>&nbsp;|&nbsp;<a href="#">导出考试码</a>
           </td>
         </tr>
         <tr class="never">
-          <td><a href="#">2010英语模拟试题</a></td>
+          <td>2010摸底测试</td>
+          <td><a href="#">2010英语模拟试题</a><br/><a href="#">[重选试卷]</a></td>
           <td>模拟考试</td>
           <td>任何时候</td>
           <td>2011-05-03</td>
           <td>否</td>
           <td>未开始</td>
           <td>
-            <a href="#">查看</a>&nbsp;|&nbsp;<a href="#">编辑</a>&nbsp;|&nbsp;<a href="#">设置考生</a><br/>
+            <a href="#">详情</a>&nbsp;|&nbsp;<a href="#">编辑</a>&nbsp;|&nbsp;<a href="#">设置考生</a><br/>
             <a href="#">设置阅卷老师</a>&nbsp;|&nbsp;<a href="#">取消考试</a>
           </td>
         </tr>
         <tr class="now">
+          <td>2009摸底测试</td>
           <td><a href="#">2009英语模拟试题</a></td>
           <td>模拟考试</td>
           <td>2011-05-4 9:00</td>
           <td>2011-05-03</td>
           <td>否</td>
           <td>考试中</td>
-          <td><a href="#">查看</a></td>
+          <td><a href="#">详情</a></td>
         </tr>
         <tr class="now">
+          <td>2008摸底测试</td>
           <td><a href="#">2008英语模拟试题</a></td>
           <td>模拟考试</td>
           <td>2011-05-4 9:00</td>
           <td>2011-05-03</td>
           <td>否</td>
           <td>考试中</td>
-          <td><a href="#">查看</a></td>
+          <td><a href="#">详情</a></td>
         </tr>
         <tr class="ever">
+          <td>2007摸底测试</td>
           <td><a href="#">2007英语模拟试题</a></td>
           <td>模拟考试</td>
           <td>2011-05-3 9:00</td>
           <td>2011-05-03</td>
           <td>否</td>
           <td>已结束</td>
-          <td><a href="#">查看</a></td>
+          <td><a href="#">详情</a>&nbsp;|&nbsp;<a href="#">查看成绩</a></td>
         </tr>
         <tr class="ever">
+          <td>2006摸底测试</td>
           <td><a href="#">2006英语模拟试题</a></td>
           <td>模拟考试</td>
           <td>2011-05-3 11:00</td>
           <td>2011-05-03</td>
           <td>否</td>
           <td>已结束</td>
-          <td><a href="#">查看</a></td>
+          <td><a href="#">详情</a>&nbsp;|&nbsp;<a href="#">查看成绩</a></td><%= Time.now %>
         </tr>
       </tbody>
     </table>

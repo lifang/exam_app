@@ -1409,7 +1409,15 @@ a:hover{
 .big_pic_box .in .attr a {
     margin-right: 8px;
 }
-
+.big_pic_box .in .show_tag {
+    color:#838383;
+    float:right;
+}
+.big_pic_box .in .my_answer {
+    margin-top: 8px;
+    color:red;
+    font-weight:bold;
+}
 .big_pic_box .in .answer {
     margin-top: 8px;
     color:royalblue;
@@ -1426,6 +1434,14 @@ a:hover{
     font-weight:normal;
     margin-right: 5px;
     color:blue;
+}
+.big_pic_box .in .tag {
+    padding-top: 5px;
+    font-weight:bold;
+    margin-right: 5px;
+}
+.big_pic_box .in .tag .tag_input {
+    font-weight:normal;
 }
 .arrow{
     position:absolute;
@@ -2626,6 +2642,14 @@ a:hover{
 .question_pic_box .in .chose_add  a {
     color:blue;
 }
+.question_pic_box .in .tag {
+    padding-top: 5px;
+    font-weight:bold;
+    margin-right: 5px;
+}
+.question_pic_box .in .tag .tag_input {
+    font-weight:normal;
+}
 
 .new_biz {
     float:left;
@@ -2667,6 +2691,10 @@ a:hover{
 .add_details .detail {
     padding-bottom: 5px;
     float:left;
+    padding-left:5px;
+}
+.add_details a {
+    color:blue;
 }
 
 .paper_search {
@@ -2678,6 +2706,20 @@ a:hover{
     width:712px;
 }
 
+.exam_result_div {
+    margin-bottom:20px;
+    background: #fff2f2;
+    padding:5px 0 5px 20px;
+    border:#fedbe6 1px solid;
+    float:left;
+    width:782px;
+}
+.score_div {
+    font-size:16px;
+    float:right;
+    padding-right:10px;
+    font-weight:bold;
+}
 
 
 
