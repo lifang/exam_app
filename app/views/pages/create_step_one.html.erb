@@ -45,100 +45,101 @@
 
 
 
+<div style="display: none;">
+  <div class="border">
+    <% form_for :paper,:url=>"/papers/create" do |f| %>
+      <font color="green">基本信息：</font><br /><br />
+      标题：<%= f.text_field :paper_title,:value=>"2011 ruby class examination" %>&nbsp|&nbsp;类型：<%= f.text_field :paper_type,:value=>"数学" %>&nbsp|&nbsp;组卷人：<%= f.text_field :paper_creater,:value=>"#{cookies[:user_name]}" %><br/><br/>
+      总分：<%= f.text_field :paper_total_score,:value=>100 %>&nbsp|&nbsp;题数：<%= f.text_field :paper_total_question_num ,:value=>"20"%><br /><br />
+      描述：<%= f.text_area :paper_describe ,:size=>"40"%>
+      <hr /><br/>
 
-<div class="border">
-  <% form_for :paper,:url=>"/papers/create" do |f| %>
-    <font color="green">基本信息：</font><br /><br />
-    标题：<%= f.text_field :paper_title,:value=>"2011 ruby class examination" %>&nbsp|&nbsp;类型：<%= f.text_field :paper_type,:value=>"数学" %>&nbsp|&nbsp;组卷人：<%= f.text_field :paper_creater,:value=>"#{cookies[:user_name]}" %><br/><br/>
-    总分：<%= f.text_field :paper_total_score,:value=>100 %>&nbsp|&nbsp;题数：<%= f.text_field :paper_total_question_num ,:value=>"20"%><br /><br />
-    描述：<%= f.text_area :paper_describe ,:size=>"40"%>
-    <hr /><br/>
+      <div class="module">
+        <font color="green">模块一信息：</font><br /><br />
+        试卷：<%= f.text_field :block1_paper_id,:value=>1 %>
+        标题：<%= f.text_field :block1_title,:value=>"单项选择题" %>&nbsp|&nbsp;类型：<select name="type">
+          <option value="选择题" selected="selected">选择题</option>
+          <option value="填空题">填空题</option>
+          <option value="是非题">是非题</option>
+          <option value="问答题">问答题</option>
+        </select><br/><br/>
+        描述：<%= f.text_area :block1_describe ,:size=>"40"%>&nbsp|&nbsp;模块总分：<%= f.text_field :block1_total_score,:value=>30 %>
+        <br/><br/>
+        <font color="green">------------------建题：------------------</font> <br /><br/>
+        <font color="red">题一、</font>
+        标题：<%= f.text_field :question1_title,:value=>"where are you？" %>&nbsp|&nbsp;类型：<select name="type">
+          <option value="选择题" selected="selected">选择题</option>
+          <option value="填空题">填空题</option>
+          <option value="是非题">是非题</option>
+          <option value="问答题">问答题</option>
+        </select>&nbsp;|&nbsp;
+        <br/><br/>
+        ---提点---| &nbsp&nbsp&nbsp 所属题目：<%= f.text_field :point1_question_id,:value=>1 %>&nbsp|&nbsp;描述：<%= f.text_field :point1_describe,:value=>"please choose the location where you are right at?" %>&nbsp|&nbsp;答案：<%= f.text_field :point1_answer,:value=>"c" %><br/><br/>
+        ---------提枝1-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point1_attr1_key,:value=>"A" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point1_attr1_value,:value=>"shanghai" %>所属题点：<%= f.text_field :point1_attr1_point_id,:value=>1 %><br/>
+        ---------提枝2-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point1_attr2_key,:value=>"B" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point1_attr2_value,:value=>"suzhou" %>所属题点：<%= f.text_field :point1_attr2_point_id,:value=>1 %><br/>
+        ---------提枝3-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point1_attr3_key,:value=>"C" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point1_attr3_value,:value=>"beijing" %>所属题点：<%= f.text_field :point1_attr3_point_id,:value=>1 %><br/>
+        ---------提枝4-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point1_attr4_key,:value=>"D" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point1_attr4_value,:value=>"chengdu" %>所属题点：<%= f.text_field :point1_attr4_point_id,:value=>1 %><br/>
+        <br/><hr/><br/>
 
-    <div class="module">
-      <font color="green">模块一信息：</font><br /><br />
-      试卷：<%= f.text_field :block1_paper_id,:value=>1 %>
-      标题：<%= f.text_field :block1_title,:value=>"单项选择题" %>&nbsp|&nbsp;类型：<select name="type">
-        <option value="选择题" selected="selected">选择题</option>
-        <option value="填空题">填空题</option>
-        <option value="是非题">是非题</option>
-        <option value="问答题">问答题</option>
-      </select><br/><br/>
-      描述：<%= f.text_area :block1_describe ,:size=>"40"%>&nbsp|&nbsp;模块总分：<%= f.text_field :block1_total_score,:value=>30 %>
-      <br/><br/>
-      <font color="green">------------------建题：------------------</font> <br /><br/>
-      <font color="red">题一、</font>
-      标题：<%= f.text_field :question1_title,:value=>"where are you？" %>&nbsp|&nbsp;类型：<select name="type">
-        <option value="选择题" selected="selected">选择题</option>
-        <option value="填空题">填空题</option>
-        <option value="是非题">是非题</option>
-        <option value="问答题">问答题</option>
-      </select>&nbsp;|&nbsp;
-      <br/><br/>
-      ---提点---| &nbsp&nbsp&nbsp 所属题目：<%= f.text_field :point1_question_id,:value=>1 %>&nbsp|&nbsp;描述：<%= f.text_field :point1_describe,:value=>"please choose the location where you are right at?" %>&nbsp|&nbsp;答案：<%= f.text_field :point1_answer,:value=>"c" %><br/><br/>
-      ---------提枝1-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point1_attr1_key,:value=>"A" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point1_attr1_value,:value=>"shanghai" %>所属题点：<%= f.text_field :point1_attr1_point_id,:value=>1 %><br/>
-      ---------提枝2-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point1_attr2_key,:value=>"B" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point1_attr2_value,:value=>"suzhou" %>所属题点：<%= f.text_field :point1_attr2_point_id,:value=>1 %><br/>
-      ---------提枝3-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point1_attr3_key,:value=>"C" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point1_attr3_value,:value=>"beijing" %>所属题点：<%= f.text_field :point1_attr3_point_id,:value=>1 %><br/>
-      ---------提枝4-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point1_attr4_key,:value=>"D" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point1_attr4_value,:value=>"chengdu" %>所属题点：<%= f.text_field :point1_attr4_point_id,:value=>1 %><br/>
-      <br/><hr/><br/>
+        <font color="red">题二、</font>
+        标题：<%= f.text_field :question2_title,:value=>"what's your name?" %>&nbsp|&nbsp;类型：<select name="type">
+          <option value="选择题" selected="selected">选择题</option>
+          <option value="填空题">填空题</option>
+          <option value="是非题">是非题</option>
+          <option value="问答题">问答题</option>
+        </select>&nbsp;|&nbsp;
+        <br/><br/>
+        ---提点---| &nbsp&nbsp&nbsp 所属题目：<%= f.text_field :point2_question_id,:value=>2 %>&nbsp|&nbsp;描述：<%= f.text_field :point2_describe,:value=>"please choose your name?" %>&nbsp|&nbsp;答案：<%= f.text_field :point2_answer,:value=>"b" %><br/><br/>
+        ---------提枝1-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point2_attr1_key,:value=>"A" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point2_attr1_value,:value=>"qianjun" %>所属题点：<%= f.text_field :point2_attr1_point_id,:value=>2 %><br/>
+        ---------提枝2-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point2_attr2_key,:value=>"B" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point2_attr2_value,:value=>"liyulong" %>所属题点：<%= f.text_field :point2_attr2_point_id,:value=>2 %><br/>
+        ---------提枝3-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point2_attr3_key,:value=>"C" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point2_attr3_value,:value=>"xuqiyong" %>所属题点：<%= f.text_field :point2_attr3_point_id,:value=>2 %><br/>
+        ---------提枝4-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point2_attr4_key,:value=>"D" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point2_attr4_value,:value=>"hejianfeng" %>所属题点：<%= f.text_field :point2_attr4_point_id,:value=>2 %><br/>
+      </div><br /><br/>
 
-      <font color="red">题二、</font>
-      标题：<%= f.text_field :question2_title,:value=>"what's your name?" %>&nbsp|&nbsp;类型：<select name="type">
-        <option value="选择题" selected="selected">选择题</option>
-        <option value="填空题">填空题</option>
-        <option value="是非题">是非题</option>
-        <option value="问答题">问答题</option>
-      </select>&nbsp;|&nbsp;
-      <br/><br/>
-      ---提点---| &nbsp&nbsp&nbsp 所属题目：<%= f.text_field :point2_question_id,:value=>2 %>&nbsp|&nbsp;描述：<%= f.text_field :point2_describe,:value=>"please choose your name?" %>&nbsp|&nbsp;答案：<%= f.text_field :point2_answer,:value=>"b" %><br/><br/>
-      ---------提枝1-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point2_attr1_key,:value=>"A" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point2_attr1_value,:value=>"qianjun" %>所属题点：<%= f.text_field :point2_attr1_point_id,:value=>2 %><br/>
-      ---------提枝2-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point2_attr2_key,:value=>"B" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point2_attr2_value,:value=>"liyulong" %>所属题点：<%= f.text_field :point2_attr2_point_id,:value=>2 %><br/>
-      ---------提枝3-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point2_attr3_key,:value=>"C" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point2_attr3_value,:value=>"xuqiyong" %>所属题点：<%= f.text_field :point2_attr3_point_id,:value=>2 %><br/>
-      ---------提枝4-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point2_attr4_key,:value=>"D" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point2_attr4_value,:value=>"hejianfeng" %>所属题点：<%= f.text_field :point2_attr4_point_id,:value=>2 %><br/>
-    </div><br /><br/>
+      <div class="module">
+        <font color="green">模块二信息：</font><br /><br />
+        试卷：<%= f.text_field :block2_paper_id,:value=>1 %>
+        标题：<%= f.text_field :block2_title,:value=>"多项选择题" %>&nbsp|&nbsp;类型：<select name="type">
+          <option value="选择题" selected="selected">选择题</option>
+          <option value="填空题">填空题</option>
+          <option value="是非题">是非题</option>
+          <option value="问答题">问答题</option>
+        </select><br/><br/>
+        描述：<%= f.text_area :block2_describe ,:size=>"40"%>&nbsp|&nbsp;模块总分：<%= f.text_field :block2_total_score,:value=>30 %>
+        <br/><br/>
+        <font color="green">------------------建题：------------------</font> <br /><br/>
+        <font color="red">题一、</font>
+        标题：<%= f.text_field :question3_title,:value=>"how old are you?" %>&nbsp|&nbsp;类型：<select name="type">
+          <option value="选择题" selected="selected">选择题</option>
+          <option value="填空题">填空题</option>
+          <option value="是非题">是非题</option>
+          <option value="问答题">问答题</option>
+        </select>&nbsp;|&nbsp;
+        <br/><br/>
+        ---提点---| &nbsp&nbsp&nbsp 所属题目：<%= f.text_field :point3_question_id,:value=>3 %>&nbsp|&nbsp;描述：<%= f.text_field :point3_describe,:value=>"please choose your age?" %>&nbsp|&nbsp;答案：<%= f.text_field :point3_answer,:value=>"d" %><br/><br/>
+        ---------提枝1-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point3_attr1_key,:value=>"A" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point3_attr1_value,:value=>"18" %>所属题点：<%= f.text_field :point3_attr1_point_id,:value=>3 %><br/>
+        ---------提枝2-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point3_attr2_key,:value=>"B" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point3_attr2_value,:value=>"19" %>所属题点：<%= f.text_field :point3_attr2_point_id,:value=>3 %><br/>
+        ---------提枝3-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point3_attr3_key,:value=>"C" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point3_attr3_value,:value=>"21" %>所属题点：<%= f.text_field :point3_attr3_point_id,:value=>3 %><br/>
+        ---------提枝4-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point3_attr4_key,:value=>"D" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point3_attr4_value,:value=>"23" %>所属题点：<%= f.text_field :point3_attr4_point_id,:value=>3 %><br/>
+        <br/><hr/><br/>
 
-    <div class="module">
-      <font color="green">模块二信息：</font><br /><br />
-      试卷：<%= f.text_field :block2_paper_id,:value=>1 %>
-      标题：<%= f.text_field :block2_title,:value=>"多项选择题" %>&nbsp|&nbsp;类型：<select name="type">
-        <option value="选择题" selected="selected">选择题</option>
-        <option value="填空题">填空题</option>
-        <option value="是非题">是非题</option>
-        <option value="问答题">问答题</option>
-      </select><br/><br/>
-      描述：<%= f.text_area :block2_describe ,:size=>"40"%>&nbsp|&nbsp;模块总分：<%= f.text_field :block2_total_score,:value=>30 %>
-      <br/><br/>
-      <font color="green">------------------建题：------------------</font> <br /><br/>
-      <font color="red">题一、</font>
-      标题：<%= f.text_field :question3_title,:value=>"how old are you?" %>&nbsp|&nbsp;类型：<select name="type">
-        <option value="选择题" selected="selected">选择题</option>
-        <option value="填空题">填空题</option>
-        <option value="是非题">是非题</option>
-        <option value="问答题">问答题</option>
-      </select>&nbsp;|&nbsp;
-      <br/><br/>
-      ---提点---| &nbsp&nbsp&nbsp 所属题目：<%= f.text_field :point3_question_id,:value=>3 %>&nbsp|&nbsp;描述：<%= f.text_field :point3_describe,:value=>"please choose your age?" %>&nbsp|&nbsp;答案：<%= f.text_field :point3_answer,:value=>"d" %><br/><br/>
-      ---------提枝1-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point3_attr1_key,:value=>"A" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point3_attr1_value,:value=>"18" %>所属题点：<%= f.text_field :point3_attr1_point_id,:value=>3 %><br/>
-      ---------提枝2-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point3_attr2_key,:value=>"B" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point3_attr2_value,:value=>"19" %>所属题点：<%= f.text_field :point3_attr2_point_id,:value=>3 %><br/>
-      ---------提枝3-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point3_attr3_key,:value=>"C" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point3_attr3_value,:value=>"21" %>所属题点：<%= f.text_field :point3_attr3_point_id,:value=>3 %><br/>
-      ---------提枝4-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point3_attr4_key,:value=>"D" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point3_attr4_value,:value=>"23" %>所属题点：<%= f.text_field :point3_attr4_point_id,:value=>3 %><br/>
-      <br/><hr/><br/>
+        <font color="red">题二、</font>
+        标题：<%= f.text_field :question4_title,:value=>"what's the weather like ?" %>&nbsp|&nbsp;类型：<select name="type">
+          <option value="选择题" selected="selected">选择题</option>
+          <option value="填空题">填空题</option>
+          <option value="是非题">是非题</option>
+          <option value="问答题">问答题</option>
+        </select>&nbsp;|&nbsp;
+        <br/><br/>
+        ---提点---| &nbsp&nbsp&nbsp 所属题目：<%= f.text_field :point4_question_id,:value=>4 %>&nbsp|&nbsp;描述：<%= f.text_field :point2_describe,:value=>"please choose the weather outside?" %>&nbsp|&nbsp;答案：<%= f.text_field :point2_answer,:value=>"a" %><br/><br/>
+        ---------提枝1-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point4_attr1_key,:value=>"A" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point4_attr1_value,:value=>"sunshine" %>所属题点：<%= f.text_field :point4_attr1_point_id,:value=>4 %><br/>
+        ---------提枝2-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point4_attr2_key,:value=>"B" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point4_attr2_value,:value=>"rainy" %>所属题点：<%= f.text_field :point4_attr2_point_id,:value=>4 %><br/>
+        ---------提枝3-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point4_attr3_key,:value=>"C" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point4_attr3_value,:value=>"windy" %>所属题点：<%= f.text_field :point4_attr3_point_id,:value=>4 %><br/>
+        ---------提枝4-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point4_attr4_key,:value=>"D" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point4_attr4_value,:value=>"snow" %>所属题点：<%= f.text_field :point4_attr4_point_id,:value=>4 %>br/>
+      </div><br /><br/>
 
-      <font color="red">题二、</font>
-      标题：<%= f.text_field :question4_title,:value=>"what's the weather like ?" %>&nbsp|&nbsp;类型：<select name="type">
-        <option value="选择题" selected="selected">选择题</option>
-        <option value="填空题">填空题</option>
-        <option value="是非题">是非题</option>
-        <option value="问答题">问答题</option>
-      </select>&nbsp;|&nbsp;
-      <br/><br/>
-      ---提点---| &nbsp&nbsp&nbsp 所属题目：<%= f.text_field :point4_question_id,:value=>4 %>&nbsp|&nbsp;描述：<%= f.text_field :point2_describe,:value=>"please choose the weather outside?" %>&nbsp|&nbsp;答案：<%= f.text_field :point2_answer,:value=>"a" %><br/><br/>
-      ---------提枝1-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point4_attr1_key,:value=>"A" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point4_attr1_value,:value=>"sunshine" %>所属题点：<%= f.text_field :point4_attr1_point_id,:value=>4 %><br/>
-      ---------提枝2-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point4_attr2_key,:value=>"B" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point4_attr2_value,:value=>"rainy" %>所属题点：<%= f.text_field :point4_attr2_point_id,:value=>4 %><br/>
-      ---------提枝3-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point4_attr3_key,:value=>"C" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point4_attr3_value,:value=>"windy" %>所属题点：<%= f.text_field :point4_attr3_point_id,:value=>4 %><br/>
-      ---------提枝4-------|- &nbsp&nbsp&nbsp key:<%= f.text_field :point4_attr4_key,:value=>"D" %>&nbsp&nbsp&nbsp value:<%= f.text_field :point4_attr4_value,:value=>"snow" %>所属题点：<%= f.text_field :point4_attr4_point_id,:value=>4 %>br/>
-    </div><br /><br/>
+      ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------<%= f.submit '组卷' %>---------------------------
+    <% end %>
 
-    ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------<%= f.submit '组卷' %>---------------------------
-  <% end %>
-
+  </div>
 </div>

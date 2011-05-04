@@ -16,6 +16,10 @@ ExamApp::Application.routes.draw do
       get "create_exam_two"
       get "create_exam_three"
       get "exam_list"
+      get "show_exam"
+      get "edit_exam_base"
+      get "edit_exam_users"
+      get "edit_exam_raters"
     end
   end
   resources :back
