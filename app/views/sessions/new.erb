@@ -1,12 +1,14 @@
 <div class="login_show_img" id="login_back"></div>
 <div class="login_box">
+
   <div class="top">
+    
     <ul>
-      <li id="normal_user" class="actived" onclick="normal_user('normal_user','tab1')">个人用户</li>
-      <li id="enterprise_user" onclick="enterprise_user('enterprise_user','tab2')">企业用户</li>
+      <li id="li_tab1" class="actived" onclick="javascript:tab('tab1', '2');">个人用户</li>
+      <li id="li_tab2"  onclick="javascript:tab('tab2', '2')">企业用户</li>
     </ul>
   </div>
-  <div id="normal_user_form" style="display: block">
+  <div id="div_tab1" style="display: block">
     <div class="body">
       <% form_for(:session, :url => sessions_path ,:html => {:onsubmit => "return signin_page()"} ) do |f| %>
         <table>
@@ -34,7 +36,7 @@
           </tr>
           <tr>
             <td align="center" colspan="2">
-             
+
               <div id="error_msg">&nbsp; <font color="red"> <%= flash[:error2] %></font></div>
 
             </td>
@@ -46,7 +48,7 @@
       <%= link_to "免费注册","/users/new" %>
     </div>
   </div>
-  <div id="enterprise_user_form" style="display :none">
+  <div id="div_tab2" style="display :none">
     <div class="body">
 
 

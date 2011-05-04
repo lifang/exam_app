@@ -80,3 +80,13 @@ function signin_page(){
     }
         
 }
+
+function tab(tag, n){
+    for(var i=1; i <= n; i++){
+        document.getElementById("li_tab" + i).className = "";
+        document.getElementById("div_tab" + i).className = "";
+    }
+    document.getElementById("li_" + tag).className = "actived";
+    document.getElementById("div_" + tag).className = "actived";
+
+}
