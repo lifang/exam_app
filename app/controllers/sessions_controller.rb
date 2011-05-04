@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       unless  @user.has_password?(params[:session][:password])    
         flash[:error2] = "密码错误"
         redirect_to '/sessions/new'
-      end
+      else
       if params[:proof_code] != session[:signin_code]
         flash[:error] = "请输入正确的验证码"
         redirect_to '/sessions/new'
@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
         redirect_to "/papers"
       end
     end
-
+    end
   end
 
   def destroy

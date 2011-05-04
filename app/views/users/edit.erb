@@ -1,14 +1,15 @@
 <div class="main_box_back">
   <h2><span>个人信息设置</span></h2>
   <div class="in">
-
+ 
     <table>
-     
+
+    <%= form_for(@user)  do |f|%>
         <tr>
           <% user=User.find_by_id(cookies[:user_id]) %>
           <td valign="top" align="right"><span class="must_r">*</span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</td>
         
-          <td><input class="input_style" id="user_username" name="username" size="30" type="text" value="hello world" /><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span><span class="must_r"></span></span><span  id="username_span"></span></td>
+          <td><input class="input_style" id="user_username" name="username" size="30" type="text" value="<%=user.username %>" /><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span><span class="must_r"></span></span><span  id="username_span"></span></td>
         </tr>
         <tr>
           <td valign="top" align="right">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
@@ -20,25 +21,26 @@
         </tr>
         <tr>
           <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp名：</td>
-          <td><input class="input_style" id="user_name" name="name" size="30" type="text" value="lifang" /></td>
+          <td><input class="input_style" id="user_name" name="name" size="30" type="text" value="<%=user.name %>" /></td>
         </tr>
         <tr>
           <td valign="top" align="right"><span class="must_r">*</span>注册邮箱：</td>
-          <td><input class="input_style" id="user_email" name="email" size="30" type="text" value="lifang@comdosoft.com" /><span class="expForEmail">确保邮箱有效，我们将发送激活说明到此地址，每个邮箱只能使用一次<span  id="emailErr"></span><span class="must_r"></span></span></td>
+          <td><input class="input_style" id="user_email" name="email" size="30" type="text" value="<%=user.email %>" /><span class="expForEmail">确保邮箱有效，我们将发送激活说明到此地址，每个邮箱只能使用一次<span  id="emailErr"></span><span class="must_r"></span></span></td>
         </tr>
         <tr>
           <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>手机号码：</td>
-          <td><input class="input_style" id="user_mobilephone" name="mobilephone" size="30" type="text" value="12345678987" /><span class="expForEmail">请填写正确的手机号码，方便我们联系您</span><span  id="mobilephone_span"></span></td>
+          <td><input class="input_style" id="user_mobilephone" name="mobilephone" size="30" type="text" value="<%=user.mobilephone %>" /><span class="expForEmail">请填写正确的手机号码，方便我们联系您</span><span  id="mobilephone_span"></span></td>
         </tr>
         <tr>
           <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>用户地址：</td>
-          <td><textarea class="input_style" id="user_address" name="address" rows="5" cols="80">苏州工业园区星湖街**号</textarea><span  id="address_span"></span></td>
+          <td><textarea class="input_style" id="user_address" name="address" rows="5" cols="80"><%=user.address %></textarea><span  id="address_span"></span></td>
         </tr>
         <tr>
           <td></td>
           <td><input type="submit" value="更新" class="submit_btn" title="编辑个人信息"/></td>
         </tr>
-        
+           <% end  %>
       </table>
+ 
   </div>
 </div>
