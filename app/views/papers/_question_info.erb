@@ -1,38 +1,22 @@
 <div class="products_list_style_box" id="question_info_<%= question_info.id %>" style="display:none">
-          <div class="arrow" style="top:35px;"></div>
-          <div class="big_pic_box" style="top:0px;">
-            <div class="in">
-              <div class="title">Rodman met with Tony to try and __settle__ the dispute over his contract．[1分]</div>
-              <div class="question">
-                <div class="attr"><input type="radio" name="attr"/><label> A mark</label></div>
-                <div class="attr"><input type="radio" name="attr"/><label> B involve</label></div>
-                <div class="attr"><input type="radio" name="attr"/><label> C solve</label></div>
-                <div class="attr"><input type="radio" name="attr"/><label> D avoid</label></div>
-              </div>
-              <div class="answer">我的答案：A</div>
-              <div>-------------------------------------------------------------------------------------</div>
-              <div class="title">题面：</div>
-              <textarea name="title" cols="45" rows="3" class="textarea_style">Rodman met with Tony to try and __settle__ the dispute over his contract．</textarea>
-              <div class="title">题面类型：</div>
-              <div class="type"><input type="radio" name="type" /> 单选题</div>
-              <div class="type"><input type="radio" name="type" /> 多选题</div>
-              <div class="type"><input type="radio" name="type" /> 判断题</div>
-              <div class="type"><input type="radio" name="type" /> 完形填空题</div>
-              <div class="type"><input type="radio" name="type" /> 综合题</div>
-              <div class="clear"></div>
-              <div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
-              <div class="clear"></div>
-              <div class="question">
-                <div class="attr">A <input type="text" name="chose" class="input_style" value="mark" /><a href="#">删除</a></div>
-                <div class="attr">B <input type="text" name="chose" class="input_style" value="involve" /><a href="#">删除</a></div>
-                <div class="attr">C <input type="text" name="chose" class="input_style" value="solve" /><a href="#">删除</a></div>
-                <div class="attr">D <input type="text" name="chose" class="input_style" value="avoid" /><a href="#">删除</a></div>
-              </div>
-              <div class="answer">答案：<input type="text" name="chose" class="input_style" value="A" /></div>
-              <div class="answer">分值：<input type="text" name="chose" class="input_style" value="1" size="5" /> 分</div>
-              <div class="title">评分规则：</div>
-              <textarea name="title" cols="45" rows="3" class="textarea_style">本题共3个答案，共3分，漏选同样给分，答对一个给1分，答对两个给2分，选错0分。</textarea>
-              <input type="submit" value="提交" class="submit_btn"/>
-            </div>
-          </div>
-        </div>
+  <div class="arrow" style="top:35px;"></div>
+  <div class="big_pic_box" style="top:0px;">
+    <div class="in">
+      <div class="title"><%= question_info.title %></div>
+
+      <div class="question">
+        <% question_info.question_points.each do |point| %>
+          <div class="attr"><label><%= point.description %></label></div>
+          <% point.question_attrs.each do |attr| %>
+            <div class="attr"><input type="radio" name="attr"/><label><%= attr.key %> <%= attr.value %></label></div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="answer">我的答案：A</div>
+    </div>
+  </div>
+</div>
+
+
+
+

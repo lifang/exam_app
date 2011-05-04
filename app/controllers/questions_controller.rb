@@ -10,10 +10,14 @@ class QuestionsController < ApplicationController
     QuestionAttr.create(:question_point_id=>@question_point.id,:key=>params[:question][:attr2_key],:value=>params[:question][:attr2_value])
     QuestionAttr.create(:question_point_id=>@question_point.id,:key=>params[:question][:attr3_key],:value=>params[:question][:attr3_value])
     QuestionAttr.create(:question_point_id=>@question_point.id,:key=>params[:question][:attr4_key],:value=>params[:question][:attr4_value])
+    @paper=Paper.find(params[:question][:paper_id])
+    @paper.update_attributes(:updated_at=>Time.now)
     redirect_to  "/papers/#{params[:question][:paper_id]}/new_step_two"
   end
 
-  def  destory
-    
+  def  destroy
+    @question=Question.find(params[:id])
+    @question.destroy
+    redirect_to request.referrer
   end
 end
