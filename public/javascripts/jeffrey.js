@@ -10,7 +10,7 @@ function create_question(id){
     }
 
     if (close_edit_question_id != 0) {   //关闭编辑框
-        document.getElementById("question_info_"+close_edit_question_id).style.display="none";
+        document.getElementById("edit_question_"+close_edit_question_id).style.display="none";
         close_edit_question_id = 0;
     }
 

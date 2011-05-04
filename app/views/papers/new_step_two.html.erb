@@ -11,7 +11,7 @@
 
   <input type="submit" value="修改基本信息" class="submit_btn" onclick="javascript:change_info()"/>
   <input type="submit" value="增加试卷模块" class="submit_btn" onclick="javascript:new_module()"/>
-  <input type="submit" value="组卷完成" class="submit_btn" onclick="javascript:window.location.href= '/papers'" />
+  <input type="submit" value="组卷完成" class="submit_btn" onclick="javascript:window.location.href= '/papers/<%= @paper.id %> '" />
 </div>
 
 <%= render :partial=>"/papers/new_module" %>

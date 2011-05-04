@@ -8,7 +8,7 @@
       <% total_block_score = total_block_score+relation.score %>
     <% end %>
   <% end %>
-  <h1 class="biz_art_title"><%= sum[index] %>、<%= block.title %> (共<%= block.questions.count%>题，总分:<%= total_block_score %>分)|<input  type="button" value="添加题目" style="float:right" onclick="javascript:create_question(<%= block.id %>);"></input> </h1>
+  <h1 class="biz_art_title"><%= sum[index] %>、<%= block.title %> (共<%= block.questions.count%>题，总分:<%= total_block_score %>分)|<a href="#"  style="float:right" onclick="javascript:create_question(<%= block.id %>);">添加题目</a> <a href="#" style="float:right" onclick="javascript:create_question(<%= block.id %>);">删除模块</a></h1>
   <% index = index + 1 %>
 
   <%= render :partial=>"/papers/new_question_for_block",:object=>block  %>
@@ -37,9 +37,7 @@
     <div style="height:20px;"></div>
   </div>
 <% end %>
+
+
 <div class="clear"></div>
 
-
-
-
-</div>
