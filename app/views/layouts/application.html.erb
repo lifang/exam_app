@@ -27,11 +27,16 @@
           &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">考试</a>
           &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">成绩</a>
         </p>
+        <p class="back_welcome">
+          <a href="#">lifang@comdosoft.com</a> 欢迎您！
+          <a href="#">[个人设置]</a>
+          <a href="#">[退出]</a>
+        </p>
         <%if cookies[:user_id]!= nil%>
           
             <% user=User.find_by_id(cookies[:user_id]) %>
             <p class="back_welcome">
-              <a href="/users/<%=user.id%>"><%=user.email%></a> welcome!
+              <a href="/users/<%=user.id%>"><%=user.email%></a> 欢迎您！
               <%= link_to"[登出]",'/sessions/signout',:method => :delete %>
             </p>
           <%end%>
