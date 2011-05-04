@@ -11,22 +11,25 @@
 
   <input type="submit" value="修改基本信息" class="submit_btn" onclick="javascript:change_info()"/>
   <input type="submit" value="增加试卷模块" class="submit_btn" onclick="javascript:new_module()"/>
+  <input type="submit" value="组卷完成" class="submit_btn" onclick="javascript:window.location.href= '/papers'" />
 </div>
+
+<%= render :partial=>"/papers/new_module" %>
 
 <div class="soso" id="change_info" style="display:none">
 
   <% form_for :info ,:url=>"/papers/#{@paper.id}/change_info" do |f| %>
     <div>试卷编号：<%= @paper.id %></div>
-     <div>录入：<%= @paper.user.name %></div>
+    <div>录入：<%= @paper.user.name %></div>
     <div>出卷时间：<%= @paper.created_at.strftime("%Y年%m月%d日%H时%M分") %></div>
     <div>总题数：<%= f.text_field :total_question_num,:value=>@paper.total_question_num %></div><br/>
     <div>备注：<%= f.text_area :description,:value=>@paper.description ,:size=>40,:cols=>"55",:rows=>"3",%></div>
 
     <%= f.submit "完成", :class=>"submit_btn"%><input type="submit" value="取消" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @paper.id %>/new_step_two'"/>
   <% end %>
-    
+
 </div>
 
 <%= render :partial=>"/papers/paper_blocks" %>
 
-<%= render :partial=>"/papers/new_module" %>
+
