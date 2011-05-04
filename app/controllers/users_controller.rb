@@ -45,7 +45,3 @@ class UsersController < ApplicationController
   end
 end
 
-def get_proof_code
-  session[:proof_code] = proof_code()
-  render :inline => session[:proof_code]
-end
