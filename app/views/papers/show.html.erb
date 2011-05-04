@@ -15,33 +15,35 @@
   <% end %>
 </div>
 
-
-
+<% sum=["一","二","三","四","五","六","七","八","九","十"] %>
+<% index = 0 %>
 <% @blocks.each do |block| %>
 
-  <h1 class="biz_art_title"><%= block.title %></h1><br/>
+  <% total_block_score = 0 %>
+  <% block.block_question_relations.each do |relation| %>
+    <% if relation.score != nil %>
+      <% total_block_score = total_block_score+relation.score %>
+    <% end %>
+  <% end %>
+  <h1 class="biz_art_title"><%= sum[index] %>、<%= block.title %> (共<%= block.questions.count%>题，总分:<%= total_block_score %>分)</h1>
+  <% index +=1 %>
   <div class="biz_art_list_box">
     <ul>
       <% block.questions.each do |question| %>
         <li>
-          <h2><%= question.title %></h2>
+          <%= render :partial=>"/papers/question_info",:object=>question %>
+          <h2><a href="#" onMouseOver="javascript:question_info(<%= question.id %>)"><%= question.title %></a></h2>
           <% question.question_points.each do |point| %>
             <p><%=  point.description %></p>
-
             <% point.question_attrs.each do |attr| %>
-              &nbsp;&nbsp;&nbsp;<%= attr.key %>.&nbsp;<%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;
+              <%= attr.key %>、 <%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <% end %>
-
           <% end %>
-          <a href="#" onMouseOver="javascript:question_info(<%= question.id %>)"> 查看 </a>
-          <%= render :partial=>"/papers/question_info",:object=>question %>
-
         </li>
-
       <% end %>
     </ul>
-
   </div>
-<% end %>
+  <div class="clear"></div>
 
+<% end %>
 
