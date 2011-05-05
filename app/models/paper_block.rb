@@ -1,7 +1,5 @@
 class PaperBlock < ActiveRecord::Base
-   has_many :block_question_relations
    belongs_to :paper
-   has_many :questions,:through=>:block_question_relations,:foreign_key=>:question_id
 
    BLOCK_TYPE = {:SINGLE_CHOSE => 0, :MORE_CHOSE =>1, :JUDGE => 2, :SINGLE_CALK => 3,
                    :MORE_CALK => 4, :COLLIGATION => 5, :CHARACTER => 6 }
