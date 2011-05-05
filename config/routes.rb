@@ -1,9 +1,9 @@
 ExamApp::Application.routes.draw do
 
   resources :users do
-  collection do
-    get "get_proof_code"
-  end
+    collection do
+      get "get_proof_code"
+    end
   end
   resources :sessions 
   resources :questions
@@ -26,14 +26,24 @@ ExamApp::Application.routes.draw do
       get "new_step_one"
       post "create_step_one"
       post  "search"
-
+      post "create_exam_one"
+      post "create_exam_two"
+      post "create_exam_three"
+      post "exam_list"
       post "create_step_two"
+       get "new_exam_one"
+       post :delete_all
     end
     member do
+      get "new_exam_three"
+      get "new_exam_two"
+      get "new_exam_one"
       get "new_step_two"
       post "change_info"
+       
     end
   end
+    match '/new_exam_one'=>'papers#new_exam_one'
   # The priority is based upon order of creation:
   # first created -> highest priority.
   # Sample of regular route:

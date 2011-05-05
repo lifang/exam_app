@@ -1,34 +1,35 @@
- <div class="question_list_style_box" id="create_question_<%= new_question_for_block.id %>" style="display: none;">
-    <div class="arrow" style="top:35px;"></div>
-    <div class="question_pic_box" style="top:0px;">
-      <div class="in">
-        <div class="title">添加题目：</div>
-        <% form_for :question ,:url=>"/questions/create" do |f| %>
-          <%= f.hidden_field :block_id ,:value=>new_question_for_block.id  %>
-          <%= f.hidden_field :paper_id ,:value=>@paper.id  %>
-          <%= f.text_area :title ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
-          <div class="title">题目类型：</div>
-          <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio1"%>单选题</div>
-          <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio2"%>多选题</div>
-          <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio3"%>判断题</div>
-          <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio4"%>完形填空题</div>
-          <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio5"%>综合题</div>
-          <div class="clear"></div>
+<div class="question_list_style_box" id="create_question_<%= new_question_for_block.id %>" style="display: none;">
+  <div class="arrow" style="top:35px;"></div>
+  <div class="question_pic_box" style="top:0px;">
+    <div class="in">
 
-          <div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
-          <div class="clear"></div>
-          <div class="question">
-            <div class="attr"><%= f.text_field :attr1_key ,:class=>"input_style",:value=>"A",:size=>"5"%> 、 <%= f.text_field :attr1_value ,:class=>"input_style"%></div>
-            <div class="attr"><%= f.text_field :attr2_key ,:class=>"input_style",:value=>"B",:size=>"5"%> 、 <%= f.text_field :attr2_value ,:class=>"input_style"%></div>
-            <div class="attr"><%= f.text_field :attr3_key ,:class=>"input_style",:value=>"C",:size=>"5"%> 、 <%= f.text_field :attr3_value ,:class=>"input_style"%></div>
-            <div class="attr"><%= f.text_field :attr4_key ,:class=>"input_style",:value=>"D",:size=>"5"%> 、 <%= f.text_field :attr4_value ,:class=>"input_style"%></div>
-          </div>
-          <div class="answer">答案：<%= f.text_field :answer ,:class=>"input_style",:size=>"40"%></div>
-          <div class="answer">分值：<%= f.text_field :score ,:class=>"input_style"%></div>
-          <div class="title">评分规则：</div>
-          <%= f.text_area :assess_role ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
-          <%= f.submit "提交" ,:class=>"submit_btn" %>
-        <% end %>
-      </div>
+      <% form_for :question ,:url=>"/questions/create" do |f| %>
+        <%= f.hidden_field :block_id ,:value=>new_question_for_block.id  %>
+        <%= f.hidden_field :paper_id ,:value=>@paper.id  %>
+
+        <div class="title">题目类型：</div>
+        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio1"%>单选题</div>
+        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio2"%>多选题</div>
+        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio3"%>判断题</div>
+        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio4"%>完形填空题</div>
+        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio5"%>综合题</div>
+        <div class="clear"></div>
+        <div class="title">题面：</div>
+        <%= f.text_area :title ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
+        <div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
+        <div class="clear"></div>
+        <div class="question">
+          <div class="attr"><%= f.text_field :attr1_key ,:class=>"input_style",:value=>"A",:size=>"5"%> 、 <%= f.text_field :attr1_value ,:class=>"input_style"%></div>
+          <div class="attr"><%= f.text_field :attr2_key ,:class=>"input_style",:value=>"B",:size=>"5"%> 、 <%= f.text_field :attr2_value ,:class=>"input_style"%></div>
+          <div class="attr"><%= f.text_field :attr3_key ,:class=>"input_style",:value=>"C",:size=>"5"%> 、 <%= f.text_field :attr3_value ,:class=>"input_style"%></div>
+          <div class="attr"><%= f.text_field :attr4_key ,:class=>"input_style",:value=>"D",:size=>"5"%> 、 <%= f.text_field :attr4_value ,:class=>"input_style"%></div>
+        </div>
+        <div class="answer">答案：<%= f.text_field :answer ,:class=>"input_style",:size=>"40"%></div>
+        <div class="answer">分值：<%= f.text_field :score ,:class=>"input_style"%></div>
+        <div class="title">评分规则：</div>
+        <%= f.text_area :assess_role ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
+        <%= f.submit "提交" ,:class=>"submit_btn" %>
+      <% end %>
     </div>
   </div>
+</div>

@@ -1,8 +1,8 @@
 class PapersController < ApplicationController
-  before_filter :access?
+  #before_filter :access?
 
   def index
-    @papers=Paper.find_by_sql("select * from papers p where p.creater_id=#{cookies[:user_id]}").paginate(:per_page =>10, :page => params[:page],:order => "created_at desc",:conditions => ["title like ? " , "%#{params[:search]}%"])
+    @papers=Paper.find_by_sql("select * from papers p where p.creater_id=#{cookies[:user_id]} order by created_at desc").paginate(:per_page =>10, :page => params[:page])
   end
 
   def new
@@ -31,12 +31,7 @@ class PapersController < ApplicationController
     @blocks= @paper.paper_blocks
   end
 
- def create_exam_one
 
-  end
-  def create_exam_three
-
-  end
   def new_step_one
   end
 
@@ -78,8 +73,29 @@ class PapersController < ApplicationController
     end
     render 'index'
   end
+  def delete_all
+    Paper.find_by_sql("select * from papers where papers.id in (#{params[:deleteall][:delete_all]})").each do |paper|
+      paper.destroy
+    end
+   render 'index'
+  end
+  def new_exam_one
+#    if params[:deleteall][:delete_all]==nil
+#      flash[:selector]="请选择一份试卷"
+#      redirect_to "/papers"
+#    else
+#         redirect_to "/papers/#{params[:deleteall][:delete_all].split(",")[0]}/new_exam_one"
+#    end
+  end
+  def create_exam_one
+    redirect_to
+  end
+  def create_exam_two
 
-  
+  end
+  def create_exam_three
+
+  end
   def edit
   end
 
@@ -99,7 +115,7 @@ class PapersController < ApplicationController
  
 
 
-    def user_exist?
+  def user_exist?
     if User.find_by_id(cookies[:user_id]) != current_user
       redirect_to root_path
     end

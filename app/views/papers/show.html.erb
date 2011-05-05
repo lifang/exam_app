@@ -1,49 +1,33 @@
-
 <ul class="tab_biz">
-  <li class="actived"><a href="#"><%= @paper.title %></li>
+  <li class="actived"><a href="#"><%= @paper.title %></a></li>
 </ul>
-<div class="soso">
+<div class="soso" id="show_info">
   <div>试卷编号：<%= @paper.id %></div>
   <div>录入：<%= @paper.user.name %></div>
   <div>出卷时间：<%= @paper.created_at.strftime("%Y年%m月%d日%H时%M分") %></div>
   <div>最后修改时间：<%= @paper.updated_at.strftime("%Y年%m月%d日%H时%M分") %></div>
   <div>总题数：<%= @paper.total_question_num %></div>
   <div>备注：<%= @paper.description %></div>
-  <% if cookies[:user_name]==@paper.user.name %>
-    <input type="submit" value="编辑试卷" class="submit_btn" onclick="javascript:window.location.href= '/papers/<%=  @paper.id %>/new_step_two'" />
-    <input type="submit" value="返回列表" class="submit_btn" onclick="javascript:window.location.href= '/papers'" />
-  <% end %>
+
+  <input type="submit" value="编辑试卷" class="submit_btn" onclick="javascript:window.location.href='/papers/<%=  @paper.id %>/new_step_two'"/>
+  <input type="submit" value="返回试卷列表" class="submit_btn" onclick="javascript:window.location.href='/papers'"/>
 </div>
 
-<% sum=["一","二","三","四","五","六","七","八","九","十"] %>
-<% index = 0 %>
-<% @blocks.each do |block| %>
+<%= render :partial=>"/papers/new_module" %>
 
-  <% total_block_score = 0 %>
-  <% block.block_question_relations.each do |relation| %>
-    <% if relation.score != nil %>
-      <% total_block_score = total_block_score+relation.score %>
-    <% end %>
+<div class="soso" id="change_info" style="display:none">
+
+  <% form_for :info ,:url=>"/papers/#{@paper.id}/change_info" do |f| %>
+    <div>试卷编号：<%= @paper.id %></div>
+    <div>录入：<%= @paper.user.name %></div>
+    <div>出卷时间：<%= @paper.created_at.strftime("%Y年%m月%d日%H时%M分") %></div>
+    <div>总题数：<%= f.text_field :total_question_num,:value=>@paper.total_question_num %></div><br/>
+    <div>备注：<%= f.text_area :description,:value=>@paper.description ,:size=>40,:cols=>"55",:rows=>"3",%></div>
+
+    <%= f.submit "完成", :class=>"submit_btn"%><input type="submit" value="取消" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @paper.id %>/new_step_two'"/>
   <% end %>
-  <h1 class="biz_art_title"><%= sum[index] %>、<%= block.title %> (共<%= block.questions.count%>题，总分:<%= total_block_score %>分)</h1>
-  <% index +=1 %>
-  <div class="biz_art_list_box">
-    <ul>
-      <% block.questions.each do |question| %>
-        <li>
-          <%= render :partial=>"/papers/question_info",:object=>question %>
-          <h2><a href="#" onMouseOver="javascript:question_info(<%= question.id %>)"><%= question.title %></a></h2>
-          <% question.question_points.each do |point| %>
-            <p><%=  point.description %></p>
-            <% point.question_attrs.each do |attr| %>
-              <%= attr.key %>、 <%= attr.value %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <% end %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-  <div class="clear"></div>
 
-<% end %>
+</div>
+
+<%= render :partial=>"/papers/paper_blocks" %>
 

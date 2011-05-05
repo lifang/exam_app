@@ -21,10 +21,6 @@
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">成绩查询</a>
         </div>
         <a id="logo" href="/"><span>考试系统</span></a>
-        <%if cookies[:user_id]!= nil%>
-          <%user=User.find_by_id(cookies[:user_id])%>
-          <p class="back_welcome"> <%= user.username %>欢迎使用   &nbsp;&nbsp;&nbsp; <%= link_to"登出",'/sessions/signout',:method => :delete %></p>
-        <%end%>
         <div class="clear"></div>
         <p class="title_link">
           <a href="#">试卷管理</a>

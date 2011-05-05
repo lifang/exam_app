@@ -4,6 +4,7 @@ class Paper < ActiveRecord::Base
 
   belongs_to:user,:foreign_key=>"creater_id"
 
+  default_scope:order=>"id desc"
 end
 
 
