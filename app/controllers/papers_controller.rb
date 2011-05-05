@@ -92,17 +92,10 @@ class PapersController < ApplicationController
     @examinaationcategory=ExaminaationCategory.create(:name=>params[:typename])
     @examination=Examination.create(:examinaation_category_id=>@examinaationcategory.id,:paper_id=>@paperid[rand(@paperid.length)],:title=>params[:title],:creater_id=>cookies[:user_id],:description=>params[:description],:is_open=>params[:opened])
     ExamPlan.create(:examination_id=>@examination.id,:creater_id=>cookies[:user_id],:start_at_time=>params[:d],:exam_time=>params[:timeout],:start_end_time=>params[:d]+params[:timeout].second.ago,:has_time_limit=>params[:timelimit])
-    function get_text(text){
-      @text=replace(text,"\n","")
-       @area=replace(@text,"\b","")
-       @grade=@area.split("")
-       return @grade
-    }
     @tex=get_text(params[:grade])
-    @aa=@tex.length
-
-
-
+    (0..@tex.length/2).each do
+     ScoreLevel.create(:examination_id=>@examination.id,:key=>@tex[0],:value=>@text[1])
+   end
 
 
 
