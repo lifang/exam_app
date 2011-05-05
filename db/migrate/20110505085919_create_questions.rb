@@ -7,8 +7,6 @@ class CreateQuestions < ActiveRecord::Migration
       t.integer :correct_type
       t.text :analysis
       t.string :question_attrs
-
-      t.timestamps
     end
   end
 
