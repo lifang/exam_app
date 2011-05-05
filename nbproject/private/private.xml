@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+<<<<<<< HEAD
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+=======
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
+        <file>
+            <url>app/views/pages/new.erb</url>
+            <line>10</line>
+        </file>
+    </editor-bookmarks>
+>>>>>>> d4bbf855adb081c3810133462c665a8433d95caf
 </project-private>

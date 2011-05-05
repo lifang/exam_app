@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110428085833) do
+ActiveRecord::Schema.define(:version => 20110512054812) do
 
   create_table "block_question_relations", :force => true do |t|
     t.integer "question_id"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20110428085833) do
     t.datetime "exam_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "has_time_limit"
   end
 
   add_index "exam_plans", ["creater_id"], :name => "index_exam_plans_on_creater_id"
@@ -85,6 +86,7 @@ ActiveRecord::Schema.define(:version => 20110428085833) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_open"
   end
 
   add_index "examinations", ["paper_id"], :name => "index_examinations_on_paper_id"
@@ -171,6 +173,14 @@ ActiveRecord::Schema.define(:version => 20110428085833) do
   add_index "rater_record_relations", ["exam_rater_id"], :name => "index_rater_record_relations_on_exam_rater_id"
   add_index "rater_record_relations", ["exam_record_id"], :name => "index_rater_record_relations_on_exam_record_id"
 
+  create_table "score_levels", :force => true do |t|
+    t.integer  "examination_id"
+    t.string   "key"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "tags", :force => true do |t|
     t.string "name"
   end
@@ -185,6 +195,8 @@ ActiveRecord::Schema.define(:version => 20110428085833) do
     t.string   "encrypted_password"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "status"
+    t.string   "active_code"
   end
 
 end

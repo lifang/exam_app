@@ -15,6 +15,18 @@ class QuestionsController < ApplicationController
     redirect_to  "/papers/#{params[:question][:paper_id]}/new_step_two"
   end
 
+  def edit
+    @question=Question.find(params[:question][:paper_id])
+    @question.update_attributes(:title=>params[:question][:title])
+    @question_point=QuestionPoint.find(params[:question][:block_id])
+    @question_point.update_attributes(:answer=>params[:question][:answer])
+    QuestionAttr.find(params[:question][:attr_ids][0])
+    redirect_to  "/papers/#{params[:question][:paper_id]}/new_step_two"
+
+   
+    
+  end
+
   def  destroy
     @question=Question.find(params[:id])
     @question.destroy

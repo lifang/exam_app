@@ -1377,7 +1377,7 @@ a:hover{
     border:#a6a6a6 1px solid;
     background:#e8e8e8;
     width:350px;
-    height:650px;
+    height:610px;
     padding:3px;
     z-index:9;
 }
@@ -1385,7 +1385,7 @@ a:hover{
     background:#FFF;
     padding:5px;
     width:340px;
-    height:640px;
+    height:600px;
     
 }
 .big_pic_box .in .title {
@@ -2719,6 +2719,21 @@ a:hover{
     float:right;
     padding-right:10px;
     font-weight:bold;
+}
+.rater_login {
+    width:950px;
+    margin:0 auto;
+}
+.rater_login {
+    width:950px;
+    margin:0 auto;
+}
+.rater_login table{
+    margin-left:250px;
+    margin-top:20px;
+}
+.rater_login table td{
+    padding:5px 5px 10px 5px;
 }
 
 

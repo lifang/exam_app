@@ -1,10 +1,9 @@
 ExamApp::Application.routes.draw do
 
   resources :users do
-  collection do
-    get "get_proof_code"
-  
-  end
+    collection do
+      get "get_proof_code"
+    end
   end
   resources :sessions 
   resources :questions
@@ -14,24 +13,11 @@ ExamApp::Application.routes.draw do
   match '/signout'=> 'sessions#destroy'
   resources :pages do
     collection do
-      get "create_step_one"
-      get "create_step_two"
-      get "edit"
-      get "create_exam_one"
-      get "create_exam_two"
-      get "create_exam_three"
-      get "exam_list"
-      get "show_exam"
-      get "edit_exam_base"
-      get "edit_exam_users"
-      get "edit_exam_raters"
-      get "setting"
-      get "result_list"
-      get "my_exam_list"
-      get "exam_results"
-      get "result_list"
-      get "show_result"
-      get "my_results"
+      get "create_step_one", "create_step_two", "edit", "create_exam_one", "create_exam_two", "create_exam_three",
+          "exam_list", "show_exam", "edit_exam_base", "edit_exam_users", "edit_exam_raters", "setting",
+          "result_list", "my_exam_list", "exam_results", "result_list", "show_result", "my_results", "answer_paper"
+      get "rater_login", "paper_list", "rate_paper"
+      get "exam_query_login", "my_results_simple", "user_exams"
     end
   end
   resources :back
@@ -40,14 +26,24 @@ ExamApp::Application.routes.draw do
       get "new_step_one"
       post "create_step_one"
       post  "search"
-
+      post "create_exam_one"
+      post "create_exam_two"
+      post "create_exam_three"
+      post "exam_list"
       post "create_step_two"
+       get "new_exam_one"
+       post :delete_all
     end
     member do
+      get "new_exam_three"
+      get "new_exam_two"
+      get "new_exam_one"
       get "new_step_two"
       post "change_info"
+       
     end
   end
+    match '/new_exam_one'=>'papers#new_exam_one'
   # The priority is based upon order of creation:
   # first created -> highest priority.
   # Sample of regular route:
