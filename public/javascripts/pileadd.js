@@ -17,6 +17,6 @@ function create_exam(){
         if (sles[i].checked) {
             checked_ids.push(sles[i].value);
         }       
-    }alert(checked_ids,"提示","大家好")
+    }
     document.getElementById("deleteall_delete_all").value = checked_ids;
 }
