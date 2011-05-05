@@ -2,7 +2,7 @@
   <li>2011年第一次数学模拟测试</li>
 </ul>
 <div class="main_box_back">
-  <h2><span>成绩列表</span><div class="right"><a href="#">导出成绩</a></div></h2>
+  <h2><span>阅卷列表</span><div class="right"><a href="#" title="随机抽取一份试卷开始批阅">开始批阅</a></div></h2>
   <div class="in">
     <div class="exam_result_div">
       <div class="paper_base_info">考试基本信息</div>
@@ -12,63 +12,58 @@
       <div>考试时长：120分钟</div>
       <div>描述：本次考试由软件工程系**老师组织，考试范围为第一章到第十二章内容。</div>
     </div>
-    <div class="add_details">
-      <div class="detail">考生人数：50人</div>
-      <div class="detail">优秀：10人</div>
-      <div class="detail">良好：20人</div>
-      <div class="detail">通过：18人</div>
-      <div class="detail">不通过：2人</div>
+    <div class="add_details">     
+      <div class="detail">试卷数量：<font color="red">30份</font></div>
+      <div class="detail">您已经批阅的数量：<font color="red">23份</font></div>
+      <div class="detail">您未批阅的数量：<font color="red">7份</font></div>
       <div class="clear"></div>
     </div>
 
     <table>
       <colgroup>
-        <col width="120"/>
-        <col width="140" />
-        <col width="120" />
-        <col width="100"/>
-        <col width="80"/>
-        <col width="80"/>
+        <col width="220"/>
+        <col width="240" />
+        <col width="180"/>
         <col width=""/>
       </colgroup>
       <thead>
         <tr>
-          <th>姓名</th>
-          <th>email</th>
-          <th>手机号码</th>
-          <th>是否参加考试</th>
-          <th>得分&nbsp;&nbsp;<img src="/images/triangle_down.gif" width="8" height="8"/></th>
-          <th>等级&nbsp;&nbsp;<img src="/images/triangle_up.gif" width="8" height="8"/></th>
+          <th>试卷编号</th>
+          <th>是否批阅</th>
+          <th>得分</th>
           <th>答卷</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>张三</td>
-          <td>zhangsan@hotmail.com</td>
-          <td>13234567898</td>
-          <td>是</td>
-          <td>90</td>
-          <td>优秀</td>
+        <tr class="ever">
+          <td>110011</td>
+          <td>已批阅</td>
+          <td>30</td>
           <td><a href="#">查看</a></td>
         </tr>
-        <tr>
-          <td>李四</td>
-          <td>lisi@126.com</td>
-          <td>13445678908</td>
-          <td>是</td>
-          <td>87</td>
-          <td>良好</td>
+        <tr class="ever">
+          <td>110013</td>
+          <td>已批阅</td>
+          <td>23</td>
           <td><a href="#">查看</a></td>
         </tr>
-        <tr>
-          <td>王五</td>
-          <td>wangwu@gmail.com</td>
-          <td>18912345654</td>
-          <td>否</td>
+        <tr class="never">
+          <td>110012</td>
+          <td>未批阅</td>
           <td>无</td>
+          <td><a href="#">批阅</a></td>
+        </tr>
+        <tr class="never">
+          <td>110014</td>
+          <td>未批阅</td>
           <td>无</td>
+          <td><a href="#">批阅</a></td>
+        </tr>
+        <tr class="never">
+          <td>110015</td>
+          <td>未批阅</td>
           <td>无</td>
+          <td><a href="#">批阅</a></td>
         </tr>
       </tbody>
     </table>

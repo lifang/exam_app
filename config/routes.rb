@@ -13,24 +13,11 @@ ExamApp::Application.routes.draw do
   match '/signout'=> 'sessions#destroy'
   resources :pages do
     collection do
-      get "create_step_one"
-      get "create_step_two"
-      get "edit"
-      get "create_exam_one"
-      get "create_exam_two"
-      get "create_exam_three"
-      get "exam_list"
-      get "show_exam"
-      get "edit_exam_base"
-      get "edit_exam_users"
-      get "edit_exam_raters"
-      get "setting"
-      get "result_list"
-      get "my_exam_list"
-      get "exam_results"
-      get "result_list"
-      get "show_result"
-      get "my_results"
+      get "create_step_one", "create_step_two", "edit", "create_exam_one", "create_exam_two", "create_exam_three",
+          "exam_list", "show_exam", "edit_exam_base", "edit_exam_users", "edit_exam_raters", "setting",
+          "result_list", "my_exam_list", "exam_results", "result_list", "show_result", "my_results", "answer_paper"
+      get "rater_login", "paper_list", "rate_paper"
+      get "exam_query_login", "my_results_simple", "user_exams"
     end
   end
   resources :back
