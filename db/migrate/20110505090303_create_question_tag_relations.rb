@@ -6,6 +6,8 @@ class CreateQuestionTagRelations < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_idex :question_tag_relations,:tag_id
+    add_idex :question_tag_relations,:question_id
   end
 
   def self.down
