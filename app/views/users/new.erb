@@ -8,7 +8,7 @@
         <td valign="top" align="right"><span class="must_r">*</span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</td>
         <td><%= f.text_field :username, :class => "input_style" %><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span><span class="must_r"><%= flash[:nameused] %></span></span><span  id="username_span"></span></td>
       </tr>
-      
+
 
       <tr>
         <td valign="top" align="right"><span class="must_r ">*</span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
@@ -39,9 +39,9 @@
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</td>
         <td><input class="input_style" type="text"  name="proof_code" id="proof_code"/> <span id="proofcode" class="check_num" title="看不清楚？可以点击此处换一张" onclick="<%= remote_function :update => :proofcode, :method => :get, :url => "/users/get_proof_code"  %>">
-          
-           <%= session[:proof_code] %>
-      
+
+            <%= session[:proof_code] %>
+
           </span><span class="must_r"><%= flash[:prooferror] %></span></td>
       </tr>
       <tr>
