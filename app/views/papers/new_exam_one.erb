@@ -6,7 +6,7 @@
   <h2><span>创建考试</span></h2>
   <div class="in">
     <div class="paper_base_info">设置考试基本属性</div>
-     <% form_for :examplan ,:url=>'/papers/#{params[:id]}/create_exam_one', :method=>:post do %>
+     <% form_for :examplan ,:url=>'/papers/create_exam_one', :method=>:post do %>
     <div class="add_details">
       <font color="red">*</font>
       是否开放考试：<input type="radio" name="opened" value="是" checked="true"/>开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -15,7 +15,7 @@
     </div>
     <div class="add_details">
       <font color="red">*</font>
-      考试类型：<select>
+      考试类型：<select id="typename" name="typename">
         <option>请选择考试类型</option>
         <option>自测</option>
         <option>模拟</option>
@@ -27,7 +27,7 @@
     </div>
     <div class="add_details">
       <div class="detail">&nbsp;&nbsp;&nbsp;描述：</div>
-      <div class="detail"><textarea cols="69" rows="4" class="textarea_style"></textarea></div>
+      <div class="detail"><textarea cols="69" rows="4" class="textarea_style" name="description" title="description"></textarea></div>
       <div class="detail">&nbsp;&nbsp;请填写对考试必要的一些文字描述</div>
     </div>
     <div class="clear"></div>
@@ -41,7 +41,7 @@
       <span>&nbsp;&nbsp;&nbsp;</span>
     </div>
     <div class="add_details">
-      开始开始于：<input type="text" class="input_style" name="title" value="/ 年/ 月/ 日" size="20" onClick="WdatePicker();" readonly/>
+      开始开始于：<input type="text" class="input_style" name="time" value="/ 年/ 月/ 日" size="20" onClick="WdatePicker();" readonly/>
       <select>
         <option>/ 时</option>
         <option>8</option>
@@ -57,7 +57,7 @@
       <span>&nbsp;</span>
     </div>
     <div class="add_details">
-      考试时长：<input type="text" class="input_style" name="title" value="" size="20"/>小时
+      考试时长：<input type="text" class="input_style" name="timeout" value="" size="20"/>分钟
       <span>&nbsp;</span>
     </div>
     <div class="clear"></div>
@@ -67,7 +67,7 @@
     <div class="add_details">
       <div class="detail">&nbsp;&nbsp;&nbsp;成绩等级：</div>
       <div class="detail">
-        <textarea cols="30" rows="6" class="textarea_style">
+        <textarea cols="30" rows="6" class="textarea_style" id="grade" name="grade">
           100-90  优秀
           89-80 良好
           79-60 通过
@@ -82,7 +82,8 @@
   </div>
   <div class="in">
     <input type="submit" value="创建" title="只创建考试基本信息" class="submit_btn"/>
-    <input type="submit" value="下一步" title="创建考试，并且跳转到添加考生界面" class="submit_btn"/>
+    <input type="submit" value="下一步" title="创建考试，并且跳转到添加考生界面" class="submit_btn" onClick="javascript:window.location.href='/papers/new_exam_two'" />
+      <% end %>
   </div>
-  <% end %>
+  
 </div>

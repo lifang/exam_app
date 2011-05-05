@@ -2,7 +2,7 @@ class PapersController < ApplicationController
   before_filter :access?
 
   def index
-    @papers=Paper.find_by_sql("select * from papers p where p.creater_id=#{cookies[:user_id]}").paginate(:per_page =>10, :page => params[:page],:order => "created_at desc",:conditions => ["title like ? " , "%#{params[:search]}%"])
+    @papers=Paper.find_by_sql("select * from papers p where p.creater_id=#{cookies[:user_id]} order by created_at desc").paginate(:per_page =>10, :page => params[:page],:order => "created_at desc",:conditions => ["title like ? " , "%#{params[:search]}%"])
   end
 
   def new
@@ -31,12 +31,6 @@ class PapersController < ApplicationController
     @blocks= @paper.paper_blocks
   end
 
- def create_exam_one
-
-  end
-  def create_exam_three
-
-  end
   def new_step_one
   end
 
@@ -78,7 +72,45 @@ class PapersController < ApplicationController
     end
     render 'index'
   end
+  def delete_all
+    Paper.find_by_sql("select * from papers where papers.id in (#{params[:deleteall][:delete_all]})").each  do |paper|
+      paper.destroy
+    end
+    redirect_to "/users/new"
+  end
+  def new_exam_one
+    #     @aa=Paper.find_by_sql("select * from papers where papers.id in (#{params[:deleteall][:delete_all]})")
+    #    if params[:deleteall][:delete_all].empty?
+    #    flash[:noaccess]="请选择考卷"
+    #    redirect_to "/papers"
+    #  else
+    #    redrict_to "/papers/#{params[:deleteall][:delete_all]}/new_exam_one"
+    #  end
+  end
+  def create_exam_one
+    @paperid=params[:deleteall][:delete_all]
+    @examinaationcategory=ExaminaationCategory.create(:name=>params[:typename])
+    @examination=Examination.create(:examinaation_category_id=>@examinaationcategory.id,:paper_id=>@paperid[rand(@paperid.length)],:title=>params[:title],:creater_id=>cookies[:user_id],:description=>params[:description],:is_open=>params[:opened])
+    ExamPlan.create(:examination_id=>@examination.id,:creater_id=>cookies[:user_id],:start_at_time=>params[:d],:exam_time=>params[:timeout],:start_end_time=>params[:d]+params[:timeout].second.ago,:has_time_limit=>params[:timelimit])
+    function get_text(text){
+      @text=replace(text,"\n","")
+       @area=replace(@text,"\b","")
+       @grade=@area.split("")
+       return @grade
+    }
+    @tex=get_text(params[:grade])
+    @aa=@tex.length
 
+
+
+
+
+
+
+  end
+  def create_exam_three
+
+  end
   
   def edit
   end
@@ -87,23 +119,12 @@ class PapersController < ApplicationController
   end
   
   def user_exist?
-    if User.find+(cookies[:user_id]) != current_user
+    if User.find(cookies[:user_id]) != current_user
       redirect_to root_path
     end
   end
 
 
-
-  
-
- 
-
-
-    def user_exist?
-    if User.find_by_id(cookies[:user_id]) != current_user
-      redirect_to root_path
-    end
-  end
 
 
 end
