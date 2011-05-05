@@ -7,7 +7,7 @@ ExamApp::Application.routes.draw do
   end
   resources :sessions 
   resources :questions
-
+  post "/questions/edit"
   post "/questions/create"
 
   match '/signout'=> 'sessions#destroy'

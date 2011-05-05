@@ -16,13 +16,18 @@
         <div class="clear"></div>
         <div class="title">题面：</div>
         <%= f.text_area :title ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
-        <div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
+        <% attr_default_sum = 4 %>
+        <div class="title">选项：<div class="chose_add"><a href="javascript:void(0);" onClick="javascript:">增加选项</a></div></div>
         <div class="clear"></div>
         <div class="question">
-          <div class="attr"><%= f.text_field :attr1_key ,:class=>"input_style",:value=>"A",:size=>"5"%> 、 <%= f.text_field :attr1_value ,:class=>"input_style"%></div>
-          <div class="attr"><%= f.text_field :attr2_key ,:class=>"input_style",:value=>"B",:size=>"5"%> 、 <%= f.text_field :attr2_value ,:class=>"input_style"%></div>
-          <div class="attr"><%= f.text_field :attr3_key ,:class=>"input_style",:value=>"C",:size=>"5"%> 、 <%= f.text_field :attr3_value ,:class=>"input_style"%></div>
-          <div class="attr"><%= f.text_field :attr4_key ,:class=>"input_style",:value=>"D",:size=>"5"%> 、 <%= f.text_field :attr4_value ,:class=>"input_style"%></div>
+          <%= f.hidden_field :attr_sum , :value=>attr_default_sum %>
+          <% index = 0 %>
+          <% key=["A","B","C","D","E","F","G","H","I","J","K","L","M","O","P","Q","R","S","T","U","V","W","X","Y","Z"] %>
+          <% (1..attr_default_sum).each do %>
+            <% index += 1 %>
+            <div class="attr"><%= f.text_field :attr_key ,:class=>"input_style",:name=>"attr#{index}_key",:value=>"#{key[index-1]}",:size=>"1"%> 、 <%= f.text_field :attr_value ,:name=>"attr#{index}_value",:class=>"input_style" ,:size=>"15"%><%= link_to "删除","#"%></div>
+          <% end %>
+
         </div>
         <div class="answer">答案：<%= f.text_field :answer ,:class=>"input_style",:size=>"40"%></div>
         <div class="answer">分值：<%= f.text_field :score ,:class=>"input_style"%></div>
