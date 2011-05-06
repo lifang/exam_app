@@ -8,7 +8,7 @@ ExamApp::Application.routes.draw do
   resources :sessions 
   resources :questions
 
-  post "/users/update"
+#  post "/users/update"
  
   post "/questions/edit"
 
