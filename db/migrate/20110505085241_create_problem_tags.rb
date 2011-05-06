@@ -4,7 +4,7 @@ class CreateProblemTags < ActiveRecord::Migration
       t.integer :problem_id
       t.integer :total_num
 
-      t.timestamps
+
     end
     add_index :problem_tags,:problem_id
   end

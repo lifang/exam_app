@@ -4,7 +4,6 @@ class CreateUserRoleRelations < ActiveRecord::Migration
       t.integer :role_id
       t.integer :user_id
 
-      t.timestamps
     end
     add_index :user_role_relations,:role_id
     add_index :user_role_relations,:user_id
