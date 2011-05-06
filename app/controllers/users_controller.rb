@@ -50,6 +50,8 @@ class UsersController < ApplicationController
    # @user= User.find(params[:id])
   end
 
+
+
   #  def update
   #    @user = User.find(params[:id])
   #    respond_to do |format|
@@ -69,5 +71,6 @@ class UsersController < ApplicationController
    puts"#{@user.email}``````````````````````````````````````````````````````````````````"
     redirect_to @user
   end
+
 end
 
