@@ -49,8 +49,8 @@ class UsersController < ApplicationController
   def edit
    # @user= User.find(params[:id])
   end
-<<<<<<< HEAD
-=======
+
+
 
   #  def update
   #    @user = User.find(params[:id])
@@ -71,6 +71,6 @@ class UsersController < ApplicationController
    puts"#{@user.email}``````````````````````````````````````````````````````````````````"
     redirect_to @user
   end
->>>>>>> a8be73471a786eb4ec6b612fb30614c420e4b531
+
 end
 
