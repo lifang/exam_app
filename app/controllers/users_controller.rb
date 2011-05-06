@@ -64,11 +64,11 @@ class UsersController < ApplicationController
   #      end
   #    end
   #  end
-  def update
-    @user= User.find(params[:id])
-    @user.update_attributes(:email=>params[:email])
-    redirect_to @user
-  end
+#  def update
+#    @user= User.find(params[:user_email])
+#    @user.update_attributes(params[:user])
+#    redirect_to @user
+#  end
 
 end
 
