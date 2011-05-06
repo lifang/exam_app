@@ -15,6 +15,7 @@ class CreateExaminations < ActiveRecord::Migration
       
       t.timestamps
     end
+    add_index :examinations,:creater_id
   end
 
   def self.down

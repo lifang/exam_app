@@ -1,7 +1,4 @@
-class BlockQuestionRelation < ActiveRecord::Base
-  belongs_to:paper
+class ExaminationPaperRealtion< ActiveRecord::Base
   belongs_to:examination
-
-  
+  belongs_to:paper
 end
-
