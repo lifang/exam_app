@@ -1,4 +1,4 @@
-class Question < ActiveRecord::Base
+class Problem < ActiveRecord::Base
   has_many:problem_tags
   belongs_to:category
   has_many:problem_tag_relations,:dependent=>:destroy

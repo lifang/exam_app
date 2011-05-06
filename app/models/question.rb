@@ -1,3 +1,4 @@
 class Question < ActiveRecord::Base
-  belongs_to:problem
+  has_many:question_tag_realtions
+  has_many:tags
 end

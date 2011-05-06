@@ -6,7 +6,7 @@ class CreateProblemTags < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_idex :problem_tags,:problem_id
+    add_index :problem_tags,:problem_id
   end
 
   def self.down

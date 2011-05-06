@@ -2,7 +2,7 @@ class CreateExaminationPaperRelations < ActiveRecord::Migration
   def self.up
     create_table :examination_paper_relations do |t|
       t.integer :examination_id
-      t.paper_id :paper_id
+      t.integer :paper_id
       t.timestamps
     end
     add_index :examination_paper_relations,:examination_id
