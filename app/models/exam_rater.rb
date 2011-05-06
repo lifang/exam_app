@@ -2,7 +2,7 @@ class ExamRater < ActiveRecord::Base
 
   has_many :rater_user_relations,:dependent=>:destory
   has_many :exam_users, :through=>:rater_user_relations, :foreign_key => "exam_user_id"
-  has_many :examinations,:through=>:rater_user_relations,:foreign_key=>"examination_id"
+  belongs_to :examination
   attr_accessible :name,:password,:mobilephone,:email,:password_confirmation
 
   email_regex=/\A[\w+\.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -12,6 +12,4 @@ class ExamRater < ActiveRecord::Base
   validates :name,:presence=>true,:format=>{:with=>name_regex},:length=>{:maximum=>30}
   validates :email,:presence=>true,:uniqueness=>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
   validates:password,:presence=>true,:confirmation=>true,:length=>{:within=>6..20}
-  
-
-end
+ end

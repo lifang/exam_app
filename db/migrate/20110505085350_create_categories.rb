@@ -4,8 +4,10 @@ class CreateCategories < ActiveRecord::Migration
       t.string :name
       t.integer :parent_id
 
-      t.timestamps
+   
     end
+    add_index :categories,:parent_id
+    add_index :categories,:name
   end
 
   def self.down

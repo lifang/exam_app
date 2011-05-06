@@ -4,16 +4,15 @@ ExamApp::Application.routes.draw do
     collection do
       get "get_proof_code"
     end
+    member do
+      post "/users/update"
+    end
   end
   resources :sessions 
   resources :questions
 
-  post "/users/update"
- 
   post "/questions/edit"
-
   post "/questions/create"
-
   match '/signout'=> 'sessions#destroy'
   resources :pages do
     collection do

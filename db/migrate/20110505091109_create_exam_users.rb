@@ -13,7 +13,7 @@ class CreateExamUsers < ActiveRecord::Migration
       t.boolean :is_submited
       t.boolean :open_to_user
       t.string :answer_sheet_url
-      t.timestamps
+   
     end
     add_index :exam_users,:examination_id
     add_index :exam_users,:user_id

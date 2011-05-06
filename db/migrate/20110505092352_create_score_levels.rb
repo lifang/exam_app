@@ -5,9 +5,10 @@ class CreateScoreLevels < ActiveRecord::Migration
       t.string :key
       t.string :value
 
-      t.timestamps
+
     end
     add_index :score_levels,:examination_id
+    add_index :score_levels,:key
   end
 
   def self.down
