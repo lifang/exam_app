@@ -1,8 +1,6 @@
 class ExamRater < ActiveRecord::Base
-
- 
   has_many :rater_user_relations
- has_many :exam_users, :through=>:rater_user_realtion, :foreign_key => "examination_id"
+ has_many :exam_users, :through=>:rater_user_realtion, :foreign_key => "exam_rater_id"
 
   attr_accessible :name,:password,:mobilephone,:email,:password_confirmation
 
