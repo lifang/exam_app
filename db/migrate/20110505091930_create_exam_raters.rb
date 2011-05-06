@@ -7,7 +7,6 @@ class CreateExamRaters < ActiveRecord::Migration
       t.string :email
       t.string :author_code
 
-      t.timestamps
     end
   end
 
