@@ -1,4 +1,18 @@
-
+<script type="text/javascript" charset="utf-8" src="/kindeditor/build/kindeditor.js"></script>
+<script type="text/javascript">
+  KE.show({
+    id : 'title',
+    skinType: 'tinymce',
+    cssPath : './index.css',
+    items : [
+        'undo', 'redo','copy', 'paste',
+        'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent',
+        'specialchar', 'link', 'unlink', 'image', 'flash', 'media', '-',
+        'fontname', 'fontsize', 'textcolor', 'bold',
+        'italic', 'underline',  'table', 'hr'
+    ]
+  });
+</script>
 <ul class="tab_biz">
   <li class="actived"><a href="#">2011年英语模拟试卷</a></li>
 </ul>
@@ -14,7 +28,7 @@
   </div>
   <input type="submit" value="更新" class="submit_btn"/>
 </div>
-<div class="title_list_style_box">
+<div class="title_list_style_box" style="display: none;">
   <div class="arrow" style="top:35px;"></div>
   <div class="block_pic_box" style="top:0px;">
     <div class="in">
@@ -39,8 +53,8 @@
       <div class="type"><input type="radio" name="type" /> 完形填空题</div>
       <div class="type"><input type="radio" name="type" /> 综合题</div>
       <div class="clear"></div>
-      <div class="title">题面：</div>
-      <textarea name="title" cols="45" rows="3" class="textarea_style"></textarea>
+      <div class="title">题目描述：</div>
+      <textarea name="title" id="title" cols="45" rows="3" class="textarea_style"></textarea>
       <div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
       <div class="clear"></div>
       <div class="question">
