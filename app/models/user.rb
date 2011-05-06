@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
- has_many :user_role_relations
+  has_many :user_role_relations,:dependent=>:destroy
+  has_many :roles,:through=>:user_role_relations,:foreign_key=>"role_id"
   has_many:examinations,:foreign_key=>"creater_id"
   default_scope :order=>'users.created_at desc'
-   has_many:roles
   email_regex=/\A[\w+\.]+@[a-z\d\-.]+\.[a-z]+\z/i
 	name_regex=/[a-zA-Z]{1,20}|[\u4e00-\u9fa5]{1,10}/
 

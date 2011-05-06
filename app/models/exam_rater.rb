@@ -1,7 +1,10 @@
 class ExamRater < ActiveRecord::Base
-  has_many :rater_user_relations
- has_many :exam_users, :through=>:rater_user_realtion, :foreign_key => "exam_rater_id"
 
+
+ 
+ has_many :rater_user_relations,:dependent=>:destory
+  has_many :exam_users, :through=>:rater_user_relations, :foreign_key => "exam_user_id"
+  has_many :examinations,:through=>:rater_user_relations,:foreign_key=>"examination_id"
   attr_accessible :name,:password,:mobilephone,:email,:password_confirmation
 
   email_regex=/\A[\w+\.]+@[a-z\d\-.]+\.[a-z]+\z/i
