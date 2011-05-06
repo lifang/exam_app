@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     render :inline => session[:proof_code]
   end
   def edit
-   # @user= User.find(params[:id])
+    @user= User.find(params[:id])
   end
 
   #  def update
@@ -64,9 +64,7 @@ class UsersController < ApplicationController
   #  end
   def update
     @user= User.find(params[:id])
-    puts"#{@user.email}``````````````````````````````````````````````````````````````````"
     @user.update_attributes(:email=>params[:email])
-   puts"#{@user.email}``````````````````````````````````````````````````````````````````"
     redirect_to @user
   end
 end
