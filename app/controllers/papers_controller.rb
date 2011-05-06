@@ -2,7 +2,7 @@ class PapersController < ApplicationController
   before_filter :access?
 
   def index
-    @papers=Paper.find_by_sql("select * from papers p where p.creater_id=#{cookies[:user_id]} order by created_at desc").paginate(:per_page =>10, :page => params[:page],:order => "created_at desc",:conditions => ["title like ? " , "%#{params[:search]}%"])
+    @papers=Paper.find_by_sql("select * from papers p where p.creater_id=#{cookies[:user_id]} order by created_at desc").paginate(:per_page =>8, :page => params[:page],:order => "created_at desc",:conditions => ["title like ? " , "%#{params[:search]}%"])
   end
 
   def new
@@ -79,27 +79,33 @@ class PapersController < ApplicationController
     redirect_to "/users/new"
   end
   def new_exam_one
-    #     @aa=Paper.find_by_sql("select * from papers where papers.id in (#{params[:deleteall][:delete_all]})")
-    #    if params[:deleteall][:delete_all].empty?
-    #    flash[:noaccess]="请选择考卷"
-    #    redirect_to "/papers"
-    #  else
-    #    redrict_to "/papers/#{params[:deleteall][:delete_all]}/new_exam_one"
-    #  end
+#        @aa=Paper.find_by_sql("select * from papers where papers.id in (#{params[:deleteall][:delete_all]})")
+#       if params[:deleteall][:delete_all].empty?
+#       flash[:noaccess]="请选择考卷"
+#       redirect_to "/papers"
+#     else
+#       redrict_to "/papers/#{params[:deleteall][:delete_all]}/new_exam_one"
+#     end
+ 
   end
   def create_exam_one
-    @paperid=params[:deleteall][:delete_all]
-    @examinaationcategory=ExaminaationCategory.create(:name=>params[:typename])
-    @examination=Examination.create(:examinaation_category_id=>@examinaationcategory.id,:paper_id=>@paperid[rand(@paperid.length)],:title=>params[:title],:creater_id=>cookies[:user_id],:description=>params[:description],:is_open=>params[:opened])
-    ExamPlan.create(:examination_id=>@examination.id,:creater_id=>cookies[:user_id],:start_at_time=>params[:d],:exam_time=>params[:timeout],:start_end_time=>params[:d]+params[:timeout].second.ago,:has_time_limit=>params[:timelimit])
-    @tex=get_text(params[:grade])
-    (0..@tex.length/2).each do
-     ScoreLevel.create(:examination_id=>@examination.id,:key=>@tex[0],:value=>@text[1])
-   end
-
-
-
-
+    @timeout=params[:timeout]
+    @opened=params[:opened]
+    @time=params[:time]
+    redirect_to "/papers/new_exam_two"
+#    @paperid=params[:deleteall][:delete_all]
+#
+#    @examination=Examination.create(:paper_id=>@paperid[rand(@paperid.length)],:title=>params[:title],:creater_id=>cookies[:user_id],:description=>params[:description],:is_paper_open=>params[:opened],
+#      :start_at_time=>params[:d],:start_end_time=>params[:d]+params[:timeout].second.ago,:exam_time=>params[:timeout],:is_score_open=>params[:open_result])
+#    @tex=get_text(params[:grade])
+#    i=0
+#    (0..@tex.length/2).each do
+#      ScoreLevel.create(:examination_id=>@examination.id,:key=>@tex[i],:value=>@text[i+1])
+#      i +=2
+#    end
+  end
+  def new_exam_two
+    
   end
   def create_exam_three
 

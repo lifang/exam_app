@@ -6,84 +6,99 @@
   <h2><span>创建考试</span></h2>
   <div class="in">
     <div class="paper_base_info">设置考试基本属性</div>
-     <% form_for :examplan ,:url=>'/papers/create_exam_one', :method=>:post do %>
     <div class="add_details">
-      <font color="red">*</font>
-      是否开放考试：<input type="radio" name="opened" value="是" checked="true"/>开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="radio" name="opened" value="否" />封闭
-      <span>&nbsp;&nbsp;&nbsp;开放即所有人都能参加，封闭即只有收到邮件的人可以参加</span>
+      考试试卷：<a href="#">2011英语模拟考试</a>
+      <a href="#">[重选试卷]</a>
     </div>
-    <div class="add_details">
-      <font color="red">*</font>
-      考试类型：<select id="typename" name="typename">
-        <option>请选择考试类型</option>
-        <option>自测</option>
-        <option>模拟</option>
-      </select>
-    </div>
-    <div class="add_details">
-      考试标题：<input type="text" class="input_style" name="title" value="" size="65"/>
-      <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
-    </div>
-    <div class="add_details">
-      <div class="detail">&nbsp;&nbsp;&nbsp;描述：</div>
-      <div class="detail"><textarea cols="69" rows="4" class="textarea_style" name="description" title="description"></textarea></div>
-      <div class="detail">&nbsp;&nbsp;请填写对考试必要的一些文字描述</div>
-    </div>
-    <div class="clear"></div>
-  </div>
-  <div class="in">
-    <div class="paper_base_info">考试时长设置</div>
-    <div class="add_details">
-      <font color="red">*</font>
-      是否限制考试时段：<input type="radio" name="timelimit" value="是" checked="true"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="radio" name="timelimit" value="否" />否
-      <span>&nbsp;&nbsp;&nbsp;</span>
-    </div>
-    <div class="add_details">
-      开始开始于：<input type="text" class="input_style" name="time" value="/ 年/ 月/ 日" size="20" onClick="WdatePicker();" readonly/>
-      <select>
-        <option>/ 时</option>
-        <option>8</option>
-        <option>9</option>
-        <option>10</option>
-      </select>
-      <select>
-        <option>/ 分</option>
-        <option>00</option>
-        <option>10</option>
-        <option>20</option>
-      </select>
-      <span>&nbsp;</span>
-    </div>
-    <div class="add_details">
-      考试时长：<input type="text" class="input_style" name="timeout" value="" size="20"/>分钟
-      <span>&nbsp;</span>
-    </div>
-    <div class="clear"></div>
-  </div>
-  <div class="in">
-    <div class="paper_base_info">设置考试成绩等级</div>
-    <div class="add_details">
-      <div class="detail">&nbsp;&nbsp;&nbsp;成绩等级：</div>
-      <div class="detail">
-        <textarea cols="30" rows="6" class="textarea_style" id="grade" name="grade">
-          100-90  优秀
-          89-80 良好
-          79-60 通过
-          59- 不通过
-        </textarea>
+    <% form_for :examplan ,:url=>'/papers/create_exam_one', :method=>:post do |f|%>
+      <div class="add_details">
+        <font color="red">*</font>
+        是否开放考试：<input type="radio" name="opened" value="1" checked="true" onclick="javascript:radiovalue('opened')"/>开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="opened" value="0" onclick="javascript:radiovalue('opened')" />封闭
+        <span>&nbsp;&nbsp;&nbsp;开放即所有人都能参加，封闭即只有收到邮件的人可以参加</span><%= f.hidden_field :radiovalue ,:value=>"" %>
       </div>
-      <div class="detail">
-        &nbsp;&nbsp;如上编辑框中为设置考试等级的例子，请参考例子描述自己的等级
+      <div class="add_details">
+        <font color="red">*</font>
+        考试是否能查看答卷：<input type="radio" checked="true" value="1" name="open_result" id="open_result" onclick="javascript:radiovalue('open_result')"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="open_result" id="open_result" value="0" onclick="javascript:radiovalue('open_result')"/>否
+        <span>&nbsp;&nbsp;&nbsp;即考试结束之后，考生能不能查看自己的考卷</span>
       </div>
+      <div class="add_details">
+        考试标题：<input type="text" class="input_style" name="title" value="" size="65"/>
+        <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
+      </div>
+      <div class="add_details">
+        <div class="detail">&nbsp;&nbsp;&nbsp;描述：</div>
+        <div class="detail"><textarea cols="69" rows="4" class="textarea_style" name="description" title="description"></textarea></div>
+        <div class="detail">&nbsp;&nbsp;请填写对考试必要的一些文字描述</div>
+      </div>
+      <div class="clear"></div>
     </div>
-    <div class="clear"></div>
+    <div class="in">
+      <div class="paper_base_info">考试时长设置</div>
+      <div class="add_details">
+        <font color="red">*</font>
+        是否限制考试时段：<input type="radio" name="timelimit" value="1" onclick="javascript:time_limit('timelimit')" />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="timelimit" value="0" checked="true" onclick="javascript:time_limit('timelimit')"  />否
+        <span>&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div  class="add_details"  >
+        开始开始于：<input type="text" disabled="disabled" class="input_style" id="time" name="time" value="/ 年/ 月/ 日" size="20" onClick="WdatePicker();" readonly/>
+        <select name="hour" disabled="disabled" id="hour" onchange="javascript:selectvalue('hour')">
+          <option value="-1">/ 时</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+        </select>
+        <select name="minute" id="minute"disabled="disabled" onchange="javascript:selectvalue('minute')">
+          <option value="-2">/ 分</option>
+          <option value="00">00</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+           <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+        </select>
+        <span>&nbsp;</span>
+      </div><%= f.hidden_field :selectvalue,:value=>"" %>
+      <div class="add_details">
+        考试时长：<input type="text" class="input_style" name="timeout" value="" size="20"/>分钟
+        <span>&nbsp;</span>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="in">
+      <div class="paper_base_info">设置考试成绩等级</div>
+      <div class="add_details">
+        <div class="detail">&nbsp;&nbsp;&nbsp;成绩等级：</div>
+        <div class="detail">
+          <textarea cols="30" rows="6" class="textarea_style" id="grade" name="grade">
+            100-90  优秀
+            89-80 良好
+            79-60 通过
+            59- 不通过
+          </textarea>
+        </div>
+        <div class="detail">
+          &nbsp;&nbsp;如上编辑框中为设置考试等级的例子，请参考例子描述自己的等级
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="in">
+      <input type="submit" value="创建" title="只创建考试基本信息" class="submit_btn"/>
+      <input type="submit" value="下一步" title="创建考试，并且跳转到添加考生界面" class="submit_btn" onClick="javascript:window.location.href='/papers/new_exam_two'" />
+    <% end %>
   </div>
-  <div class="in">
-    <input type="submit" value="创建" title="只创建考试基本信息" class="submit_btn"/>
-    <input type="submit" value="下一步" title="创建考试，并且跳转到添加考生界面" class="submit_btn" onClick="javascript:window.location.href='/papers/new_exam_two'" />
-      <% end %>
-  </div>
-  
+
 </div>
