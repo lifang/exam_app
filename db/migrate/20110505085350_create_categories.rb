@@ -7,6 +7,7 @@ class CreateCategories < ActiveRecord::Migration
    
     end
     add_index :categories,:parent_id
+    add_index :categories,:name
   end
 
   def self.down

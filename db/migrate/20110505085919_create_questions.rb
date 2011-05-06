@@ -9,6 +9,7 @@ class CreateQuestions < ActiveRecord::Migration
       t.string :question_attrs
     end
     add_index :questions,:problem_id
+    add_index :questions,:correct_type
   end
 
   def self.down

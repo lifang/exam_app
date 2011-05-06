@@ -10,6 +10,7 @@ class CreateExamRaters < ActiveRecord::Migration
       
     end
       add_index :rater_user_relations,:examination_id
+      add_index :rater_user_relations,:author_code
   end
 
   def self.down

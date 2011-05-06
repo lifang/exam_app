@@ -16,6 +16,8 @@ class CreateExaminations < ActiveRecord::Migration
       t.timestamps
     end
     add_index :examinations,:creater_id
+    add_index :examinations,:is_score_open
+    add_index :examinations,:is_paper_open
   end
 
   def self.down

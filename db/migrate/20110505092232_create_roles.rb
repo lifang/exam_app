@@ -3,8 +3,8 @@ class CreateRoles < ActiveRecord::Migration
     create_table :roles do |t|
       t.string :name
 
-
     end
+    
   end
 
   def self.down

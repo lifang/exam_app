@@ -8,6 +8,7 @@ class CreateScoreLevels < ActiveRecord::Migration
 
     end
     add_index :score_levels,:examination_id
+    add_index :score_levels,:key
   end
 
   def self.down

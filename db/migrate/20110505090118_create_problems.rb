@@ -8,6 +8,7 @@ class CreateProblems < ActiveRecord::Migration
       t.timestamps
     end
     add_index :problems,:category_id
+    add_index :problems,:types
   end
 
   def self.down
