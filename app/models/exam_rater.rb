@@ -1,4 +1,5 @@
 class ExamRater < ActiveRecord::Base
+
  
   has_many :rater_user_relations
  has_many :exam_users, :through=>:rater_user_realtion, :foreign_key => "examination_id"
@@ -13,4 +14,5 @@ class ExamRater < ActiveRecord::Base
   validates :email,:presence=>true,:uniqueness=>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
   validates:password,:presence=>true,:confirmation=>true,:length=>{:within=>6..20}
   
+
 end
