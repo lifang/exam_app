@@ -3,13 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
         <file>
 
-            <url>app/views/papers/_paper_blocks.html.erb</url>
-            <line>0</line>
-
 
             <url>app/views/papers/_paper_blocks.html.erb</url>
             <line>0</line>
 
+
+            <url>app/views/papers/_paper_blocks.html.erb</url>
+            <line>0</line>
+
+            <url>app/views/pages/new.erb</url>
+            <line>10</line>
+
+
+            <url>app/views/pages/new.erb</url>
+            <line>10</line>
             <url>app/views/pages/new.erb</url>
             <line>10</line>
 
