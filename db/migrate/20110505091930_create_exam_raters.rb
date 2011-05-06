@@ -9,6 +9,7 @@ class CreateExamRaters < ActiveRecord::Migration
       t.integer :examination_id
       
     end
+      add_index :rater_user_relations,:examination_id
   end
 
   def self.down

@@ -8,7 +8,6 @@ class CreateRaterUserRelations < ActiveRecord::Migration
     end
     add_index :rater_user_relations,:exam_user_id
     add_index :rater_user_relations,:exam_rater_id
-    add_index :rater_user_relations,:examination_id
   end
 
   def self.down
