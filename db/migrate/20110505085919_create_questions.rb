@@ -8,6 +8,7 @@ class CreateQuestions < ActiveRecord::Migration
       t.text :analysis
       t.string :question_attrs
     end
+    add_index :questions,:problem_id
   end
 
   def self.down

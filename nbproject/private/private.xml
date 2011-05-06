@@ -4,6 +4,8 @@
         <file>
             <url>app/views/pages/new.erb</url>
             <line>10</line>
+            <url>app/views/pages/new.erb</url>
+            <line>10</line>
         </file>
     </editor-bookmarks>
 </project-private>
