@@ -3,7 +3,6 @@ ExamApp::Application.routes.draw do
   resources :users do
     collection do
       get "get_proof_code"
-      post "update"
     end
   end
   resources :sessions 
