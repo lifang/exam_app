@@ -9,7 +9,7 @@ ExamApp::Application.routes.draw do
   resources :questions
 
   post "/users/update"
-  post "/users/create"
+ 
   post "/questions/edit"
 
   post "/questions/create"
