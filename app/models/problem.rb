@@ -1,7 +1,8 @@
-class Question < ActiveRecord::Base
+class Problem < ActiveRecord::Base
   has_many:problem_tags
   belongs_to:category
   has_many:problem_tag_relations,:dependent=>:destroy
+  has_many :tags,:through=>:problem_tag_relations,:foreign_key=>"tag_id"
   has_many:questions,:dependent=>:destroy
 
   QUESTION_TYPE = {:SINGLE_CHOSE => 0, :MORE_CHOSE =>1, :JUDGE => 2, :SINGLE_CALK => 3,

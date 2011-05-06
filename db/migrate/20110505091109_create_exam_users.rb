@@ -16,8 +16,8 @@ class CreateExamUsers < ActiveRecord::Migration
       t.timestamps
     end
     add_index :exam_users,:examination_id
-    add_index :user_id
-    add_index :paper_id
+    add_index :exam_users,:user_id
+    add_index :exam_users,:paper_id
   end
 
   def self.down
