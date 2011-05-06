@@ -3,11 +3,16 @@ ExamApp::Application.routes.draw do
   resources :users do
     collection do
       get "get_proof_code"
+      post "update"
     end
   end
   resources :sessions 
   resources :questions
+
+  post "/users/update"
+
   post "/questions/edit"
+
   post "/questions/create"
 
   match '/signout'=> 'sessions#destroy'

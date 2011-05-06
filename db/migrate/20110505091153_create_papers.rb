@@ -12,6 +12,7 @@ class CreatePapers < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :papers,:category_id
   end
 
   def self.down

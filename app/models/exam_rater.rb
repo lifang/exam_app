@@ -1,7 +1,7 @@
 class ExamRater < ActiveRecord::Base
-  belongs_to :exam_plan
-  has_many :rater_record_relations
-  has_many :exam_records,:through=>:rater_record_relations,:foreign_key=>:exam_record_id
+ 
+  has_many :rater_user_relations
+ has_many :exam_users, :through=>:rater_user_realtion, :foreign_key => "examination_id"
 
   attr_accessible :name,:password,:mobilephone,:email,:password_confirmation
 

@@ -1,4 +1,5 @@
 class ExamUser < ActiveRecord::Base
-  belongs_to :exam_plan
-  has_one :exam_record
+ 
+ belongs_to :user
+  has_many :rater_user_relations
 end

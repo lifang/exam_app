@@ -7,6 +7,7 @@ class CreateProblems < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_idex :problems,:category_id
   end
 
   def self.down

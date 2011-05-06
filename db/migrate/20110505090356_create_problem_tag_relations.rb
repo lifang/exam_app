@@ -6,6 +6,8 @@ class CreateProblemTagRelations < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :problem_tag_relations,:tag_id
+    add_index :problem_tag_relations,:problem_id
   end
 
   def self.down
