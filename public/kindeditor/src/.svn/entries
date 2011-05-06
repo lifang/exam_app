@@ -1,0 +1,61 @@
+8
+
+dir
+21244
+http://192.168.38.11/svn/projects/trunk/xuexi6/dev_group_without_eschool/public/kindeditor/src
+http://192.168.38.11/svn/projects
+
+
+
+2009-06-26T06:44:43.531250Z
+5530
+guanll
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+396abd88-c052-0e4f-aa6f-030e66311819
+
+plugin-all.js
+file
+
+
+
+
+2009-11-11T11:10:34.890625Z
+52e004765232fadb9288373c640d1744
+2009-06-26T06:44:43.531250Z
+5530
+guanll
+
+lang
+dir
+
+plugins
+dir
+
+skins
+dir
+
+kindeditor-core.js
+file
+
+
+
+
+2009-11-11T11:10:34.968750Z
+986dc7ed944c08ff7461c684786524b9
+2009-06-26T06:44:43.531250Z
+5530
+guanll
+
