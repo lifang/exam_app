@@ -6,7 +6,8 @@ class CreateExamRaters < ActiveRecord::Migration
       t.string :mobilephone
       t.string :email
       t.string :author_code
-
+      t.integer :examination_id
+      
     end
   end
 

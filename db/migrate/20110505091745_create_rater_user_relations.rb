@@ -3,7 +3,6 @@ class CreateRaterUserRelations < ActiveRecord::Migration
     create_table :rater_user_relations do |t|
       t.integer :exam_user_id
       t.integer :exam_rater_id
-      t.integer :examination_id
       t.boolean :is_marked
       
     end
