@@ -3,7 +3,7 @@
   <div class="in">
  
     <table>
-
+   
     <%= form_for :user ,:url=>"/users/update"  do |f|%>
         <tr>
           <% user=User.find_by_id(cookies[:user_id]) %>

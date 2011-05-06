@@ -3,14 +3,13 @@ ExamApp::Application.routes.draw do
   resources :users do
     collection do
       get "get_proof_code"
-      post "update"
     end
   end
   resources :sessions 
   resources :questions
 
   post "/users/update"
-
+  post "/users/create"
   post "/questions/edit"
 
   post "/questions/create"
@@ -19,14 +18,14 @@ ExamApp::Application.routes.draw do
   resources :pages do
     collection do
       get "create_step_one", "create_step_two", "edit", "create_exam_one", "create_exam_two", "create_exam_three",
-          "exam_list", "show_exam", "edit_exam_base", "edit_exam_users", "edit_exam_raters", "setting",
-          "result_list", "my_exam_list", "exam_results", "result_list", "show_result", "my_results", "answer_paper"
+        "exam_list", "show_exam", "edit_exam_base", "edit_exam_users", "edit_exam_raters", "setting",
+        "result_list", "my_exam_list", "exam_results", "result_list", "show_result", "my_results", "answer_paper"
       get "rater_login", "paper_list", "rate_paper"
       get "exam_query_login", "my_results_simple", "user_exams"
     end
   end
   resources :back
- resources :papers do
+  resources :papers do
     collection do
       get "new_step_one"
       post "create_step_one"
@@ -50,7 +49,7 @@ ExamApp::Application.routes.draw do
     end
   end
   match '/new_exam_one'=>'papers#new_exam_one'
-   match '/delete_all'=>'papers#index'
+  match '/delete_all'=>'papers#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
   # Sample of regular route:
