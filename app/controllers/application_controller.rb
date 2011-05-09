@@ -26,4 +26,8 @@ class ApplicationController < ActionController::Base
     return @grade
   
   end
+
+  def papers_path
+    "#{Rails.root}/public/papers"
+  end
 end
