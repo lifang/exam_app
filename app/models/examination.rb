@@ -9,20 +9,20 @@ class Examination < ActiveRecord::Base
 
  #创建考试
  def Examination.create_examination(attr_hash)
-
+   
    #return examination
  end
 
  #创建考试试卷
  def self.set_papers(*paper)
-
+   
    #return true or false
  end
 
 
  #选择试卷
  def self.choose_paper(papers_array)
-
+return Paper.find_by_sql("select * from papers p where p.id in (#{papers_array})")==nil
    #return true or false
  end
 

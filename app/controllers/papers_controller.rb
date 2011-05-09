@@ -99,24 +99,6 @@ class PapersController < ApplicationController
     end
     render 'index'
   end
-  def delete_all
-    Paper.find_by_sql("select * from papers where papers.id in (#{params[:deleteall][:delete_all]})").each  do |paper|
-      paper.destroy
-    end
-    redirect_to "/users/new"
-  end
-  def new_exam_one
-#     @aa=Paper.find_by_sql("select * from papers where papers.id in (#{params[:deleteall][:delete_all]})")
-
- 
-  end
-
-  def new_exam_two
-    
-  end
-  def create_exam_three
-
-  end
   
   def edit
   end
