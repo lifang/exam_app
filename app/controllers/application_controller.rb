@@ -21,8 +21,9 @@ class ApplicationController < ActionController::Base
     return code_array.to_s
   end
   def get_text(text)
-  @text=text.gsub /['\n''\t''b']/,""
+  @text=text.gsub /['\n''\t''b']/," "
     @grade=@text.split(" ")
     return @grade
+  
   end
 end

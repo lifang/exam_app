@@ -10,7 +10,7 @@
       考试试卷：<a href="#">2011英语模拟考试</a>
       <a href="#">[重选试卷]</a>
     </div>
-    <% form_for :examplan ,:url=>'/papers/create_exam_one', :method=>:post do |f|%>
+    <%= form_for :examplan ,:url=>'/examinations', :method=>:post do |f|%>
       <div class="add_details">
         <font color="red">*</font>
         是否开放考试：<input type="radio" name="opened" value="1" checked="true" onclick="javascript:radiovalue('opened')"/>开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -19,9 +19,9 @@
       </div>
       <div class="add_details">
         <font color="red">*</font>
-        考试是否能查看答卷：<input type="radio" checked="true" value="1" name="open_result" id="open_result" onclick="javascript:radiovalue('open_result')"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="radio" name="open_result" id="open_result" value="0" onclick="javascript:radiovalue('open_result')"/>否
-        <span>&nbsp;&nbsp;&nbsp;即考试结束之后，考生能不能查看自己的考卷</span>
+        考试是否能查看答卷：<input type="radio" checked="true" value="1" name="open_result" id="open_result" onclick="javascript:see_result('open_result')"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="open_result" id="open_result" value="0" onclick="javascript:see_result('open_result')"/>否
+        <span>&nbsp;&nbsp;&nbsp;即考试结束之后，考生能不能查看自己的考卷</span><%= f.hidden_field :see_result ,:value=>"" %>
       </div>
       <div class="add_details">
         考试标题：<input type="text" class="input_style" name="title" value="" size="65"/>
@@ -90,7 +90,7 @@
           </textarea>
         </div>
         <div class="detail">
-          &nbsp;&nbsp;如上编辑框中为设置考试等级的例子，请参考例子描述自己的等级
+       &nbsp;&nbsp;如上编辑框中为设置考试等级的例子：分数段<font color="red">空格</font>等级描述，请参考例子描述自己的等级
         </div>
       </div>
       <div class="clear"></div>

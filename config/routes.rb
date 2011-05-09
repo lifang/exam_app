@@ -4,13 +4,10 @@ ExamApp::Application.routes.draw do
     collection do
       get "get_proof_code"
     end
-    member do
-      post "/users/update"
-    end
   end
   resources :sessions 
   resources :questions
-
+ resources :examinations
   post "/questions/edit"
   post "/questions/create"
   match '/signout'=> 'sessions#destroy'
@@ -44,7 +41,6 @@ ExamApp::Application.routes.draw do
       get "new_exam_one"
       get "new_step_two"
       post "change_info"
-      post :delete_all
     end
   end
   match '/new_exam_one'=>'papers#new_exam_one'

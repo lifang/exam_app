@@ -38,6 +38,16 @@ function radiovalue(name){
     }
     document.getElementById("examplan_radiovalue").value = checked_ids;
 }
+function radiovalue(name){
+    var sles=document.getElementsByName(name);
+    var checked_ids = new Array();
+    for (var i=0;i<sles.length;i++) {
+        if (sles[i].checked) {
+            checked_ids.push(sles[i].value);
+        }
+    }
+    document.getElementById("examplan_see_result").value = checked_ids;
+}
 function selectvalue(name){
     var checked_ids = new Array();
     var sles = document.getElementById(name).value;
@@ -67,11 +77,8 @@ function time_limit(name){
         }
         }
     }
-    
-      document.getElementById("examplan_radiovalue").value = checked_ids;
 
  
 
 //    var sles=document.getElementById(name).options[document.getElementById(name).selectedIndex].text;
-   
 }

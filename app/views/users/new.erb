@@ -1,6 +1,6 @@
 <div class="reg_content">
   <div class="step_one"></div>
-  <div ></div>
+  <div ></div><%= @opened %>
   <table>
     <%= form_for @user, :html =>{:onsubmit => 'return check()'} do |f| %>
       <tr>
