@@ -4,9 +4,6 @@ ExamApp::Application.routes.draw do
     collection do
       get "get_proof_code"
     end
-    member do
-      post "/users/update"
-    end
   end
   resources :sessions 
   resources :questions
