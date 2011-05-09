@@ -10,8 +10,9 @@ ExamApp::Application.routes.draw do
   resources :examinations do
     collection do
       get "new_exam_one"
-      post :delete_all
       get "new_exam_two"
+      post "create_step_one"
+      get "exam_list"
     end
   end
   post "/questions/edit"
@@ -47,9 +48,6 @@ ExamApp::Application.routes.draw do
       post "change_info"
     end
   end
-
-  match '/new_exam_one'=>'examnations#new_exam_one'
-  match '/delete_all'=>'papers#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
   # Sample of regular route:

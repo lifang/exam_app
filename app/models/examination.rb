@@ -9,7 +9,7 @@ class Examination < ActiveRecord::Base
 
  #创建考试
  def Examination.create_examination(attr_hash)
-   
+   Examination.create(attr_hash)
    #return examination
  end
 
@@ -22,7 +22,7 @@ class Examination < ActiveRecord::Base
 
  #选择试卷
  def self.choose_paper(papers_array)
-return Paper.find_by_sql("select * from papers p where p.id in (#{papers_array})")==nil
+   self.papers = papers_array
    #return true or false
  end
 
