@@ -4,11 +4,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>考试系统</title>
     <%= javascript_include_tag :defaults %>
+    <%= use_validate_js_tooltip %>
     <%= javascript_include_tag 'my_app' %>
 
     <%= javascript_include_tag 'pileadd' %>
     <%= javascript_include_tag 'jeffrey' %>
     <%= javascript_include_tag 'button' %>
+    
     <link href="/stylesheets/exam_biz_back.css" rel="stylesheet" />
     <link href="/stylesheets/login.css" rel="stylesheet" />
   </head>
@@ -16,21 +18,23 @@
     <div id="container">
       <div id="hd">
         <div class="right">
-            <a href="#">登录</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">免费注册</a>
+            <a href="/">登录</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/users/new">免费注册</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">成绩查询</a>
         </div>
         <a id="logo" href="/"><span>考试系统</span></a>
         <div class="clear"></div>
         <p class="title_link">
+          <%  if cookies[:user_id]!=nil %>
           <a href="#">试卷管理</a>
           &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">考试管理</a>
           &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">成绩管理</a>
+          <% end %>
         </p>
         <p class="back_welcome">
           <%if cookies[:user_id]!=nil%>
           <% user=User.find_by_id(cookies[:user_id]) %>
-          <a href="/users/<%= user.id %>"><%= user.email %></a> 欢迎您！
+          <a href="/users/<%= user.id %>"><%= user.name %></a> 欢迎您！
           <a href="#">[成绩查询]</a>
           <a href="#">[我的收藏]</a>
           <a href="/users/<%=user.id%>/edit">[个人设置]</a>

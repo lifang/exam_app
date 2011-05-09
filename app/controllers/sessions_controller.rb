@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def new
-    session[:signin_code] = proof_code()
+    session[:signin_code] = proof_code(4)
   end
  
   def index

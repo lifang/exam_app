@@ -2,7 +2,7 @@ ExamApp::Application.routes.draw do
 
   resources :users do
     collection do
-      get "get_proof_code"
+      get "get_proof_code", "get_register_code"
     end
   end
   resources :sessions 

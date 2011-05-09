@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    session[:proof_code] = proof_code()
+    session[:register_proof_code] = proof_code(4)
     @user=User.new
   end
 
@@ -22,13 +22,14 @@ class UsersController < ApplicationController
         render "/users/new"
       else
   
-        if params[:proof_code] != session[:proof_code]
+        if params[:proof_code] != session[:register_proof_code]
           flash[:nameused] = ""
           flash[:emailused] = ""
           flash[:prooferror] = "验证码填写错误，请重新输入"
           render "/users/new"
         else
           if @user.save
+            UserMailer.welcome_email(@user).deliver
             redirect_to "/sessions/new"
           else
             redirect_to "/users/new"
@@ -43,7 +44,7 @@ class UsersController < ApplicationController
     @user=User.find(params[:id])
   end
   def get_proof_code
-    session[:proof_code] = proof_code()
+    session[:proof_code] = proof_code(4)
     render :inline => session[:proof_code]
   end
   def edit
@@ -54,6 +55,11 @@ class UsersController < ApplicationController
     @user= User.find(params[:id])
     @user.update_attributes(params[:user])
     redirect_to @user
+  end
+
+  def get_register_code
+    session[:register_proof_code] = proof_code(4)
+    render :inline => session[:register_proof_code]
   end
 
 end

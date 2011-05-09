@@ -3,8 +3,8 @@ class Category < ActiveRecord::Base
   has_many :papers
 
   #判断分类是否存在
-  def Category.is_exists?(category)
-    
+  def Category.is_exists?(name)
+    return !Category.find_by_name(name).nil?
     #return true or false
   end
 

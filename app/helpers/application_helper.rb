@@ -43,7 +43,7 @@ module ApplicationHelper
     html   = javascript_include_tag "validation_cn"
     html  += javascript_include_tag "tooltips"
     html  += javascript_include_tag "prototip"
-    html  += "<link rel='stylesheet' type='text/css' href='/stylesheets/validates/tooltips.css'>"
+    html  += stylesheet_link_tag "/stylesheets/validates/tooltips.css"
     html
   end
 
