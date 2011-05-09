@@ -6,6 +6,21 @@ class Paper < ActiveRecord::Base
   belongs_to :category
   default_scope:order=>"id desc"
 
+  #创建试卷基本信息
+  def Paper.create_base_info(paper)
+
+  end
+
+  #创建试卷的文件
+  def self.update_paper_url(str)
+
+  end
+
+  #发布试卷
+  def self.published!(paper)
+
+  end
+
 end
 
 

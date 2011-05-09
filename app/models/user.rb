@@ -26,6 +26,12 @@ class User < ActiveRecord::Base
 
   end
 
+  #创建用户权限
+  def self.set_role(role)
+
+    #return true or false
+  end
+
 
 
 
