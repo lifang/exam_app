@@ -1,6 +1,27 @@
 
 <% sum=["一","二","三","四","五","六","七","八","九","十"] %>
-<% index_num = 0 %>
+ <%#=  render :partial=>"papers/new_question_for_block" ,:object=>block%>
+ <h1 class="biz_art_title"><%= sum[0] %>、<%= @xml.elements['base_block'].elements['title'].text %> (共--题，总分:--分)<a href="javascript:void(0)" style="float:right" onClick="javascript:create_question(0)">新建试题</a></h1>
+ <div class="biz_art_list_box">
+    <ul>
+      <%# block.questions.each do |question| %>
+        <li>
+          <%#= render :partial=>"/papers/question_info",:object=>question %>
+          <h2><a href="javascript:void(0)" onMouseOver="javascript:question_info(0)">fewgergehrthrthrthtrfwefwefsdfsdfegergergergerfwewefwefwgrgrthrt</a></h2>
+          
+            <p>fjwefiojweflkmgerlgjerrfger</p>
+            
+            <%# arguments={:question=>question,:point=>point,:block=>block,:attr_ids_array=>attr_ids} %>
+            <%#= render :partial=>"/papers/edit_question",:object=>arguments %>
+            <a href="javascript:void(0);" onClick="javascript:edit_question(0)" > &nbsp;编辑&nbsp; </a> <%= link_to "删除", "#", :method => "delete" %>
+        </li>
+    </ul>
+  </div>
+
+
+
+<!--
+<% index_num = 1%>
 <% @paper.paper_blocks.each do |block| %>
   <%=  render :partial=>"papers/new_question_for_block" ,:object=>block%>
   <h1 class="biz_art_title"><%= sum[index_num] %>、<%= block.title %> (共<%= block.questions.count%>题，总分:<%= total_block_score %>分)<a href="javascript:void(0)" style="float:right" onClick="javascript:create_question(<%= block.id %>)">新建试题</a></h1>
@@ -9,14 +30,10 @@
     <ul>
       <% block.questions.each do |question| %>
         <li>
-
           <%= render :partial=>"/papers/question_info",:object=>question %>
           <h2><a href="javascript:void(0)" onMouseOver="javascript:question_info(<%= question.id %>)"><%= question.title %></a></h2>
           <% question.question_points.each do |point| %>
             <p><%=  point.description %></p>
-
-
-
             <% attr_ids=[] %>
             <%  index=0 %>
             <% point.question_attrs.each do |attr| %>
@@ -35,6 +52,8 @@
   <div class="clear"></div>
 
 <% end %>
+
+-->
 
 
 <div class="clear"></div>

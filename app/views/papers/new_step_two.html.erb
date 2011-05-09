@@ -2,12 +2,12 @@
   <li class="actived"><a href="#"><%= @paper.title %></a></li>
 </ul>
 <div class="soso" id="show_info">
-  <div>试卷编号：<%= @paper.id %></div>
-  <div>录入：<%= @paper.user.name %></div>
-  <div>出卷时间：<%= @paper.created_at.strftime("%Y年%m月%d日%H时%M分") %></div>
-  <div>最后修改时间：<%= @paper.updated_at.strftime("%Y年%m月%d日%H时%M分") %></div>
-  <div>总题数：<%= @paper.total_question_num %></div>
-  <div>备注：<%= @paper.description %></div>
+   <div>试卷编号：<%= @xml.elements['base_info'].elements['id'].text%></div>
+  <div>录入：<%= @xml.elements['base_info'].elements['creater'].text%></div>
+  <div>出卷时间：<%= @xml.elements['base_info'].elements['created_at'].text%></div>
+  <div>最后修改时间：<%= @xml.elements['base_info'].elements['updated_at'].text%></div>
+  <div>总题数：---------------</div>
+  <div>备注：<%= @xml.elements['base_info'].elements['description'].text%></div>
 
   <input type="submit" value="修改基本信息" class="submit_btn" onclick="javascript:change_info()"/>
   <input type="submit" value="增加试卷模块" class="submit_btn" onclick="javascript:new_module()"/>
