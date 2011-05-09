@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110511090306) do
+ActiveRecord::Schema.define(:version => 20110506013731) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(:version => 20110511090306) do
     t.string   "exam_password2"
     t.datetime "start_at_time"
     t.datetime "start_end_time"
-    t.string   "exam_time"
+    t.integer  "exam_time"
     t.boolean  "is_published"
     t.datetime "created_at"
     t.datetime "updated_at"
