@@ -1,19 +1,35 @@
 class QuestionsController < ApplicationController
+
+  require 'rexml/document'
+  include REXML
+
   def new
   end
 
   def create
     @problem=Problem.create(:title=>params[:problem][:title])
     @question_attrs=""
-     index=0
+    index=0
     (1..params[:problem][:attr_sum].to_i).each do
       index +=1
-      @question_attr+="#{params['attr#{index}_key']}.#{params['attr#{index}_value']  }"
+      @question_attrs+="#{params['attr#{index}_key']}.#{params['attr#{index}_value']  }"
     end
-    @question=Question.create(:problem_id=>@problem.id,:answer=>params[:problem][:answer])
-    @paper=Paper.find(params[:question][:paper_id])
+    @question=Question.create(:problem_id=>@problem.id,:answer=>params[:problem][:answer],:question_attrs=>@question_attrs)
+    @paper=Paper.find(params[:problem][:paper_id])
     @paper.update_attributes(:updated_at=>Time.now)
-    redirect_to  "/papers/#{params[:question][:paper_id]}/new_step_two"
+    doc=Document.new(File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml")
+    problems=doc.root.elements["blocks"].elements["block[@id='#{params[:problem][:block_id]}']"].elements["problems"]
+    index=1
+
+    while (!problems.elements["problem[id='#{index}']"].nil?)
+      index += 1
+    end
+    problems.add_element("problem")
+    problems.elements["problem"].add_attribute("id","#{index}")
+    file = File.new("#{papers_path}/#{params[:problem][:paper_id].to_i}.xml", "w+")
+    file.write(doc)
+    file.close
+    redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
    
   end
 

@@ -43,31 +43,36 @@ class PapersController < ApplicationController
   end
 
   def new_step_two
-    @paper=Paper.find(params[:id])
     file = File.open("#{papers_path}/#{params[:id]}.xml")
+    #file = File.open("#{papers_path}/text.xml")
     @xml=Document.new(file).root
   end
 
   def create_step_one
      @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],:description=>params[:paper][:description])
-    #@block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
+     @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
     unless File.directory?("#{Rails.root}/public/papers")
       Dir.mkdir("#{Rails.root}/public/papers")
     end
     content ="<?xml version='1.0' encoding='UTF-8'?>"
-    content+="<paper>"
+    content+="<paper id='#{@paper.id}' total_num='0' total_score='0'>"
     content+="<base_info>"
-    content+="<id>#{@paper.id}</id>"
     content+="<title>#{@paper.title}</title>"
     content+="<creater>#{cookies[:user_name]}</creater>"
     content+="<created_at>#{@paper.created_at.strftime("%Y_%m_%d_%H_%M")}</created_at>"
     content+="<updated_at>#{@paper.updated_at.strftime("%Y_%m_%d_%H_%M")}</updated_at>"
     content+="<description>#{params[:paper][:description].force_encoding('ASCII-8BIT')}</description>"
     content+="</base_info>"
-    content+="<base_block>"
+    content+="<blocks>"
+    content+="<block id='#{@block.id}' total_num='0' total_score='0'>"
+    content+="<base_info>"
     content+="<title>#{params[:paper][:block_title].force_encoding('ASCII-8BIT')}</title>"
     content+="<description>#{params[:paper][:block_description].force_encoding('ASCII-8BIT')}</description>"
-    content+="</base_block>"
+    content+="</base_info>"
+    content+="<problems>"
+    content+="</problems>"
+    content+="</block>"
+    content+="</blocks>"
     content+="</paper>"
     f=File.new("#{papers_path}/#{@paper.id}.xml","a+")
     f.write("#{content.force_encoding('UTF-8')}")
