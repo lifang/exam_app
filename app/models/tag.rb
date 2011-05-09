@@ -3,7 +3,6 @@ class Tag < ActiveRecord::Base
   has_many :problems,:through=>:problem_tag_relations,:foreign_key=>"problem_id"
   has_many :question_tag_relations,:dependent=>:destroy
   has_many :questions,:through=>:question_tag_relations,:foreign_key=>"question_id"
-
   #判断标签是否存在
   def Tag.is_exists?(*tag)
 
@@ -16,5 +15,4 @@ class Tag < ActiveRecord::Base
 
 
   end
-
 end

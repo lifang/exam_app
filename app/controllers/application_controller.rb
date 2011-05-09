@@ -25,4 +25,8 @@ class ApplicationController < ActionController::Base
     @grade=@text.split(" ")
     return @grade
   end
+
+  def papers_path
+    "#{Rails.root}/public/papers"
+  end
 end
