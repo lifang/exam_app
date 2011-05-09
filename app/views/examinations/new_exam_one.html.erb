@@ -7,10 +7,11 @@
   <div class="in">
     <div class="paper_base_info">设置考试基本属性</div>
     <div class="add_details">
-      考试试卷：<a href="#">2011英语模拟考试</a>
+      考试试卷：<a href="/papers/@paper.id"><%= @paper  %></a>
       <a href="#">[重选试卷]</a>
     </div>
-    <%= form_for :examplan ,:url=>'/examinations', :method=>:post do |f|%>
+    <%= form_for :examplan ,:url=>'/examinations/create_step_one', :method=>:post do |f|%>
+    <input type="hidden" value="<%= @paperid %>" id="post_value" name="post_value" />
       <div class="add_details">
         <font color="red">*</font>
         是否开放考试：<input type="radio" name="opened" value="1" checked="true" onclick="javascript:radiovalue('opened')"/>开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -24,7 +25,7 @@
         <span>&nbsp;&nbsp;&nbsp;即考试结束之后，考生能不能查看自己的考卷</span><%= f.hidden_field :see_result ,:value=>"" %>
       </div>
       <div class="add_details">
-        考试标题：<input type="text" class="input_style" name="title" value="" size="65"/>
+        考试标题：<input type="text" class="input_style" name="title" value="<%= @paper %>" size="65"/>
         <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
       </div>
       <div class="add_details">
@@ -44,7 +45,7 @@
       </div>
       <div  class="add_details"  >
         开始开始于：<input type="text" disabled="disabled" class="input_style" id="time" name="time" value="/ 年/ 月/ 日" size="20" onClick="WdatePicker();" readonly/>
-        <select name="hour" disabled="disabled" id="hour" onchange="javascript:selectvalue('hour')">
+        <select name="hour" disabled="disabled" id="hour" onchange="javascript:selecttime('hour')">
           <option value="-1">/ 时</option>
           <option value="6">6</option>
           <option value="7">7</option>
@@ -60,7 +61,7 @@
           <option value="17">17</option>
           <option value="18">18</option>
         </select>
-        <select name="minute" id="minute"disabled="disabled" onchange="javascript:selectvalue('minute')">
+        <select name="minute" id="minute"disabled="disabled" onchange="javascript:selectminute('minute')">
           <option value="-2">/ 分</option>
           <option value="00">00</option>
           <option value="10">10</option>
@@ -96,8 +97,9 @@
       <div class="clear"></div>
     </div>
     <div class="in">
-      <input type="submit" value="创建" title="只创建考试基本信息" class="submit_btn"/>
-      <input type="submit" value="下一步" title="创建考试，并且跳转到添加考生界面" class="submit_btn" onClick="javascript:window.location.href='/papers/new_exam_two'" />
+      <input type="hidden" id="buttonvalue" name="buttonvalue" value="" />
+      <input type="submit" value="创建" id="create" name="create" title="只创建考试基本信息" class="submit_btn" onclick="javascript:getbutton('create');"/>
+      <input type="submit" value="下一步" id="create_step_one" name="create_step_one" title="创建考试，并且跳转到添加考生界面" class="submit_btn"  onclick="javascript:getbutton('create_step_one');"/>
     <% end %>
   </div>
 

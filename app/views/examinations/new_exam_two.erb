@@ -1,0 +1,84 @@
+<ul class="new_biz">
+  <li>创建考试</li>
+</ul>
+<%= @time %><%= @timeout %>
+<div class="main_box_back">
+  <h2><span>添加考生</span></h2>
+  <div class="in">
+    <div class="paper_base_info">添加考生基本信息</div>
+    <div class="add_details">
+      <font color="red">*</font>
+      选择添加考生信息方式：<input type="radio" checked="true"/>录入&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio"/>导入    
+    </div>
+    <div class="add_details">
+      <font color="red">*</font>
+      选择是否需要考生确认信息：<input type="radio" checked="true"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio"/>否
+    </div>
+    <div class="add_details">
+      <font color="red">*</font>
+      选择是否要生成考试码：<input type="radio" checked="true"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio"/>否
+      <span>&nbsp;&nbsp;&nbsp;（考试码只提供给监考老师，当考生来参加考试的时候，监考老师要输入考试码，考生才能考试）</span>
+    </div>
+  </div>
+  <div class="in">
+    <div class="paper_base_info">录入考生信息</div>
+    <table>
+      <colgroup>
+        <col width="220"/>
+        <col width="220" />
+        <col width="220" />
+        <col width="50" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>手机号码</th>
+          <th>email</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" name="name" size="30"/></td>
+          <td><input type="text" name="name" size="30"/></td>
+          <td><input type="text" name="name" size="30"/></td>
+          <td><a href="#">删除</a></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="name" size="30"/></td>
+          <td><input type="text" name="name" size="30"/></td>
+          <td><input type="text" name="name" size="30"/></td>
+          <td><a href="#">删除</a></td>
+        </tr>
+        <tr>
+          <td colspan="4"><a href="#">追加</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <div class="paper_base_info">导入考生信息</div>
+    <div class="add_details">
+      <div class="detail">按右边格式填入信息：</div>
+      <div class="detail">姓名<font color="red">[tab键]</font>邮箱<font color="red">[tab键]</font>手机号码</div>
+      <div class="clear"></div>
+    </div>
+    <div class="add_details">
+      <div class="detail">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div class="detail">
+        <textarea cols="50" rows="6" class="textarea_style">张三  zhangsan@hotmail.com  13234567898
+李四  lisi@126.com  13445678908
+王五  wangwu@gmail.com  18912345654</textarea>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <input type="submit" value="保存" class="submit_btn" title="保存考生信息"/>
+    <input type="submit" value="下一步" class="submit_btn" title="保存考试信息，并进入添加阅卷老师界面"/>
+  </div>
+</div>

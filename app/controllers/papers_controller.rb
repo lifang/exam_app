@@ -1,4 +1,8 @@
 class PapersController < ApplicationController
+
+  require 'rexml/document'
+  include REXML
+  
   before_filter :access?
 
   def index
@@ -39,35 +43,41 @@ class PapersController < ApplicationController
   end
 
   def new_step_two
-    @paper=Paper.find(params[:id])
+    file = File.open("#{papers_path}/#{params[:id]}.xml")
+    #file = File.open("#{papers_path}/text.xml")
+    @xml=Document.new(file).root
   end
 
   def create_step_one
-    @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],:description=>params[:paper][:description])
-    #@block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
+     @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],:description=>params[:paper][:description])
+     @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
     unless File.directory?("#{Rails.root}/public/papers")
       Dir.mkdir("#{Rails.root}/public/papers")
     end
-    content ="<paper>"
+    content ="<?xml version='1.0' encoding='UTF-8'?>"
+    content+="<paper id='#{@paper.id}' total_num='0' total_score='0'>"
     content+="<base_info>"
-    content+="<id>#{@paper.id}</id>"
-    content+="<title>#{@paper.id}</title>"
+    content+="<title>#{@paper.title}</title>"
     content+="<creater>#{cookies[:user_name]}</creater>"
     content+="<created_at>#{@paper.created_at.strftime("%Y_%m_%d_%H_%M")}</created_at>"
     content+="<updated_at>#{@paper.updated_at.strftime("%Y_%m_%d_%H_%M")}</updated_at>"
-    #str = Iconv.conv("UTF-8", "ASCII-8BIT", "#{params[:paper][:description]}")
-    #content+="<description>#{str}</description>"
     content+="<description>#{params[:paper][:description].force_encoding('ASCII-8BIT')}</description>"
     content+="</base_info>"
-    content+="<base_block>"
+    content+="<blocks>"
+    content+="<block id='#{@block.id}' total_num='0' total_score='0'>"
+    content+="<base_info>"
     content+="<title>#{params[:paper][:block_title].force_encoding('ASCII-8BIT')}</title>"
     content+="<description>#{params[:paper][:block_description].force_encoding('ASCII-8BIT')}</description>"
-    content+="</base_block>"
+    content+="</base_info>"
+    content+="<problems>"
+    content+="</problems>"
+    content+="</block>"
+    content+="</blocks>"
     content+="</paper>"
-    f=File.new("#{papers_path}/#{@paper.id}.txt","a+")
+    f=File.new("#{papers_path}/#{@paper.id}.xml","a+")
     f.write("#{content.force_encoding('UTF-8')}")
     f.close
-    redirect_to "/papers/new_step_one"
+    redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
   def create_step_two
@@ -93,44 +103,6 @@ class PapersController < ApplicationController
       flash[:nosearch]="请输入条件"
     end
     render 'index'
-  end
-  def delete_all
-    Paper.find_by_sql("select * from papers where papers.id in (#{params[:deleteall][:delete_all]})").each  do |paper|
-      paper.destroy
-    end
-    redirect_to "/users/new"
-  end
-  def new_exam_one
-#        @aa=Paper.find_by_sql("select * from papers where papers.id in (#{params[:deleteall][:delete_all]})")
-#       if params[:deleteall][:delete_all].empty?
-#       flash[:noaccess]="请选择考卷"
-#       redirect_to "/papers"
-#     else
-#       redrict_to "/papers/#{params[:deleteall][:delete_all]}/new_exam_one"
-#     end
- 
-  end
-  def create_exam_one
-    @timeout=params[:timeout]
-    @opened=params[:opened]
-    @time=params[:time]
-    redirect_to "/papers/new_exam_two"
-#    @paperid=params[:deleteall][:delete_all]
-#
-#    @examination=Examination.create(:paper_id=>@paperid[rand(@paperid.length)],:title=>params[:title],:creater_id=>cookies[:user_id],:description=>params[:description],:is_paper_open=>params[:opened],
-#      :start_at_time=>params[:d],:start_end_time=>params[:d]+params[:timeout].second.ago,:exam_time=>params[:timeout],:is_score_open=>params[:open_result])
-#    @tex=get_text(params[:grade])
-#    i=0
-#    (0..@tex.length/2).each do
-#      ScoreLevel.create(:examination_id=>@examination.id,:key=>@tex[i],:value=>@text[i+1])
-#      i +=2
-#    end
-  end
-  def new_exam_two
-    
-  end
-  def create_exam_three
-
   end
   
   def edit

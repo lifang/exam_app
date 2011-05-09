@@ -15,9 +15,10 @@ class ApplicationController < ActionController::Base
   end
  
   def get_text(text)
-  @text=text.gsub /['\n''\t''b']/,""
+  @text=text.gsub /['\n''\t''b']/," "
     @grade=@text.split(" ")
     return @grade
+  
   end
 
   def papers_path
