@@ -60,8 +60,8 @@ class PapersController < ApplicationController
     content+="<base_info>"
     content+="<title>#{@paper.title}</title>"
     content+="<creater>#{cookies[:user_name]}</creater>"
-    content+="<created_at>#{@paper.created_at.strftime("%Y_%m_%d_%H_%M")}</created_at>"
-    content+="<updated_at>#{@paper.updated_at.strftime("%Y_%m_%d_%H_%M")}</updated_at>"
+    content+="<created_at>#{@paper.created_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</created_at>"
+    content+="<updated_at>#{@paper.updated_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</updated_at>"
     content+="<description>#{params[:paper][:description].force_encoding('ASCII-8BIT')}</description>"
     content+="</base_info>"
     content+="<blocks>"
@@ -83,6 +83,13 @@ class PapersController < ApplicationController
 
   def create_step_two
     PaperBlock.create(:paper_id=>params[:module][:paper_id],:title=>params[:module][:title],:description=>params[:module][:description])
+    doc=Document.new(File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml")
+
+    #数据丢失。。。。。 555555555555555555555
+    
+    file = File.new("#{papers_path}/#{params[:problem][:paper_id].to_i}.xml", "w+")
+    file.write(doc)
+    file.close
     redirect_to "/papers/#{params[:module][:paper_id]}/new_step_two"
   end
   

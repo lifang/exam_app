@@ -1,24 +1,96 @@
-
+<script type="text/javascript" charset="utf-8" src="/kindeditor/build/kindeditor.js"></script>
+<script type="text/javascript">
+  KE.show({
+    id : 'title',
+    skinType: 'tinymce',
+    cssPath : './index.css',
+    items : [
+      'undo', 'redo','copy', 'paste',
+      'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent',
+      'specialchar', 'link', 'unlink', 'image', 'flash', 'media', '-',
+      'fontname', 'fontsize', 'textcolor', 'bold',
+      'italic', 'underline',  'table', 'hr'
+    ]
+  });
+</script>
 <% sum=["一","二","三","四","五","六","七","八","九","十"] %>
-<%  index=0 %>
+<%  array_index=0 %>
 
 <% @xml.elements['blocks'].each_element do |block|%>
-  <h1 class="biz_art_title"><%= sum[index] %>、<%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)<a href="javascript:void(0)" style="float:right" onClick="javascript:create_question(<%= block.attributes['id'] %>)">新建试题</a></h1>
+  <h1 class="biz_art_title"><%= sum[array_index] %>、<%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)<a href="javascript:void(0)" style="float:right" onClick="javascript:create_question(<%= block.attributes['id'] %>)">新建试题</a></h1>
   <%=  render :partial=>"papers/new_question" ,:object=>block %>
-  <% index += 1 %>
+  <% array_index += 1 %>
+  <%  String  %>
   <div class="biz_art_list_box">
+    <%= block.elements["base_info"].elements["description"].text %>
     <ul>
-      <% block.elements['problems'].each do |problem| %>
-        <li>
-    <%#= render :partial=>"/papers/question_info",:object=>question %>
-          <h2><a href="javascript:void(0)" onMouseOver="javascript:question_info(0)">fewgergehrthrthrthtrfwefwefsdfsdfegergergergerfwewefwefwgrgrthrt</a></h2>
+      <% if !block.elements['problems'].nil? %>
+        <% block.elements['problems'].each_element do |problem| %>
+          <% if !problem.elements['title'].nil? %>
+            <li>
+              <%= render :partial=>"/papers/question_info",:object=>problem %>
+              <h2><a href="javascript:void(0)" onMouseOver="javascript:question_info(<%= problem.attributes["id"].to_i %>)"><%= problem.elements['title'].text %></a></h2>
+              <% problem.elements['questions'].each_element do |question| %>
+                <% if !question.elements['description'].nil? %>
+                  <p><%= question.elements['description'].text %></p>
+                <% end %>
+                <% if !question.elements['questionattrs'].nil? %>
+                  <p><%= question.elements['questionattrs'].text %></p>
+                <% end %>
 
-          <p>fjwefiojweflkmgerlgjerrfger</p>
 
-    <%# arguments={:question=>question,:point=>point,:block=>block,:attr_ids_array=>attr_ids} %>
-    <%#= render :partial=>"/papers/edit_question",:object=>arguments %>
-          <a href="javascript:void(0);" onClick="javascript:edit_question(0)" > &nbsp;编辑&nbsp; </a> <%= link_to "删除", "#", :method => "delete" %>
-        </li>
+
+                <div class="products_list_style_box"  style="display: none;" id="edit_question_<%= question.attributes["id"].to_i %>" style="display:none">
+                  <div class="arrow" style="top:10px;"></div>
+                  <div class="big_pic_box" style="top:0px;">
+                    <div class="in">
+                      <% form_for :problem ,:url=>"/questions/edit" do |f| %>
+
+                        <div class="title">题目类型：</div>
+                        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio1"%>单选题</div>
+                        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio2"%>多选题</div>
+                        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio3"%>判断题</div>
+                        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio4"%>完形填空题</div>
+                        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio5"%>综合题</div>
+                        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio5"%>填空题</div>
+                        <div class="clear"></div>
+                        <%= f.hidden_field :xpath,:value=>"#{question.xpath}" %>
+                        <%= f.hidden_field :question_id,:value=>"#{question.attributes["id"]}" %>
+                        <%= f.hidden_field :paper_id,:value=>"#{@xml.attributes["id"]}" %>
+                        <div class="title">题面：</div>
+                        <%= f.text_area :title ,:cols=>"45",:rows=>"3",:class=>"textarea_style" ,:id=>"title",:value=>problem.elements["title"].text %>
+                        <div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
+                        <div class="clear"></div>
+                        <div class="question">
+                          <% attrs_str=question.elements["questionattrs"].text %><% attrs_array=attrs_str.split(";") %><% index=0 %>
+                          <%= f.hidden_field :attr_sum,:value=>"#{attrs_array.length}" %>
+                          <% (1..attrs_array.length).each do %>
+                            <%  index += 1 %>
+                            <div class="attr"><%= f.text_field :attr_key ,:class=>"input_style",:name=>"attr#{index}_key",:value=>"#{attrs_array[index-1].split(":")[0]}",:size=>"1"%> 、 <%= f.text_field :attr_value ,:name=>"attr#{index}_value",:class=>"input_style" ,:size=>"15",:value=>"#{attrs_array[index-1].split(":")[1]}"%><a href="#">删除</a></div>
+                          <% end %>
+                        </div>
+                        <div class="answer">答案：<%= f.text_field :answer ,:class=>"input_style",:size=>"40",:value=>"#{question.attributes["answer"]}"%></div>
+                        <div class="answer">分值：<%= f.text_field :score ,:class=>"input_style",:value=>"#{problem.attributes["score"]}"%></div>
+                        <div class="title">评分规则：</div>
+                        <%= f.text_area :assess_role ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
+                        <div class="tag">知识点标签：
+                          <span class="tag_input"><input type="text" name="tag" class="input_style" value="" size="35"/></span>
+                          <span class="tag_input">多个标签，以“<font color="red">空格</font>”隔开</span>
+                        </div>
+                        <%= f.submit "提交" ,:class=>"submit_btn" %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <%= form_for :delete,:name=>"delete_form_#{problem.attributes["id"]}", :id =>"delete_form_#{problem.attributes["id"]}", :url=>"/papers/destroy" do |f|%>
+                  <%= f.hidden_field :xpath,:value=>problem.xpath %>
+                  <a href="javascript:void(0);" onClick="javascript:edit_question(<%= question.attributes["id"].to_i %>)" > &nbsp;编辑&nbsp; </a>  <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%= problem.attributes['id']%>').submit();">删除</a>
+                <% end %>
+              </li>
+            <% end %>
+          <% end %>
+        <% end %>
       <% end %>
     </ul>
   </div>

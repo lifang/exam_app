@@ -9,7 +9,6 @@ class Problem < ActiveRecord::Base
     :MORE_CALK => 4, :COLLIGATION => 5, :CHARACTER => 6 }
   #0 单选题； 1 多选题；2 判断题；3 填空题； 4 完型填空题； 5 综合题； 6 简答题
 
-
   #根据不同的类型
 
   #创建题目

@@ -6,26 +6,40 @@ class QuestionsController < ApplicationController
   def new
   end
 
-  def create
+  def create  #新建题目
     @problem=Problem.create(:title=>params[:problem][:title])
-    @question_attrs=""
+    @attrs_array=Array.new
     index=0
     (1..params[:problem][:attr_sum].to_i).each do
       index +=1
-      @question_attrs+="#{params['attr#{index}_key']}.#{params['attr#{index}_value']  }"
+      key=params["attr#{index}_key"]
+      value=params["attr#{index}_value"]
+      @attrs_array << "#{key}:#{value}"
     end
-    @question=Question.create(:problem_id=>@problem.id,:answer=>params[:problem][:answer],:question_attrs=>@question_attrs)
+    @questionattrs=@attrs_array.join("; ")
+    @question=Question.create(:problem_id=>@problem.id,:answer=>params[:problem][:answer],:question_attrs=>@questionattrs)
     @paper=Paper.find(params[:problem][:paper_id])
     @paper.update_attributes(:updated_at=>Time.now)
     doc=Document.new(File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml")
-    problems=doc.root.elements["blocks"].elements["block[@id='#{params[:problem][:block_id]}']"].elements["problems"]
-    index=1
-
-    while (!problems.elements["problem[id='#{index}']"].nil?)
-      index += 1
-    end
-    problems.add_element("problem")
-    problems.elements["problem"].add_attribute("id","#{index}")
+    block=doc.root.elements["blocks"].elements["block[@id='#{params[:problem][:block_id]}']"]
+    problems=block.elements["problems"]
+    problem=problems.add_element("problem")
+    problem.add_attribute("id","#{@problem.id}")
+    add_score=params[:problem][:score].to_i
+    problem.add_attribute("score","#{add_score}")
+    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年_%m月_%d日_%H时_%M分")      #试卷更新时间
+    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i + add_score       #更新试卷总分
+    doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i + 1                   #更新试卷总题数 +1
+    block.attributes["total_score"] = block.attributes["total_score"].to_i + add_score             #更新模块总分
+    block.attributes["total_num"] = block.attributes["total_num"].to_i + 1                         #更新模块总题数 +1
+    title=problem.add_element("title")
+    title.add_text("#{@problem.title}")
+    questions=problem.add_element("questions")
+    question=questions.add_element("question")
+    question.add_attribute("id","#{@question.id}")
+    question.add_attribute("answer","#{params[:problem][:answer]}")
+    questionattrs=question.add_element("questionattrs")
+    questionattrs.add_text("#{@question.question_attrs}")
     file = File.new("#{papers_path}/#{params[:problem][:paper_id].to_i}.xml", "w+")
     file.write(doc)
     file.close
@@ -34,21 +48,34 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    @problem=Problem.find(params[:question][:question_id])
-    @question.update_attributes(:title=>params[:question][:title])   #修改 题面
-    @question_point=QuestionPoint.find(params[:question][:point_id])
-    @question_point.update_attributes(:answer=>params[:question][:answer])  #修改 答案
+    @question=Question.find(params[:problem][:question_id])                #数据库操作
+    @attrs_array=Array.new
     index=0
-    (1..params[:question][:index].to_i).each do
+    (1..params[:problem][:attr_sum].to_i).each do
       index +=1
-      @question_attr=QuestionAttr.find(params["attr#{index}_id"])
-      @question_attr.update_attributes(:key=>params["attr#{index}_key"],:value=>params["attr#{index}_value"])  #修改 题枝
+      key=params["attr#{index}_key"]
+      value=params["attr#{index}_value"]
+      @attrs_array << "#{key}:#{value}"
     end
-    @paper=Paper.find(params[:question][:paper_id])
+    @questionattrs=@attrs_array.join(";")
+    @question.update_attributes(:question_attrs=>@questionattrs,:answer=>params[:problem][:answer])   #修改题点
+    @problem =@question.problem
+    @problem.update_attributes(:title=>params[:problem][:title])  #修改题目
+    @paper=Paper.find(params[:problem][:paper_id])
     @paper.update_attributes(:updated_at=>Time.now)    #修改 试卷的更新时间
 
-    @question.block_question_relations.find_by_paper_block_id(params[:question][:block_id]).update_attributes(:score=>params[:question][:score],:assess_role=>params[:question][:assess_role]) #修改 成绩和评分规则
-    redirect_to  "/papers/#{params[:question][:paper_id]}/new_step_two"
+    doc=Document.new(File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml")                       #XML操作
+    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年_%m月_%d日_%H时_%M分")      #试卷更新时间
+    question=doc.elements["#{params[:problem][:xpath]}"]
+    question.elements["questionattrs"].text = @questionattrs
+    question.attributes["answer"] = @question.answer
+    problem=question.parent.parent
+    problem.elements["title"].text = @problem.title
+    problem.attributes["score"] = params[:problem][:score]
+    file = File.new("#{papers_path}/#{params[:problem][:paper_id].to_i}.xml", "w+")
+    file.write(doc)
+    file.close
+    redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
 
    
     
@@ -59,4 +86,5 @@ class QuestionsController < ApplicationController
     @question.destroy
     redirect_to request.referrer
   end
+  
 end

@@ -3,7 +3,7 @@
   <div class="question_pic_box" style="top:0px;">
     <div class="in">
 
-      <% form_for :problem ,:url=>"/questions/create" do |f| %>
+      <% form_for :problem ,:url=>"/questions" do |f| %>
        <%= f.hidden_field :block_id ,:value=>new_question.attributes['id']  %>
         <%= f.hidden_field :paper_id ,:value=>@xml.attributes['id']  %>
         <div class="title">题目类型：</div>
@@ -12,6 +12,7 @@
         <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio3"%>判断题</div>
         <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio4"%>完形填空题</div>
         <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio5"%>综合题</div>
+        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio5"%>填空题</div>
         <div class="clear"></div>
         <div class="title">题面：</div>
         <%= f.text_area :title ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
