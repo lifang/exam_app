@@ -21,23 +21,16 @@ class User < ActiveRecord::Base
 
   
 	def right_password?(varnum)
-
     self.encrypted_password==encrypt(varnum)
-
   end
 
   #创建用户权限
-  def self.set_role(role)
-
-    #return true or false
+  def set_role(role)
+    roles << role
   end
 
 
-
-
-
-
-	before_save:encrypt_password
+	#before_save:encrypt_password
   
   def has_password?(submitted_password)
 		encrypted_password == encrypt(submitted_password)
@@ -49,11 +42,12 @@ class User < ActiveRecord::Base
     return user if user.has_password?(submitted_password)
   end
 
-  private
+  
   def encrypt_password
     self.encrypted_password=encrypt(password)
   end
 
+  private
   def encrypt(string)
     self.salt = make_salt if new_record?
     secure_hash("#{salt}--#{string}")
