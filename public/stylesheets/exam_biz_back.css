@@ -2521,9 +2521,12 @@ a:hover{
     padding-bottom:8px;
     padding-top:8px;
 }
-.biz_art_list_box a {
+.biz_art_list_box .links {
     color:#06F;
     float:right;
+}
+.biz_art_list_box .links a {
+    color:#06F;
 }
 
 .exam_title_html h2{
