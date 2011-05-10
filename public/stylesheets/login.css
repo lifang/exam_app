@@ -160,27 +160,11 @@ input, textarea, select {
     _margin-top:-3px;
 }
 
-input, textarea, select {
-    font-family:inherit;
-    font-size:inherit;
-    font-weight:inherit;
-}
-
 .reg_content{
     width:950px;
     margin:0 auto;
 }
-.login_page_logo{
-    background:url(/images/login_page_bg.gif) no-repeat;
-    overflow:hidden;
-}
-.login_page_logo{
-    display:block;
-    margin:10px 0 30px 0;
-    width:133px;
-    height:69px;
-    background-position:0px 0px;
-}
+
 .check_num{
     background:#e6e6e6;
     color:#515151;
@@ -259,6 +243,105 @@ input, textarea, select {
     border-bottom:#CCC 1px solid;
 }
 
+.erpResend{
+    color:#666;
+    text-align:center;
+    margin-bottom:15px;
+}
+.erpResend a{
+    margin:0 3px 0 3px;
+    color:#03C;
+    text-decoration:none;
+}
+.erpResend a:hover{
+    text-decoration:underline;
+}
+.step_two{
+    background:url(/images/reg_setp.gif) no-repeat;
+    height:35px;
+    width:950px;
+    overflow:hidden;
+    margin-bottom:40px;
+}
+.step_two{
+    background-position:0px -46px;
+}
+.expForLoginEmail{
+    font-size:14px;
+    font-weight:bold;
+    color:#555;
+    text-align:center;
+    margin-bottom:15px;
+}
+.expForLoginEmail span{
+    color:#114cf5;
+    font-size:16px;
+}
+.email_link{
+    padding:0px 5px 0 5px;
+    color:#FFF;
+    height:24px;
+    line-height:24px;
+    display:inline-block;
+    background:url(/images/login_email_btn.gif) repeat-x;
+    border:#505adc 1px solid;
+    font-size:14px;
+    font-weight:bold;
+    text-decoration:none;
+}
+.resend_btn{
+    padding:0px 5px 0 5px;
+    color:#606060;
+    height:22px;
+    line-height:22px;
+    background:url(/images/resend_btn.gif) repeat-x;
+    border:#bcbcbc 1px solid;
+    cursor:pointer;
+}
+.resend_btn_wait, .resend_none{
+    padding:0px 5px 0 5px;
+    color:#c0c0c0;
+    height:22px;
+    line-height:22px;
+    background:url(/images/resend_btn_wait.gif) repeat-x;
+    border:#bcbcbc 1px solid;
+}
+.resend_btn_wait span{
+    color:#666;
+}
+
+.btn_box{
+    text-align:center;
+    margin-bottom:40px;
+}
+.btn_box a{
+    color:#03C;
+    text-decoration:none;
+}
+.btn_box a:hover{
+    text-decoration:underline;
+}
+
+.logo_box{
+    margin-top:100px;
+    margin-bottom:20px;
+}
+.jh_erro{
+    padding-top:10px;
+    width:400px;
+    border:#CCC 1px solid;
+    margin:0 auto;
+}
+.step_three{
+    background:url(/images/reg_setp.gif) no-repeat;
+    height:35px;
+    width:950px;
+    overflow:hidden;
+    margin-bottom:40px;
+}
+.step_three{
+    background-position:0px -96px;
+}
 .flash_warn,.flash_pic_warn, .flash_notice, .flash_error{margin:7px;padding:8px;padding-left:15px;-moz-border-radius:8px; -webkit-border-radius:8px; font-size:14px;}
 .flash_warn{background:#FFF9D7 none repeat scroll 0 0;border:1px solid #f6edbb;color:#cbb014;}
 .flash_pic_warn{background:#FFF9D7 none repeat scroll 0 0;border:1px solid #E2C822;color:#cbb014;}

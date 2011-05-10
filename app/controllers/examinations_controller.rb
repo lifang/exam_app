@@ -17,6 +17,7 @@ class ExaminationsController < ApplicationController
     @selectvalue=params[:examplan][:selectvalue]
     @result=params[:examplan][:see_result]
     @timeout=params[:timeout]
+    
     @time=params[:time].to_datetime + @selectvalue.to_i.minutes + @result.to_i.hours
     hash1={:title=>params[:title],:creater_id=>cookies[:user_id],:exam_password1=>"123456",:exam_password2=>"qianjun",:description=>params[:description],:is_paper_open=>params[:opened],
       :start_at_time=>@time ,:start_end_time=>@time + params[:timeout].to_i.minutes,:exam_time=>@timeout,:is_score_open=>params[:open_result]}

@@ -4,6 +4,15 @@
         <file>
             <url>app/views/papers/_paper_blocks.html.erb</url>
             <line>0</line>
+<<<<<<< HEAD
+=======
+            <line>0</line>
+            <line>10</line>
+            <line>10</line>
+            <line>10</line>
+            <url>app/views/pages/new.erb</url>
+            <line>10</line>
+>>>>>>> 302f324cbc6ddaab043a84fc45cca6403a537d84
         </file>
     </editor-bookmarks>
 </project-private>

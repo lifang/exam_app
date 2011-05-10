@@ -15,6 +15,24 @@ ExamApp::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
+  # ActionMailer::Base.delivery_method = :sendmail
+  # ActionMailer::Base.sendmail_settings = {
+  #    :location       => '/usr/sbin/sendmail',
+  #    :arguments      => '-i -t'
+  #}
+  # config.action_mailer.perform_deliveries = true
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+    #:location       => '/usr/sbin/sendmail',
+    #:arguments      => '-i -t'
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :domain => "gmail.com",
+    :authentication => :plain,
+    :user_name => "lifang@comdosoft.com",
+    :password => "139li860808fang"
+  }
+
   config.action_mailer.raise_delivery_errors = false
 
   # Print deprecation notices to the Rails logger
@@ -22,5 +40,7 @@ ExamApp::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
+
+
 end
 

@@ -8,18 +8,12 @@ class ApplicationController < ActionController::Base
 
   def proof_code(len)
     #    chars = ('A'..'Z').to_a + ('a'..'z').to_a
-    chars = ('1'..'9').to_a
+    chars = (1..9).to_a
     code_array = []
     1.upto(len) {code_array << chars[rand(chars.length)]}
-    return code_array.to_s
+    return code_array.join("")
   end
-  
-  def proof_code()
-    #    chars = ('A'..'Z').to_a + ('a'..'z').to_a
-
-    code_array =('1'..'9').to_a.shuffle[1..6].join("")    
-    return code_array.to_s
-  end
+ 
   def get_text(text)
   @text=text.gsub /['\n''\t''b']/," "
     @grade=@text.split(" ")

@@ -10,7 +10,7 @@ class CreateExaminations < ActiveRecord::Migration
       t.string :exam_password2
       t.datetime :start_at_time
       t.datetime :start_end_time
-      t.datetime :exam_time
+      t.integer :exam_time
       t.boolean :is_published
       
       t.timestamps

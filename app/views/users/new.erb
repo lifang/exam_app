@@ -2,20 +2,20 @@
   <div class="step_one"></div>
   <div ></div><%= @opened %>
   <table>
-    <%= form_for @user, :html =>{:onsubmit => 'return check()'} do |f| %>
+    <%= form_for @user, :html =>{:onsubmit => 'return check()', :class => "required-validate"} do |f| %>
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</td>
-        <td><%= f.text_field :username, :class => "input_style" %><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span><span class="must_r"><%= flash[:nameused] %></span></span><span  id="username_span"></span></td>
+        <td><%= f.text_field :username, :class => "required input_style" %><span class="expForEmail">用户名只能由字母，数字和下划线组成<span id="usernameErr"></span><span class="must_r"><%= flash[:nameused] %></span></span><span  id="username_span"></span></td>
       </tr>
 
 
       <tr>
         <td valign="top" align="right"><span class="must_r ">*</span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
-        <td><%= f.password_field :password, :class => "input_style" %><span class="expForEmail">密码长度在6到20位之间<span id="passwordErr"></span></span></td>
+        <td><%= f.password_field :password, :class => "required input_style" %><span class="expForEmail">密码长度在6到20位之间<span id="passwordErr"></span></span></td>
       </tr>
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>确认密码：</td>
-        <td><%= f.password_field :password_confirmation, :class => "input_style" %><span class="expForEmail"><span id="confirmationErr"></span></span></td>
+        <td><%= f.password_field :password_confirmation, :class => "required input_style" %><span class="expForEmail"><span id="confirmationErr"></span></span></td>
       </tr>
       <tr>
         <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp名：</td>
@@ -24,13 +24,13 @@
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>赶考身份：</td>
         <td>
-          <input type="radio" name="role" value="0"/>&nbsp;考生&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio" name="role" value="1"/>&nbsp;考试组织人
+          <input type="radio" name="role" value="1" checked="true"/>&nbsp;考生&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" name="role" value="2"/>&nbsp;考试组织人
         </td>
       </tr>
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>注册邮箱：</td>
-        <td><%= f.text_field :email, :class => "input_style" %><span class="expForEmail">确保邮箱有效，我们将发送激活说明到此地址，每个邮箱只能使用一次<span  id="emailErr"></span><span class="must_r"><%= flash[:emailused] %></span></span></td>
+        <td><%= f.text_field :email, :class => "required input_style" %><span class="expForEmail">确保邮箱有效，我们将发送激活说明到此地址，每个邮箱只能使用一次<span  id="emailErr"></span><span class="must_r"><%= flash[:emailused] %></span></span></td>
       </tr>
       <tr>
         <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>手机号码：</td>
@@ -42,10 +42,9 @@
       </tr>
       <tr>
         <td valign="top" align="right"><span class="must_r">*</span>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</td>
-        <td><input class="input_style" type="text"  name="proof_code" id="proof_code"/> <span id="proofcode" class="check_num" title="看不清楚？可以点击此处换一张" onclick="<%= remote_function :update => :proofcode, :method => :get, :url => "/users/get_proof_code"  %>">
-
-            <%= session[:proof_code] %>
-
+        <td><input class="required input_style" type="text"  name="proof_code" id="proof_code"/>
+            <span id="proofcode" class="check_num" title="看不清楚？可以点击此处换一张" onclick="<%= remote_function :update => :proofcode, :method => :get, :url => "/users/get_register_code"  %>">
+            <%= session[:register_proof_code] %>
           </span><span class="must_r"><%= flash[:prooferror] %></span></td>
       </tr>
       <tr>

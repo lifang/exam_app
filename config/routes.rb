@@ -2,7 +2,10 @@ ExamApp::Application.routes.draw do
 
   resources :users do
     collection do
-      get "get_proof_code"
+      get "get_proof_code", "get_register_code", "re_active", "active_success", "active_false"
+    end
+    member do
+      get "active", "user_active"
     end
   end
   resources :sessions 
