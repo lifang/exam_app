@@ -87,23 +87,43 @@ class PapersController < ApplicationController
   end
   
   def search
-    @sql="select * from papers where creater_id=#{cookies[:user_id]}"
+    session[:mintime] = nil
+    session[:maxtime] = nil
+    session[:title] = nil
+    session[:category] = nil
     if !params[:mintime].nil? and params[:mintime] != ""
-      @sql += " and created_at > '#{params[:mintime]}'"
+      session[:mintime] = params[:mintime]
     end
     if !params[:maxtime].nil? and params[:maxtime] != ""
-      @sql += " and created_at < '#{params[:maxtime]} '"
+      session[:maxtime] = params[:maxtime]
     end
-    if !params[:search].nil? and params[:search] != ""
-      @sql += " and title like '%#{params[:search]}%'"
+    if !params[:title].nil? and params[:title] != ""
+      session[:title] = params[:title]
     end
-    if @sql !="select * from papers where creater_id=#{cookies[:user_id]}"
-      @papers=Paper.find_by_sql(@sql).paginate(:per_page =>10, :page => params[:page],:order => "created_at desc")
-    else
-      @papers=Paper.find_by_sql(@sql).paginate(:per_page =>10, :page => params[:page],:order => "created_at desc")
-      flash[:nosearch]="请输入条件"
+    if !params[:category].nil? and params[:category] != ""
+      session[:category] = params[:category]
     end
-    render 'index'
+    redirect_to search_list_papers_path
+    
+  end
+
+  def search_list
+     @sql = "select * from papers where creater_id=#{cookies[:user_id]}"
+     if !session[:mintime].nil?
+      @sql += " and created_at > '#{session[:mintime]}'"
+    end
+    if !session[:maxtime].nil?
+      @sql += " and created_at < '#{session[:maxtime]}'"
+    end
+    if !session[:title].nil?
+      @sql += " and title like '%#{session[:title]}%'"
+    end
+    if !session[:category].nil?
+      @sql += " and category_id = '%#{session[:category]}%'"
+    end
+      @sql += " order by created_at desc"
+      @papers = Paper.paginate_by_sql(@sql, :per_page =>1, :page => params[:page])
+      render 'index'
   end
   
   def edit

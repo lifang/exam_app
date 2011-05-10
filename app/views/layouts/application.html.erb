@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" manifest="test.manifest">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>考试系统</title>
@@ -10,35 +10,61 @@
     <%= javascript_include_tag 'pileadd' %>
     <%= javascript_include_tag 'jeffrey' %>
     <%= javascript_include_tag 'button' %>
-    
+
     <link href="/stylesheets/exam_biz_back.css" rel="stylesheet" />
     <link href="/stylesheets/login.css" rel="stylesheet" />
+    <script type="text/javascript">
+      var appCache = window.applicationCache;
+      switch (appCache.status) {
+        case appCache.UNCACHED: // UNCACHED == 0
+          alert( 'UNCACHED');
+          break;
+        case appCache.IDLE: // IDLE == 1
+          alert( 'IDLE');
+          break;
+        case appCache.CHECKING: // CHECKING == 2
+          alert ('CHECKING');
+          break;
+        case appCache.DOWNLOADING: // DOWNLOADING == 3
+          alert( 'DOWNLOADING');
+          break;
+        case appCache.UPDATEREADY:  // UPDATEREADY == 5
+          alert ('UPDATEREADY');
+          break;
+        case appCache.OBSOLETE: // OBSOLETE == 5
+          alert ('OBSOLETE');
+          break;
+        default:
+          alert ('UKNOWN CACHE STATUS');
+          break;
+      };
+    </script>
   </head>
   <body >
     <div id="container">
       <div id="hd">
         <div class="right">
-            <a href="/">登录</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/users/new">免费注册</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">成绩查询</a>
+          <a href="/">登录</a>
+          &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/users/new">免费注册</a>
+          &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">成绩查询</a>
         </div>
         <a id="logo" href="/"><span>考试系统</span></a>
         <div class="clear"></div>
         <p class="title_link">
           <%  if cookies[:user_id]!=nil %>
-          <a href="/papers">试卷管理</a>
-          &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/examinations">考试管理</a>
-          &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩管理</a>
+            <a href="/papers">试卷管理</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/examinations">考试管理</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩管理</a>
           <% end %>
         </p>
         <p class="back_welcome">
           <%if cookies[:user_id]!=nil%>
-          <% user=User.find_by_id(cookies[:user_id]) %>
-          <a href="/users/<%= user.id %>"><%= user.name %></a> 欢迎您！
-          <a href="#">[成绩查询]</a>
-          <a href="#">[我的收藏]</a>
-          <a href="/users/<%=user.id%>/edit">[个人设置]</a>
-          <a href="/signout">[退出]</a>
+            <% user=User.find_by_id(cookies[:user_id]) %>
+            <a href="/users/<%= user.id %>"><%= user.name %></a> 欢迎您！
+            <a href="#">[成绩查询]</a>
+            <a href="#">[我的收藏]</a>
+            <a href="/users/<%=user.id%>/edit">[个人设置]</a>
+            <a href="/signout">[退出]</a>
           <%end%>
         </p>
       </div>

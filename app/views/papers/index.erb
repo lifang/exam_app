@@ -18,14 +18,19 @@
     <div class="paper_search">
       <%= form_for :found,  :url => "/papers/search", :method => 'get' do %>
         试卷分类：
-        <select>
-          <option>--请选择--</option>
+        <select name="category" id="category">
+          <option value="">--请选择--</option>
+          <% Category.category_tree.each do |category| %>
+            <option value="<%= category.id %>">
+              <% (0..Category.level(category)).each do |level| %>&nbsp;<% end %><%= category.name %>
+            </option>
+          <% end if Category.category_tree.any? %>
         </select>
         &nbsp;&nbsp;&nbsp;&nbsp;创建时间：
         从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly name="mintime" id="mintime" value="" />&nbsp;
         到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly name ="maxtime" id ="maxtime" value=""  />
         <div class="clear"></div>
-        试卷标题&nbsp;&nbsp; &nbsp;&nbsp;<input class="input_style" type="text"  name="search" id="mintime" value="" size="60"/>
+        试卷标题&nbsp;&nbsp; &nbsp;&nbsp;<input class="input_style" type="text"  name="title" id="title" value="" size="60"/>
         <%= submit_tag "查询",:title=>nil %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="red"><%= flash[:nosearch] %></font><%= flash[:slector] %>
       <% end %>
     </div>
