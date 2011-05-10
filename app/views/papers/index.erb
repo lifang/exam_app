@@ -20,7 +20,7 @@
         到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly name ="maxtime" id ="maxtime" value=""  />
         <div class="clear"></div>
         试卷标题&nbsp;&nbsp; &nbsp;&nbsp;<input class="input_style" type="text"  name="search" id="mintime" value="" size="60"/>
-        <%= submit_tag "查询",:title=>nil %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="red"><%= flash[:nosearch] %></font><%= flash[:slector] %>
+        <%= submit_tag "查询",:title=>nil %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="red"><%= flash[:nosearch] %><%= flash[:error] %></font>
       <% end %>
     </div>
     <div class="clear"></div>

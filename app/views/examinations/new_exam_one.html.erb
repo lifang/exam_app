@@ -7,7 +7,8 @@
   <div class="in">
     <div class="paper_base_info">设置考试基本属性</div>
     <div class="add_details">
-      考试试卷：<a href="/papers/@paper.id"><%= @paper  %></a>
+
+      考试试卷：<a href="/papers/<%=  @paperids.id %>"><%= @paperids.title  %></a>
       <a href="#">[重选试卷]</a>
     </div>
     <%= form_for :examplan ,:url=>'/examinations/create_step_one', :method=>:post do |f|%>
@@ -25,7 +26,7 @@
         <span>&nbsp;&nbsp;&nbsp;即考试结束之后，考生能不能查看自己的考卷</span><%= f.hidden_field :see_result ,:value=>"" %>
       </div>
       <div class="add_details">
-        考试标题：<input type="text" class="input_style" name="title" value="<%= @paper %>" size="65"/>
+        考试标题：<input type="text" class="input_style" name="title" value="<%= @paperids.title %>" size="65"/>
         <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
       </div>
       <div class="add_details">
@@ -44,7 +45,7 @@
         <span>&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div  class="add_details"  >
-        开始开始于：<input type="text" disabled="disabled" class="input_style" id="time" name="time" value="/ 年/ 月/ 日" size="20" onClick="WdatePicker();" readonly/>
+        开始开始于：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" disabled="disabled" class="input_style" id="time" name="time" value="/ 年/ 月/ 日" size="20" onClick="WdatePicker();" readonly/>
         <select name="hour" disabled="disabled" id="hour" onchange="javascript:selecttime('hour')">
           <option value="-1">/ 时</option>
           <option value="6">6</option>
@@ -73,7 +74,11 @@
         <span>&nbsp;</span>
       </div><%= f.hidden_field :selectvalue,:value=>"" %>
       <div class="add_details">
-        考试时长：<input type="text" class="input_style" name="timeout" value="" size="20"/>分钟
+        入场结束时间：<input type="text" class="input_style" id="accesstime" name="accesstime" value="" size="20" disabled="disabled" />分钟
+        <span>&nbsp;</span>
+      </div>
+      <div class="add_details">
+        考试时长：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="input_style" name="timeout" id="timeout" value="" size="20"  onblur="javascript:compare_value()"/>分钟
         <span>&nbsp;</span>
       </div>
       <div class="clear"></div>

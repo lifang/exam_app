@@ -10,10 +10,16 @@ ExamApp::Application.routes.draw do
   end
   resources :sessions 
   resources :questions
+   resources :exam_users do
+     collection do
+      get "new_exam_two"
+      post "add_item"
+     end
+   end
   resources :examinations do
     collection do
       get "new_exam_one"
-      get "new_exam_two"
+    
       post "create_step_one"
       get "exam_list"
     end

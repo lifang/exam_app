@@ -1,5 +1,5 @@
 class Examination < ActiveRecord::Base
-  has_many :examintion_paper_relations,:dependent => :destroy
+  has_many :examination_paper_relations,:dependent => :destroy
   has_many :papers,:through=>:examination_paper_relations,:foreign_key=>"paper_id"
   has_many :score_levels,:dependent=>:destroy
   belongs_to :user,:foreign_key=>"creater_id"
@@ -9,7 +9,7 @@ class Examination < ActiveRecord::Base
 
  #创建考试
  def Examination.create_examination(attr_hash)
-   Examination.create(attr_hash)
+   return Examination.create(attr_hash)
    #return examination
  end
 
@@ -21,8 +21,9 @@ class Examination < ActiveRecord::Base
 
 
  #选择试卷
- def self.choose_paper(papers_array)
+ def choose_paper(papers_array)
    self.papers = papers_array
+
    #return true or false
  end
 
