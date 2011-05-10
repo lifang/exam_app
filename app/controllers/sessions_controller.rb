@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
   end
 
   def create
+
     if params[:proof_code].downcase != session[:signin_code].to_s.downcase
       flash[:error] = "请输入正确的验证码"
       redirect_to '/sessions/new'
@@ -27,9 +28,8 @@ class SessionsController < ApplicationController
           else
             cookies[:user_id]=@user.id
             cookies[:user_name]=@user.name
-            redirect_to "/papers"
+              redirect_to "/papers"            
           end
-
         end
       end
     end

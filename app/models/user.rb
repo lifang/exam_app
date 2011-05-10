@@ -17,8 +17,6 @@ class User < ActiveRecord::Base
 
   STATUS = {:LOCK => 0, :NORMAL => 1} #0 未激活用户  1 已激活用户
 
-
-
   
 	def right_password?(varnum)
     self.encrypted_password==encrypt(varnum)

@@ -6,7 +6,8 @@ class PapersController < ApplicationController
   before_filter :access?
 
   def index
-    @papers=Paper.find_by_sql("select * from papers p where p.creater_id=#{cookies[:user_id]} order by created_at desc").paginate(:per_page =>8, :page => params[:page],:order => "created_at desc",:conditions => ["title like ? " , "%#{params[:search]}%"])
+    @papers = Paper.paginate_by_sql(["select * from papers p where p.creater_id=#{cookies[:user_id]} order by p.created_at desc"],
+      :per_page => 1, :page => params[:page])
   end
 
   def new
