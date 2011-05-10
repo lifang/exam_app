@@ -6,7 +6,8 @@
   <div>录入：<%= @xml.elements['base_info'].elements['creater'].text%></div>
   <div>出卷时间：<%= @xml.elements['base_info'].elements['created_at'].text%></div>
   <div>最后修改时间：<%= @xml.elements['base_info'].elements['updated_at'].text%></div>
-  <div>总题数：---------------</div>
+  <div>总题数：<%= @xml.attributes["total_num"]%></div>
+  <div>卷面总分：<%= @xml.attributes["total_score"]%></div>
   <div>备注：<%= @xml.elements['base_info'].elements['description'].text%></div>
 
   <input type="submit" value="修改基本信息" class="submit_btn" onclick="javascript:change_info()"/>

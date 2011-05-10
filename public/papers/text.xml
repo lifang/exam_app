@@ -15,24 +15,24 @@
   <description>请把你认为正确的选项填入每题后面的括号内。每一题只有一个正确选项。</description> 
   </base_info>
   <problems>
-   <problem id=1 score=15>
+   <problem id="1" score="15">
   <title>请自我介绍一下。</title>
-  <question id=1 score=5>
+  <question id="1" score="5">
   <description>你叫什么名字？</description>
 <question_attrs>A.许其勇  B.钱俊  C.何鉴烽  D.李玉龙</question_attrs>
   </question>
-  <question id=2 score=5>
+  <question id="2" score="5">
   <description>你从哪里来？</description>
 <question_attrs>A.上海  B.江苏  C.北京  D.南极</question_attrs>
   </question>
-   <question id=3 score=5>
+   <question id="3" score="5">
   <description>你从事什么行业？</description>
 <question_attrs>A.软件开发  B.自主创业  C.生意  D.跑龙套</question_attrs>
   </question>
   </problem>
   </problems>
   </block>
-  <block id=2>
+  <block id="2">
   <base_info>
   <title>多项选择题</title> 
   <description>请把你认为正确的选项填入每题后面的括号内。每一题可以有多个正确选项。</description> 
