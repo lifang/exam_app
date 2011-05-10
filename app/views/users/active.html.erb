@@ -47,7 +47,7 @@
   <% emailname = @user.email.split('@')[1] if @user%>
   <% name = emailname.split('.')[0] if emailname %>
 
-  <% ApplicationHelper::EMAILS.each do |key,value| %>
+  <% Constant::EMAILS.each do |key,value| %>
     <% if key.to_s == 'e'+name.to_s %>
       <div class="btn_box">
         <a href="<%= value[0].to_s %>" class="email_link" target="_blank">登录到<%= value[1].to_s %>邮箱激活账号</a>
