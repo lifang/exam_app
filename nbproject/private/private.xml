@@ -2,22 +2,8 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
         <file>
-<<<<<<< HEAD
             <url>app/views/papers/_paper_blocks.html.erb</url>
             <line>0</line>
-=======
-<<<<<<< HEAD
-            <url>app/views/papers/_paper_blocks.html.erb</url>
-            <line>0</line>
-            <line>0</line>
-            <line>10</line>
-            <line>10</line>
-            <line>10</line>
-=======
-            <url>app/views/pages/new.erb</url>
-            <line>10</line>
->>>>>>> e0456767c8e1046c6abcd586f14b9180c91f123b
->>>>>>> 102c40dd28fccf941d601bb7f43253253ef5a014
         </file>
     </editor-bookmarks>
 </project-private>
