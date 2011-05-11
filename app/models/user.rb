@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   
   def encrypt_password
     self.encrypted_password=encrypt(password)
-    self.save
+    self.save!
   end
 
   private

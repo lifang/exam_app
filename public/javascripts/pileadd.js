@@ -29,6 +29,34 @@ function radiovalue(name){
     }
     document.getElementById("examplan_radiovalue").value = checked_ids;
 }
+function time_limit(name){
+    var sles=document.getElementsByName(name);
+    var checked_ids = new Array();
+    for (var i=0;i<sles.length;i++) {
+        if (sles[i].checked){
+        checked_ids.push(sles[i].value);
+        if (checked_ids==1){
+            document.getElementById("time").disabled=false;
+            document.getElementById("hour").disabled=false;
+            document.getElementById("minute").disabled=false;
+            document.getElementById("accesstime").disabled=false;
+        }
+        else {
+            document.getElementById("time").disabled=true;
+            document.getElementById("hour").disabled=true;
+            document.getElementById("minute").disabled=true;
+             document.getElementById("accesstime").disabled=true;
+        }
+        }
+    }
+
+      document.getElementById("examplan_radiovalue").value = checked_ids;
+
+
+
+//    var sles=document.getElementById(name).options[document.getElementById(name).selectedIndex].text;
+
+}
 function see_result(name){
     var sles=document.getElementsByName(name);
     var checked_ids = new Array();
@@ -72,8 +100,22 @@ function compare_value() {
     }
 }
 function getbutton(name) {
-    var all=document.getElementById(name);
-    document.getElementById("buttonvalue").value=all.value;
+    document.getElementById("login_form_value").value = "";
+    document.getElementById("leadin_form_value").value = "";
+    var login_form = $("login_form");
+    var leadin_form = $("leadin_form");
+    var textarea=document.getElementById("textarea").value = "" ;
+    for (var i=0;i<=$("add").rows.length;i++){
+        textarea=$("infoname"+i)+","+$("infomobile"+i)+","+$("infoemail")+";"
+    }
+    if ($("login_block").style.display != "none") {
+        document.getElementById("login_form_value").value = name;
+
+        login_form.submit();
+    } else {
+        document.getElementById("leadin_form_value").value = name;
+        leadin_form.submit();
+    }
 }
 function showpartial(name){
     var sles=document.getElementsByName(name);
@@ -99,19 +141,19 @@ function add_item(){
     var otd1 = document.createElement("td");
     var checkTd=document.createElement("td");
     checkTd.innerHTML = "<a href=javascript:delete_item("+otr.id+")>删除</a>";
-    otd1.innerHTML = '<input type="text"  name='+"infoName" +otr.id+ ' id="infoName_txt'+(document.getElementById('add').rows.length-1)+'" size="30" value=""/>';
+    otd1.innerHTML = '<input type="text"  name='+"infoname" +otr.id+ ' id='+"infoname" +otr.id+ ' size="30" value=""/>';
     var otd2 = document.createElement("td");
-    otd2.innerHTML = '<input type="text"  name='+"infomobile" +otr.id+' id="infoValue_txt'+($('add').rows.length-1)+'"  size="30" value=""/>';
+    otd2.innerHTML = '<input type="text"  name='+"infomobile" +otr.id+' id='+"infomobile" +otr.id+'  size="30" value=""/>';
     var otd3 = document.createElement("td");
-    otd3.innerHTML = '<input type="text"   name='+"infoemail" +otr.id+' id="infoValue_txt'+($('add').rows.length-1)+'"  size="30" value=""/>';
+    otd3.innerHTML = '<input type="text"   name='+"infoemail" +otr.id+' id='+"infoemail" +otr.id+'  size="30" value=""/>';
     otr.appendChild(otd1);
     otr.appendChild(otd2);
     otr.appendChild(otd3);
     otr.appendChild(checkTd);
- document.getElementById("rows").value=document.getElementById("add").rows.length
+    document.getElementById("rows").value=document.getElementById("add").rows.length
 }
 function delete_item(id){
     var c = document.getElementById(id);
     document.getElementById("add").deleteRow(c);
-     document.getElementById("rows").value=document.getElementById("add").rows.length
+    document.getElementById("rows").value=document.getElementById("add").rows.length
 }

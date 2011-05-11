@@ -3,21 +3,17 @@ class ExamUsersController < ApplicationController
 
   end
   def login
-    @rows=params[:rows].to_i
-    puts "==================================="
-    puts @rows
-    (1..@rows).each do |i|
-      puts params["infoname#{i}"].strip
-         @user=User.new(:name=>params["infoname#{i}"],:username=>params["infoname#{i}"],:email=>params["infoemail#{i}"],:mobilephone=>params["infomobile#{i}"],:password=>"123456",:password_confirmation=>"123456",:status=>1)
+    (1..params[:rows].to_i).each do |i|
+         @user=User.new(:name=>params["infoname#{i}"],:username=>params["infoname#{i}"],:email=>params["infoemail#{i}"],:mobilephone=>params["infomobile#{i}"],:password=>"123456",:password_confirmation=>"123456")
+      @user.status = User::STATUS[:NORMAL]
       @user.encrypt_password
-      @user.save!
       ExamUser.create!(:user_id=>@user.id,:examination_id=>cookies[:examination_id],:password=>"123456",:user_affirm=>params[:message])
      
     end
     if params[:exam_code]==1
       Examination.find(cookies[:examination_id]).update_attributes(:exam_password1=>proof_code(6),:exam_password2=>proof_code(6))
     end
-    if params[:buttonvalue]=="保存"
+    if params[:login_form_value]=="save" or params[:leadin_form_value] == "save"
       redirect_to "/exam_users/new_exam_two"
     else
       redirect_to "/exam_raters/new_exam_three"
