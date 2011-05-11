@@ -3,7 +3,7 @@
   <div class="question_pic_box" style="top:0px;">
     <div class="in">
 
-      <% form_for :problem ,:url=>"/questions" do |f| %>
+      <%= form_for :problem ,:url=>"/questions" do |f| %>
        <%= f.hidden_field :block_id ,:value=>new_question.attributes['id']  %>
         <%= f.hidden_field :paper_id ,:value=>@xml.attributes['id']  %>
         <div class="title">题目类型：</div>
