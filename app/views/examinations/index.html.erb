@@ -3,11 +3,7 @@
   <h2><span>考试列表</span></h2>
   <div class="in">
     <div class="paper_search">
-      考试分类：
-      <select>
-        <option>--请选择--</option>
-      </select>
-      &nbsp;&nbsp;&nbsp;&nbsp;创建时间：
+      创建时间：
       从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly/>&nbsp;
       到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly/>
       <div class="clear"></div>
@@ -26,89 +22,59 @@
         <col width="70" />
         <col width="" />
       </colgroup>
+      <% @examinations.any? %>
+      <% @examinations.each do |examination| %>
       <thead>
         <tr>
           <th>考试名称</th>
           <th>试卷标题</th>
-          <th>考试分类</th>
           <th>考试开始时间</th>
           <th>创建日期</th>
           <th>是否公开</th>
+          <th>是否发布</th>
           <th>状态</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr class="never">
-          <td>2011摸底测试</td>
-          <td><a href="#">2011英语模拟试题</a></td>
-          <td>模拟考试</td>
-          <td>2011-05-18 9:00</td>
-          <td>2011-05-03</td>
-          <td>否</td>
-          <td>未开始</td>
-          <td>
-            <a href="#">详情</a>&nbsp;|&nbsp;<a href="#">发布</a><br/>
-            <a href="#">取消考试</a>&nbsp;|&nbsp;<a href="#">显示考试码</a>
-          </td>
-        </tr>
-        <tr class="never">
-          <td>2010摸底测试</td>
-          <td><a href="#">2010英语模拟试题</a></td>
-          <td>模拟考试</td>
-          <td>任何时候</td>
-          <td>2011-05-03</td>
-          <td>否</td>
-          <td>进行中</td>
-          <td>
-            <a href="#">详情</a>&nbsp;|&nbsp;<a href="#">发布</a><br/>
-            <a href="#">取消考试</a>&nbsp;|&nbsp;<a href="#">查看成绩</a>
-          </td>
-        </tr>
-        <tr class="now">
-          <td>2009摸底测试</td>
-          <td><a href="#">2009英语模拟试题</a></td>
-          <td>模拟考试</td>
-          <td>2011-05-4 9:00</td>
-          <td>2011-05-03</td>
-          <td>否</td>
-          <td>考试中</td>
-          <td><a href="#">详情</a></td>
-        </tr>
-        <tr class="now">
-          <td>2008摸底测试</td>
-          <td><a href="#">2008英语模拟试题</a></td>
-          <td>模拟考试</td>
-          <td>2011-05-4 9:00</td>
-          <td>2011-05-03</td>
-          <td>否</td>
-          <td>考试中</td>
-          <td><a href="#">详情</a></td>
-        </tr>
-        <tr class="ever">
-          <td>2007摸底测试</td>
-          <td><a href="#">2007英语模拟试题</a></td>
-          <td>模拟考试</td>
-          <td>2011-05-3 9:00</td>
-          <td>2011-05-03</td>
-          <td>否</td>
-          <td>已结束</td>
-          <td><a href="#">详情</a>&nbsp;|&nbsp;<a href="#">查看成绩</a></td>
-        </tr>
-        <tr class="ever">
-          <td>2006摸底测试</td>
-          <td><a href="#">2006英语模拟试题</a></td>
-          <td>模拟考试</td>
-          <td>2011-05-3 11:00</td>
-          <td>2011-05-03</td>
-          <td>否</td>
-          <td>已结束</td>
-          <td><a href="#">详情</a>&nbsp;|&nbsp;<a href="#">查看成绩</a></td><%= Time.now%>
-        </tr>
+        
+          <% 
+          class_name = "now"
+          state_name = "考试中"
+          if examination.start_at_time.nil?
+            class_name = "now"
+            state_name = "进行中"
+          elsif examination.start_at_time > Time.now
+            class_name = "never"
+            state_name = "未开始"
+          elsif (examination.start_at_time + examination.exam_time.minutes) < Time.now
+            class_name = "ever"
+            state_name = "已结束"
+          end
+        %>
+        <tr class="<%= class_name %>">
+            <td><%= examination.e_title %></td>
+            <td><a href="/papers/<%= examination.p_id %>"><%= examination.p_title %></a></td>
+            <td><%= examination.start_at_time.nil? ? "任何时候" : examination.start_at_time.strftime("%Y%m%d %H:%M:%S") %></td>
+            <td><%= examination.created_at.strftime("%Y%m%d %H:%M:%S") %></td>
+            <td><%= examination.is_score_open == true ? "是":"否" %></td>
+            <td><%= examination.is_published == true ? "是":"否" %></td>
+            <td><%= state_name %></td>
+            <td>
+              <a href="/examinations/<%= examination.id %>">详情</a>&nbsp;|&nbsp;
+              <a href="/examinations/<%= examination.id %>/published">发布</a><br/>
+              <%= link_to '取消考试', examination, :confirm => '确认要取消考试么？', :method => :delete %>&nbsp;|&nbsp;
+              <a href="#">显示考试码</a>
+            </td>
+          </tr>       
       </tbody>
+      <% end %>
+      <% else %>
+
+      <% end %>
     </table>
     <div class="pagination_box">
-      <div class="pagination"><span class="disabled prev_page">«</span> <span class="current">1</span><a rel="next" href="/app/houses?page=2">2</a><span class="gap">…</span> <a href="/app/houses?page=3">3</a> <a href="/app/houses?page=4">4</a> <a href="/app/houses?page=5">5</a> <a href="/app/houses?page=6">6</a> <a href="/app/houses?page=7">7</a> <a href="/app/houses?page=8">8</a> <a href="/app/houses?page=9">9</a><a href="/app/houses?page=9">9</a><a href="/app/houses?page=9">9</a> <span class="gap">…</span> <a href="/app/houses?page=63">63</a> <a href="/app/houses?page=64">64</a> <a rel="next" class="next_page" href="/app/houses?page=2">»</a></div>
+      <%=will_paginate @examinations ,:previous_label=>"«", :next_label=>"»", :inner_window => 1 %>
     </div>
   </div>
 </div>

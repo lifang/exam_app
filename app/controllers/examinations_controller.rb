@@ -1,8 +1,16 @@
 class ExaminationsController < ApplicationController
-
+  before_filter :access?
+  
   def index
+    @examinations = Examination.paginate_by_sql(
+          ["select e.id e_id, e.title e_title, p.id p_id, p.title p_title, e.start_at_time,
+            e.exam_time, e.created_at, e.is_score_open, e.is_published
+            from examinations e inner join examination_paper_relations epr on epr.examination_id = e.id
+            inner join papers p on epr.paper_id = p.id where e.creater_id = ? and epr.default = ? order by e.created_at desc",
+        cookies[:user_id], ExaminationPaperRelation::DEFAULT[:YES]], :per_page => 1, :page => params[:page])
     
   end
+
   def new
     @examination=Examination.new()
   end

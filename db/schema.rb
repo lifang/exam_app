@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110506013731) do
+ActiveRecord::Schema.define(:version => 20110511090306) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20110506013731) do
     t.boolean  "is_submited"
     t.boolean  "open_to_user"
     t.string   "answer_sheet_url"
+    t.boolean  "is_user_affiremed"
   end
 
   add_index "exam_users", ["examination_id"], :name => "index_exam_users_on_examination_id"
@@ -54,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20110506013731) do
   create_table "examination_paper_relations", :force => true do |t|
     t.integer "examination_id"
     t.integer "paper_id"
+    t.boolean "default"
   end
 
   add_index "examination_paper_relations", ["examination_id"], :name => "index_examination_paper_relations_on_examination_id"
@@ -69,7 +71,7 @@ ActiveRecord::Schema.define(:version => 20110506013731) do
     t.string   "exam_password2"
     t.datetime "start_at_time"
     t.datetime "start_end_time"
-    t.integer  "exam_time"
+    t.string   "exam_time"
     t.boolean  "is_published"
     t.datetime "created_at"
     t.datetime "updated_at"
