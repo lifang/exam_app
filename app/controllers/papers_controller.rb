@@ -82,16 +82,41 @@ class PapersController < ApplicationController
   end
 
   def create_step_two
-    PaperBlock.create(:paper_id=>params[:module][:paper_id],:title=>params[:module][:title],:description=>params[:module][:description])
-    doc=Document.new(File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml")
-
-    #数据丢失。。。。。 555555555555555555555
-    
-    file = File.new("#{papers_path}/#{params[:problem][:paper_id].to_i}.xml", "w+")
+    @paper_block = PaperBlock.create(:paper_id=>params[:module][:paper_id],:title=>params[:module][:title],:description=>params[:module][:description])
+    doc=Document.new(File.open "#{papers_path}/#{params[:module][:paper_id].to_i}.xml")
+    blocks = doc.root.elements["blocks"]
+    block = blocks.add_element("block")
+    block.add_attribute("id","#{@paper_block.id}")
+    block.add_attribute("total_score","0")
+    block.add_attribute("total_num","0")
+    base_info=block.add_element("base_info")
+    title = base_info.add_element("title")
+    title.add_text("#{@paper_block.title}")
+    description = base_info.add_element("description")
+    description.add_text("#{@paper_block.description}")
+    problems = block.add_element("problems")
+    file = File.new("#{papers_path}/#{params[:module][:paper_id].to_i}.xml", "w+")
     file.write(doc)
     file.close
     redirect_to "/papers/#{params[:module][:paper_id]}/new_step_two"
   end
+REXML
+  def problem_destroy
+    doc=Document.new(File.open "#{papers_path}/#{params[:delete][:paper_id]}.xml")
+    block=doc.elements[params[:delete][:xpath]].parent.parent
+    doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - 1                   #更新试卷总题数 +1
+    block.attributes["total_num"] = block.attributes["total_num"].to_i - 1                         #更新试卷总题数 -1
+    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i - doc.elements[params[:delete][:xpath]].attributes["score"].to_i
+                                                                                                   #更新试卷总分
+    block.attributes["total_score"] = block.attributes["total_score"].to_i - doc.elements[params[:delete][:xpath]].attributes["score"].to_i
+                                                                                                   #更新模块总分
+    doc.delete_element(params[:delete][:xpath])
+    file=File.new("#{papers_path}/#{params[:delete][:paper_id]}.xml", "w+")
+    file.write(doc)
+    file.close
+    redirect_to "/papers/#{params[:delete][:paper_id]}/new_step_two"
+  end
+
   
   def search
     session[:mintime] = nil

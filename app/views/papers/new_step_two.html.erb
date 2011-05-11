@@ -19,10 +19,10 @@
 
 <div class="soso" id="change_info" style="display:none">
 
-  <% form_for :info ,:url=>"/papers/#{@xml.attributes['id']}/change_info" do |f| %>
+  <%= form_for :info ,:url=>"/papers/#{@xml.attributes['id']}/change_info" do |f| %>
     <div>试卷编号：<%= @xml.attributes['id'] %></div>
     <div>录入：<%= @xml.elements['base_info'].elements['creater'].text %></div>
-    <div>出卷时间：<%=  @xml.elements['base_info'].elements['created_at'].text%> %></div>
+    <div>出卷时间：<%=  @xml.elements['base_info'].elements['created_at'].text%></div>
     <div>总题数：<%= f.text_field :total_question_num %></div><br/>
     <div>备注：<%= f.text_area :description,:value=>@xml.elements['base_info'].elements['description'].text ,:size=>40,:cols=>"55",:rows=>"3",%></div>
 
