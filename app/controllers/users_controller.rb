@@ -26,10 +26,11 @@ class UsersController < ApplicationController
           @user.status = User::STATUS[:LOCK]
           @user.active_code = proof_code(6)
           if params[:user][:role].to_i == Role::TYPES[:TEACHER]
-            @user.roles << Role.find(Role::TYPES[:TEACHER])
+            @user.set_role(Role.find(Role::TYPES[:TEACHER]))
           else
-            @user.roles << Role.find(Role::TYPES[:STUDENT])
+            @user.set_role(Role.find(Role::TYPES[:STUDENT]))
           end
+          @user.encrypt_password
           if @user.save
             UserMailer.welcome_email(@user).deliver
             redirect_to "/users/#{@user.id}/active"

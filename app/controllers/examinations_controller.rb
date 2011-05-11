@@ -1,5 +1,8 @@
 class ExaminationsController < ApplicationController
 
+  def index
+    
+  end
   def new
     @examination=Examination.new()
   end

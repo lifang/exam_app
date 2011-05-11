@@ -2,18 +2,29 @@
 <div class="main_box_back">
   <h2><span>试卷列表</span>
     <div class="right">
-<%= link_to "新建卷子","/papers/new_step_one" %>|&nbsp;&nbsp;&nbsp;
-<%= form_for :exam, :html=> {:id => :exam_form, :name => :exam_form}, :url => "/examinations" do |f|%>
-<%= f.hidden_field :getvalue, :value =>""  %>
-<%= link_to "创建考试","javascript:void(0);", :onclick => "javascript:document.getElementById('exam_form').submit();" %>
-<% end %>
-    </div></h2>
+      <div>
+        <%= link_to "新建卷子","/papers/new_step_one" %>|&nbsp;&nbsp;&nbsp;
+      </div>
+      <div>
+        <%= form_for :exam, :html=> {:id => :exam_form, :name => :exam_form}, :url => "/examinations" do |f|%>
+          <%= f.hidden_field :getvalue, :value =>""  %>
+          <%= link_to "创建考试","javascript:void(0);", :onclick => "javascript:document.getElementById('exam_form').submit();" %>
+        <% end %>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </h2>
   <div class="in">
     <div class="paper_search">
       <%= form_for :found,  :url => "/papers/search", :method => 'get' do %>
         试卷分类：
-        <select>
-          <option>--请选择--</option>
+        <select name="category" id="category">
+          <option value="">--请选择--</option>
+          <% Category.category_tree.each do |category| %>
+            <option value="<%= category.id %>">
+              <% (0..Category.level(category)).each do |level| %>&nbsp;<% end %><%= category.name %>
+            </option>
+          <% end if Category.category_tree.any? %>
         </select>
         &nbsp;&nbsp;&nbsp;&nbsp;创建时间：
         从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly name="mintime" id="mintime" value="" />&nbsp;
@@ -21,6 +32,7 @@
         <div class="clear"></div>
         试卷标题&nbsp;&nbsp; &nbsp;&nbsp;<input class="input_style" type="text"  name="search" id="mintime" value="" size="60"/>
         <%= submit_tag "查询",:title=>nil %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="red"><%= flash[:nosearch] %><%= flash[:error] %></font>
+
       <% end %>
     </div>
     <div class="clear"></div>
@@ -32,7 +44,7 @@
         <col width="60" />
         <col width="80" />
         <col width="50" />
-         <col width="50" />
+        <col width="50" />
         <col width="220" />
         <col width="" />
       </colgroup>
@@ -57,7 +69,7 @@
             <td>  <%= paper.title  %></td>
             <td>  <%= paper.title  %></td>
             <td> <%= paper.created_at.strftime("%Y-%m-%d")  %></td>
-             <td> <%= paper.total_score %></td>
+            <td> <%= paper.total_score %></td>
             <td> <%= paper.total_question_num %></td>
             <td> <%= paper.description  %></td>
             <td><a><%= link_to " 查看" ,paper %>
@@ -72,12 +84,7 @@
       </tbody>
     </table>
     <div class="pagination_box">
-      <tr>
-      <div class="pagination">
-        <%=will_paginate @papers ,:previous_label=>"«", :next_label=>"»", :inner_window => 1 %></div>
-      <span class="disabled prev_page"><div>当前第<%= @papers.current_page%>页 | 共 <%= @papers.total_entries %> 条 | 共 <%= @papers.total_pages %> 页</div></span>
-      </tr>
-
+      <%=will_paginate @papers ,:previous_label=>"«", :next_label=>"»", :inner_window => 1 %>
     </div>
   </div>
 </div>

@@ -1,15 +1,13 @@
-<div class="products_list_style_box" id="question_info_<%= question_info.id %>" style="display:none">
+<div class="products_list_style_box" id="question_info_<%= question_info.attributes["id"].to_i %>" style="display:none">
   <div class="arrow" style="top:35px;"></div>
   <div class="big_pic_box" style="top:0px;">
     <div class="in">
-      <div class="title"><%= question_info.title %></div>
-
+      <div class="title"><%= question_info.elements["title"].text %></div>
       <div class="question">
-        <% question_info.question_points.each do |point| %>
-          <div class="attr"><label><%= point.description %></label></div>
-          <% point.question_attrs.each do |attr| %>
-            <div class="attr"><input type="radio" name="attr"/><label><%= attr.key %> <%= attr.value %></label></div>
-          <% end %>
+        <% attrs_str=question_info.elements["questions"].elements["question"].elements["questionattrs"].text %><% attrs_array=attrs_str.split(";") %><% index=0 %>
+        <% (1..attrs_array.length).each do %>
+          <%  index += 1 %>
+          <div class="attr"><label><%= attrs_array[index-1] %></label></div>
         <% end %>
       </div>
       <div class="answer">我的答案：A</div>

@@ -20,10 +20,10 @@
       选择是否要生成考试码：<input type="radio" id="exam_code" name="exam_code" checked="true"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <input type="radio" id="exam_code" name="exam_code"/>否
       <span>&nbsp;&nbsp;&nbsp;（考试码只提供给监考老师，当考生来参加考试的时候，监考老师要输入考试码，考生才能考试）</span>
-    </div>
+    </div>       
   </div>
   <div class="in" id="login_block" name="login_block" style="display:block">
-     <%= form_for :leadin,:url=>"/exam_users/login" do %>
+     <%= form_for :leadin, :html => {:name => "login_form", :id => "login_form"}, :url=>"/exam_users/login" do %>
     <div class="paper_base_info">录入考生信息</div>
     <table>
       <colgroup>
@@ -41,19 +41,20 @@
         </tr>
       </thead>
       <tbody id="add" name="add">
-        <tr>
-          <td><input type="text" name="name1" size="30"/></td>
-          <td><input type="text" name="name2" size="30"/></td>
-          <td><input type="text" name="name3" size="30"/></td>
-          <td><a href="javascript:delete_item()">删除</a></td>
+        <tr id="1">
+          <td><input type="text" name="infoname1" size="30"/></td>
+          <td><input type="text" name="infomobile1" size="30"/></td>
+          <td><input type="text" name="infoemail1" size="30"/></td>
+          <td><a href="javascript:delete_item(1)">删除</a></td>
         </tr>
-         <tr>
-          <td><input type="text" name="name1" size="30"/></td>
-          <td><input type="text" name="name2" size="30"/></td>
-          <td><input type="text" name="name3" size="30"/></td>
-          <td><a href="javascript:delete_item()">删除</a></td>
+         <tr id="2">
+          <td><input type="text" name="infoname2" size="30"/></td>
+          <td><input type="text" name="infomobile2" size="30"/></td>
+          <td><input type="text" name="infoemail2" size="30"/></td>
+          <td><a href="javascript:delete_item(2)">删除</a></td>
         </tr>
         </tbody>
+        <input type="hidden" id="rows" name="rows" value="2" />
         <tr>
           <td colspan="4"><%=  link_to "追加","javascript:void(0);",:onclick=>"javascript:add_item()" %></td>
         </tr>
@@ -61,8 +62,9 @@
     </table>
     <div class="clear"></div>
      <div class="in">
-    <input type="submit" value="保存" class="submit_btn" title="保存考生信息"/>
-    <input type="submit" value="下一步" class="submit_btn" title="保存考试信息，并进入添加阅卷老师界面"/>
+  <%= flash[:none] %><input type="hidden" id="buttonvalue" name="buttonvalue" value="" />
+       <input type="submit" value="保存" id="save" class="submit_btn" title="保存考生信息" onclick="javascript:getbutton('save');" />
+    <input type="submit" value="下一步" id="next" class="submit_btn" title="保存考试信息，并进入添加阅卷老师界面" onclick="javascript:getbutton('next');"/>
   </div>
     <% end  %>
   </div>
@@ -84,8 +86,8 @@
     </div>
     <div class="clear"></div>
      <div class="in">
-    <input type="submit" value="保存" class="submit_btn" title="保存考生信息"/>
-    <input type="submit" value="下一步" class="submit_btn" title="保存考试信息，并进入添加阅卷老师界面"/>
+    <input type="submit" value="保存" id="save" class="submit_btn" title="保存考生信息" onclick="javascript:getbutton('save');"/>
+    <input type="submit" value="下一步"id="next" class="submit_btn" title="保存考试信息，并进入添加阅卷老师界面" onclick="javascript:getbutton('next');"/>
   </div>
     <% end %>
   </div>

@@ -1,0 +1,14 @@
+CACHE MANIFEST
+# wanz app v1
+ 
+# 指明缓存入口
+CACHE:
+javascripts/answer_sheet.js
+ 
+# 以下资源必须在线访问
+NETWORK:
+/sessions/new
+ 
+# 如果index.php无法访问则用404.html代替
+FALLBACK:
+/sessions/new /404.html 

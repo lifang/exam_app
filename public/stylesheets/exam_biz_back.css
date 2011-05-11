@@ -865,7 +865,8 @@ a:hover{
     border-left:#CCC 1px solid;
     border-right:#CCC 1px solid;
 }
-.pagination .current {
+
+.pagination .current,  .pagination em{
     background:url(/images/anjuroom_pagination_actived_bg.gif) repeat-x;
     display:block;
     padding:0 5px 0 5px;
@@ -1520,6 +1521,9 @@ a:hover{
 .main_box_back h2 .right{
     float:right;
     font-weight:normal;
+}
+.main_box_back h2 .right div {
+    float: left;
 }
 .main_box_back h2 .right a{
     color:#06F;
@@ -2517,9 +2521,12 @@ a:hover{
     padding-bottom:8px;
     padding-top:8px;
 }
-.biz_art_list_box a {
+.biz_art_list_box .links {
     color:#06F;
     float:right;
+}
+.biz_art_list_box .links a {
+    color:#06F;
 }
 
 .exam_title_html h2{
