@@ -34,23 +34,23 @@ function time_limit(name){
     var checked_ids = new Array();
     for (var i=0;i<sles.length;i++) {
         if (sles[i].checked){
-        checked_ids.push(sles[i].value);
-        if (checked_ids==1){
-            document.getElementById("time").disabled=false;
-            document.getElementById("hour").disabled=false;
-            document.getElementById("minute").disabled=false;
-            document.getElementById("accesstime").disabled=false;
-        }
-        else {
-            document.getElementById("time").disabled=true;
-            document.getElementById("hour").disabled=true;
-            document.getElementById("minute").disabled=true;
-             document.getElementById("accesstime").disabled=true;
-        }
+            checked_ids.push(sles[i].value);
+            if (checked_ids==1){
+                document.getElementById("time").disabled=false;
+                document.getElementById("hour").disabled=false;
+                document.getElementById("minute").disabled=false;
+                document.getElementById("accesstime").disabled=false;
+            }
+            else {
+                document.getElementById("time").disabled=true;
+                document.getElementById("hour").disabled=true;
+                document.getElementById("minute").disabled=true;
+                document.getElementById("accesstime").disabled=true;
+            }
         }
     }
 
-      document.getElementById("examplan_radiovalue").value = checked_ids;
+    document.getElementById("examplan_radiovalue").value = checked_ids;
 
 
 
@@ -104,33 +104,37 @@ function getbutton(name) {
     document.getElementById("leadin_form_value").value = "";
     var login_form = $("login_form");
     var leadin_form = $("leadin_form");
-    var textarea=document.getElementById("textarea").value = "" ;
-    for (var i=0;i<=$("add").rows.length;i++){
-        textarea=$("infoname"+i)+","+$("infomobile"+i)+","+$("infoemail")+";"
-    }
+    var text= new String();
+    document.getElementById("textarea").value = "" ;
     if ($("login_block").style.display != "none") {
         document.getElementById("login_form_value").value = name;
-
-        login_form.submit();
+        for (var i=1;i<=$("add").rows.length;i++){
+            if ($("infoname"+i).value!="" && $("infomobile"+i).value!=""&& $("infoemail"+i).value!=""){
+                text +=$("infoname"+i).value + ","+$("infomobile"+i).value + ","+$("infoemail"+i).value+";";
+            }
+        }
+        document.getElementById("textarea").value = text;
+        //login_form.submit();
     } else {
+
         document.getElementById("leadin_form_value").value = name;
-        leadin_form.submit();
+        //leadin_form.submit();
     }
+login_form.submit();
+
 }
 function showpartial(name){
     var sles=document.getElementsByName(name);
-    var checked_ids = new Array();
     for (var i=0;i<sles.length;i++) {
-        if (sles[i].checked){
-            checked_ids.push(sles[i].value);
-            if (checked_ids==1){
+        if (sles[i].checked==true){
+            if (sles[i].value==1){
                 document.getElementById("login_block").style.display="block";
-                document.getElementById("leadin").style.display="none";
+                document.getElementById("leadin_div").style.display="none";
             }
             else
             {       
                 document.getElementById("login_block").style.display="none";
-                document.getElementById("leadin").style.display="block";
+                document.getElementById("leadin_div").style.display="block";
             }
         }
     }
