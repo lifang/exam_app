@@ -2,7 +2,8 @@
   <h1 class="biz_art_title">添加新的模块</h1>
 
   <div class="biz_art_list_box">
-    <% form_for :module ,:url=>"/papers/create_step_two"  do |f|%>
+    <%= form_for :module ,:url=>"/papers/create_step_two"  do |f|%>
+    <ul>
     <%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
         <li>
           <div class="add_details">

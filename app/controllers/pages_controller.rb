@@ -32,3 +32,5 @@ class PagesController < ApplicationController
     render :layout => "common"
   end
 end
+
+
