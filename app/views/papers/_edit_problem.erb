@@ -2,7 +2,7 @@
   <div class="arrow" style="top:10px;"></div>
   <div class="question_pic_box" style="top:0px;">
     <div class="in">
-      <% form_for :problem ,:url=>"/questions/edit" do |f| %>
+      <%= form_for :problem ,:url=>"/questions/edit" do |f| %>
 
         <div class="title">题目类型：</div>
         <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio1"%>单选题</div>

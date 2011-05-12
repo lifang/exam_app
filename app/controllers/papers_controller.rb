@@ -51,53 +51,15 @@ class PapersController < ApplicationController
 
   def create_step_one
      @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],:description=>params[:paper][:description])
+     @paper.create_paper_url(@paper.xml_content(cookies[:user_name]))                    #创建XML文件，更新字段paper_url
      @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
-    unless File.directory?("#{Rails.root}/public/papers")
-      Dir.mkdir("#{Rails.root}/public/papers")
-    end
-    content ="<?xml version='1.0' encoding='UTF-8'?>"
-    content+="<paper id='#{@paper.id}' total_num='0' total_score='0'>"
-    content+="<base_info>"
-    content+="<title>#{@paper.title}</title>"
-    content+="<creater>#{cookies[:user_name]}</creater>"
-    content+="<created_at>#{@paper.created_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</created_at>"
-    content+="<updated_at>#{@paper.updated_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</updated_at>"
-    content+="<description>#{params[:paper][:description].force_encoding('ASCII-8BIT')}</description>"
-    content+="</base_info>"
-    content+="<blocks>"
-    content+="<block id='#{@block.id}' total_num='0' total_score='0'>"
-    content+="<base_info>"
-    content+="<title>#{params[:paper][:block_title].force_encoding('ASCII-8BIT')}</title>"
-    content+="<description>#{params[:paper][:block_description].force_encoding('ASCII-8BIT')}</description>"
-    content+="</base_info>"
-    content+="<problems>"
-    content+="</problems>"
-    content+="</block>"
-    content+="</blocks>"
-    content+="</paper>"
-    f=File.new("#{papers_path}/#{@paper.id}.xml","a+")
-    f.write("#{content.force_encoding('UTF-8')}")
-    f.close
+     @block.update_block_xml(@paper.paper_url)
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
   def create_step_two
     @paper_block = PaperBlock.create(:paper_id=>params[:module][:paper_id],:title=>params[:module][:title],:description=>params[:module][:description])
-    doc=Document.new(File.open "#{papers_path}/#{params[:module][:paper_id].to_i}.xml")
-    blocks = doc.root.elements["blocks"]
-    block = blocks.add_element("block")
-    block.add_attribute("id","#{@paper_block.id}")
-    block.add_attribute("total_score","0")
-    block.add_attribute("total_num","0")
-    base_info=block.add_element("base_info")
-    title = base_info.add_element("title")
-    title.add_text("#{@paper_block.title}")
-    description = base_info.add_element("description")
-    description.add_text("#{@paper_block.description}")
-    problems = block.add_element("problems")
-    file = File.new("#{papers_path}/#{params[:module][:paper_id].to_i}.xml", "w+")
-    file.write(doc)
-    file.close
+    @paper_block.update_block_xml(@paper_block.paper_id)
     redirect_to "/papers/#{params[:module][:paper_id]}/new_step_two"
   end
 REXML

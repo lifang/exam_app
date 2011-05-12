@@ -8,19 +8,47 @@ class Paper < ActiveRecord::Base
 
   #创建试卷基本信息
   def Paper.create_base_info(paper)
+    
+  end
 
+  def create_paper_url(str)
+    dir = "#{Rails.root}/public/papers/"      #定义：目录
+    unless File.directory?(dir)               #判断dir目录是否存在，不存在则创建 下3行
+      Dir.mkdir(dir)
+    end
+    file_name = "#{self.id}.xml"                          #定义：文件名
+    url = dir+file_name                                   #定义：url = 目录+文件名
+    f=File.new(url,"w")                                   #写文件操作  下3行
+    f.write("#{str.force_encoding('UTF-8')}")
+    f.close
+    self.paper_url = url                                  #字段paper_url = url
   end
 
   #创建试卷的文件
   def self.update_paper_url(str)
-
+    
   end
 
   #发布试卷
   def self.published!(paper)
 
   end
-
+  
+  def xml_content(creater_name)
+    content ="<?xml version='1.0' encoding='UTF-8'?>"
+    content+="<paper id='#{self.id}' total_num='0' total_score='0'>"
+    content+="<base_info>"
+    content+="<title>#{self.title}</title>"
+    content+="<creater>#{creater_name}</creater>"
+    content+="<created_at>#{self.created_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</created_at>"
+    content+="<updated_at>#{self.updated_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</updated_at>"
+    content+="<description>#{self.description.force_encoding('ASCII-8BIT')}</description>"
+    content+="</base_info>"
+    content+="<blocks>"
+    content+="</blocks>"
+    content+="</paper>"
+  end
+  
 end
 
 
