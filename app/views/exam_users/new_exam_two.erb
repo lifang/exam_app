@@ -2,6 +2,7 @@
   <li>创建考试</li>
 </ul>
 <div class="main_box_back">
+      <%= form_for :login, :html => {:name => "login_form", :id => "login_form"}, :url=>"/exam_users/login" do %>
   <h2><span>添加考生</span></h2>
   <div class="in">
     <div class="paper_base_info">添加考生基本信息</div>
@@ -12,18 +13,18 @@
     </div>
     <div class="add_details">
       <font color="red">*</font>
-      选择是否需要考生确认信息：<input type="radio" id="message" name="message" checked="true"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="radio" id="message" name="message"/>否
+      选择是否需要考生确认信息：<input type="radio" id="message" name="message"value="1" checked="true"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" id="message" value="0" name="message"/>否
     </div>
     <div class="add_details">
       <font color="red">*</font>
-      选择是否要生成考试码：<input type="radio" id="exam_code" name="exam_code" checked="true"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="radio" id="exam_code" name="exam_code"/>否
+      选择是否要生成考试码：<input type="radio" id="exam_code" name="exam_code" value="1" checked="true"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" id="exam_code"value="0" name="exam_code"/>否
       <span>&nbsp;&nbsp;&nbsp;（考试码只提供给监考老师，当考生来参加考试的时候，监考老师要输入考试码，考生才能考试）</span>
     </div>       
   </div>
   <div class="in" id="login_block" name="login_block" style="display:block">
-    <%= form_for :login, :html => {:name => "login_form", :id => "login_form"}, :url=>"/exam_users/login" do %>
+
       <div class="paper_base_info">录入考生信息</div>
       <table>
         <colgroup>
@@ -61,10 +62,9 @@
         </tr>
       </table>
       <div class="clear"></div><input type="hidden" id="login_form_value" name="login_form_value" value="" />
-    <% end  %>
   </div>
-  <div class="in" id="leadin_div" name="leadin_div" style="display:none;">
-    <%= form_for :leadin, :html => {:name => "leadin_form", :id => "leadin_form"}, :url=>"/exam_users/leadin" do %>
+  <div class="in" id="leadin_div" name="leadin_div" style="display:none">
+    <%#= form_for :leadin, :html => {:name => "leadin_form", :id => "leadin_form"}, :url=>"/exam_users/leadin" do %>
       <div class="paper_base_info">导入考生信息</div>
       <div class="add_details">
         <div class="detail">按右边格式填入信息：</div>
@@ -75,8 +75,8 @@
         <div class="detail">&nbsp;&nbsp;&nbsp;&nbsp;</div>
         <div class="detail">
           <textarea id="user_info" name="user_info"cols="50" rows="6" class="textarea_style">张三  zhangsan@hotmail.com  13234567898
-          李四  lisi@126.com  13445678908
-          王五  wangwu@gmail.com  18912345654</textarea>
+            李四  lisi@126.com  13445678908
+            王五  wangwu@gmail.com  18912345654</textarea>
         </div>
       </div>
       <div class="clear"></div>
@@ -84,9 +84,10 @@
     <% end %>
   </div>
   <div class="in">
-    
     <input type="button" value="保存" id="save" class="submit_btn" title="保存考生信息" onclick="javascript:getbutton('save');" />
     <input type="button" value="下一步" id="next" class="submit_btn" title="保存考试信息，并进入添加阅卷老师界面" onclick="javascript:getbutton('next');"/>
   </div>
-
 </div>
+<script type="text/javascript">
+showpartial('login')
+</script>
