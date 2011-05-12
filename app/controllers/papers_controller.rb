@@ -33,8 +33,8 @@ class PapersController < ApplicationController
 
 
   def show
-    @paper=Paper.find(params[:id])
-    @blocks= @paper.paper_blocks
+    file = File.open("#{papers_path}/#{params[:id]}.xml")
+    @xml=Document.new(file).root
   end
 
   def new_step_one
@@ -70,7 +70,7 @@ class PapersController < ApplicationController
     xml_delete_problem(url,problem_xpath)                   #删除题目
     redirect_to request.referrer
   end
-
+  
   def edit_block
     @block=PaperBlock.find(params[:block][:block_id])
     @block.update_attributes(:title=>params[:block][:title],:description=>params[:block][:description])

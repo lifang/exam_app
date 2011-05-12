@@ -20,6 +20,8 @@ class QuestionsController < ApplicationController
     @question=Question.create(:problem_id=>@problem.id,:answer=>params[:problem][:answer],:question_attrs=>@questionattrs)
     @paper=Paper.find(params[:problem][:paper_id])
     @paper.update_attributes(:updated_at=>Time.now)
+
+    
     doc=Document.new(File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml")
     block=doc.root.elements["blocks"].elements["block[@id='#{params[:problem][:block_id]}']"]
     problems=block.elements["problems"]
@@ -27,7 +29,7 @@ class QuestionsController < ApplicationController
     problem.add_attribute("id","#{@problem.id}")
     add_score=params[:problem][:score].to_i
     problem.add_attribute("score","#{add_score}")
-    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年_%m月_%d日_%H时_%M分")      #试卷更新时间
+    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")      #试卷更新时间
     doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i + add_score       #更新试卷总分
     doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i + 1                   #更新试卷总题数 +1
     block.attributes["total_score"] = block.attributes["total_score"].to_i + add_score             #更新模块总分
