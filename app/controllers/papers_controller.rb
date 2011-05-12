@@ -2,7 +2,7 @@ class PapersController < ApplicationController
 
   require 'rexml/document'
   include REXML
-  
+  include PapersHelper
   before_filter :access?
 
   def index
@@ -45,13 +45,12 @@ class PapersController < ApplicationController
 
   def new_step_two
     file = File.open("#{papers_path}/#{params[:id]}.xml")
-    #file = File.open("#{papers_path}/text.xml")
     @xml=Document.new(file).root
   end
 
   def create_step_one
      @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],:description=>params[:paper][:description])
-     @paper.create_paper_url(@paper.xml_content(cookies[:user_name]))                    #创建XML文件，更新字段paper_url
+     @paper.create_paper_url(@paper.xml_content(cookies[:user_name]))                              #创建XML文件，更新字段paper_url
      @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
      @block.update_block_xml(@paper.paper_url)
     redirect_to "/papers/#{@paper.id}/new_step_two"
@@ -62,20 +61,12 @@ class PapersController < ApplicationController
     @paper_block.update_block_xml(@paper_block.paper_id)
     redirect_to "/papers/#{params[:module][:paper_id]}/new_step_two"
   end
-REXML
+
+  
   def problem_destroy
-    doc=Document.new(File.open "#{papers_path}/#{params[:delete][:paper_id]}.xml")
-    block=doc.elements[params[:delete][:xpath]].parent.parent
-    doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - 1                   #更新试卷总题数 +1
-    block.attributes["total_num"] = block.attributes["total_num"].to_i - 1                         #更新试卷总题数 -1
-    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i - doc.elements[params[:delete][:xpath]].attributes["score"].to_i
-                                                                                                   #更新试卷总分
-    block.attributes["total_score"] = block.attributes["total_score"].to_i - doc.elements[params[:delete][:xpath]].attributes["score"].to_i
-                                                                                                   #更新模块总分
-    doc.delete_element(params[:delete][:xpath])
-    file=File.new("#{papers_path}/#{params[:delete][:paper_id]}.xml", "w+")
-    file.write(doc)
-    file.close
+    url="#{papers_path}/#{params[:delete][:paper_id]}.xml"
+    problem_xpath=params[:delete][:xpath]
+    xml_delete_problem(url,problem_xpath)                   #删除题目
     redirect_to "/papers/#{params[:delete][:paper_id]}/new_step_two"
   end
 
