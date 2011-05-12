@@ -4,7 +4,7 @@ class PaperBlock < ActiveRecord::Base
 
    belongs_to :paper
 
-  def update_block_xml(url)
+  def create_block_xml(url)
     doc=Document.new( File.open(url) )
     blocks = doc.root.elements["blocks"]
     block = blocks.add_element("block")
@@ -18,6 +18,16 @@ class PaperBlock < ActiveRecord::Base
     description.add_text("#{self.description}")
     problems = block.add_element("problems")
     file = File.open(url, "w+")
+    file.write(doc)
+    file.close
+  end
+
+  def update_block_xml(xpath)
+    doc=Document.new(File.open(self.paper.paper_url))
+    block=doc.elements[xpath]
+    block.elements["base_info"].elements["title"].text=self.title
+    block.elements["base_info"].elements["description"].text=self.description
+    file = File.open(self.paper.paper_url,"w+")
     file.write(doc)
     file.close
   end

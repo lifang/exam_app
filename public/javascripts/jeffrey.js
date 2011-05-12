@@ -56,8 +56,8 @@ function change_info(){
         close_create_question_id = 0;
     }
     
-    document.getElementById("change_info").style.display="block";
-    document.getElementById("show_info").style.display="none";
+    document.getElementById("paper_edit_info").style.display="block";
+    document.getElementById("paper_show_info").style.display="none";
 }
 
 function new_module(){

@@ -5,27 +5,10 @@
 
 <% @xml.elements['blocks'].each_element do |block|%>
   <h1 class="biz_art_title" id="block_show"><%= sum[array_index] %>、<%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
-    <a href="javascript:void(0);" style="float:right" onClick="javascript:create_question(<%= block.attributes['id'] %>)">新建试题</a>
-    <a href="javascript:void(0);" style="float:right" onClick="javascript:edit_block(<%= block.attributes['id'] %>)">修改模块</a>
+    <a href="javascript:void(0);" onClick="javascript:edit_block(<%= block.attributes['id'] %>)">修改模块</a>
   </h1>
 
-
-<div class="title_list_style_box" style="display:none;" id="edit_block_<%= block.attributes["id"] %>">
-    <div class="arrow" style="top:35px;"></div>
-    <div class="block_pic_box" style="top:0px;">
-      <div class="in">
-        <div class="paper_block">
-          试卷模块标题：<input type="text" class="input_style" name="block" size="39" value="一、单项选择题"/>
-        </div>
-        <div class="paper_block">
-          试卷模块备注：<textarea cols="37" rows="3" class="textarea_style" name="block_desc">共10题，总分10分</textarea>
-        </div>
-        <div><input type="submit" value="更新" class="submit_btn"/></div>
-      </div>
-    </div>
-  </div>
-
-
+  <%= render :partial=>"/papers/edit_block" ,:object=>block %>
   <%=  render :partial=>"papers/new_question" ,:object=>block %>
   <% array_index += 1 %>
   <%  String  %>
@@ -55,6 +38,7 @@
             <div class="links">
               <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
                 <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
+               <a href="javascript:void(0);"  onClick="javascript:create_question(<%= block.attributes['id'] %>)">新建试题</a>&nbsp;|&nbsp;
                 <a href="javascript:void(0);" onClick="javascript:edit_problem(<%= problem.attributes["id"].to_i %>)" >编辑</a>&nbsp;|&nbsp;
                 <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%= problem.attributes['id']%>').submit();">删除</a>
               <% end %>

@@ -46,6 +46,7 @@ ExamApp::Application.routes.draw do
       post "exam_list"
       post "create_step_two"
       post "problem_destroy"
+      post "edit_block"
     end
     member do
       get "new_exam_three"

@@ -21,7 +21,8 @@ class PapersController < ApplicationController
 
   def change_info
     @paper=Paper.find(params[:id])
-    @paper.update_attributes(:total_question_num=>params[:info][:total_question_num],:description=>params[:info][:description])
+    @paper.update_attributes(:title=>params[:info][:title],:description=>params[:info][:description])
+    @paper.update_base_info(@paper.paper_url)
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
@@ -50,16 +51,16 @@ class PapersController < ApplicationController
 
   def create_step_one
      @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],:description=>params[:paper][:description])
-     @paper.create_paper_url(@paper.xml_content(cookies[:user_name]))                              #创建XML文件，更新字段paper_url
+     @paper.create_paper_url(@paper.xml_content(cookies[:user_name]))                              #XML操作
      @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
-     @block.update_block_xml(@paper.paper_url)
+     @block.create_block_xml(@paper.paper_url)                                        #XML操作
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
   def create_step_two
-    @paper_block = PaperBlock.create(:paper_id=>params[:module][:paper_id],:title=>params[:module][:title],:description=>params[:module][:description])
-    @paper_block.update_block_xml(@paper_block.paper_id)
-    redirect_to "/papers/#{params[:module][:paper_id]}/new_step_two"
+    @block = PaperBlock.create(:paper_id=>params[:module][:paper_id],:title=>params[:module][:title],:description=>params[:module][:description])
+    @block.create_block_xml(@block.paper.paper_url)                                            #XML操作
+    redirect_to request.referrer
   end
 
   
@@ -67,9 +68,16 @@ class PapersController < ApplicationController
     url="#{papers_path}/#{params[:delete][:paper_id]}.xml"
     problem_xpath=params[:delete][:xpath]
     xml_delete_problem(url,problem_xpath)                   #删除题目
-    redirect_to "/papers/#{params[:delete][:paper_id]}/new_step_two"
+    redirect_to request.referrer
   end
 
+  def edit_block
+    @block=PaperBlock.find(params[:block][:block_id])
+    @block.update_attributes(:title=>params[:block][:title],:description=>params[:block][:description])
+    xpath=params[:block][:block_xpath]
+    @block.update_block_xml(xpath)
+    redirect_to request.referrer
+  end
   
   def search
     session[:mintime] = nil
