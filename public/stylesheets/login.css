@@ -342,7 +342,7 @@ input, textarea, select {
 .step_three{
     background-position:0px -96px;
 }
-.flash_warn,.flash_pic_warn, .flash_notice, .flash_error{margin:7px;padding:8px;padding-left:15px;-moz-border-radius:8px; -webkit-border-radius:8px; font-size:14px;}
+.flash_warn,.flash_pic_warn, .flash_notice, .flash_error{margin:7px;padding:8px;-moz-border-radius:8px; -webkit-border-radius:8px; font-size:14px;width:810px;}
 .flash_warn{background:#FFF9D7 none repeat scroll 0 0;border:1px solid #f6edbb;color:#cbb014;}
 .flash_pic_warn{background:#FFF9D7 none repeat scroll 0 0;border:1px solid #E2C822;color:#cbb014;}
 .flash_notice{background:#e9f3aa none repeat scroll 0 0;border:1px solid #e0ec93;color:#718203;}

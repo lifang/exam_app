@@ -14,7 +14,7 @@
     <link href="/stylesheets/exam_biz_back.css" rel="stylesheet" />
     <link href="/stylesheets/login.css" rel="stylesheet" />
     <script type="text/javascript">
-    /*  var appCache = window.applicationCache;
+      /*  var appCache = window.applicationCache;
       switch (appCache.status) {
         case appCache.UNCACHED: // UNCACHED == 0
           alert( 'UNCACHED');
@@ -70,7 +70,7 @@
       </div>
       <div id="bd">
         <div class="main fr">
-<%#= display_flash %>
+          <%=  render :partial => "/common/display_flash" %>
           <%= yield %>
         </div>
         <div  id="tishikuang" style="display:block"></div>

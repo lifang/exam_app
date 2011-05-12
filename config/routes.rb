@@ -30,6 +30,9 @@ ExamApp::Application.routes.draw do
       post "create_step_one"
       get "exam_list"
     end
+    member do
+      get "published"
+    end
   end
   post "/questions/edit"
   post "/questions/create"

@@ -13,64 +13,67 @@
     <div class="clear"></div>
     <table>
       <colgroup>
-        <col width="100" />
+        <col width="160" />
+        <col width="80" />
         <col width="130" />
         <col width="80" />
-        <col width="120" />
         <col width="80" />
         <col width="60" />
         <col width="70" />
         <col width="" />
       </colgroup>
-      <% @examinations.any? %>
-      <% @examinations.each do |examination| %>
-      <thead>
-        <tr>
-          <th>考试名称</th>
-          <th>试卷标题</th>
-          <th>考试开始时间</th>
-          <th>创建日期</th>
-          <th>是否公开</th>
-          <th>是否发布</th>
-          <th>状态</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        
-          <% 
-          class_name = "now"
-          state_name = "考试中"
-          if examination.start_at_time.nil?
-            class_name = "now"
-            state_name = "进行中"
-          elsif examination.start_at_time > Time.now
-            class_name = "never"
-            state_name = "未开始"
-          elsif (examination.start_at_time + examination.exam_time.minutes) < Time.now
-            class_name = "ever"
-            state_name = "已结束"
-          end
-        %>
-        <tr class="<%= class_name %>">
-            <td><%= examination.e_title %></td>
-            <td><a href="/papers/<%= examination.p_id %>"><%= examination.p_title %></a></td>
-            <td><%= examination.start_at_time.nil? ? "任何时候" : examination.start_at_time.strftime("%Y%m%d %H:%M:%S") %></td>
-            <td><%= examination.created_at.strftime("%Y%m%d %H:%M:%S") %></td>
-            <td><%= examination.is_score_open == true ? "是":"否" %></td>
-            <td><%= examination.is_published == true ? "是":"否" %></td>
-            <td><%= state_name %></td>
-            <td>
-              <a href="/examinations/<%= examination.id %>">详情</a>&nbsp;|&nbsp;
-              <a href="/examinations/<%= examination.id %>/published">发布</a><br/>
-              <%= link_to '取消考试', examination, :confirm => '确认要取消考试么？', :method => :delete %>&nbsp;|&nbsp;
-              <a href="#">显示考试码</a>
-            </td>
-          </tr>       
-      </tbody>
-      <% end %>
+      <% if @examinations.blank? %>
+        <tbody>
+          <tr>
+            <td align="center" colspan="8">目前您还没有安排考试，您可以去试卷管理 <a href="/papers">安排考试</a></td>
+          </tr>
+        </tbody>
       <% else %>
-
+        <thead>
+          <tr>
+            <th>考试名称</th>
+            <th>考试开始时间</th>
+            <th>创建日期</th>
+            <th>得分是否公开</th>
+            <th>答卷是否公开</th>
+            <th>是否发布</th>
+            <th>状态</th>
+            <th></th>
+          </tr>
+        </thead>
+        <% @examinations.each do |examination| %>
+          <tbody>
+            <%
+            class_name = "now"
+            state_name = "考试中"
+            if examination.start_at_time.nil?
+              class_name = "now"
+              state_name = "进行中"
+            elsif examination.start_at_time > Time.now
+              class_name = "never"
+              state_name = "未开始"
+            elsif (examination.start_at_time + examination.exam_time.minutes) < Time.now
+              class_name = "ever"
+              state_name = "已结束"
+            end
+          %>
+            <tr class="<%= class_name %>">
+              <td><%= examination.e_title %></td>
+              <td><%= examination.start_at_time.nil? ? "任何时候" : examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
+              <td><%= examination.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+              <td><%= examination.is_score_open == true ? "是":"否" %></td>
+              <td><%= examination.is_paper_open == true ? "是":"否" %></td>
+              <td><%= examination.is_published == true ? "是":"否" %></td>
+              <td><%= state_name %></td>
+              <td>
+                <a href="/examinations/<%= examination.id %>">详情</a>
+                <%if !examination.is_published %>&nbsp;|&nbsp;<a href="/examinations/<%= examination.id %>/published">发布</a><% end %><br/>
+                <%= link_to '取消考试', "/examinations/#{examination.id}", :confirm => '确认要取消考试么？', :method => :delete %>&nbsp;|&nbsp;
+                <a href="#">显示考试码</a>
+              </td>
+            </tr>
+          </tbody>
+        <% end %>
       <% end %>
     </table>
     <div class="pagination_box">

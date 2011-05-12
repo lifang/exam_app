@@ -3,8 +3,8 @@ class Examination < ActiveRecord::Base
   has_many :papers,:through=>:examination_paper_relations,:foreign_key=>"paper_id"
   has_many :score_levels,:dependent=>:destroy
   belongs_to :user,:foreign_key=>"creater_id"
-  has_many :exam_users
-  has_many :exam_raters
+  has_many :exam_users,:dependent => :destroy
+  has_many :exam_raters,:dependent => :destroy
 
 
  #创建考试
@@ -37,6 +37,10 @@ class Examination < ActiveRecord::Base
  def self.create_exam_rater(*rater)
 
    #return true or false
+ end
+
+ def publish!
+   self.toggle!(:is_published)
  end
 
 end

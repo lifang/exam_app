@@ -1,38 +1,4 @@
 module ApplicationHelper
-  def display_flash
-    if flash[:warn]
-      html = "<div id='flash_notice' class='flash_warn' style='background:#fde03b; padding:8px;'>" +
-        "<span title='关闭' style='float:right;cursor:pointer;' onclick=\"$('flash_notice').remove()\"><img src='/images/small-close.gif'/></span>" +
-        "<img align='absmiddle' src='/images/icon_caution.gif' style='margin-right:8px;'/>#{flash[:warn]}</div><div class='clear'></div>"
-      html += "<script type='text/javascript' language='javascript'>new Effect.Highlight('flash_notice');</script>"
-    elsif flash[:error]
-      html = "<div id='flash_notice' class='flash_error'>" +
-        "<span title='关闭' style='float:right;cursor:pointer;' onclick=\"$('flash_notice').remove()\"><img src='/images/small-close.gif'/></span>" +
-        "<img align='absmiddle' src='/images/icon_error.gif' style='margin-right:8px;' />#{flash[:error]}</div><div class='clear'></div>"
-      html += "<script type='text/javascript' language='javascript'>new Effect.Highlight('flash_notice');</script>"
-    elsif flash[:notice]
-      html = "<div id='flash_notice' class='flash_notice'style='background:#129c00; padding:8px; color:#FFF;'>" +
-        "<span title='关闭' style='float:right;cursor:pointer;' onclick=\"$('flash_notice').remove()\"><img src='/images/small-close.gif'/></span>" +
-        "<img align='absmiddle' src='/images/icon_notice.gif' style='margin-right:8px;' />#{flash[:notice]}</div><div class='clear'></div>"
-      html += "<script type='text/javascript' language='javascript'>new Effect.Highlight('flash_notice', {startcolor: '#FFF',endcolor: '#FFF'});</script>"
-    elsif flash[:pic_warn]
-      html = "<div id='flash_notice' class='flash_pic_warn'>" +
-        "<span title='关闭' style='float:right;cursor:pointer;' onclick=\"$('#flash_notice').remove()\"><img src='/images/small-close.gif'/></span>" +
-        "<img align='absmiddle' src='/images/icon_caution.gif' style='margin-right:8px;'/>#{flash[:pic_warn]}</div><div class='clear'></div>"
-      html += "<script type='text/javascript' language='javascript'>new Effect.Highlight('flash_notice');</script>"
-    elsif flash[:success]
-      html = "<div id='flash_notice' class='flash_notice'>" +
-        "<span title='关闭' style='float:right;cursor:pointer;' onclick=\"$('flash_notice').remove()\"><img src='/images/small-close.gif'/></span>" +
-        "<img align='absmiddle' src='/images/icon_notice.gif' style='margin-right:8px;' />#{flash[:success]}</div><div class='clear'></div>"
-      html += "<script type='text/javascript' language='javascript'>new Effect.Highlight('flash_notice', {startcolor: '#74CF89',endcolor: '#d1efd8'});</script>"
-    elsif flash[:failure]
-      html = "<div id='flash_notice' class='flash_warn'>" +
-        "<span title='关闭' style='float:right;cursor:pointer;' onclick=\"$('flash_notice').remove()\"><img src='/images/small-close.gif'/></span>" +
-        "<img align='absmiddle' src='/images/icon_caution.gif' style='margin-right:8px;'/>#{flash[:failure]}</div><div class='clear'></div>"
-      html += "<script type='text/javascript' language='javascript'>new Effect.Highlight('flash_notice');</script>"
-    end
-    return html
-  end
 
   def re_h(html)
     return "" if html.blank?

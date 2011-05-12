@@ -3,11 +3,10 @@ class ExaminationsController < ApplicationController
   
   def index
     @examinations = Examination.paginate_by_sql(
-          ["select e.id e_id, e.title e_title, p.id p_id, p.title p_title, e.start_at_time,
-            e.exam_time, e.created_at, e.is_score_open, e.is_published
-            from examinations e inner join examination_paper_relations epr on epr.examination_id = e.id
-            inner join papers p on epr.paper_id = p.id where e.creater_id = ? and epr.default = ? order by e.created_at desc",
-        cookies[:user_id], ExaminationPaperRelation::DEFAULT[:YES]], :per_page => 1, :page => params[:page])
+          ["select e.id, e.title e_title, e.start_at_time,
+            e.exam_time, e.created_at, e.is_score_open, e.is_paper_open, e.is_published
+            from examinations e where e.creater_id = ? order by e.created_at desc",
+        cookies[:user_id].to_i], :per_page => 10, :page => params[:page])
     
   end
 
@@ -52,7 +51,7 @@ class ExaminationsController < ApplicationController
     end
     @examination.choose_paper(@papers)
     if params[:buttonvalue]=="创建"
-      redirect_to "/examinations/exam_list"
+      redirect_to "/examinations"
     else
       redirect_to "/exam_users/new_exam_two"
     end
@@ -65,7 +64,20 @@ class ExaminationsController < ApplicationController
     
   end
 
+  def show
+    
+  end
+
   def  destroy
-  
+    Examination.delete(params[:id].to_i)
+    flash[:notice] = "删除成功！"
+    redirect_to examinations_path
+  end
+
+  def published
+    examination = Examination.find(params[:id].to_i)
+    examination.publish!
+    flash[:notice] = "发布成功！"
+    redirect_to examinations_path
   end
 end
