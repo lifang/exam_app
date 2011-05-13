@@ -7,7 +7,7 @@
   <h1 class="biz_art_title" id="block_show"><%= sum[array_index] %>、<%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
     <a href="javascript:void(0);" onClick="javascript:edit_block(<%= block.attributes['id'] %>)">修改模块</a>
   </h1>
-              <%=  render :partial=>"papers/new_question" ,:object=>block %>
+  <%=  render :partial=>"papers/new_question" ,:object=>block %>
   <%= render :partial=>"/papers/edit_block" ,:object=>block %>
   <% array_index += 1 %>
   <%  String  %>
@@ -28,7 +28,12 @@
                 <p><%= question.elements['description'].text %></p>
               <% end %>
               <% if !question.elements['questionattrs'].nil? %>
-                <p><%= question.elements['questionattrs'].text %></p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <% attrs_str=question.elements["questionattrs"].text %><% attrs_array=attrs_str.split(";-;") %><% index=0 %>
+                <% (1..attrs_array.length).each do %>
+                  <%  index += 1 %>
+                  <label><%= attrs_array[index-1].split(":-:")[0] %>、<%= attrs_array[index-1].split(":-:")[1] %> </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <% end %>
               <% end %>
             <% end %>
           </li>

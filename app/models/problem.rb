@@ -11,10 +11,6 @@ class Problem < ActiveRecord::Base
 
   #根据不同的类型
 
-  #创建题目
-  def Problem.create_problem(problem, *question)
-
-  end
 
 
   #更新题目的标签

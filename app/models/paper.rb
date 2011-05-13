@@ -21,6 +21,7 @@ class Paper < ActiveRecord::Base
     file.close
   end
 
+
   def create_paper_url(str)
     dir = "#{Rails.root}/public/papers/"      #定义：目录
     unless File.directory?(dir)               #判断dir目录是否存在，不存在则创建 下3行

@@ -4,13 +4,23 @@
     <div class="in">
       <div class="title"><%= question_info.elements["title"].text %></div>
       <div class="question">
-        <% attrs_str=question_info.elements["questions"].elements["question"].elements["questionattrs"].text %><% attrs_array=attrs_str.split(";") %><% index=0 %>
+        <% attrs_str=question_info.elements["questions"].elements["question"].elements["questionattrs"].text %><% attrs_array=attrs_str.split(";-;") %><% index=0 %>
         <% (1..attrs_array.length).each do %>
           <%  index += 1 %>
-          <div class="attr"><label><%= attrs_array[index-1] %></label></div>
+
+          <div class="attr"><label><%= attrs_array[index-1].split(":-:")[0] %>、<%= attrs_array[index-1].split(":-:")[1] %></label></div>
         <% end %>
       </div>
-      <div class="answer">我的答案：A</div>
+      <div class="answer">正确答案：<%= question_info.elements["questions"].elements["question"].attributes["answer"] %>&nbsp;&nbsp;&nbsp; &nbsp;  分值：<%= question_info.attributes["score"] %></div><br/>
+      <% if !question_info.elements["rule"].text.empty? %>
+        <div class="title"><font color="blue">评分规则：</font><br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= question_info.elements["rule"].text %>
+        </div>
+      <% end %>
+      <div class="tag">知识点标签：
+        <span class="tag_input"><input type="text" name="tag" class="input_style" value="" size="35"/></span>
+        <span class="tag_input">多个标签，以“<font color="red">空格</font>”隔开</span>
+      </div>
     </div>
   </div>
 </div>
