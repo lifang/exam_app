@@ -31,14 +31,14 @@ function create_question(id){
             close_create_question_id = id;
         }
     }
-    else{ 
+    else{
         document.getElementById("create_question_"+id).style.display="block";
         close_create_question_id = id;
     }
 }
 
 function change_info(){
-     if (close_edit_block_id != 0) {   //关闭模块编辑框
+    if (close_edit_block_id != 0) {   //关闭模块编辑框
         document.getElementById("edit_block_"+close_edit_block_id).style.display="none";
         close_edit_block_id = 0;
     }
@@ -110,7 +110,7 @@ function question_info(id){      //onMouseOver
 }
 
 function edit_problem(id){
-     if (close_edit_block_id != 0) {   //关闭模块编辑框
+    if (close_edit_block_id != 0) {   //关闭模块编辑框
         document.getElementById("edit_block_"+close_edit_block_id).style.display="none";
         close_edit_block_id = 0;
     }
@@ -169,6 +169,58 @@ function edit_block(id){
         close_edit_block_id = id;
     }
 }
+
+
+function already_answer(){
+    elements = document.forms["answer_box"].elements;
+
+    for(i = 0;i<elements.length;i++){
+        if(elements[i].type=="radio"){
+            if(elements[i].checked==true){
+                id=elements[i].id.substring(0,15);
+                document.getElementById(id).innerHTML=('你选择了答案:'+elements[i].value);
+            }
+        }
+    }
+}
+var signed_id = 0;
+
+function check_all(){
+    var elements = document.forms["answer_box"].elements;
+    for(var i = 0;i<elements.length;i++){
+        if(elements[i].type=="radio"){
+            var id=elements[i].id.substring(0,15);
+            if(elements[i].checked==true){              
+                document.getElementById(id+'_sign').innerHTML=('已答:（ '+elements[i].value+' )');
+                signed_id = id;
+            }
+            else{
+                if(elements[i].id.substring(0,15)!=signed_id){
+                    document.getElementById(id+'_sign').innerHTML=('未答 ');
+                }
+            }
+        }
+    }
+    signed_id = 0;
+}
+
+
+
+//function checkup(obj) {
+//    var i,myObj;
+//    myObj=document.getElementsByName(obj);
+//    for(i=0;i<myObj.length;i++){
+//        if(myObj[i].checked){
+//            document.getElementById('your_answer#{problem.attributes["id"]}').innerHTML=('你选择了答案:');
+//        }
+//    }
+//    }
+////if(i>=myObj.length){
+////alert("没有选择任何对象");
+////} else {
+////alert("选择的是第："+(i+1)+"个");
+////}
+//}
 
 
 

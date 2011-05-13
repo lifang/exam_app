@@ -10,6 +10,13 @@ class PapersController < ApplicationController
       :per_page => 1, :page => params[:page])
   end
 
+  def hand_in
+  
+
+  puts params["radio"]["163"]
+  redirect_to request.referer
+  end
+
   def new
     
   end
@@ -31,6 +38,10 @@ class PapersController < ApplicationController
     Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
   end
 
+  def answer_paper
+    file = File.open("#{papers_path}/#{params[:id]}.xml")
+    @xml=Document.new(file).root
+  end
 
   def show
     file = File.open("#{papers_path}/#{params[:id]}.xml")
@@ -50,10 +61,10 @@ class PapersController < ApplicationController
   end
 
   def create_step_one
-     @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],:description=>params[:paper][:description])
-     @paper.create_paper_url(@paper.xml_content(cookies[:user_name]))                              #XML操作
-     @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
-     @block.create_block_xml(@paper.paper_url)                                        #XML操作
+    @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],:description=>params[:paper][:description])
+    @paper.create_paper_url(@paper.xml_content(cookies[:user_name]))                              #XML操作
+    @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
+    @block.create_block_xml(@paper.paper_url)                                        #XML操作
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
@@ -101,8 +112,8 @@ class PapersController < ApplicationController
   end
 
   def search_list
-     @sql = "select * from papers where creater_id=#{cookies[:user_id]}"
-     if !session[:mintime].nil?
+    @sql = "select * from papers where creater_id=#{cookies[:user_id]}"
+    if !session[:mintime].nil?
       @sql += " and created_at > '#{session[:mintime]}'"
     end
     if !session[:maxtime].nil?
@@ -114,9 +125,9 @@ class PapersController < ApplicationController
     if !session[:category].nil?
       @sql += " and category_id = '%#{session[:category]}%'"
     end
-      @sql += " order by created_at desc"
-      @papers = Paper.paginate_by_sql(@sql, :per_page =>1, :page => params[:page])
-      render 'index'
+    @sql += " order by created_at desc"
+    @papers = Paper.paginate_by_sql(@sql, :per_page =>1, :page => params[:page])
+    render 'index'
   end
   
   def edit

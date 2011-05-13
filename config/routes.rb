@@ -54,6 +54,8 @@ ExamApp::Application.routes.draw do
       get "new_exam_one"
       get "new_step_two"
       post "change_info"
+      get "answer_paper"
+      post "hand_in"
     end
   end
 
