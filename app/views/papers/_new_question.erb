@@ -32,7 +32,7 @@
         <div class="answer">答案：<%= f.text_field :answer ,:class=>"input_style",:size=>"40"%></div>
         <div class="answer">分值：<%= f.text_field :score ,:class=>"input_style"%></div>
         <div class="title">评分规则：</div>
-        <%= f.text_area :assess_role ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
+        <%= f.text_area :rule ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
         <%= f.submit "提交" ,:class=>"submit_btn" %>
       <% end %>
     </div>

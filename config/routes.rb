@@ -50,6 +50,7 @@ ExamApp::Application.routes.draw do
       post "exam_list"
       post "create_step_two"
       post "problem_destroy"
+      post "edit_block"
     end
     member do
       get "new_exam_three"
@@ -57,6 +58,8 @@ ExamApp::Application.routes.draw do
       get "new_exam_one"
       get "new_step_two"
       post "change_info"
+      get "answer_paper"
+      post "hand_in"
     end
   end
 

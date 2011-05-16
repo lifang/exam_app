@@ -1,0 +1,82 @@
+<body onload="javascript:already_answer();">
+  <ul class="tab_biz">
+    <li class="actived"><a href="#"><%= @xml.elements['base_info'].elements['title'].text %></a></li>
+  </ul>
+  <div class="soso">
+    <div>试卷编号：<%= @xml.attributes['id']%></div>
+    <div>录入：<%= @xml.elements['base_info'].elements['creater'].text%></div>
+    <div>出卷时间：<%= @xml.elements['base_info'].elements['created_at'].text%></div>
+    <div>总题数：<%= @xml.attributes["total_num"]%></div>
+    <div>卷面总分：<%= @xml.attributes["total_score"]%></div>
+    <div>备注：<%= @xml.elements['base_info'].elements['description'].text%></div>
+    <div style="float: right">上午好！<img src="/images/clock.gif"/>&nbsp;&nbsp;00:00:13</div>
+  </div>
+  <%= form_for :answer ,:url=>"/papers/#{@xml.root.attributes['id']}/hand_in",:html=>{:name=>"answer_box"} do |f| %>
+    <% problem_size = 0 %>
+    <% sum=["一","二","三","四","五","六","七","八","九","十"] %>
+    <%  array_index=0 %>
+    <% @xml.elements['blocks'].each_element do |block|%>
+      <h1 class="biz_art_title" id="block_show"><%= sum[array_index] %>、<%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)</h1>
+      <% array_index += 1 %>
+      <div class="biz_art_list_box">
+        <%= block.elements["base_info"].elements["description"].text %>
+        <ul>
+          <% problem_size = block.elements['problems'].children.size %>
+          <% element_num = 0 %>
+          <% block.elements['problems'].each_element do |problem| %>
+            <% element_num +=1 %>
+            <% if !problem.elements['title'].nil? %>
+              <li>
+
+                
+                <div class="products_list_style_box" id="question_info_<%= problem.attributes["id"].to_i %>" style="display:none">
+                  <div class="arrow" style="top:35px;"></div>
+                  <div class="big_pic_box" style="top:0px;">
+                    <div class="in">
+                      <div class="title"><%= problem.elements["title"].text %></div>
+                      <div class="question">
+                        <% attrs_str=problem.elements["questions"].elements["question"].elements["questionattrs"].text %><% attrs_array=attrs_str.split(";-;") %><% index=0 %>
+                        <% (1..attrs_array.length).each do %>
+                          <%  index += 1 %>
+                          <div class="attr"><%= f.radio_button("radio#{problem.attributes["id"]}","#{attrs_array[index-1].split(":-:")[0]}",:onclick=>"javascript:document.getElementById('answer_radio#{problem.attributes["id"]}').innerHTML=('你选择了答案： #{attrs_array[index-1].split(":-:")[0]}');") %><%= "#{attrs_array[index-1].split(":-:")[0]}、#{attrs_array[index-1].split(":-:")[1]}"  %></div>
+                        <% end %>
+                      </div>
+
+                      <div class="answer">
+                        本题分值：<%= problem.attributes["score"] %><br/><br/>
+                        <div style="color:#FF6600" id="answer_radio<%= problem.attributes["id"]%>"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <h2><a href="javascript:void(0)" onMouseOver="javascript:question_info(<%= problem.attributes["id"].to_i %>)"><%= problem.elements['title'].text %></a></h2>
+                <% problem.elements['questions'].each_element do |question| %>
+                  <% if !question.elements['description'].nil? %>
+                    <p><%= question.elements['description'].text %></p>
+                  <% end %>
+                  <% if !question.elements['questionattrs'].nil? %>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <% attrs_str=question.elements["questionattrs"].text %><% attrs_array=attrs_str.split(";-;") %><% index=0 %>
+                    <% (1..attrs_array.length).each do %>
+                      <%  index += 1 %>
+                      <%= "#{attrs_array[index-1].split(":-:")[0]}、#{attrs_array[index-1].split(":-:")[1]}" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <div class="links" id="answer_radio<%= problem.attributes["id"]%>_sign"></div>
+              </li>
+              <div class="clear"/>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+      <div class="clear"></div>
+    <% end %>
+        <li>
+          <input type="button" value="检查" class="submit_btn" onclick="javascript:check_all();"/>
+          <%= f.submit "交卷" ,:class=>"submit_btn"%>
+        </li>
+  <% end %>
+</body>

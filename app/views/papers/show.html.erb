@@ -1,33 +1,73 @@
-<ul class="tab_biz">
-  <li class="actived"><a href="#"><%= @paper.title %></a></li>
-</ul>
-<div class="soso" id="show_info">
-  <div>试卷编号：<%= @paper.id %></div>
-  <div>录入：<%= @paper.user.name %></div>
-  <div>出卷时间：<%= @paper.created_at.strftime("%Y年%m月%d日%H时%M分") %></div>
-  <div>最后修改时间：<%= @paper.updated_at.strftime("%Y年%m月%d日%H时%M分") %></div>
-  <div>总题数：<%= @paper.total_question_num %></div>
-  <div>备注：<%= @paper.description %></div>
+<div id="paper_show_info">
+  <ul class="tab_biz">
+    <li class="actived"><a href="javascript:void(0);"><%= @xml.elements['base_info'].elements['title'].text %></a></li>
+  </ul>
+  <div class="soso">
+    <div>试卷编号：<%= @xml.attributes['id']%></div>
+    <div>录入：<%= @xml.elements['base_info'].elements['creater'].text%></div>
+    <div>出卷时间：<%= @xml.elements['base_info'].elements['created_at'].text%></div>
+    <div>最后修改时间：<%= @xml.elements['base_info'].elements['updated_at'].text%></div>
+    <div>总题数：<%= @xml.attributes["total_num"]%></div>
+    <div>卷面总分：<%= @xml.attributes["total_score"]%></div>
+    <div>备注：<%= @xml.elements['base_info'].elements['description'].text%></div>
 
-  <input type="submit" value="编辑试卷" class="submit_btn" onclick="javascript:window.location.href='/papers/<%=  @paper.id %>/new_step_two'"/>
-  <input type="submit" value="返回试卷列表" class="submit_btn" onclick="javascript:window.location.href='/papers'"/>
+    <input type="submit" value="编辑试卷" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.root.attributes["id"] %>/new_step_two'"/>
+    <input type="submit" value="返回试卷列表" class="submit_btn" onclick="javascript:window.location.href='/papers'"/>
+  </div>
 </div>
+<% problem_size = 0 %>
+<% sum=["一","二","三","四","五","六","七","八","九","十"] %>
+<%  array_index=0 %>
 
-<%#= render :partial=>"/papers/new_module" %>
-
-<div class="soso" id="change_info" style="display:none">
-
-  <% form_for :info ,:url=>"/papers/#{@paper.id}/change_info" do |f| %>
-    <div>试卷编号：<%= @paper.id %></div>
-    <div>录入：<%= @paper.user.name %></div>
-    <div>出卷时间：<%= @paper.created_at.strftime("%Y年%m月%d日%H时%M分") %></div>
-    <div>总题数：<%= f.text_field :total_question_num,:value=>@paper.total_question_num %></div><br/>
-    <div>备注：<%= f.text_area :description,:value=>@paper.description ,:size=>40,:cols=>"55",:rows=>"3",%></div>
-
-    <%= f.submit "完成", :class=>"submit_btn"%><input type="submit" value="取消" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @paper.id %>/new_step_two'"/>
-  <% end %>
-
-</div>
-
-<%#= render :partial=>"/papers/paper_blocks" %>
-
+<% @xml.elements['blocks'].each_element do |block|%>
+  <h1 class="biz_art_title" id="block_show"><%= sum[array_index] %>、<%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
+  </h1>
+  <% array_index += 1 %>
+  <div class="biz_art_list_box">
+    <%= block.elements["base_info"].elements["description"].text %>
+    <ul>
+      <% if !block.elements['problems'].nil? %>
+        <% problem_size = block.elements['problems'].children.size %>
+        <% block.elements['problems'].each_element do |problem| %>
+          <% if !problem.elements['title'].nil? %>
+            <li>
+        <%= render :partial=>"/papers/question_info",:object=>problem %>
+        <%#= render :partial=>"/papers/edit_problem",:object=>problem %>
+              <h2><a href="javascript:void(0)" onMouseOver="javascript:question_info(<%= problem.attributes["id"].to_i %>)"><%= problem.elements['title'].text %></a></h2>
+              <% problem.elements['questions'].each_element do |question| %>
+                <% if !question.elements['description'].nil? %>
+                  <p><%= question.elements['description'].text %></p>
+                <% end %>
+                <% if !question.elements['questionattrs'].nil? %>
+                  <p><%= question.elements['questionattrs'].text %></p>
+                <% end %>
+              <% end %>
+            </li>
+            <div class="links">
+              <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
+                <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="clear"></div>
+<script type="text/javascript">
+<% (0..problem_size-1).each do |i|  %>
+    KE.show({
+      id : 'title_<%= i %>',
+      skinType: 'tinymce',
+      cssPath : './index.css',
+      items : [
+        'undo', 'redo','copy', 'paste',
+        'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent',
+        'specialchar', 'link', 'unlink', 'image', 'flash', 'media', '-',
+        'fontname', 'fontsize', 'textcolor', 'bold',
+        'italic', 'underline',  'table', 'hr'
+      ]
+    });
+<% end %>
+</script>

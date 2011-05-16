@@ -2,7 +2,7 @@
   <div class="arrow" style="top:10px;"></div>
   <div class="question_pic_box" style="top:0px;">
     <div class="in">
-      <% form_for :problem ,:url=>"/questions/edit" do |f| %>
+      <%= form_for :problem ,:url=>"/questions/edit" do |f| %>
 
         <div class="title">题目类型：</div>
         <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio1"%>单选题</div>
@@ -21,17 +21,17 @@
         <div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
         <div class="clear"></div>
         <div class="question">
-          <% attrs_str=edit_problem.elements["questions"].elements["question"].elements["questionattrs"].text %><% attrs_array=attrs_str.split(";") %><% index=0 %>
+          <% attrs_str=edit_problem.elements["questions"].elements["question"].elements["questionattrs"].text %><% attrs_array=attrs_str.split(";-;") %><% index=0 %>
           <%= f.hidden_field :attr_sum,:value=>"#{attrs_array.length}" %>
           <% (1..attrs_array.length).each do %>
             <%  index += 1 %>
-            <div class="attr"><%= f.text_field :attr_key ,:class=>"input_style",:name=>"attr#{index}_key",:value=>"#{attrs_array[index-1].split(":")[0]}",:size=>"1"%> 、 <%= f.text_field :attr_value ,:name=>"attr#{index}_value",:class=>"input_style" ,:size=>"15",:value=>"#{attrs_array[index-1].split(":")[1]}"%><%= link_to "删除","#"%></div>
+            <div class="attr"><%= f.text_field :attr_key ,:class=>"input_style",:name=>"attr#{index}_key",:value=>"#{attrs_array[index-1].split(":-:")[0]}",:size=>"1"%> 、 <%= f.text_field :attr_value ,:name=>"attr#{index}_value",:class=>"input_style" ,:size=>"15",:value=>"#{attrs_array[index-1].split(":-:")[1]}"%><%= link_to "删除","#"%></div>
           <% end %>
         </div>
         <div class="answer">答案：<%= f.text_field :answer ,:class=>"input_style",:size=>"40",:value=>"#{edit_problem.elements["questions"].elements["question"].attributes["answer"]}"%></div>
         <div class="answer">分值：<%= f.text_field :score ,:class=>"input_style",:value=>"#{edit_problem.attributes["score"]}"%></div>
         <div class="title">评分规则：</div>
-        <%= f.text_area :assess_role ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
+        <%= f.text_area :rule ,:cols=>"45",:rows=>"3",:class=>"textarea_style" ,:value=>edit_problem.elements["rule"].text%>
         <div class="tag">知识点标签：
           <span class="tag_input"><input type="text" name="tag" class="input_style" value="" size="35"/></span>
           <span class="tag_input">多个标签，以“<font color="red">空格</font>”隔开</span>

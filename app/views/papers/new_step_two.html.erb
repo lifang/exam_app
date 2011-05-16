@@ -1,38 +1,45 @@
-<ul class="tab_biz">
-  <li class="actived"><a href="#"><%= @xml.elements['base_info'].elements['title'].text %></a></li>
-</ul>
-<div class="soso" id="show_info">
-   <div>试卷编号：<%= @xml.attributes['id']%></div>
-  <div>录入：<%= @xml.elements['base_info'].elements['creater'].text%></div>
-  <div>出卷时间：<%= @xml.elements['base_info'].elements['created_at'].text%></div>
-  <div>最后修改时间：<%= @xml.elements['base_info'].elements['updated_at'].text%></div>
-  <div>总题数：<%= @xml.attributes["total_num"]%></div>
-  <div>卷面总分：<%= @xml.attributes["total_score"]%></div>
-  <div>备注：<%= @xml.elements['base_info'].elements['description'].text%></div>
-
-  <input type="submit" value="修改基本信息" class="submit_btn" onclick="javascript:change_info()"/>
-  <input type="submit" value="增加试卷模块" class="submit_btn" onclick="javascript:new_module()"/>
-  <input type="submit" value="编辑完成" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id']%> '"/>
+<div id="paper_show_info">
+  <ul class="tab_biz">
+    <li class="actived"><a href="javascript:void(0);"><%= @xml.elements['base_info'].elements['title'].text %></a></li>
+  </ul>
+  <div class="soso">
+    <div>试卷编号：<%= @xml.attributes['id']%></div>
+    <div>录入：<%= @xml.elements['base_info'].elements['creater'].text%></div>
+    <div>出卷时间：<%= @xml.elements['base_info'].elements['created_at'].text%></div>
+    <div>最后修改时间：<%= @xml.elements['base_info'].elements['updated_at'].text%></div>
+    <div>总题数：<%= @xml.attributes["total_num"]%></div>
+    <div>卷面总分：<%= @xml.attributes["total_score"]%></div>
+    <div>备注：<%= @xml.elements['base_info'].elements['description'].text%></div>
+    <input type="submit" value="修改基本信息" class="submit_btn" onclick="javascript:change_info()"/>
+    <input type="submit" value="增加试卷模块" class="submit_btn" onclick="javascript:new_module()"/>
+    <input type="submit" value="预览试卷" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id']%> '"/>
+  </div>
 </div>
-
 <%= render :partial=>"/papers/new_module" %>
 
-<div class="soso" id="change_info" style="display:none">
 
+<div id="paper_edit_info" style="display:none;">
   <%= form_for :info ,:url=>"/papers/#{@xml.attributes['id']}/change_info" do |f| %>
-    <div>试卷编号：<%= @xml.attributes['id'] %></div>
-    <div>录入：<%= @xml.elements['base_info'].elements['creater'].text %></div>
-    <div>出卷时间：<%=  @xml.elements['base_info'].elements['created_at'].text%></div>
-    <div>总题数：<%= f.text_field :total_question_num %></div><br/>
-    <div>备注：<%= f.text_area :description,:value=>@xml.elements['base_info'].elements['description'].text ,:size=>40,:cols=>"55",:rows=>"3",%></div>
+    <ul class="tab_biz">
+      <li class="actived"><a href="javascript:void(0);"><%= @xml.elements['base_info'].elements['title'].text %></a></li>
+    </ul>
 
-    <%= f.submit "完成", :class=>"submit_btn"%>
-    <input type="submit" value="取消" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id'] %>/new_step_two'"/>
-
+    <div class="soso">
+      <div>试卷编号：<%= @xml.attributes['id'] %></div>
+      <div>标题：<%= f.text_field :title,:value=>@xml.elements['base_info'].elements['title'].text %></div>
+      <div>试卷分类：<select>
+          <option>--英语试卷--</option>
+          <option>--数学试卷--</option>
+          <option>--语文试卷--</option>
+        </select>
+      </div>
+      <div>备注：<%= f.text_area :description,:value=>@xml.elements['base_info'].elements['description'].text ,:size=>40,:cols=>"55",:rows=>"2",%></div>
+      <%= f.submit "完成", :class=>"submit_btn"%>
+      <input type="submit" value="取消" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id'] %>/new_step_two'"/>
+    </div>
   <% end %>
 
 </div>
-
 <%= render :partial=>"/papers/paper_blocks" %>
 
 

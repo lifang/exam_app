@@ -4,42 +4,54 @@
 <%  array_index=0 %>
 
 <% @xml.elements['blocks'].each_element do |block|%>
-  <h1 class="biz_art_title"><%= sum[array_index] %>、<%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)<a href="javascript:void(0)" style="float:right" onClick="javascript:create_question(<%= block.attributes['id'] %>)">新建试题</a></h1>
+  <h1 class="biz_art_title" id="block_show"><%= sum[array_index] %>、<%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
+    <a href="javascript:void(0);" onClick="javascript:edit_block(<%= block.attributes['id'] %>)">修改模块</a>
+  </h1>
   <%=  render :partial=>"papers/new_question" ,:object=>block %>
+  <%= render :partial=>"/papers/edit_block" ,:object=>block %>
   <% array_index += 1 %>
-  <%  String  %>
   <div class="biz_art_list_box">
     <%= block.elements["base_info"].elements["description"].text %>
     <ul>
-      <% if !block.elements['problems'].nil? %>
-        <% problem_size = block.elements['problems'].children.size %>
-        <% block.elements['problems'].each_element do |problem| %>
-          <% if !problem.elements['title'].nil? %>
-            <li>
-
-              <%= render :partial=>"/papers/question_info",:object=>problem %>
-              <%= render :partial=>"/papers/edit_problem",:object=>problem %>
-
-              <h2><a href="javascript:void(0)" onMouseOver="javascript:question_info(<%= problem.attributes["id"].to_i %>)"><%= problem.elements['title'].text %></a></h2>
-              <% problem.elements['questions'].each_element do |question| %>
-                <% if !question.elements['description'].nil? %>
-                  <p><%= question.elements['description'].text %></p>
-                <% end %>
-                <% if !question.elements['questionattrs'].nil? %>
-                  <p><%= question.elements['questionattrs'].text %></p>
+      <% problem_size = block.elements['problems'].children.size %>
+      <% element_num = 0 %>
+      <% block.elements['problems'].each_element do |problem| %>
+        <% element_num +=1 %>
+        <% if !problem.elements['title'].nil? %>
+          <li>
+            <%= render :partial=>"/papers/question_info",:object=>problem %>
+            <%= render :partial=>"/papers/edit_problem",:object=>problem %>
+            <h2><a href="javascript:void(0)" onMouseOver="javascript:question_info(<%= problem.attributes["id"].to_i %>)"><%= problem.elements['title'].text %></a></h2>
+            <% problem.elements['questions'].each_element do |question| %>
+              <% if !question.elements['description'].nil? %>
+                <p><%= question.elements['description'].text %></p>
+              <% end %>
+              <% if !question.elements['questionattrs'].nil? %>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <% attrs_str=question.elements["questionattrs"].text %><% attrs_array=attrs_str.split(";-;") %><% index=0 %>
+                <% (1..attrs_array.length).each do %>
+                  <%  index += 1 %>
+                  <label><%= attrs_array[index-1].split(":-:")[0] %>、<%= attrs_array[index-1].split(":-:")[1] %> </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <% end %>
               <% end %>
-            </li>
-
-            <div class="links">
-              <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
-                <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
-                <a href="javascript:void(0);" onClick="javascript:edit_problem(<%= problem.attributes["id"].to_i %>)" >编辑</a>&nbsp;|&nbsp;
-                <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%= problem.attributes['id']%>').submit();">删除</a>
-              <% end %>
-            </div>
+            <% end %>
+          </li>
+          <div class="links">
+            <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
+              <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
+              <a href="javascript:void(0);" onClick="javascript:edit_problem(<%= problem.attributes["id"].to_i %>)" >编辑</a>&nbsp;|&nbsp;
+              <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%= problem.attributes['id']%>').submit();">删除</a>
+            <% end %>
+          </div>
+          <div class="clear"/>
+          <% if element_num==block.elements['problems'].size %>
+            <center><input type="button" value="新建试题"   onClick="javascript:create_question(<%= block.attributes['id'] %>)"/></center>
           <% end %>
         <% end %>
+
+      <% end %>
+      <% if element_num == 0 %>
+        <center><input type="button" value="新建试题"  onClick="javascript:create_question(<%= block.attributes['id'] %>)"/></center>
       <% end %>
     </ul>
   </div>

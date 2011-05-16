@@ -2,6 +2,7 @@ class ExamUsersController < ApplicationController
   def create
 
   end
+  
   def login
     #    (1..params[:rows].to_i).each do |i|
     #         @user=User.new(:name=>params["infoname#{i}"],:username=>params["infoname#{i}"],:email=>params["infoemail#{i}"],:mobilephone=>params["infomobile#{i}"],:password=>"123456",:password_confirmation=>"123456")
