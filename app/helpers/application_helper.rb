@@ -44,7 +44,12 @@ module ApplicationHelper
     flash[:notice] = "用户名已经存在,请重新输入！"
     redirect_to "/users/new"
   end
+
   def unused?
     return session[:user_email] == nil
+  end
+
+  def title
+    return @title.nil? ? "赶考" : @title
   end
 end

@@ -9,6 +9,7 @@ ExamApp::Application.routes.draw do
       get "active", "user_active"
     end
   end
+  resources :results
   resources :sessions 
   resources :questions
   resources :exam_users do

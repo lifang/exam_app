@@ -1,0 +1,67 @@
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
+<ul class="new_biz">
+  <li><%= @examination.title %></li>
+</ul>
+<%= render :partial => "exam_base_info" %>
+<div class="clear">&nbsp;</div>
+<div class="main_box_back">
+  <h2><span>考生信息</span><div class="right"><a href="#">[导出未确认的考生名单]</a><a href="#">[导出成绩]</a></div></h2>
+  <div class="in">
+    <div class="add_details">
+      <div>是否需要考生确认信息：<%= @examination.user_affirm == true ? "是" : "否" %></div>
+      <div>是否要生成考试码：<%= (!@examination.exam_password1.nil? and !@examination.exam_password2.nil?) ? "是" : "否" %></div>
+    </div>
+  </div>
+  <div class="in">
+    <% if @examination.start_at_time.nil? %>
+      <%= render :partial => "exam_user_for_now"  %>
+    <% elsif @examination.start_at_time > Time.now %>
+      <%= render :partial => "exam_user_for_never"  %>
+    <% elsif (@examination.start_at_time + @examination.exam_time.minutes) < Time.now %>
+      <%= render :partial => "exam_user_for_ever"  %>
+    <% else %>
+      <%= render :partial => "exam_user_for_never"  %>
+    <% end %>
+  </div>
+  <div class="in">
+    <input type="submit" value="编辑" class="submit_btn" title="编辑考生信息"/>
+  </div>
+</div>
+<div class="clear">&nbsp;</div>
+<div class="main_box_back">
+  <h2><span>阅卷老师信息</span></h2>
+  <div class="in">
+    <table>
+      <colgroup>
+        <col width="220"/>
+        <col width="220" />
+        <col width="220" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>手机号码</th>
+          <th>email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @examination.exam_raters.blank? %>
+        <tr>
+          <td align="center" colspan="3">暂无批卷老师，您可以在 <a href="#">这里</a> 添加批卷老师</td>
+        </tr>
+        <% else %>
+        <% @examination.exam_raters.each do |exam_rater| %>
+        <tr>
+          <td>张老师</td>
+          <td>zhangsan@hotmail.com</td>
+          <td>13234567898</td>
+        </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="in">
+    <input type="submit" value="编辑" class="submit_btn" title="编辑考生信息"/>
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110511090306) do
+ActiveRecord::Schema.define(:version => 20110512030452) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(:version => 20110511090306) do
     t.integer  "examination_id"
     t.integer  "user_id"
     t.string   "password"
-    t.boolean  "user_affirm"
     t.datetime "created_at"
     t.integer  "paper_id"
     t.datetime "started_at"
@@ -75,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20110511090306) do
     t.boolean  "is_published"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "user_affirm"
   end
 
   add_index "examinations", ["creater_id"], :name => "index_examinations_on_creater_id"

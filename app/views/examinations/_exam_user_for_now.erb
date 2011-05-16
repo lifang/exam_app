@@ -1,0 +1,45 @@
+<table>
+  <colgroup>
+    <col width="100"/>
+    <col width="120" />
+    <col width="120" />
+    <col width="60"/>
+    <col width="60"/>
+    <col width="60"/>
+    <col width="60"/>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>姓名</th>
+      <th>手机号码</th>
+      <th>email</th>
+      <th>是否确认信息</th>
+      <th>是否参加考试</th>
+      <th>得分</th>
+      <th>答卷</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @exam_users.blank? %>
+    <tr><td align="center" colspan="7">暂无考生，您可以在 <a href="/examinations/<%= @examination.id %>/edit">这里</a> 添加考生</td></tr>
+    <% else %>
+      <% @exam_users.each do |exam_user| %>
+        <%
+        class_name = "never"
+        if exam_user.is_user_affiremed == true
+          class_name = "ever"
+        end
+      %>
+        <tr class="<%= class_name %>">
+          <td><%= exam_user.name %></td>
+          <td><%= exam_user.mobilephone %></td>
+          <td><%= exam_user.email %></td>
+          <td><%= exam_user.is_user_affiremed == true ? "是" : "否" %></td>
+          <td><%= exam_user.answer_sheet_url.nil? ? "否" : "是" %></td>
+          <td><%if exam_user.open_to_user == true %><% else %>无<% end %></td>
+          <td><a href="#">查看</a></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

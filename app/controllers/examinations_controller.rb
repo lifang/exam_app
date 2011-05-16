@@ -65,7 +65,11 @@ class ExaminationsController < ApplicationController
   end
 
   def show
-    
+    @examination = Examination.find(params[:id].to_i)
+    @exam_users = Examination.find_by_sql(["select e.examination_id, e.user_id, e.is_user_affiremed, e.is_submited,
+        e.open_to_user, e.answer_sheet_url, u.name, u.mobilephone, u.email
+        from exam_users e inner join users u on u.id = e.user_id
+        where e.examination_id = ?", @examination.id])
   end
 
   def  destroy
