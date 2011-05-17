@@ -2,7 +2,7 @@
   <li>创建考试</li>
 </ul>
 <div class="main_box_back">
-      <%= form_for :login, :html => {:name => "login_form", :id => "login_form"}, :url=>"/exam_users/login" do %>
+      <%= form_for :login, :html => {:name => "login_form", :id => "login_form"}, :url=>"/exam_users/#{params[:id]}/login" do %>
   <h2><span>添加考生</span></h2>
   <div class="in">
     <div class="paper_base_info">添加考生基本信息</div>

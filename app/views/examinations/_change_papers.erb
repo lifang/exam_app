@@ -1,0 +1,24 @@
+<div class="papers_list_style_box">
+  <div class="paper_pic_box" style="top:0px;">
+    <div class="in">
+      <div style="text-align:right"><a href="javascript:void(0);" onclick="javascript:change_paper();">关闭</a></div>
+      <div class="attr" id="result_div">
+        <%= render :partial => "paper_already_in_exam", :object => change_papers %>
+      </div>
+      <div class="attr" id="paper_search">
+        <%= form_remote_tag :url => "/examinations/#{change_papers.id}/search_papers",
+          :method => :get, :update => "paper_list" do -%>
+          试卷查询：
+          <%= render :partial => "/papers/paper_search" %>
+        <% end %>
+      </div>
+      <div>
+        <%= form_remote_tag :url => "/examinations/#{change_papers.id}/choose_papers", :method => :get,
+         :update => "result_div" do -%>
+        <div id="paper_list">
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -16,73 +16,12 @@
   </h2>
   <div class="in">
     <div class="paper_search">
-      <%= form_for :found,  :url => "/papers/search", :method => 'get' do %>
-        试卷分类：
-        <select name="category" id="category">
-          <option value="">--请选择--</option>
-          <% Category.category_tree.each do |category| %>
-            <option value="<%= category.id %>">
-              <% (0..Category.level(category)).each do |level| %>&nbsp;<% end %><%= category.name %>
-            </option>
-          <% end if Category.category_tree.any? %>
-        </select>
-        &nbsp;&nbsp;&nbsp;&nbsp;创建时间：
-        从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly name="mintime" id="mintime" value="" />&nbsp;
-        到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly name ="maxtime" id ="maxtime" value=""  />
-        <div class="clear"></div>
-        试卷标题&nbsp;&nbsp; &nbsp;&nbsp;<input class="input_style" type="text"  name="search" id="mintime" value="" size="60"/>
-        <%= submit_tag "查询",:title=>nil %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="red"><%= flash[:nosearch] %><%= flash[:error] %></font>
-
+      <%= form_for :found,  :url => "/papers/search", :method => 'post' do %>
+        <%= render :partial => "paper_search" %>
       <% end %>
     </div>
     <div class="clear"></div>
-    <table>
-      <colgroup>
-        <col width="20"/>
-        <col width="60" />
-        <col width="160" />
-        <col width="60" />
-        <col width="80" />
-        <col width="50" />
-        <col width="50" />
-        <col width="220" />
-        <col width="" />
-      </colgroup>
-      <thead>
-        <tr>
-          <th></th>
-          <th>试卷编号</th>
-          <th>标题</th>
-          <th>所属分类</th>
-          <th>创建日期</th>
-          <th>试题数</th>
-          <th>总分</th>
-          <th>备注</th>
-          <th></th>
-        </tr>
-      </thead>  
-      <tbody>
-        <% @papers.each do |paper| %>
-          <tr>
-            <td><input type="checkbox" name="check_b" value="<%= paper.id %> "  onclick="javascript:create_exam()"/></td>
-            <td><%= paper.id  %></td>
-            <td>  <%= paper.title  %></td>
-            <td>  <%= paper.title  %></td>
-            <td> <%= paper.created_at.strftime("%Y-%m-%d")  %></td>
-            <td> <%= paper.total_score %></td>
-            <td> <%= paper.total_question_num %></td>
-            <td> <%= paper.description  %></td>
-            <td><a><%= link_to " 查看" ,paper %>
-                &nbsp;|&nbsp; <%= link_to "删除 ", paper,:method=>:delete %></a></td>
-          </tr>
-        <% end  %>
-        <tr>
-          <td class="allselect_box" colspan="9">
-            <input type="checkbox" name="check_box" onclick=sltall(this.checked) />&nbsp;&nbsp;全选
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <%= render :partial => "paper_list" %>
     <div class="pagination_box">
       <%=will_paginate @papers ,:previous_label=>"«", :next_label=>"»", :inner_window => 1 %>
     </div>

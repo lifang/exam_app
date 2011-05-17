@@ -18,7 +18,7 @@ class ExamUsersController < ApplicationController
         @user.status = User::STATUS[:NORMAL]
         @user.encrypt_password
         @user.save!
-        ExamUser.create!(:user_id=>@user.id,:examination_id=>cookies[:examination_id],:password=>"123456",:user_affirm=>params[:message])
+        ExamUser.create!(:user_id=>@user.id,:examination_id=>params[:id],:password=>"123456",:user_affirm=>params[:message])
     end
     if params[:exam_code]==1
       Examination.find(cookies[:examination_id]).update_attributes(:exam_password1=>proof_code(6),:exam_password2=>proof_code(6))

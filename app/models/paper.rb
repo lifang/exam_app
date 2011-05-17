@@ -4,11 +4,12 @@ class Paper < ActiveRecord::Base
    include REXML
 
   has_many :paper_blocks ,:dependent=>:destroy
-  has_many :examination_paper_relations,:foreign_key=>"paper_id",:dependent=>:destroy
-  has_many :examinations, :through=>:examination_paper_realations,:foreign_key=>"examination_id"
+  has_many :examination_paper_relations,:dependent=>:destroy
+  has_many :examinations, :through=>:examination_paper_realations, :source => :examination
   belongs_to :user,:foreign_key=>"creater_id"
   belongs_to :category
-  default_scope:order=>"id desc"
+
+  default_scope :order => "papers.created_at desc"
 
   #更新试卷基本信息
   def update_base_info(url)
@@ -41,10 +42,6 @@ class Paper < ActiveRecord::Base
     
   end
 
-  #发布试卷
-  def self.published!(paper)
-
-  end
   
   def xml_content(creater_name)
     content ="<?xml version='1.0' encoding='UTF-8'?>"
@@ -59,6 +56,34 @@ class Paper < ActiveRecord::Base
     content+="<blocks>"
     content+="</blocks>"
     content+="</paper>"
+  end
+
+  #置试卷的使用状态
+  def set_paper_used!
+    self.toggle!(:is_used)
+  end
+
+  def Paper.search_mothod(user_id, start_at, end_at, title, category, per_page, page, options={})
+    sql = "select * from papers where creater_id=#{user_id}"
+    if !start_at.nil?
+      sql += " and created_at > '#{start_at}'"
+    end
+    if !end_at.nil?
+      sql += " and created_at < '#{end_at}'"
+    end
+    if !title.nil?
+      sql += " and title like '%#{title}%'"
+    end
+    if !category.nil?
+      sql += " and category_id = '%#{category}%'"
+    end
+    if !options.empty?
+      options.each do |key, value|
+          sql += " and #{key} #{value} "
+      end
+    end
+    sql += " order by created_at desc"
+    return Paper.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end
   
 end

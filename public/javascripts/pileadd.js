@@ -161,3 +161,24 @@ function delete_item(id){
     document.getElementById("add").deleteRow(c);
     document.getElementById("rows").value=document.getElementById("add").rows.length
 }
+
+function change_paper() {
+    var change_papers_div = $("change_papers_div").style;
+    if (change_papers_div.display == "none") {
+        change_papers_div.display = "block";
+    } else {
+        change_papers_div.display = "none";
+    }
+}
+
+function exam_setting() {
+    var exam_more_setting_div = $("exam_more_setting_div").style;
+    var exam_more_setting_btn = $("exam_more_setting_btn");
+    if (exam_more_setting_div.display == "none") {
+        exam_more_setting_div.display = "block";
+        exam_more_setting_btn.value = "-收起";
+    } else {
+       exam_more_setting_div.display = "none";
+        exam_more_setting_btn.value = "+高级";
+    }
+}

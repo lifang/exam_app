@@ -2753,14 +2753,37 @@ a:hover{
     padding:5px 5px 10px 5px;
 }
 
+.papers_list_style_box{
+    position:relative;
+    float:right;
+    width:700px;
+}
+.paper_pic_box{
+    position:absolute;
+    left:95px;
+    top:0px;
+    border:#a6a6a6 1px solid;
+    background:#e8e8e8;
+    width:650px;
+    height:610px;
+    padding:3px;
+    z-index:9;
+}
+.paper_pic_box .in{
+    background:#FFF;
+    padding:5px;
+    width:640px;
+    height:600px;
 
-
-
-
-
-
-
-
-
-
-
+}
+.paper_pic_box .in .attr {
+    padding-left: 20px;
+    background:url(/images/dot_line.gif) repeat-x bottom;
+    margin-top:2px;
+    padding-bottom:5px;
+}
+.paper_pic_box .in .attr a {
+    margin-right: 8px;
+    color:blue;
+    margin-left: 90px;
+}

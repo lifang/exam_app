@@ -1,0 +1,251 @@
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
+<ul class="new_biz">
+  <li><%= @examination.title %></li>
+</ul>
+<div class="main_box_back">
+  <h2><span>修改考试基本信息</span></h2>
+  <div class="in">
+    <div class="paper_base_info">设置考试基本属性</div>
+    <div class="add_details">
+      <div class="detail">
+        试卷：<% @examination.papers.each do |paper| %>
+          <a href="/paper/<%= paper.id %>"><%= paper.title %></a><br/>
+        <% end %>
+      </div>
+      <div class="detail"><a href="javascript:void(0);" onclick="javascript:change_paper();">[重选试卷]</a></div>
+      <div class="clear"></div>
+      <div id="change_papers_div" style="display: none;">
+        <%= render :partial => "change_papers", :object => @examination %>
+      </div>
+    </div>
+    <div class="add_details">
+      <font color="red">*</font>
+      是否开放考试：<input type="radio" <% if @examination.is_score_open %>checked="true"<% end %>/>开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" <% if !@examination.is_score_open %>checked="true"<% end %>/>封闭
+      <span>&nbsp;&nbsp;&nbsp;开放即所有人都能参加，封闭即只有收到邮件的人可以参加</span>
+    </div>
+    <div class="add_details">
+      <font color="red">*</font>
+      考试是否能查看答卷：<input type="radio" <% if @examination.is_paper_open %>checked="true"<% end %>/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" <% if !@examination.is_paper_open %>checked="true"<% end %>/>否
+      <span>&nbsp;&nbsp;&nbsp;即考试结束之后，考生能不能查看自己的考卷</span>
+    </div>
+    <div class="add_details">
+      考试标题：<input type="text" class="input_style" name="title" value="<%= @examination.title %>" size="65"/>
+      <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
+    </div>
+    <div class="add_details">
+      <div class="detail">&nbsp;&nbsp;&nbsp;描述：</div>
+      <div class="detail"><textarea cols="69" rows="4" class="textarea_style"><%= @examination.description %></textarea></div>
+      <div class="detail">&nbsp;&nbsp;请填写对考试必要的一些文字描述</div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <div class="paper_base_info">考试时长设置</div>
+    <div class="add_details">
+      <font color="red">*</font>
+      是否限制考试时段：<input type="radio" <% if !@examination.start_at_time.nil? %> checked="true" <% end %>/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" <% if @examination.start_at_time.nil? %> checked="true" <% end %>/>否
+      <span>&nbsp;&nbsp;&nbsp;</span>
+    </div>
+    <div class="add_details">
+      考试开始于：<input type="text" class="input_style" name="title"
+                   value="<%= @examination.start_at_time.strftime("%Y-%m-%d") if @examination.start_at_time %>"
+                   size="20" onClick="WdatePicker();" readonly/>
+      <select>
+        <option value="-1"> / 时</option>
+        <% (0..23).each do |i| %>
+          <option value="<%= i %>"
+                  <% if (@examination.start_at_time and @examination.start_at_time.hour.to_i == i) %>selected<% end %>><%= i %></option>
+                <% end %>
+      </select>
+      <select>
+        <option value="-1"> / 分</option>
+        <% (0..59).each do |j| %>
+          <option value="<%= j %>"
+                  <% if (@examination.start_at_time and @examination.start_at_time.min.to_i == j) %>selected<% end %>><%= j %></option>
+                <% end %>
+      </select>
+      <span>&nbsp;</span>
+    </div>
+    <div class="add_details">
+      考试时长：<input type="text" class="input_style" name="title" value="<%= @examination.exam_time %>" size="20"/>分钟
+      <span>&nbsp;</span>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <div class="paper_base_info">设置考试成绩等级</div>
+    <div class="add_details">
+      <div class="detail">成绩等级：</div>
+      <div class="detail">
+        <textarea cols="30" rows="6" class="textarea_style">
+          <% @examination.score_levels.each do |score_level| %>
+            <%= score_level.key %>&nbsp;&nbsp;&nbsp;&nbsp;<%= score_level.value %>&nbsp;&nbsp;&nbsp;&nbsp;
+          <% end unless @examination.score_levels.blank? %>
+        </textarea>
+      </div>
+      <div class="detail">
+        &nbsp;&nbsp;如上编辑框中为设置考试等级的例子：分数段<font color="red">[tab键]</font>等级描述，请参考例子描述自己的等级
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <input type="submit" value="更新" class="submit_btn" title="更新基本信息"/>
+  </div>
+</div>
+<div class="clear">&nbsp;</div>
+<div class="main_box_back">
+  <h2><span>考生信息</span></h2>
+  <div class="in">
+    <div class="add_details">
+      <font color="red">*</font>
+      选择是否需要考生确认信息：<input type="radio" <% if @examination.user_affirm %>checked="true"<% end %>/>是&nbsp;&nbsp;
+      <input type="radio" <% if !@examination.user_affirm %>checked="true"<% end %>/>否
+    </div>
+    <div class="add_details">
+      <font color="red">*</font>
+      选择是否要生成考试码：<input type="radio" 
+      <% if !@examination.exam_password1.nil? and !@examination.exam_password2.nil? %>checked="true"<% end %>/>是&nbsp;&nbsp;
+      <input type="radio" <% if @examination.exam_password1.nil? and @examination.exam_password2.nil? %>checked="true"<% end %>/>否
+      <span>&nbsp;&nbsp;&nbsp;（考试码只提供给监考老师，当考生来参加考试的时候，监考老师要输入考试码，考生才能考试）</span>
+    </div>
+  </div>
+  <div class="in">
+    <table>
+      <colgroup>
+        <col width="100"/>
+        <col width="120" />
+        <col width="120" />
+        <col width="60"/>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>手机号码</th>
+          <th>email</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>张三</td>
+          <td>zhangsan@hotmail.com</td>
+          <td>13234567898</td>
+          <td><a href="#">编辑</a>&nbsp;|&nbsp;<a href="#">删除</a></td>
+        </tr>
+        <tr>
+          <td>李四</td>
+          <td>lisi@126.com</td>
+          <td>13445678908</td>
+          <td><a href="#">编辑</a>&nbsp;|&nbsp;<a href="#">删除</a></td>
+        </tr>
+        <tr>
+          <td>王五</td>
+          <td>wangwu@gmail.com</td>
+          <td>18912345654</td>
+          <td><a href="#">编辑</a>&nbsp;|&nbsp;<a href="#">删除</a></td>
+        </tr>
+        <tr>
+          <td colspan="4"><a href="#">追加</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="in">
+    <div class="paper_base_info">导入考生信息</div>
+    <div class="add_details">
+      <div class="detail">按右边格式填入信息：</div>
+      <div class="detail">姓名<font color="red">[tab键]</font>邮箱<font color="red">[tab键]</font>手机号码</div>
+      <div class="clear"></div>
+    </div>
+    <div class="add_details">
+      <div class="detail">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div class="detail">
+        <textarea cols="50" rows="6" class="textarea_style">小明  zhangsan@hotmail.com  13234567898
+小张  lisi@126.com  13445678908
+小王  wangwu@gmail.com  18912345654</textarea>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <input type="submit" value="编辑" class="submit_btn" title="编辑考生信息"/>
+  </div>
+</div>
+<div class="clear">&nbsp;</div>
+<div class="main_box_back">
+  <h2><span>阅卷老师信息</span></h2>
+  <div class="in">
+    <div class="paper_base_info">编辑阅卷老师基本信息</div>
+    <div class="add_details">
+      <font color="red">*</font>
+      选择添加阅卷老师信息方式：<input type="radio" checked="true"/>录入&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio"/>导入
+    </div>
+  </div>
+  <div class="in">
+    <table>
+      <colgroup>
+        <col width="100"/>
+        <col width="120" />
+        <col width="120" />
+        <col width="60"/>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>手机号码</th>
+          <th>email</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>张老师</td>
+          <td>zhangsan@hotmail.com</td>
+          <td>13234567898</td>
+          <td><a href="#">编辑</a>&nbsp;|&nbsp;<a href="#">删除</a></td>
+        </tr>
+        <tr>
+          <td>李老师</td>
+          <td>lisi@126.com</td>
+          <td>13445678908</td>
+          <td><a href="#">编辑</a>&nbsp;|&nbsp;<a href="#">删除</a></td>
+        </tr>
+        <tr>
+          <td>王老师</td>
+          <td>wangwu@gmail.com</td>
+          <td>18912345654</td>
+          <td><a href="#">编辑</a>&nbsp;|&nbsp;<a href="#">删除</a></td>
+        </tr>
+        <tr>
+          <td colspan="4"><a href="#">追加</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    <div class="in">
+    <div class="paper_base_info">导入阅卷老师信息</div>
+    <div class="add_details">
+      <div class="detail">按右边格式填入信息：</div>
+      <div class="detail">姓名<font color="red">[tab键]</font>邮箱<font color="red">[tab键]</font>手机号码</div>
+      <div class="clear"></div>
+    </div>
+    <div class="add_details">
+      <div class="detail">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div class="detail">
+        <textarea cols="50" rows="6" class="textarea_style">王老师  zhangsan@hotmail.com  13234567898
+刘老师  lisi@126.com  13445678908
+李老师  wangwu@gmail.com  18912345654</textarea>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <input type="submit" value="更新" class="submit_btn" title="更新阅卷老师信息"/>
+  </div>
+</div>

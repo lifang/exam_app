@@ -3,12 +3,14 @@
   <h2><span>考试列表</span></h2>
   <div class="in">
     <div class="paper_search">
+      <%= form_for :examinations,  :url => "/examinations/search", :method => 'post' do %>
       创建时间：
-      从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly/>&nbsp;
-      到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly/>
+      从&nbsp;<input class="input_style" type="text" name="start_at" value="<%= session[:start_at] %>" id="start_at" onClick="WdatePicker();" readonly/>&nbsp;
+      到&nbsp;<input class="input_style" type="text" name="end_at" value="<%= session[:end_at] %>" id="end_at" onClick="WdatePicker();" readonly/>
       <div class="clear"></div>
-      考试标题：<input class="input_style" type="text" size="60" />&nbsp;&nbsp;
+      考试标题：<input class="input_style" type="text" name="title" id="title" value="<%= session[:title] %>" size="60" />&nbsp;&nbsp;
       <button type="submit">查询</button>
+      <% end %>
     </div>
     <div class="clear"></div>
     <table>
@@ -58,7 +60,7 @@
             end
           %>
             <tr class="<%= class_name %>">
-              <td><%= examination.e_title %></td>
+              <td><%= examination.title %></td>
               <td><%= examination.start_at_time.nil? ? "任何时候" : examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td><%= examination.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td><%= examination.is_score_open == true ? "是":"否" %></td>

@@ -6,15 +6,14 @@ class PapersController < ApplicationController
   before_filter :access?
 
   def index
-    @papers = Paper.paginate_by_sql(["select * from papers p where p.creater_id=#{cookies[:user_id]} order by p.created_at desc"],
-      :per_page => 1, :page => params[:page])
+    @papers = Paper.search_mothod(cookies[:user_id].to_i, nil, nil, nil, nil, 10, params[:page])
   end
 
   def hand_in
   
 
-  puts params["radio"]["163"]
-  redirect_to request.referer
+    puts params["radio"]["163"]
+    redirect_to request.referer
   end
 
   def new
@@ -22,7 +21,13 @@ class PapersController < ApplicationController
   end
 
   def destroy
-    Paper.find(params[:id]).destroy
+    paper = Paper.find(params[:id])
+    if paper.is_used
+      flash[:warn] = "试卷已经被使用！"
+    else
+      flash[:notice] = "删除成功！"
+      paper.destroy
+    end
     redirect_to "/papers"
   end
 
@@ -31,11 +36,6 @@ class PapersController < ApplicationController
     @paper.update_attributes(:title=>params[:info][:title],:description=>params[:info][:description])
     @paper.update_base_info(@paper.paper_url)
     redirect_to "/papers/#{@paper.id}/new_step_two"
-  end
-
-
-  def create
-    Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
   end
 
   def answer_paper
@@ -112,21 +112,8 @@ class PapersController < ApplicationController
   end
 
   def search_list
-    @sql = "select * from papers where creater_id=#{cookies[:user_id]}"
-    if !session[:mintime].nil?
-      @sql += " and created_at > '#{session[:mintime]}'"
-    end
-    if !session[:maxtime].nil?
-      @sql += " and created_at < '#{session[:maxtime]}'"
-    end
-    if !session[:title].nil?
-      @sql += " and title like '%#{session[:title]}%'"
-    end
-    if !session[:category].nil?
-      @sql += " and category_id = '%#{session[:category]}%'"
-    end
-    @sql += " order by created_at desc"
-    @papers = Paper.paginate_by_sql(@sql, :per_page =>1, :page => params[:page])
+    @papers = Paper.search_mothod(cookies[:user_id].to_i, session[:mintime], session[:maxtime],
+      session[:title], session[:category], 10, params[:page])
     render 'index'
   end
   

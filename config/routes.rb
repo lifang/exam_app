@@ -14,10 +14,12 @@ ExamApp::Application.routes.draw do
   resources :questions
   resources :exam_users do
     collection do
-      get "new_exam_two"
-      post "add_item"
-      post "login"
+      post "add_item"      
       post "leadin"
+    end
+    member do
+      get "new_exam_two"
+      post "login"
     end
   end
   resources :exam_raters do
@@ -27,12 +29,12 @@ ExamApp::Application.routes.draw do
   end
   resources :examinations do
     collection do
-      get "new_exam_one" 
-      post "create_step_one"
-      get "exam_list"
+      get "search_list", "new_exam_one"
+      post "search"
     end
     member do
-      get "published"
+      get "published", "paper_delete", "search_papers", "choose_papers"
+      post "create_step_one"
     end
   end
   post "/questions/edit"
@@ -42,24 +44,12 @@ ExamApp::Application.routes.draw do
   resources :papers do
     collection do
       get "new_step_one", "search_list"
-      post "create_step_one"
-      post  "search"
-      post "create_exam_one"
-      post "create_exam_two"
-      post "create_exam_three"
-      post "exam_list"
-      post "create_step_two"
-      post "problem_destroy"
-      post "edit_block"
+      post "create_step_one", "create_step_two", "search", "create_exam_one", "create_exam_two", "create_exam_three", "exam_list"
+      post "problem_destroy", "edit_block"
     end
     member do
-      get "new_exam_three"
-      get "new_exam_two"
-      get "new_exam_one"
-      get "new_step_two"
-      post "change_info"
-      get "answer_paper"
-      post "hand_in"
+      get "new_exam_three", "new_exam_two", "new_exam_one", "new_step_two", "answer_paper"
+      post "change_info", "hand_in"
     end
   end
 
