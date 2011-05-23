@@ -16,6 +16,7 @@
     <%= form_for :examplan ,:url=>"/examinations/#{@examination.id}/create_step_one", :method=>:post do |f|%>
       <input type="hidden" value="<%= @paperid %>" id="post_value" name="post_value" />
       <div class="add_details">
+        <font color="red">*</font>
         考试标题：<input type="text" class="input_style" name="title" value="<%= @examination.title %>" size="65"/>
         <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
       </div>
@@ -34,23 +35,29 @@
       <div class="in">
         <div class="paper_base_info">设置考试高级属性</div>
         <div class="add_details">
-          <font color="red">*</font>
           是否开放考试：<input type="radio" name="opened" value="1" checked="true" onclick="javascript:radiovalue('opened')"/>开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="radio" name="opened" value="0" onclick="javascript:radiovalue('opened')" />封闭
           <span>&nbsp;&nbsp;&nbsp;开放即所有人都能参加，封闭即只有收到邮件的人可以参加</span><%= f.hidden_field :radiovalue ,:value=>"" %>
         </div>
         <div class="add_details">
-          <font color="red">*</font>
           考试是否能查看答卷：<input type="radio" checked="true" value="1" name="open_result" id="open_result" onclick="javascript:see_result('open_result')"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="radio" name="open_result" id="open_result" value="0" onclick="javascript:see_result('open_result')"/>否
           <span>&nbsp;&nbsp;&nbsp;即考试结束之后，考生能不能查看自己的考卷</span><%= f.hidden_field :see_result ,:value=>"" %>
+        </div>
+        <div class="add_details">
+          选择是否需要考生确认信息：<input type="radio" id="user_affirm" name="user_affirm"value="1" />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="user_affirm" value="0" name="user_affirm" checked="true"/>否
+        </div>
+        <div class="add_details">
+          选择是否要生成考试码：<input type="radio" id="generate_exam_pwd" name="generate_exam_pwd" value="1" />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="generate_exam_pwd"value="0" name="generate_exam_pwd" checked="true"/>否
+          <span>&nbsp;&nbsp;&nbsp;（考试码只提供给监考老师，当考生来参加考试的时候，监考老师要输入考试码，考生才能考试）</span>
         </div>
         <div class="clear"></div>
       </div>
       <div class="in">
         <div class="paper_base_info">考试时长设置</div>
         <div class="add_details">
-          <font color="red">*</font>
           是否限制考试时段：<input type="radio" name="timelimit" value="1" onclick="javascript:time_limit('timelimit')" />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="radio" name="timelimit" value="0" checked="true" onclick="javascript:time_limit('timelimit')"  />否
           <span>&nbsp;&nbsp;&nbsp;</span>
@@ -59,28 +66,15 @@
           开始开始于：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" disabled="disabled" class="input_style" id="time" name="time" value="/ 年/ 月/ 日" size="20" onClick="WdatePicker();" readonly/>
           <select name="hour" disabled="disabled" id="hour" onchange="javascript:selecttime('hour')">
             <option value="-1">/ 时</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option>
-            <option value="17">17</option>
-            <option value="18">18</option>
+            <% (0..23).each do |i| %>
+              <option value="<%= i %>"><%= i %></option>
+            <% end %>
           </select>
           <select name="minute" id="minute"disabled="disabled" onchange="javascript:selectminute('minute')">
             <option value="-2">/ 分</option>
-            <option value="00">00</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-            <option value="50">50</option>
+            <% (0..59).each do |j| %>
+              <option value="<%= j %>"><%= j %></option>
+            <% end %>
           </select>
           <span>&nbsp;</span>
         </div><%= f.hidden_field :selectvalue,:value=>"" %>
@@ -110,9 +104,9 @@
     </div>
     <div class="in">
       <input type="hidden" id="buttonvalue" name="buttonvalue" value="" />
-      <input type="submit" value="创建" id="create" name="create" title="只创建考试基本信息" class="submit_btn" onclick="javascript:getbutton('create');"/>
-      <input type="submit" value="放弃" id="create_step_one" name="create_step_one" title="放弃创建的考试，转回到考试列表首页" class="submit_btn"  onclick="javascript:getbutton('create_step_one');"/>
-    <% end %>
-  </div>
-
+      <input type="submit" value="创建" id="create" name="create" title="创建考试信息" class="submit_btn" />
+      <input type="button" value="放弃" id="cancel" name="cancel" title="放弃创建的考试，转回到考试列表首页"
+             class="submit_btn"  onclick="javascript:window.location.href='/examinations';"/>
+    </div>
+  <% end %>
 </div>

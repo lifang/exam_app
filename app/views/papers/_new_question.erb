@@ -1,40 +1,32 @@
-<div class="question_list_style_box" id="create_question_<%=  new_question.attributes['id'] %>" style="display: none;">
+<script type="text/javascript">
+  KE.show({
+    id : 'problem_title_<%= new_question.attributes['id'] %>',
+    wyswygMode : false,
+    skinType: 'tinymce',
+    cssPath : './index.css',
+    items : [
+      'source', 'undo', 'redo','copy', 'paste',
+      'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent',
+      'specialchar', 'link', 'unlink', 'image', 'flash', 'media', '-',
+      'fontname', 'fontsize', 'textcolor', 'bold',
+      'italic', 'underline',  'table', 'hr'
+    ]
+  });
+</script>
+<div class="question_list_style_box" id="create_question_<%= new_question.attributes['id'] %>" style="display: none;">
   <div class="arrow" style="top:35px;"></div>
   <div class="question_pic_box" style="top:0px;">
     <div class="in">
-
-      <%= form_for :problem ,:url=>"/questions" do |f| %>
-       <%= f.hidden_field :block_id ,:value=>new_question.attributes['id']  %>
+      <%= form_for :problem ,:url=>"/problems", :method => "post" do |f| %>
+        <%= f.hidden_field :block_id ,:value=>new_question.attributes['id']  %>
         <%= f.hidden_field :paper_id ,:value=>@xml.attributes['id']  %>
-        <div class="title">题目类型：</div>
-        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio1"%>单选题</div>
-        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio2"%>多选题</div>
-        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio3"%>判断题</div>
-        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio4"%>完形填空题</div>
-        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio5"%>综合题</div>
-        <div class="type"><%= f.radio_button :types ,:name=>"type",:id=>"radio5"%>填空题</div>
-        <div class="clear"></div>
+        <input type="hidden" value="" name="real_type" id="real_type_<%= new_question.attributes['id'] %>"/>
         <div class="title">题面：</div>
-        <%= f.text_area :title ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
-        <% attr_default_sum = 4 %>
-        <div class="title">选项：<div class="chose_add"><a href="javascript:void(0);" onClick="javascript:">增加选项</a></div></div>
-        <div class="clear"></div>
-        <div class="question">
-          <%= f.hidden_field :attr_sum , :value=>attr_default_sum %>
-          <% index = 0 %>
-          <% key=["A","B","C","D","E","F","G","H","I","J","K","L","M","O","P","Q","R","S","T","U","V","W","X","Y","Z"] %>
-          <% (1..attr_default_sum).each do %>
-            <% index += 1 %>
-            <div class="attr"><%= f.text_field :attr_key ,:class=>"input_style",:name=>"attr#{index}_key",:value=>"#{key[index-1]}",:size=>"1"%> 、 <%= f.text_field :attr_value ,:name=>"attr#{index}_value",:class=>"input_style" ,:size=>"15"%><%= link_to "删除","#"%></div>
-          <% end %>
-
-        </div>
-        <div class="answer">答案：<%= f.text_field :answer ,:class=>"input_style",:size=>"40"%></div>
-        <div class="answer">分值：<%= f.text_field :score ,:class=>"input_style"%></div>
-        <div class="title">评分规则：</div>
-        <%= f.text_area :rule ,:cols=>"45",:rows=>"3",:class=>"textarea_style"  %>
+        <%= f.text_area :title ,:cols=>"45",:rows=>"8",:id=> "problem_title_#{new_question.attributes['id']}", :class=>"textarea_style" %>
+        <%= render :partial => "question_type", :object => new_question %>
         <%= f.submit "提交" ,:class=>"submit_btn" %>
       <% end %>
     </div>
   </div>
 </div>
+

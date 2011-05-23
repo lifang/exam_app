@@ -1,26 +1,27 @@
 <script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
-<ul class="new_biz">
-  <li><%= @examination.title %></li>
-</ul>
-<%= render :partial => "exam_base_info" %>
+  <ul class="new_biz">
+    <li><%= @examination.title %></li>
+  </ul>
+<div id="base_info_div">
+  <%= render :partial => "exam_base_info" %>
+</div>
 <div class="clear">&nbsp;</div>
 <div class="main_box_back">
-  <h2><span>考生信息</span><div class="right"><a href="#">[导出未确认的考生名单]</a><a href="#">[导出成绩]</a></div></h2>
-  <div class="in">
-    <div class="add_details">
-      <div>是否需要考生确认信息：<%= @examination.user_affirm == true ? "是" : "否" %></div>
-      <div>是否要生成考试码：<%= (!@examination.exam_password1.nil? and !@examination.exam_password2.nil?) ? "是" : "否" %></div>
+  <h2><span>考生信息</span>
+    <div class="right">
+      <a href="/examinations/<%= @examination.id %>/export_user_unaffirm">[导出未确认的考生名单]</a>
+      <a href="/examinations/<%= @examination.id %>/exam_result">[查看成绩]</a>
     </div>
-  </div>
-  <div class="in">
+  </h2>
+  <div class="in" id="exam_user_list">
     <% if @examination.start_at_time.nil? %>
       <%= render :partial => "exam_user_for_now"  %>
     <% elsif @examination.start_at_time > Time.now %>
-      <%= render :partial => "exam_user_for_never"  %>
+      <%= render :partial => "exam_user_for_now"  %>
     <% elsif (@examination.start_at_time + @examination.exam_time.minutes) < Time.now %>
-      <%= render :partial => "exam_user_for_ever"  %>
+      <%= render :partial => "exam_user_for_now"  %>
     <% else %>
-      <%= render :partial => "exam_user_for_never"  %>
+      <%= render :partial => "exam_user_for_now"  %>
     <% end %>
   </div>
   <div class="in">
@@ -30,7 +31,7 @@
 <div class="clear">&nbsp;</div>
 <div class="main_box_back">
   <h2><span>阅卷老师信息</span></h2>
-  <div class="in">
+  <div class="in" id="exam_rater_list">
     <%= render :partial => "exam_rater" %>
   </div>
   <div class="in">

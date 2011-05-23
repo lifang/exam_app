@@ -1,0 +1,18 @@
+<% attr_default_sum = 4 %>
+<div class="title">选项：<div class="chose_add"><a href="javascript:void(0);" onClick="javascript:">增加选项</a></div></div>
+<div class="clear"></div>
+<div class="question">
+  <%= hidden_field_tag :id=>"problem_attr_sum", :name => "problem[attr_sum]", :value=>attr_default_sum %>
+  <% (1..attr_default_sum).each do |i| %>
+    <div class="attr">
+      <input type="checkbox" id="problem_attr_key" name="attr<%= i %>_key"/>
+      <%= text_field_tag :name=>"attr#{i}_value", :id => "problem_attr_value", :class=>"input_style" ,:size=>"15"%>
+      <%= link_to "删除","#"%>
+    </div>
+  <% end %>
+</div>
+<div class="answer">
+  分值：<%= text_field_tag :id => "problem_score",:name => "problem[score]" ,:class=>"input_style"%>
+</div>
+<div class="title">解析：</div>
+<textarea cols="45" rows="3" id="problem_rule" name="problem[rule]"></textarea>

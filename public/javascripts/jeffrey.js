@@ -21,20 +21,83 @@ function create_question(id){
     }
 
     if(close_create_question_id != 0){   
-        if(close_create_question_id == id){
-            document.getElementById("create_question_"+id).style.display="none";
-            close_create_question_id = 0;
-        }
-        else{
+        if(close_create_question_id != id){
             document.getElementById("create_question_"+close_create_question_id).style.display="none";
             document.getElementById("create_question_"+id).style.display="block";
             close_create_question_id = id;
+            get_question_type(id);
         }
     }
     else{
         document.getElementById("create_question_"+id).style.display="block";
         close_create_question_id = id;
+        get_question_type(id);
     }
+}
+
+//将选中的题目的类型提交给新创建试题块的type隐藏域
+function get_question_type(block_id) {
+    $("sing_chose_" + block_id).style.display = "none";
+    $("more_chose_" + block_id).style.display = "none";
+    $("judge_" + block_id).style.display = "none";
+    $("fill_blank_" + block_id).style.display = "none";
+    $("colligation_" + block_id).style.display = "none";
+    $("choose_que_type_div_" + block_id).style.display = "none";
+    var types = document.getElementsByName("type_radio_" + block_id);
+    for (var i=0; i<types.length; i++) {
+        if (types[i].checked == true) {
+            $("real_type_" + block_id).value = types[i].value;
+            switch (parseFloat(types[i].value)) {
+                case 0:
+                    $("sing_chose_" + block_id).style.display = "block";
+                    break;
+                case 1:
+                    $("more_chose_" + block_id).style.display = "block";
+                    break;
+                case 2:
+                    $("judge_" + block_id).style.display = "block";
+                    break;
+                case 3:
+                    $("fill_blank_" + block_id).style.display = "block";
+                    break;
+                case 5:
+                    $("fill_blank_" + block_id).style.display = "block";
+                    break;
+                case 4:
+                    $("colligation_" + block_id).style.display = "block";
+                    break;
+            }
+        }
+    }
+}
+
+function choose_question_type(id){
+
+    if (close_edit_block_id != 0) {   //关闭模块编辑框
+        document.getElementById("edit_block_"+close_edit_block_id).style.display="none";
+        close_edit_block_id = 0;
+    }
+
+    if (close_question_info_id != 0) {   //关闭查看框
+        document.getElementById("question_info_"+close_question_info_id).style.display="none";
+        close_question_info_id = 0;
+    }
+
+    if (close_edit_problem_id != 0) {   //关闭编辑框
+        document.getElementById("edit_problem_"+close_edit_problem_id).style.display="none";
+        close_edit_problem_id = 0;
+    }
+
+    if(close_create_question_id != 0){
+        document.getElementById("create_question_"+close_create_question_id).style.display="none";
+        close_create_question_id = 0;
+    }
+    $("choose_que_type_div_" + id).style.display = "block";
+}
+
+//取消添加试题选择题目类型
+function cancel_choose_que_type(block_id) {
+    $("choose_que_type_div_" + block_id).style.display = "none";
 }
 
 function change_info(){
@@ -202,6 +265,11 @@ function check_all(){
         }
     }
     signed_id = 0;
+}
+
+//删除选项
+function delete_attr(attr_id) {
+
 }
 
 

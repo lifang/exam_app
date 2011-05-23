@@ -1,6 +1,16 @@
 class ExamUsersController < ApplicationController
-  def create
-
+  def create_exam_user
+    user = User.new(:name=>params[:infoname],:username=>params[:infoname],:email=>params[:infoemail],
+      :mobilephone=>params[:infomobile],:password=>"123456",:password_confirmation=>"123456")
+    user.status = User::STATUS[:NORMAL]
+    user.encrypt_password
+    user.save!
+    exam_user = ExamUser.create!(:user_id=>user.id,:examination_id=>params[:examination_id],:password=>"123456",
+      :is_user_affiremed=>ExamUser::IS_USER_AFFIREMED[:NO])
+    @examination = Examination.find(params[:examination_id].to_i)
+    exam_user.set_paper(@examination)
+    @exam_users = ExamUser.paginate_exam_user(@examination.id, 1, params[:page])
+    render :partial => "/examinations/exam_user_for_now"
   end
   
   def login
@@ -45,4 +55,12 @@ else
       redirect_to "/exam_raters/new_exam_three"
     end
   end
+
+  def destroy
+    exam_user = ExamUser.find(params[:id].to_i)
+    exam_user.user.destroy
+    exam_user.destroy
+    render :inline => ""
+  end
+
 end

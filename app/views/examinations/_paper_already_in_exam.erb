@@ -3,6 +3,6 @@
   <div id="div_<%= paper.id %>">
     <a href="/papers/<%= paper.id %>"><%= paper.title %></a>&nbsp;&nbsp;
     <%= link_to_remote "删除", :url => "/examinations/#{paper_already_in_exam.id}_#{paper.id}/paper_delete",
-      :confirm => "您确定要删除当前试卷么？", :update => "div_#{paper.id}", :method => :get, %>
+      :confirm => "您确定要删除当前试卷么？", :update => "div_#{paper.id}", :method => :get %>
   </div>
 <% end %>

@@ -1,8 +1,8 @@
 module RemotePaginateHelper
   @@pagination_options = {
     :class => 'pagination',
-    :prev_label   => '上一页',
-    :next_label   => '下一页',
+    :prev_label   => '«',
+    :next_label   => '»',
     :inner_window => 4, # links around the current page
     :outer_window => 1, # links around beginning and end
     :separator    => ' ', # single space is friendly to spiders and non-graphic browsers
@@ -16,7 +16,7 @@ module RemotePaginateHelper
   mattr_reader :pagination_options
 
   def will_paginate_remote(entries = @entries, p = nil ,options = {})
-    total_pages = entries.page_count
+    total_pages = entries.total_pages
     #:parameters
     if total_pages > 1
       options = options.symbolize_keys.reverse_merge(pagination_options)
@@ -24,7 +24,12 @@ module RemotePaginateHelper
       inner_window, outer_window = options.delete(:inner_window).to_i, options.delete(:outer_window).to_i
       update =  options.delete(:update)
       suffix =  options.delete(:url_suffix)
-      url = request.env['PATH_INFO']
+      if options[:url].nil?
+        url = request.env['PATH_INFO']
+      else
+        url = options[:url]
+        options.delete(:url)
+      end
       url += suffix if suffix
       url = url + "?" + p
       min = page - inner_window
@@ -57,7 +62,8 @@ module RemotePaginateHelper
       links.unshift page_link_remote_or_span(entries.previous_page, 'disabled', options.delete(:prev_label), param, update, url)
       links.push    page_link_remote_or_span(entries.next_page,     'disabled', options.delete(:next_label), param, update, url)
 
-      content_tag :div, links.join(options.delete(:separator)), options
+      last_links = content_tag :div, links.join(options.delete(:separator)), options
+      return last_links.gsub("&lt;", "<").gsub("&gt;", ">").gsub("&quot;", "\"").gsub("&amp;amp;amp;", "\&")
     end
   end
   protected
@@ -66,7 +72,7 @@ module RemotePaginateHelper
       content_tag :span, text, :class => span_class
     else
       #link_to_remote text, :update => update, :url => "#{url}?#{param.to_sym}=#{page}", :method=>:get
-      link_to_remote "[#{text}]", :update => update , :url => "#{url}&#{param.to_sym}=#{page}" , :method=>:get
+      link_to_remote "#{text}", :update => update , :url => "#{url}&#{param.to_sym}=#{page}" , :method=>:get
     end
   end
 end

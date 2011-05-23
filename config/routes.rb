@@ -9,13 +9,19 @@ ExamApp::Application.routes.draw do
       get "active", "user_active"
     end
   end
-  resources :results
+  resources :results do
+    collection do
+      post "search"
+      get "search_list"
+    end
+  end
   resources :sessions 
   resources :questions
+  resources :problems
   resources :exam_users do
     collection do
-      post "add_item"      
-      post "leadin"
+      get "create_exam_user"
+      post "add_item", "leadin"
     end
     member do
       get "new_exam_two"
@@ -24,7 +30,7 @@ ExamApp::Application.routes.draw do
   end
   resources :exam_raters do
     collection do
-      get "new_exam_three"
+      get "new_exam_three", "create_exam_rater"
     end
   end
   resources :examinations do
@@ -33,8 +39,8 @@ ExamApp::Application.routes.draw do
       post "search"
     end
     member do
-      get "published", "paper_delete", "search_papers", "choose_papers"
-      post "create_step_one"
+      get "published", "paper_delete", "search_papers", "choose_papers", "exam_result", "single_result_list"
+      post "create_step_one", "update_base_info", "search_result"
     end
   end
   post "/questions/edit"

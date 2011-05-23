@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110516014239) do
+ActiveRecord::Schema.define(:version => 20110519073103) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20110516014239) do
     t.boolean  "open_to_user"
     t.string   "answer_sheet_url"
     t.boolean  "is_user_affiremed"
+    t.integer  "total_score"
   end
 
   add_index "exam_users", ["examination_id"], :name => "index_exam_users_on_examination_id"

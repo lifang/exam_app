@@ -1,0 +1,61 @@
+<ul class="new_biz">
+  <li>2011年第一次数学模拟测试</li>
+</ul>
+<div class="main_box_back">
+  <h2><span>成绩列表</span><div class="right"></div></h2>
+  <div class="in">
+    <div class="exam_result_div">
+      <div class="paper_base_info">考试基本信息</div>
+      <div>考试标题：<%= @examination.title %></div>
+      <div>考试开始于：<%= @examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") if @examination.start_at_time %></div>
+      <div>考试时长：<%= @examination.exam_time %>分钟</div>
+      <div>描述：<%= @examination.description %></div>
+    </div>
+    <div class="add_details">
+      <div class="detail">考生人数：<%= @exam_users.size %>人</div>
+      <% @examination.score_levels.each do |score_level| %>
+        <div class="detail"><%= score_level.value %>：<%= @exam_user_hash[score_level.value] %>人</div>
+      <% end %>
+      <div class="clear"></div>
+    </div>
+    <div class="add_details">
+      <%= form_for :examinations,  :url => "/examinations/#{@examination.id}/search_result", :method => 'post' do %>
+      <div class="detail">姓名/邮箱：<input type="text" class="input_style" name="search_text" id="search_text" size="25"/></div>
+      <div class="detail"><input type="submit" class="input_btn" value="查询" size="30"/></div>
+      <div class="clear"></div>
+      <% end %>
+    </div>
+    <table>
+      <colgroup>
+        <col width="120"/>
+        <col width="140" />
+        <col width="100"/>
+        <col width="80"/>
+        <col width=""/>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>email</th>
+          <th>得分&nbsp;&nbsp;<img src="/images/triangle_down.gif" width="8" height="8"/></th>
+          <th>等级&nbsp;&nbsp;<img src="/images/triangle_up.gif" width="8" height="8"/></th>
+          <th>答卷</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @exam_users.each do |exam_user| %>
+        <tr>
+          <td><%= exam_user.name %></td>
+          <td><%= exam_user.email %></td>
+          <td><%= exam_user.total_score %></td>
+          <td><%= @exam_user_hash[exam_user.id] if !@exam_user_hash.empty? %></td>
+          <td><a href="#">查看</a></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="pagination_box">
+      <%=will_paginate @exam_users ,:prev_label=>"«", :next_label=>"»", :inner_window => 1 %>
+    </div>
+  </div>
+</div>

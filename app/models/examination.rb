@@ -14,12 +14,19 @@ class Examination < ActiveRecord::Base
 
   #创建考试
   def update_examination(attr_hash)
-    attr_hash[:is_published] = IS_PUBLISHED[:NEVER]
-    attr_hash[:status] = STATUS[:LOCK]
+    attr_hash[:is_published] = IS_PUBLISHED[:NEVER] 
+    if !attr_hash[:generate_exam_pwd].nil?
+      generate_exam_pwd(attr_hash) if attr_hash[:generate_exam_pwd]
+      attr_hash.delete(:generate_exam_pwd)
+    end
     self.update_attributes(attr_hash)
     self.publish!
-    return self
     #return examination
+  end
+
+  def generate_exam_pwd(attr_hash)
+    attr_hash[:exam_password1] = proof_code(6)
+    attr_hash[:exam_password2] = proof_code(6)
   end
 
   #创建考试试卷
@@ -68,7 +75,7 @@ class Examination < ActiveRecord::Base
   end
 
   def Examination.search_method(user_id, start_at, end_at, title, pre_page, page)
-    sql = "select * from examinations e where creater_id = #{user_id} "
+    sql = "select * from examinations e where creater_id = #{user_id} and is_published = 1 "
     if !start_at.nil?
       sql += "and e.created_at >= '#{start_at}' "
     end
@@ -83,6 +90,20 @@ class Examination < ActiveRecord::Base
     return Examination.paginate_by_sql(sql, :per_page =>pre_page, :page => page)
   end
 
+  def update_score_level(score_array)
+    self.score_levels = []
+    0.step(score_array.length-1, 2) do |i|
+      ScoreLevel.create(:examination_id=>self.id,:key=>score_array[i],:value=>score_array[i+1])
+    end
+  end
+
+  def proof_code(len)
+    #    chars = ('A'..'Z').to_a + ('a'..'z').to_a
+    chars = (1..9).to_a
+    code_array = []
+    1.upto(len) {code_array << chars[rand(chars.length)]}
+    return code_array.join("")
+  end
 
 
 end

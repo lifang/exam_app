@@ -3,3 +3,11 @@
 function check_paper_search_form() {
     
 }
+
+function get_category_value(field) {
+   for (var i=0; i<field.length; i++) {
+      if(field[i].selected == true) {
+        $("category_name").value = field[i].text;
+      }
+   }
+}

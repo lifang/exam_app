@@ -1,0 +1,13 @@
+<div class="clear"></div>
+<div class="question">
+  正确与否：
+    <div class="attr">
+      <input type="radio" id="problem_attr_key" name="attr_key" checked/>对&nbsp;&nbsp;
+      <input type="radio" id="problem_attr_key" name="attr_key"/>错&nbsp;&nbsp;
+    </div>
+</div>
+<div class="answer">
+  分值：<%= text_field_tag :id => "problem_score",:name => "problem[score]" ,:class=>"input_style"%>
+</div>
+<div class="title">解析：</div>
+<textarea cols="45" rows="3" id="problem_rule" name="problem[rule]"></textarea>

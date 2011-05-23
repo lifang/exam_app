@@ -1,0 +1,16 @@
+<%= form_for :info ,:url=>"/papers/#{@xml.attributes['id']}/change_info" do |f| %>
+  <ul class="tab_biz">
+    <li class="actived"><a href="javascript:void(0);"><%= @xml.elements['base_info'].elements['title'].text %></a></li>
+  </ul>
+
+  <div class="soso">
+    <div>试卷编号：<%= @xml.attributes['id'] %></div>
+    <div>标题：<%= f.text_field :title,:value=>@xml.elements['base_info'].elements['title'].text %></div>
+    <div>
+      <%= render :partial => "/common/modify_categories", :object => @xml.elements['base_info'].elements['category'].text %>
+    </div>
+    <div>备注：<%= f.text_area :description,:value=>@xml.elements['base_info'].elements['description'].text ,:size=>40,:cols=>"55",:rows=>"2",%></div>
+    <%= f.submit "完成", :class=>"submit_btn"%>
+    <input type="submit" value="取消" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id'] %>/new_step_two'"/>
+  </div>
+<% end %>

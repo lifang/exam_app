@@ -139,11 +139,25 @@ function showpartial(name){
         }
     }
 }
-function add_item(){
-    var otr = document.getElementById("add").insertRow(-1);
-    otr.id = $('add').rows.length ;
-    var otd1 = document.createElement("td");
-    var checkTd=document.createElement("td");
+function add_item(table_id, url, update_div, examination_id){
+    var table_rows = $("" + table_id).rows.length ;
+    var otr = document.getElementById("" + table_id).insertRow(table_rows-2);
+    otr.id = table_rows;
+    var str = "<td colspan='4'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate'";
+    str += "method='post' onsubmit='new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)}); return false;'>";
+    str += "<div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='&#x2713;' />";
+    str += "<input name='authenticity_token' type='hidden' value='UEvwUF56teT4A4h8yc2xE9kbGreWJEGaDJZgItFC3fw=' />";
+    str += "</div>";
+    str += "<input type='hidden' name='examination_id' id='examination_id' value='"+ examination_id +"'/>";
+    str += "<table><tr><td><input type='text' name='infoname' id='infoname1' class='required' size='30'/></td>";
+    str += "<td><input type='text' name='infomobile' id='infomobile1' class='required' size='30'/></td>";
+    str += "<td><input type='text' name='infoemail' id='infoemail1' class='required' size='30'/></td>";
+    str += "<td><button type='submit'>创建</button></td></tr></table>";
+    str += "</form></td>";
+
+    otr.innerHTML = str;
+
+    /*var checkTd=document.createElement("td");
     checkTd.innerHTML = "<a href=javascript:delete_item("+otr.id+")>删除</a>";
     otd1.innerHTML = '<input type="text"  name='+"infoname" +otr.id+ ' id='+"infoname" +otr.id+ ' size="30" value=""/>';
     var otd2 = document.createElement("td");
@@ -153,8 +167,8 @@ function add_item(){
     otr.appendChild(otd1);
     otr.appendChild(otd2);
     otr.appendChild(otd3);
-    otr.appendChild(checkTd);
-    document.getElementById("rows").value=document.getElementById("add").rows.length
+    otr.appendChild(checkTd); */
+    document.getElementById(table_id + "_rows").value=document.getElementById("" + table_id).rows.length;
 }
 function delete_item(id){
     var c = document.getElementById(id);
@@ -181,4 +195,13 @@ function exam_setting() {
        exam_more_setting_div.display = "none";
         exam_more_setting_btn.value = "+高级";
     }
+}
+
+function edit_exam_info() {
+    $("edit_exam_base_info").style.display = "block";
+    $("exam_base_info").style.display = "none";
+}
+function show_exam_info() {
+    $("edit_exam_base_info").style.display = "none";
+    $("exam_base_info").style.display = "block";
 }

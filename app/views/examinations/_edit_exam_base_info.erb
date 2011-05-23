@@ -1,0 +1,148 @@
+<h2><span>修改考试基本信息</span></h2>
+<div class="in">
+  <div class="paper_base_info">设置考试基本属性</div>
+  <div class="add_details">
+    <div class="detail">
+      试卷：<% @examination.papers.each do |paper| %>
+        <a href="/paper/<%= paper.id %>"><%= paper.title %></a><br/>
+      <% end %>
+    </div>
+    <div class="detail"><a href="javascript:void(0);" onclick="javascript:change_paper();">[重选试卷]</a></div>
+    <div class="clear"></div>
+    <div id="change_papers_div" style="display: none;">
+      <%= render :partial => "change_papers", :object => @examination %>
+    </div>
+  </div>
+</div>
+  <%= form_remote_tag :url=>"/examinations/#{@examination.id}/update_base_info",
+    :method=>:post, :update => "base_info_div" do -%>
+  <div class="in">
+    <div class="add_details">
+      <font color="red">*</font>
+      考试标题：<input type="text" class="input_style" name="title" value="<%= @examination.title %>" size="65"/>
+      <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
+    </div>
+    <div class="add_details">
+      <div class="detail">&nbsp;&nbsp;&nbsp;描述：</div>
+      <div class="detail">
+        <textarea cols="69" rows="4" class="textarea_style" name="description" title="description">
+          <%= @examination.description %>
+        </textarea>
+      </div>
+      <div class="detail">&nbsp;&nbsp;请填写对考试必要的一些文字描述</div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="in">
+    <input type="button" value="+高级" id="exam_more_setting_btn" name="exam_more_setting_btn" title="设置考试的高级选项"
+           class="submit_btn" onclick="javascript:exam_setting();"/>
+  </div>
+  <div id="exam_more_setting_div" style="display:none;">
+    <div class="in">
+      <div class="paper_base_info">设置考试高级属性</div>
+      <div class="add_details">
+        是否开放考试：<input type="radio" name="opened" value="1"
+                      <% if @examination.is_score_open %>checked="true"<% end %>/>开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="opened" value="0"
+               <% if !@examination.is_score_open %>checked="true"<% end %>/>封闭
+        <span>&nbsp;&nbsp;&nbsp;开放即所有人都能参加，封闭即只有收到邮件的人可以参加</span>
+      </div>
+      <div class="add_details">
+        考试是否能查看答卷：<input type="radio" <% if @examination.is_paper_open %>checked="true"<% end %>
+                         value="1" name="open_result" id="open_result"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="open_result" id="open_result"
+               <% if !@examination.is_paper_open %>checked="true"<% end %> value="0"/>否
+        <span>&nbsp;&nbsp;&nbsp;即考试结束之后，考生能不能查看自己的考卷</span>
+      </div>
+      <div class="add_details">
+        选择是否需要考生确认信息：<input type="radio" id="user_affirm" name="user_affirm"value="1"
+                            <% if @examination.user_affirm %> checked="true" <% end %> />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" id="user_affirm" value="0" name="user_affirm"
+               <% if !@examination.user_affirm %> checked="true" <% end %> />否
+      </div>
+      <div class="add_details">
+        <% if @examination.exam_password1.nil? and  @examination.exam_password2.nil? %>
+          选择是否要生成考试码：<input type="radio" id="generate_exam_pwd" name="generate_exam_pwd" value="1" />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="generate_exam_pwd"value="0" name="generate_exam_pwd" checked="true"/>否
+          <span>&nbsp;&nbsp;&nbsp;（考试码只提供给监考老师，当考生来参加考试的时候，监考老师要输入考试码，考生才能考试）</span>
+        <% else %>
+          考试码：<%= @examination.exam_password1 %>&nbsp;&nbsp;&nbsp;&nbsp;<%= @examination.exam_password2 %>
+        <% end %>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="in">
+      <div class="paper_base_info">考试时长设置</div>
+      <div class="add_details">
+        是否限制考试时段：<input type="radio" name="timelimit" value="1"
+                        <% if !@examination.start_at_time.nil? %> checked="true" <% end %>
+                        onclick="javascript:time_limit('timelimit')"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="timelimit" value="0"
+               <% if @examination.start_at_time.nil? %> checked="true" <% end %>
+               onclick="javascript:time_limit('timelimit')"/>否
+        <span>&nbsp;&nbsp;&nbsp;</span>
+      </div>
+      <div  class="add_details"  >
+        开始开始于：&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="text" <% if @examination.start_at_time.nil? %>disabled="disabled"<% end %>
+               class="input_style" id="time" name="time"
+               value="<%= @examination.start_at_time.strftime("%Y-%m-%d") if @examination.start_at_time %>"
+               size="20" onClick="WdatePicker();" readonly/>
+        <select name="hour" <% if @examination.start_at_time.nil? %>disabled="disabled"<% end %>
+                id="hour" onchange="javascript:selecttime('hour')">
+          <option value="-1">/ 时</option>
+          <% (0..23).each do |i| %>
+            <option value="<%= i %>"
+                    <% if (@examination.start_at_time and @examination.start_at_time.hour.to_i == i) %>selected<% end %>><%= i %></option>
+                  <% end %>
+        </select>
+        <select name="minute" id="minute" <% if @examination.start_at_time.nil? %>disabled="disabled"<% end %>
+                onchange="javascript:selectminute('minute')">
+          <option value="-2">/ 分</option>
+          <% (0..59).each do |j| %>
+            <option value="<%= j %>"
+                    <% if (@examination.start_at_time and @examination.start_at_time.min.to_i == j) %>selected<% end %>><%= j %></option>
+                  <% end %>
+        </select>
+        <span>&nbsp;</span>
+      </div>
+      <div class="add_details">
+        <%
+        if !@examination.start_at_time.nil? and !@examination.start_end_time.nil? and @examination.start_at_time != "" and @examination.start_end_time != ""
+          start_long_time = (@examination.start_end_time - @examination.start_at_time)/60
+        end
+      %>
+        入场结束时间：<input type="text" class="input_style" id="accesstime" name="accesstime" value="<%= start_long_time.to_i %>" size="20" disabled="disabled" />分钟
+        <span>&nbsp;</span>
+      </div>
+      <div class="add_details">
+        考试时长：<input type="text" class="input_style" name="timeout" id="timeout"
+                    value="<%= @examination.exam_time %>" size="20" />分钟
+        <span>&nbsp;</span>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="in">
+      <div class="paper_base_info">设置考试成绩等级</div>
+      <div class="add_details">
+        <div class="detail">&nbsp;&nbsp;&nbsp;成绩等级：</div>
+        <div class="detail">
+          <textarea cols="30" rows="6" class="textarea_style" id="grade" name="grade">
+            <% @examination.score_levels.each do |score_level| %>
+              <%= score_level.key %>&nbsp;&nbsp;&nbsp;&nbsp;<%= score_level.value %>&nbsp;&nbsp;&nbsp;&nbsp;
+            <% end unless @examination.score_levels.blank? %>
+          </textarea>
+        </div>
+        <div class="detail">
+          &nbsp;&nbsp;如上编辑框中为设置考试等级的例子：分数段<font color="red">空格</font>等级描述，请参考例子描述自己的等级
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="in">
+    <input type="submit" value="更新" id="create" name="create" title="更新考试信息" class="submit_btn" />
+    <input type="button" value="放弃" id="cancel" name="cancel" title="放弃更新考试信息"
+           class="submit_btn"  onclick="javascript:show_exam_info();"/>
+  </div>
+<% end %>

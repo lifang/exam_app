@@ -13,13 +13,15 @@ class Tag < ActiveRecord::Base
 
 
   #创建标签
-  def Tag.crate_tag(*name)
-    tags = Tag.select("name").find_all_by_name(*name)
+  def Tag.create_tag(name)
+    new_tags = []
+    tags = Tag.select("name").find_all_by_name(name)
     existed_name = []
     tags.collect { |tag| existed_name << tag.name }
     (name - existed_name).each do  |n|
-      Tag.create(:name => n)
+      new_tags << Tag.create(:name => n)
     end unless (name - existed_name).blank?
+    return new_tags
   end
 
   

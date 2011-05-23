@@ -32,9 +32,14 @@ class PapersController < ApplicationController
   end
 
   def change_info
-    @paper=Paper.find(params[:id])
-    @paper.update_attributes(:title=>params[:info][:title],:description=>params[:info][:description])
-    @paper.update_base_info(@paper.paper_url)
+    @paper=Paper.find(params[:id].to_i)
+    @paper.update_attributes(:title=>params[:info][:title],
+      :description=>params[:info][:description], :category_id => params[:category])
+    if @paper.paper_url.nil?
+      @paper.create_paper_url(@paper.xml_content({"category_name" => params["category_name_#{params[:category].to_i}"]}))
+    else
+      @paper.update_base_info(@paper.paper_url, {"category_name" => params["category_name_#{params[:category].to_i}"]})
+    end
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
@@ -52,7 +57,9 @@ class PapersController < ApplicationController
   end
 
   def create
-    Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],:description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",:total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
+    Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],
+      :description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",
+      :total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
   end
 
   def new_step_two
@@ -61,10 +68,14 @@ class PapersController < ApplicationController
   end
 
   def create_step_one
-    @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],:description=>params[:paper][:description])
-    @paper.create_paper_url(@paper.xml_content(cookies[:user_name]))                              #XML操作
-    @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],:description=>params[:paper][:block_description])
-    @block.create_block_xml(@paper.paper_url)                                        #XML操作
+    @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],
+      :description=>params[:paper][:description], :category_id => params[:category])
+    @paper.create_paper_url(@paper.xml_content({"category_name" => params["category_name_#{params[:category].to_i}"]}))         #XML操作
+
+#    @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],
+#      :description=>params[:paper][:block_description])
+#    @block.create_block_xml(@paper.paper_url)                                        #XML操作
+    
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 

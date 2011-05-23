@@ -1,0 +1,65 @@
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
+<div class="main_box_back">
+  <h2><span>成绩查询</span></h2>
+  <div class="in">
+    <div class="paper_search">
+      <%= form_for :examinations,  :url => "/results/search", :method => 'post' do %>
+      考生Email：<input class="input_style" name="email" id="email" type="text" />
+      &nbsp;&nbsp;&nbsp;&nbsp;考试创建时间：
+      从&nbsp;<input class="input_style" name="start_at" id="start_at" type="text" onClick="WdatePicker();" readonly/>&nbsp;
+      到&nbsp;<input class="input_style" name="end_at" id="end_at" type="text" onClick="WdatePicker();" readonly/>
+      <div class="clear"></div>
+      考试标题：<input class="input_style" name="title" id="title" type="text" size="60" />&nbsp;&nbsp;
+      <button type="submit">查询</button>
+      <% end %>
+    </div>
+    <% if @results and @results.any? %>
+    <table>
+      <colgroup>
+        <col width="120" />
+        <col width="70" />
+        <col width="70" />
+        <col width="70" />
+        <col width="120" />
+        <col width="120" />
+        <col width="80" />
+        <col width="" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>试卷标题</th>
+          <th>考试分类</th>
+          <th>题目总数</th>
+          <th>试卷总分</th>
+          <th>考生Email</th>
+          <th>参与考试时间</th>
+          <th>成绩</th>
+          <th>考卷</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @results.each do |result| %>
+        <tr>
+          <td><a href="/examinations/<%= result.e_id %>"><%= result.e_title %></a></td>
+          <td><%= result.c_name %></td>
+          <td><%= result.total_question_num %></td>
+          <td><%= result.p_total_score %></td>
+          <td><%= result.email %></td>
+          <td><%= result.started_at %></td>
+          <td><%= result.u_total_score %></td>
+          <td>
+            <a href="#">查看</a>&nbsp;|&nbsp;
+            <a href="#">编辑得分</a>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="pagination_box">
+      <%=will_paginate @results ,:prev_label=>"«", :next_label=>"»", :inner_window => 1 %>
+    </div>
+    <% elsif @results and @results.blank? %>
+    <div style="text-align: center;">查询无结果，您可以更改您的查询条件重新查询。</div>
+    <% end %>
+  </div>
+</div>

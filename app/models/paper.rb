@@ -1,7 +1,7 @@
 class Paper < ActiveRecord::Base
 
   require 'rexml/document'
-   include REXML
+  include REXML
 
   has_many :paper_blocks ,:dependent=>:destroy
   has_many :examination_paper_relations,:dependent=>:destroy
@@ -12,11 +12,16 @@ class Paper < ActiveRecord::Base
   default_scope :order => "papers.created_at desc"
 
   #更新试卷基本信息
-  def update_base_info(url)
+  def update_base_info(url, options = {})
     doc=Document.new(File.open(url))
     doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")
     doc.root.elements["base_info"].elements["title"].text=self.title
     doc.root.elements["base_info"].elements["description"].text=self.description
+    if !options.empty?
+      options.each do |key, value|
+        doc.root.elements["base_info"].elements["#{key}"].text = value
+      end
+    end
     file=File.open(url,"w+")
     file.write(doc)
     file.close
@@ -43,19 +48,26 @@ class Paper < ActiveRecord::Base
   end
 
   
-  def xml_content(creater_name)
+  def xml_content(options = {})
     content ="<?xml version='1.0' encoding='UTF-8'?>"
     content+="<paper id='#{self.id}' total_num='0' total_score='0'>"
     content+="<base_info>"
     content+="<title>#{self.title}</title>"
-    content+="<creater>#{creater_name}</creater>"
+    content+="<category>#{self.category_id}</category>"
+    content+="<creater>#{self.creater_id}</creater>"
     content+="<created_at>#{self.created_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</created_at>"
     content+="<updated_at>#{self.updated_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</updated_at>"
     content+="<description>#{self.description.force_encoding('ASCII-8BIT')}</description>"
+    if !options.empty?
+      options.each do |key, value|
+          content+="<#{key}>#{value.force_encoding('ASCII-8BIT')}</#{key}>"
+      end
+    end
     content+="</base_info>"
     content+="<blocks>"
     content+="</blocks>"
     content+="</paper>"
+    return content
   end
 
   #置试卷的使用状态
@@ -79,7 +91,7 @@ class Paper < ActiveRecord::Base
     end
     if !options.empty?
       options.each do |key, value|
-          sql += " and #{key} #{value} "
+        sql += " and #{key} #{value} "
       end
     end
     sql += " order by created_at desc"
