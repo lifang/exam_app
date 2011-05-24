@@ -17,7 +17,16 @@ ExamApp::Application.routes.draw do
   end
   resources :sessions 
   resources :questions
-  resources :problems
+  resources :paper_blocks do
+    member do
+      post "choose_type"
+    end
+  end
+  resources :problems do
+    member do
+      post "update_problem"
+    end
+  end
   resources :exam_users do
     collection do
       get "create_exam_user"

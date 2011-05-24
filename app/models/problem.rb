@@ -27,22 +27,13 @@ class Problem < ActiveRecord::Base
     problem = problems.add_element("problem")
     problem.add_attribute("id","#{self.id}")
     problem.add_attribute("score","#{options[:score]}") unless options[:score].nil?
+    problem.add_attribute("types", "#{self.types}")
     title = problem.add_element("title")
     title.add_text("#{self.title}")
 
     #添加题点xml
     questions = problem.add_element("questions")
-    self.questions.each do |q|
-      question = questions.add_element("question")
-      question.add_attribute("id","#{q.id}")
-      question.add_attribute("correct_type", "#{q.correct_type}")
-      question.add_element("answer").add_text("#{q.answer}") unless q.answer.nil?
-      question.add_element("analysis").add_text("#{q.analysis}") unless q.analysis.nil?
-      question_attrs = question.add_element("questionattrs")
-      question_attrs.add_text("#{q.question_attrs}") unless q.question_attrs.nil?
-      tags = question.add_element("tags")
-      tags.add_text("#{q.tags.join(' ')}") unless q.tags.blank?
-    end
+    self.update_question_xml(questions)
 
     #更新模块试卷信息
     block.attributes["total_score"] = block.attributes["total_score"].to_i + options[:score]             #更新模块总分
@@ -56,15 +47,38 @@ class Problem < ActiveRecord::Base
     file.close
   end
 
+
+  def update_problem_xml(url, problem, options = {})
+
+  end
+
+  #更新题目的题点内容
+  def update_question_xml(questions)
+    self.questions.each do |q|
+      question = questions.add_element("question")
+      question.add_attribute("id","#{q.id}")
+      question.add_attribute("correct_type", "#{q.correct_type}")
+      question.add_element("answer").add_text("#{q.answer}") unless q.answer.nil?
+      question.add_element("analysis").add_text("#{q.analysis}") unless q.analysis.nil?
+      question_attrs = question.add_element("questionattrs")
+      question_attrs.add_text("#{q.question_attrs}") unless q.question_attrs.nil?
+      tags = question.add_element("tags")
+      tag_names = []
+      q.tags.collect { |tag| tag_names << tag.name  }
+      tags.add_text("#{tag_names.join(' ')}") unless q.tags.blank?
+    end
+  end
+
   #更新题目的标签
   def update_problem_tags
+    self.tags = []
     tags_hash = {}
     self.questions.each do |question|
       question.tags.each do |tag|
         tags_hash[tag.id] = tag
       end
     end
-    self.tags = tags_hash.values
+    self.tags << tags_hash.values
   end
   
 end

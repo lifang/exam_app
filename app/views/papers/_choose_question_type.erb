@@ -26,7 +26,7 @@
   </div>
   <div class="clear"></div>
   <input type="button" value="确定" class="submit_btn"
-         onClick="javascript:create_question(<%= choose_question_type.attributes['id'] %>)"/>
+         onClick="javascript:create_question(<%= choose_question_type.attributes['id'] %>, <%= @xml.attributes['id'] %>)"/>
   <input type="button" value="取消" class="submit_btn"
          onClick="javascript:cancel_choose_que_type(<%= choose_question_type.attributes['id'] %>)"/>
 </div>

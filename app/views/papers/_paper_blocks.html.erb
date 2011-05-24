@@ -15,20 +15,12 @@
       <% block.elements['problems'].each_element do |problem| %>
         <% if !problem.elements['title'].nil? %>
           <li>
-            <%#= render :partial=>"/papers/question_info",:object=>problem %>
-            <%#= render :partial=>"/papers/edit_problem",:object=>problem %>
-            <h2><a href="javascript:void(0)" onMouseOver="javascript:question_info(<%= problem.attributes["id"].to_i %>)"><%= problem.elements['title'].text %></a></h2>
+            <%= render :partial=>"/papers/question_info",:object=>problem %>
+            <%= render :partial=>"/papers/edit_problem",:object=>problem %>
+            <h2><a href="javascript:void(0)" onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)"><%= problem.elements['title'].text %></a></h2>
             <% problem.elements['questions'].each_element do |question| %>
               <% if !question.elements['description'].nil? %>
                 <p><%= question.elements['description'].text %></p>
-              <% end %>
-              <% if !question.elements['questionattrs'].nil? %>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <% attrs_str=question.elements["questionattrs"].text %><% attrs_array=attrs_str.split(";-;") %><% index=0 %>
-                <% (1..attrs_array.length).each do %>
-                  <%  index += 1 %>
-                  <label><%= attrs_array[index-1].split(":-:")[0] %>、<%= attrs_array[index-1].split(":-:")[1] %> </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <% end %>
               <% end %>
             <% end %>
           </li>

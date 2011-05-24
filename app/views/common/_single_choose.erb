@@ -6,11 +6,11 @@
   <% (1..attr_default_sum).each do |i| %>
     <div class="attr" id="attr_<%= i %>">
       <input type="radio" id="problem_attr_key" name="attr_key" value="<%= i %>"/>
-      <input type="text" name="attr<%= i %>_value" id="problem_attr_value" class="input_style" size="15" />
+      <input type="text" name="attr<%= i %>_value" id="problem_attr_value" class="input_style" size="15" value="" />
       <a href="javascript:void(0);" onclick="javascript:delete_attr(<% i %>);">删除</a>
     </div>
   <% end %>
-  <div style="text-align: left;"><a href="javascript:void(0);" onClick="javascript:">+增加选项</a></div>
+  <div style="text-align: left;"><a href="javascript:void(0);" onClick="javascript:void(0);">+增加选项</a></div>
 </div>
 <div class="answer">
   分值：<input type="text" name="problem[score]" id="problem_score" class="input_style" />

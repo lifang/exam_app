@@ -3,7 +3,7 @@
     id : 'problem_title_<%= new_question.attributes['id'] %>',
     wyswygMode : false,
     skinType: 'tinymce',
-    cssPath : './index.css',
+    cssPath : '/kindeditor/examples/index.css',
     items : [
       'source', 'undo', 'redo','copy', 'paste',
       'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent',
@@ -23,7 +23,8 @@
         <input type="hidden" value="" name="real_type" id="real_type_<%= new_question.attributes['id'] %>"/>
         <div class="title">题面：</div>
         <%= f.text_area :title ,:cols=>"45",:rows=>"8",:id=> "problem_title_#{new_question.attributes['id']}", :class=>"textarea_style" %>
-        <%= render :partial => "question_type", :object => new_question %>
+        <div id="new_problem_<%= new_question.attributes['id'] %>">
+        </div>
         <%= f.submit "提交" ,:class=>"submit_btn" %>
       <% end %>
     </div>
