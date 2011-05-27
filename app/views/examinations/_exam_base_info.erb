@@ -50,7 +50,7 @@
       <div class="add_details">
         <div class="detail">成绩等级：</div>
         <div class="detail">
-          <% @examination.score_levels.each do |score_level| %>
+          <% @score_levels.each do |score_level| %>
             <%= score_level.key %>  <%= score_level.value %>&nbsp;&nbsp;&nbsp;&nbsp;
           <% end unless @examination.score_levels.blank? %>
         </div>

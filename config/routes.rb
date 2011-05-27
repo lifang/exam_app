@@ -22,15 +22,20 @@ ExamApp::Application.routes.draw do
     collection do
       get "create_exam_user"
       post "add_item", "leadin"
+      
     end
     member do
       get "new_exam_two"
       post "login"
+      post "update_exam_user"
     end
   end
   resources :exam_raters do
     collection do
       get "new_exam_three", "create_exam_rater"
+    end
+    member do
+       post "update_exam_rater"
     end
   end
   resources :examinations do

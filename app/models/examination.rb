@@ -34,7 +34,6 @@ class Examination < ActiveRecord::Base
    
     #return true or false
   end
-
   #创建考生
   def self.create_exam_users(*user)
    
@@ -56,15 +55,10 @@ class Examination < ActiveRecord::Base
   #此方法用来修改考试试卷，update_flag 是传过来增加或删除的标记，*paper是试卷数组
   def update_paper(update_flag, papers)
     if update_flag == "create"
-      if papers.size > 1
         papers.each do |i|
           self.papers << i
           i.set_paper_used!
-        end
-      else
-        self.papers << papers
-        papers.set_paper_used!
-      end     
+        end   
     else
       if papers.size > 1
         papers.each { |i| self.papers.delete(i) }

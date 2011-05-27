@@ -12,10 +12,12 @@
           <%= render :partial => "/papers/paper_search" %>
         <% end %>
       </div>
+
       <div>
         <%= form_remote_tag :url => "/examinations/#{change_papers.id}/choose_papers", :method => :get,
          :update => "result_div" do -%>
         <div id="paper_list">
+     
         </div>
         <% end %>
       </div>

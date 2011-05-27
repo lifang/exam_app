@@ -6,9 +6,6 @@ function check(){
     var myReg =new RegExp(/^\w+([-+.])*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
     var check_value = new RegExp(/[a-z0-9_]/g);
     var strEmail=document.getElementById("user_email").value;
-
-    
-        
     if (username == null || username.length ==0||username.length>30){
         document.getElementById("usernameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过30</font>";
         return false;
@@ -20,10 +17,6 @@ function check(){
             return false;
         }
     }
-
-
-
-
     if (password == null || password.length ==0||password.length>40||password.length<6){
 
         document.getElementById("passwordErr").innerHTML="<font color = 'red'>密码不能为空，长度在6和20之间</font>";
@@ -74,11 +67,7 @@ function signin_page(){
             document.getElementById("error_msg").innerHTML="请输入正确的密码";
             return false;
         }
-
-        
-
     }
-        
 }
 
 function tab(tag, n){

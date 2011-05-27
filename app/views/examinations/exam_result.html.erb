@@ -1,5 +1,5 @@
 <ul class="new_biz">
-  <li>2011年第一次数学模拟测试</li>
+  <li><%= @examination.title %> 测 试</li>
 </ul>
 <div class="main_box_back">
   <h2><span>成绩列表</span><div class="right"></div></h2>
@@ -13,6 +13,9 @@
     </div>
     <div class="add_details">
       <div class="detail">考生人数：<%= @exam_users.size %>人</div>
+        <div class="clear"></div>
+    </div>
+     <div class="add_details">
       <% @examination.score_levels.each do |score_level| %>
         <div class="detail"><%= score_level.value %>：<%= @exam_user_hash[score_level.value] %>人</div>
       <% end %>

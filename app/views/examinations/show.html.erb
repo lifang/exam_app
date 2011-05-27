@@ -9,23 +9,21 @@
 <div class="main_box_back">
   <h2><span>考生信息</span>
     <div class="right">
+     <span class="expForEmail"><span id="nameErr"></span></span>&nbsp;&nbsp;&nbsp;
       <a href="/examinations/<%= @examination.id %>/export_user_unaffirm">[导出未确认的考生名单]</a>
       <a href="/examinations/<%= @examination.id %>/exam_result">[查看成绩]</a>
     </div>
   </h2>
   <div class="in" id="exam_user_list">
     <% if @examination.start_at_time.nil? %>
-      <%= render :partial => "exam_user_for_now"  %>
+      <%= render :partial => "exam_user_for_never"  %>
     <% elsif @examination.start_at_time > Time.now %>
       <%= render :partial => "exam_user_for_now"  %>
     <% elsif (@examination.start_at_time + @examination.exam_time.minutes) < Time.now %>
       <%= render :partial => "exam_user_for_now"  %>
     <% else %>
-      <%= render :partial => "exam_user_for_now"  %>
+      <%= render :partial => "exam_user_for_ever"  %>
     <% end %>
-  </div>
-  <div class="in">
-    <input type="submit" value="编辑" class="submit_btn" title="编辑考生信息"/>
   </div>
 </div>
 <div class="clear">&nbsp;</div>
@@ -33,8 +31,5 @@
   <h2><span>阅卷老师信息</span></h2>
   <div class="in" id="exam_rater_list">
     <%= render :partial => "exam_rater" %>
-  </div>
-  <div class="in">
-    <input type="submit" value="编辑" class="submit_btn" title="编辑考生信息"/>
   </div>
 </div>

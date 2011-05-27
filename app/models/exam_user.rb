@@ -39,7 +39,7 @@ class ExamUser < ActiveRecord::Base
   #随机分配学生一张试卷
   def set_paper(examination)
     papers = examination.papers
-    self.paper = papers[rand(papers.length-1)]
+    self.paper_id = papers[rand(papers.length-1)]
     self.save
   end
 
@@ -77,19 +77,13 @@ class ExamUser < ActiveRecord::Base
     end
     exam_user_array.each do |exam_user|
       score_level_hash.each do |key, value|
-        if value.length >1
           if (exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
               (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i)
             exam_user_hash[exam_user.id] = key
+            exam_user_hash[key] += 1
           end
-        else
-          exam_user_hash[exam_user.id] = key if exam_user.total_score <= value[0].to_i
-        end
-        exam_user_hash[key] += 1
       end
     end
-    puts "=============================================="
-    puts exam_user_hash
     return exam_user_hash
   end
 

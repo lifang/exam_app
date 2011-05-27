@@ -94,6 +94,7 @@ class Paper < ActiveRecord::Base
         sql += " and #{key} #{value} "
       end
     end
+    puts sql
     sql += " order by created_at desc"
     return Paper.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end

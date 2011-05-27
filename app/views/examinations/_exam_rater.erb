@@ -31,10 +31,10 @@
           <% end -%>
         </td>
       </tr>
-      <tr id="2">
+     <tr id="2">
         <td colspan="4">
-          <%= form_remote_tag :url => "/exam_users/create_exam_user" , :method => "get",
-            :html => {:class => "required-validate"}, :update => "exam_rater_list"  do -%>
+          <%= form_remote_tag :url => "/exam_raters/create_exam_rater" , :method => "get",
+            :html => {:class => "required-validate", :onsubmit => "javascript:text_exam()"}, :update => "exam_rater_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>
@@ -61,9 +61,10 @@
           <td><%= exam_rater.name %></td>
           <td><%= exam_rater.mobilephone %></td>
           <td><%= exam_rater.email %></td>
-          <td><a href="#">编辑</a>&nbsp;|&nbsp;
+          <td> <%= link_to_remote "编辑", :url => "/exam_raters/#{exam_rater.id}/edit", :method => :get,
+              :update => "tr_exam_rater_#{exam_rater.id}" %>&nbsp;|&nbsp;
             <%= link_to_remote "删除", :url => "/exam_raters/#{exam_rater.id}", :method => :delete,
-              :confirm => "您确定要删除当前阅卷老师么？", :update => "tr_exam_rater_#{exam_rater.id}" %></td>
+              :confirm => "您确定要删除当前阅卷老师么？", :update => "exam_rater_list" %></td>
         </tr>
       <% end %>
       <tr>

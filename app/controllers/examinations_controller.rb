@@ -2,7 +2,7 @@ class ExaminationsController < ApplicationController
   before_filter :access?
   
   def index
-    @examinations = Examination.search_method(cookies[:user_id].to_i, nil, nil, nil, 1, params[:page])
+    @examinations = Examination.search_method(cookies[:user_id].to_i, nil, nil, nil, 10, params[:page])
   end
 
   def search
@@ -45,14 +45,15 @@ class ExaminationsController < ApplicationController
       params[:exam][:getvalue].split(",").each {|i| paper_ids << i.to_i}
       papers = Paper.find(paper_ids)
       @paperids = papers[0]
-      @examination = Examination.create!(:title => @paperids.title, :creater_id => cookies[:user_id].to_i,
-        :is_published => false)
-      @examination.update_paper("create", papers)
+    @examination = Examination.create!(:title => @paperids.title, :creater_id => cookies[:user_id].to_i,
+       :is_published => false)
+   @examination.update_paper("create", papers.to_a)
       render "/examinations/new_exam_one"
     end
   end
   
   def create_step_one
+    @papers=Paper.find(params[:post_value].split(","))
     @examination = Examination.find(params[:id].to_i)
     @selectvalue = params[:examplan][:selectvalue]
     @result = params[:examplan][:see_result]
@@ -61,7 +62,6 @@ class ExaminationsController < ApplicationController
       :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING],
       :generate_exam_pwd => false}
     hash1[:generate_exam_pwd] = true if params[:generate_exam_pwd] == "1"
-
     if params[:timelimit] == "1"
       @time=params[:time].to_datetime + @selectvalue.to_i.minutes + @result.to_i.hours
       @overtime=@time + params[:accesstime].to_i.minutes
@@ -74,8 +74,8 @@ class ExaminationsController < ApplicationController
     if !params[:grade].nil? and params[:grade] != ""
       @grade_class=get_text(params[:grade])
       @examination.update_score_level(@grade_class)
-    end    
-    #@examination.update_paper('create', @papers.to_a)
+    end
+#    @examination.update_paper('create',@papers.to_a)
     redirect_to "/examinations/#{@examination.id}"
 
   end
@@ -84,16 +84,17 @@ class ExaminationsController < ApplicationController
     @examination = Examination.find(params[:id].to_i)
     @exam_users = ExamUser.select_exam_users(@examination.id)
   end
-  
+
   def new_exam_one
     
   end
 
   def show
     @examination = Examination.find(params[:id].to_i)
-    @exam_users = ExamUser.paginate_exam_user(@examination.id, 1, params[:page])
+    @exam_users = ExamUser.paginate_exam_user(@examination.id, 1,params[:page])
     @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
       :per_page => 1, :page => params[:page])
+    @score_levels=@examination.score_levels
     if request.xml_http_request? and params[:kind] == 'exam_user'
       render :partial => "exam_user_for_now"
     end
@@ -149,18 +150,16 @@ class ExaminationsController < ApplicationController
   end
 
   def export_user_unaffirm
-    examination = Examination.find(params[:id].to_i)
+     exam_user=ExamUser.find_by_sql("select * from exam_users where examination_id=#{params[:id].to_i} and is_user_affiremed="" ")
     
   end
 
   def update_base_info
     @examination = Examination.find(params[:id].to_i)
     hash1 = {:title => params[:title], :description => params[:description], :is_paper_open => params[:opened],
-      :exam_time => params[:timeout], :is_score_open => params[:open_result],
-      :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING],
-      :generate_exam_pwd => false}
+      :exam_time => params[:timeout], :is_score_open => params[:open_result],:user_affirm => params[:user_affirm],
+      :status => Examination::STATUS[:GOING],:generate_exam_pwd => false}
     hash1[:generate_exam_pwd] = true if params[:generate_exam_pwd] == "1"
-
     if params[:timelimit] == "1"
       hour = (params[:hour] != "-1") ? params[:hour].to_i : 0
       min = (params[:minute] != "-2") ? params[:minute].to_i : 0
@@ -170,7 +169,6 @@ class ExaminationsController < ApplicationController
       hash1[:start_end_time] = @overtime
       hash1[:status] = Examination::STATUS[:LOCK]
     end
-
     @examination.update_examination(hash1)
     if !params[:grade].nil? and params[:grade] != ""
       @grade_class=get_text(params[:grade])
@@ -181,7 +179,7 @@ class ExaminationsController < ApplicationController
 
   def exam_result
     @examination = Examination.find(params[:id].to_i)
-    @exam_users = ExamUser.return_exam_result(@examination.id, 1, params[:page])
+    @exam_users = ExamUser.return_exam_result(@examination.id, 10, params[:page])
     @exam_user_hash = ExamUser.score_level_result(@examination, @exam_users)
   end
 
