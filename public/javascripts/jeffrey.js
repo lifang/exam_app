@@ -3,7 +3,7 @@ close_question_info_id = 0
 close_create_question_id = 0
 close_edit_problem_id = 0
 close_edit_block_id = 0
-function create_question(id){
+function create_question(id, paper_id){
 
     if (close_edit_block_id != 0) {   //关闭模块编辑框
         document.getElementById("edit_block_"+close_edit_block_id).style.display="none";
@@ -25,50 +25,37 @@ function create_question(id){
             document.getElementById("create_question_"+close_create_question_id).style.display="none";
             document.getElementById("create_question_"+id).style.display="block";
             close_create_question_id = id;
-            get_question_type(id);
+            get_question_type(id, paper_id);
         }
     }
     else{
         document.getElementById("create_question_"+id).style.display="block";
         close_create_question_id = id;
-        get_question_type(id);
+        get_question_type(id, paper_id);
     }
 }
 
 //将选中的题目的类型提交给新创建试题块的type隐藏域
-function get_question_type(block_id) {
-    $("sing_chose_" + block_id).style.display = "none";
-    $("more_chose_" + block_id).style.display = "none";
-    $("judge_" + block_id).style.display = "none";
-    $("fill_blank_" + block_id).style.display = "none";
-    $("colligation_" + block_id).style.display = "none";
-    $("choose_que_type_div_" + block_id).style.display = "none";
+function get_question_type(block_id, paper_id) {
+    var problem_type = "";
     var types = document.getElementsByName("type_radio_" + block_id);
+
     for (var i=0; i<types.length; i++) {
         if (types[i].checked == true) {
-            $("real_type_" + block_id).value = types[i].value;
-            switch (parseFloat(types[i].value)) {
-                case 0:
-                    $("sing_chose_" + block_id).style.display = "block";
-                    break;
-                case 1:
-                    $("more_chose_" + block_id).style.display = "block";
-                    break;
-                case 2:
-                    $("judge_" + block_id).style.display = "block";
-                    break;
-                case 3:
-                    $("fill_blank_" + block_id).style.display = "block";
-                    break;
-                case 5:
-                    $("fill_blank_" + block_id).style.display = "block";
-                    break;
-                case 4:
-                    $("colligation_" + block_id).style.display = "block";
-                    break;
-            }
+            problem_type = types[i].value;
         }
     }
+    $("real_type_" + block_id).value = problem_type;
+    $("choose_que_type_div_" + block_id).style.display = "none";
+    new Ajax.Updater("new_problem_" + block_id, "/paper_blocks/" + block_id + "/choose_type",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters:'paper_id=' + paper_id + '&problem_type=' + problem_type + '&authenticity_token=' +
+        encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+        });
+    return false;
 }
 
 function choose_question_type(id){
@@ -265,6 +252,11 @@ function check_all(){
         }
     }
     signed_id = 0;
+}
+
+function show_choose_coll_que(block_id) {
+    $("choose_coll_que_" + block_id).style.display = "block";
+    $("choose_coll_que_link_" + block_id).style.display = "none";
 }
 
 //删除选项

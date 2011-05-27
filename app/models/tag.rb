@@ -15,9 +15,14 @@ class Tag < ActiveRecord::Base
   #创建标签
   def Tag.create_tag(name)
     new_tags = []
-    tags = Tag.select("name").find_all_by_name(name)
+    real_name = {}
     existed_name = []
-    tags.collect { |tag| existed_name << tag.name }
+    name.each { |na| real_name[na] = na }
+    tags = Tag.find_all_by_name(real_name.values)
+    tags.collect do |t|
+      new_tags << t
+      existed_name << t.name
+    end
     (name - existed_name).each do  |n|
       new_tags << Tag.create(:name => n)
     end unless (name - existed_name).blank?

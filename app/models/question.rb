@@ -12,7 +12,10 @@ class Question < ActiveRecord::Base
 
   #创建题点标签
   def question_tags(tags)
-    alreay_tag = self.tags
-    self.tags = alreay_tag | tags
+    tags.each do |tag|
+      if !self.tags.include?(tag)
+        self.tags << tag
+      end
+    end
   end
 end

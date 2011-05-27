@@ -1,10 +1,6 @@
 <div class="products_list_style_box" id="question_info_<%= question_info.attributes["id"].to_i %>" style="display:none">
   <div class="arrow" style="top:35px;"></div>
   <div class="big_pic_box" style="top:0px;">
-    <%= render :partial => "/common/show_single_choose" %>
+    <%= render :partial => "/common/show_single_choose", :object => question_info %>
   </div>
 </div>
-
-
-
-
