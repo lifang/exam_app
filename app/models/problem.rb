@@ -25,19 +25,21 @@ class Problem < ActiveRecord::Base
     block = doc.root.elements["blocks"].elements["block[@id='#{block_id}']"]
     problems = block.elements["problems"]
     problem = problems.add_element("problem")
-    problem.add_attribute("id","#{self.id}")
-    problem.add_attribute("score","#{options[:score]}") unless options[:score].nil?
+    problem.add_attribute("id","#{self.id}")    
     problem.add_attribute("types", "#{self.types}")
     title = problem.add_element("title")
     title.add_text("#{self.title}")
 
     #添加题点xml
     questions = problem.add_element("questions")
-    self.update_question_xml(questions)
+    self.update_question_xml(questions, options)
 
-    #更新模块试卷信息
-    block.attributes["total_score"] = block.attributes["total_score"].to_i + options[:score]             #更新模块总分
-    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i + options[:score]       #更新试卷总分
+    #更新题目、试卷模块和试卷的分数
+    problem_score = self.generate_problem_score(options)
+    problem.add_attribute("score","#{problem_score}")
+    block.attributes["total_score"] = block.attributes["total_score"].to_i + problem_score             #更新模块总分
+    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i + problem_score       #更新试卷总分
+    #更新试卷模块、试卷题目数
     block.attributes["total_num"] = block.attributes["total_num"].to_i + 1                         #更新模块总题数 +1
     doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i + 1                   #更新试卷总题数 +1
     doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")      #试卷更新时间
@@ -52,12 +54,24 @@ class Problem < ActiveRecord::Base
 
   end
 
+  #根据提点的分值计算题目的总分
+  def generate_problem_score(options = {})
+    problem_score = 0
+    if !options.empty? and !options[:score].nil?
+      options[:score].values.each do |value|
+        problem_score += value
+      end
+    end
+    return problem_score
+  end
+
   #更新题目的题点内容
-  def update_question_xml(questions)
+  def update_question_xml(questions, options = {})
     self.questions.each do |q|
       question = questions.add_element("question")
       question.add_attribute("id","#{q.id}")
       question.add_attribute("correct_type", "#{q.correct_type}")
+      question.add_element("description").add_text("#{q.answer}") unless q.description.nil?
       question.add_element("answer").add_text("#{q.answer}") unless q.answer.nil?
       question.add_element("analysis").add_text("#{q.analysis}") unless q.analysis.nil?
       question_attrs = question.add_element("questionattrs")
@@ -66,6 +80,9 @@ class Problem < ActiveRecord::Base
       tag_names = []
       q.tags.collect { |tag| tag_names << tag.name  }
       tags.add_text("#{tag_names.join(' ')}") unless q.tags.blank?
+      if !options.empty? and !options[:score].nil?
+        question.add_attribute("score", options[:score][q.id])
+      end
     end
   end
 

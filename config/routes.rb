@@ -16,7 +16,11 @@ ExamApp::Application.routes.draw do
     end
   end
   resources :sessions 
-  resources :questions
+  resources :questions do
+    member do
+      post "edit_question"
+    end
+  end
   resources :paper_blocks do
     member do
       post "choose_type"

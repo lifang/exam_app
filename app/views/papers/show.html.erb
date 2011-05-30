@@ -33,15 +33,7 @@
             <li>
         <%= render :partial=>"/papers/question_info",:object=>problem %>
         <%#= render :partial=>"/papers/edit_problem",:object=>problem %>
-              <h2><a href="javascript:void(0)" onMouseOver="javascript:question_info(<%= problem.attributes["id"].to_i %>)"><%= problem.elements['title'].text %></a></h2>
-              <% problem.elements['questions'].each_element do |question| %>
-                <% if !question.elements['description'].nil? %>
-                  <p><%= question.elements['description'].text %></p>
-                <% end %>
-                <% if !question.elements['questionattrs'].nil? %>
-                  <p><%= question.elements['questionattrs'].text %></p>
-                <% end %>
-              <% end %>
+              <h2><a href="javascript:void(0)" onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)"><%= problem.elements['title'].text %></a></h2>
             </li>
             <div class="links">
               <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>

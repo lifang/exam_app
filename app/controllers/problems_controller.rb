@@ -5,26 +5,77 @@ class ProblemsController < ApplicationController
   include REXML
   
   def create
+
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     #创建题目
     @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title], :types => params[:real_type].to_i})
     #创建题点
-    answer_question_attr = answer_text(params[:real_type].to_i, 
-      params[:problem][:attr_sum].to_i, params[:problem][:answer])
-    @question = Question.create_question(@problem,
-      {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis],
-        :correct_type => params[:real_type].to_i}, answer_question_attr[1])
-    #创建标签
-    if !params[:tag].nil? and params[:tag] != ""
-      tag_name = params[:tag].split(" ")
-      @question.question_tags(Tag.create_tag(tag_name))
+    score_arr = {}
+    if params[:real_type].to_i == Problem::QUESTION_TYPE[:COLLIGATION]
+      score_arr = save_colligation_questions(@problem,
+        colligation_questions(params["single_question_#{params[:problem][:block_id]}"]))
+    else
+      answer_question_attr = answer_text(params[:problem][:correct_type].to_i,
+        params[:problem][:attr_sum].to_i, params[:problem][:answer])
+      @question = Question.create_question(@problem,
+        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis],
+          :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
+      #创建标签
+      if !params[:tag].nil? and params[:tag] != ""
+        tag_name = params[:tag].split(" ")
+        @question.question_tags(Tag.create_tag(tag_name))
+      end
+      score_arr[@question.id] = params[:problem][:score].to_i
     end
     @problem.update_problem_tags
     #更新试卷xml
     url = File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml"
-    @problem.create_problem_xml(url, params[:problem][:block_id], {:score => params[:problem][:score].to_i})
+    @problem.create_problem_xml(url, params[:problem][:block_id], {:score => score_arr})
 
     redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
+  end
+
+  #综合题的提点信息整理
+  def colligation_questions(question_str)
+    all_question = []
+    if question_str != ""
+      questions = question_str.split("||")
+      questions.each do |question|
+        if question != ""
+          question_hash = {}
+          key_values = question.gsub("{", "").gsub("}", "").split(",|,")
+          key_values.each do |key_value|
+            attrs = key_value.split("=>")
+            question_hash[attrs[0]] = attrs[1]
+          end
+          question_attr = []
+          unless (question_hash["attr_value"].nil? or question_hash["attr_value"] == "")
+            question_attr = question_hash["attr_value"].split(";|;")
+          end
+          question_hash["question_attr"] = question_attr
+          all_question << question_hash
+        end
+      end
+    end
+    return all_question
+  end
+
+  #保存综合题的所有提点信息
+  def save_colligation_questions(problem, questions)
+    score_arr = {}
+    questions.each do |question_hash|
+      question = Question.create_question(problem,
+        {:answer => question_hash["answer"], :analysis => question_hash["analysis"],
+          :correct_type => question_hash["correct_type"].to_i, :description => question_hash["diescription"]},
+        question_hash["question_attr"])
+      #创建标签
+      if !question_hash["tag"].nil? and question_hash["tag"] != ""
+        tag_name = question_hash["tag"].split(" ")
+        question.question_tags(Tag.create_tag(tag_name))
+      end
+      score_arr[question.id] = question_hash["score"].to_i
+    end
+    return score_arr
   end
 
   #组装答案和选项
@@ -43,11 +94,11 @@ class ProblemsController < ApplicationController
       (1..attr_num).each do |i|
         if !params["attr#{i}_key"].nil? and params["attr#{i}_key"] != ""
           attr_key = params["attr#{i}_key"].to_i
-          answer_index << params["attr#{attr_key}_value"].gsub(";", ",")
+          answer_index << params["attr#{attr_key}_value"]
         end
-        attrs_array << params["attr#{i}_value"].gsub(";", ",")
+        attrs_array << params["attr#{i}_value"]
       end
-      answer_question_attr << answer_index.join(";")
+      answer_question_attr << answer_index.join(";|;")
       answer_question_attr << attrs_array
     elsif problem_type == Problem::QUESTION_TYPE[:JUDGE]
       answer_question_attr << params[:attr_key].to_i
@@ -60,18 +111,28 @@ class ProblemsController < ApplicationController
   end
 
   def update_problem
-    @question=Question.find(params[:problem][:question_id].to_i)               
-    @attrs_array=Array.new
-    (0..params[:problem][:attr_sum].to_i - 1).each do |i|
-      value=params["attr#{i}_value"]
-      @attrs_array << "#{value}"
+    @paper = Paper.find(params[:problem][:paper_id].to_i)
+    @problem = Problem.find(params[:problem][:problem_id].to_i)
+    #更新题面
+    @problem.update_attributes(:title=>params[:problem][:title], :updated_at=>Time.now)
+    #更新提点
+    if @problem.types == Problem::QUESTION_TYPE[:COLLIGATION]
+
+    else
+      answer_question_attr = answer_text(@problem.types,
+        params[:problem][:attr_sum].to_i, params[:problem][:answer])
+      @question = Question.update_question(params[:problem][:question_id],
+        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis],
+          :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
+      if !params[:tag].nil? and params[:tag] != ""
+        tag_name = params[:tag].split(" ")
+        @question.question_tags(Tag.create_tag(tag_name))
+      end
+      score_arr[@question.id] = params[:problem][:score].to_i
     end
-    @questionattrs=@attrs_array.join(";-;")
-    @question.update_attributes(:question_attrs=>@questionattrs,:answer=>params[:problem][:answer])   #修改题点
-    @problem =@question.problem
-    @problem.update_attributes(:title=>params[:problem][:title])  #修改题目
-    @paper=Paper.find(params[:problem][:paper_id])
-    @paper.update_attributes(:updated_at=>Time.now)    #修改 试卷的更新时间      #-----end-------------数据库操作
+    @problem.update_problem_tags
+
+    
 
     doc=Document.new(File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml")                       #------start---XML操作
     doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年_%m月_%d日_%H时_%M分")      #试卷更新时间
