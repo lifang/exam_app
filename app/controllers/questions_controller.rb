@@ -47,6 +47,12 @@ class QuestionsController < ApplicationController
     
   end
 
+  def edit_question
+    doc=Document.new(File.open "#{papers_path}/#{params[:paper_id].to_i}.xml")
+    question = doc.elements["#{params[:xpath]}"]
+    render :partial => "/common/edit_other_question", :object => question
+  end
+
   def  destroy
     @question=Question.find(params[:id])
     @question.destroy

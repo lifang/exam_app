@@ -7,15 +7,21 @@ class Question < ActiveRecord::Base
   def Question.create_question(problem, options = {}, attr_array = [])
     options[:problem_id] = problem.id
     options[:question_attrs] = attr_array.join(";-;") if attr_array.any?
-    return Question.create(options)
+    Question.create(options)
+  end
+
+  #更新提点
+  def Question.update_question(question_id, options = {}, attr_array = [])
+    question = Question.find(question_id)
+    options[:question_attrs] = attr_array.join(";-;") if attr_array.any?
+    question.update_attributes(options) unless options.empty?
   end
 
   #创建题点标签
   def question_tags(tags)
+    self.tags = []
     tags.each do |tag|
-      if !self.tags.include?(tag)
-        self.tags << tag
-      end
+      self.tags << tag
     end
   end
 end
