@@ -18,7 +18,7 @@
       <tr id="1">
         <td colspan="4">
           <%= form_remote_tag :url => "/exam_raters/create_exam_rater" , :method => "get",
-            :html => {:class => "required-validate"}, :update => "exam_rater_list"  do -%>
+            :html => {:class => "required-validate"},:condition => "test_exam()", :update => "exam_rater_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>
@@ -34,7 +34,7 @@
      <tr id="2">
         <td colspan="4">
           <%= form_remote_tag :url => "/exam_raters/create_exam_rater" , :method => "get",
-            :html => {:class => "required-validate", :onsubmit => "javascript:text_exam()"}, :update => "exam_rater_list"  do -%>
+            :html => {:class => "required-validate", :onsubmit => "javascript:text_exam()"},:condition => "test_exam()", :update => "exam_rater_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>

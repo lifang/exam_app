@@ -13,12 +13,12 @@
       <th></th>
     </tr>
   </thead>
-  <tbody id="add" name="add">
+  <tbody id="add" >
     <% if @exam_users.blank? %>
       <tr id="1">
         <td colspan="4">
           <%= form_remote_tag :url => "/exam_users/create_exam_user" , :method => "get",
-            :html => {:class => "required-validate"}, :update => "exam_user_list"  do -%>
+            :html => {:class => "required-validate" },:condition => "test_exam(1)",  :update => "exam_user_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>
@@ -34,7 +34,7 @@
       <tr id="2">
         <td colspan="4">
           <%= form_remote_tag :url => "/exam_users/create_exam_user" , :method => "get",
-            :html => {:class => "required-validate", :onsubmit => "javascript:text_exam()"}, :update => "exam_user_list"  do -%>
+            :html => {:class => "required-validate"},:condition => "test_exam(2)", :update => "exam_user_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>
@@ -56,8 +56,8 @@
         </td>
       </tr>
     <% else %>
- <%= render :partial=>"/examinations/show_exam_user" %>
-       <tr>
+      <%= render :partial=>"/examinations/show_exam_user" %>
+      <tr>
         <td colspan="4">
           <input type="hidden" id="add_rows" name="add_rows" value="2" />
           <input type="hidden" id="textarea" name="textarea" />

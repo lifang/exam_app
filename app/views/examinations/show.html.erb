@@ -10,7 +10,11 @@
   <h2><span>考生信息</span>
     <div class="right">
      <span class="expForEmail"><span id="nameErr"></span></span>&nbsp;&nbsp;&nbsp;
+    <%# if flash[:notice]=="" && flash[:notice].nil? %>
       <a href="/examinations/<%= @examination.id %>/export_user_unaffirm">[导出未确认的考生名单]</a>
+      <%# else %>
+      <%#= flash[:notice] %>
+      <%# end %>
       <a href="/examinations/<%= @examination.id %>/exam_result">[查看成绩]</a>
     </div>
   </h2>
