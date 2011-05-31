@@ -261,6 +261,7 @@ function choose_question_type(id){
 
     if(close_create_question_id != 0){
         document.getElementById("create_question_"+close_create_question_id).style.display="none";
+        document.getElementById("mavin_question_"+close_create_question_id).style.display="none";
         close_create_question_id = 0;
     }
     $("choose_que_type_div_" + id).style.display = "block";
@@ -460,6 +461,15 @@ function edit_question(question_id, paper_id, xpath) {
         + encodeURIComponent('Q3CnqJgIgZEqWnlCyD902sexHwkF7phBA8hPYM1Tqxc=')
     });
     return false;
+}
+
+//专家创建题目
+function mavin_create_problem(block_id) {
+    if ($("mavin_question_" + block_id).style.display == "none") {
+        $("mavin_question_" + block_id).style.display = "block";
+    } else {
+        $("mavin_question_" + block_id).style.display = "none";
+    }   
 }
 
 

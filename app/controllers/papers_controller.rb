@@ -70,7 +70,8 @@ class PapersController < ApplicationController
   def create_step_one
     @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],
       :description=>params[:paper][:description], :category_id => params[:category])
-    @paper.create_paper_url(@paper.xml_content({"category_name" => params["category_name_#{params[:category].to_i}"]}))         #XML操作
+    category = Category.find(params[:category].to_i)
+    @paper.create_paper_url(@paper.xml_content({"category_name" => category.name})) unless category.nil?
 
 #    @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],
 #      :description=>params[:paper][:block_description])
@@ -87,7 +88,7 @@ class PapersController < ApplicationController
 
   
   def problem_destroy
-    url="#{papers_path}/#{params[:delete][:paper_id]}.xml"
+    url= File.open "#{papers_path}/#{params[:delete][:paper_id]}.xml"
     doc = Problem.remove_problem_xml(Problem.open_xml(url), params[:delete][:xpath])
     Problem.write_xml(url, doc)
     redirect_to request.referrer

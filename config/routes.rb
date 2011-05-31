@@ -27,6 +27,9 @@ ExamApp::Application.routes.draw do
     end
   end
   resources :problems do
+    collection do
+      post "mavin_problem"
+    end
     member do
       post "update_problem"
     end

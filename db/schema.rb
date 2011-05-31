@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110519073103) do
+ActiveRecord::Schema.define(:version => 20110531085013) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(:version => 20110519073103) do
     t.integer  "types"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "complete_title"
   end
 
   add_index "problems", ["category_id"], :name => "index_problems_on_category_id"
@@ -135,10 +136,10 @@ ActiveRecord::Schema.define(:version => 20110519073103) do
 
   create_table "question_tag_relations", :force => true do |t|
     t.integer "tag_id"
-    t.integer "question_point_id"
+    t.integer "question_id"
   end
 
-  add_index "question_tag_relations", ["question_point_id"], :name => "index_question_tag_relations_on_question_point_id"
+  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_point_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|

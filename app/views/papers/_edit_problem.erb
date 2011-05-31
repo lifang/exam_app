@@ -1,7 +1,6 @@
 <script type="text/javascript">
   KE.show({
     id : 'edit_title_<%= edit_problem.attributes['id'] %>',
-    wyswygMode : false,
     skinType: 'tinymce',
     cssPath : '/kindeditor/examples/index.css',
     items : [
@@ -26,8 +25,10 @@
         <%= f.hidden_field :block_id,:value=>"#{edit_problem.parent.parent.attributes["id"]}" %>
         <%= f.hidden_field :paper_id,:value=>"#{@xml.attributes["id"]}" %>
         <div class="title">题面：</div>
+        <% title = edit_problem.elements["complete_title"].nil? ? edit_problem.elements["title"].text :
+          edit_problem.elements["complete_title"].text %>
         <%= f.text_area :title ,:cols=>"45", :rows=>"3", :class=>"textarea_style",
-          :id => "edit_title_#{edit_problem.attributes["id"].to_i}", :value=>edit_problem.elements["title"].text %>
+          :id => "edit_title_#{edit_problem.attributes["id"].to_i}", :value=>title %>
 
         <% question_ids = []
         edit_problem.elements["questions"].each do |question|

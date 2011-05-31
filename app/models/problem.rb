@@ -40,6 +40,7 @@ class Problem < ActiveRecord::Base
     problem.add_attribute("types", "#{self.types}")
     title = problem.add_element("title")
     title.add_text("#{self.title}")
+    problem.add_element("complete_title").add_text("#{self.complete_title}") unless self.complete_title.nil?
 
     #添加题点xml
     questions = problem.add_element("questions")
@@ -61,6 +62,8 @@ class Problem < ActiveRecord::Base
   #删除试题
   def self.remove_problem_xml(doc, problem_path)
     problem = doc.elements["#{problem_path}"]
+    puts problem
+    puts problem.parent
     block = problem.parent.parent
     #更新块和试卷的总分
     doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - 1
@@ -76,7 +79,7 @@ class Problem < ActiveRecord::Base
     problem_score = 0
     if !options.empty? and !options[:score].nil?
       options[:score].values.each do |value|
-        problem_score += value
+        problem_score += value.to_i
       end
     end
     return problem_score
