@@ -10,51 +10,56 @@
   <% attrs_array = attrs_str.split(";-;") unless attrs_str.nil? %>
   <% attrs_length = (attrs_array and attrs_array.any?) ? attrs_array.length : 0 %>
   <input type="hidden" name="problem[attr_sum]" id="problem_attr_sum" value="<%= attrs_length %>" />
-  <% (0..attrs_array.length-1).each do |i|
-    answer = edit_other_question.elements["answer"]
-    if edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:SINGLE_CHOSE]
-      is_answer_flag = false
-      if !answer.nil?  and !answer.text.nil?
-        answers = answer.text.split(";|;")
-        answers.each do |a|
-          is_answer_flag = true if a == attrs_array[i]
+  <% answer = edit_other_question.elements["answer"]
+  if attrs_array and attrs_array.any?
+    (0..attrs_array.length-1).each do |i|
+      if edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:SINGLE_CHOSE]
+        is_answer_flag = false
+        if !answer.nil?  and !answer.text.nil?
+          answers = answer.text.split(";|;")
+          answers.each do |a|
+            is_answer_flag = true if a == attrs_array[i]
+          end
         end
-      end
-    %>
-      <div class="attr">
-        <input type="radio" name="attr_key" id="problem_attr_key_<%= i %>"
-               <% if is_answer_flag %>checked="true"<% end %> value="<%= i %>" />
-        <input type="text" name="attr<%= i %>_value" id="problem_attr<%= i %>_value"
-               class="input_style" size="15" value="<%= attrs_array[i] %>" />
-        <%= link_to "删除","#"%>
-      </div>
-    <% elsif edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:MORE_CHOSE]
-      is_answer_flag = false
-      if !answer.nil?  and !answer.text.nil?
-        answers = answer.text.split(";|;")
-        answers.each do |a|
-          is_answer_flag = true if a == attrs_array[i]
+      %>
+        <div class="attr">
+          <input type="radio" name="attr_key_single" id="problem_attr_key_<%= i %>"
+                 <% if is_answer_flag %>checked="true"<% end %> value="<%= i %>" />
+          <input type="text" name="attr<%= i %>_value" id="problem_attr<%= i %>_value"
+                 class="input_style" size="15" value="<%= attrs_array[i] %>" />
+                 <%= link_to "删除","#"%>
+        </div>
+      <% elsif edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:MORE_CHOSE]
+        is_answer_flag = false
+        if !answer.nil?  and !answer.text.nil?
+          answers = answer.text.split(";|;")
+          answers.each do |a|
+            is_answer_flag = true if a == attrs_array[i]
+          end
         end
-      end
-    %>
-      <div class="attr">
-        <input type="checkbox" name="attr<%= i %>_key" id="problem_attr_key_<%= i %>"
-               <% if is_answer_flag %>checked="true"<% end %> value="<%= i %>" />
-        <input type="text" name="attr<%= i %>_value" id="problem_attr<%= i %>_value" class="input_style"
-               size="15" value="<%= attrs_array[i] %>" />
-        <%= link_to "删除","#"%>
-      </div>
-    <% elsif edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:JUDGE] %>
+      %>
+        <div class="attr">
+          <input type="checkbox" name="attr<%= i %>_key" id="problem_attr_key_<%= i %>"
+                 <% if is_answer_flag %>checked="true"<% end %> value="<%= i %>" />
+          <input type="text" name="attr<%= i %>_value" id="problem_attr<%= i %>_value" class="input_style"
+                 size="15" value="<%= attrs_array[i] %>" />
+                 <%= link_to "删除","#"%>
+        </div>
+      <% end
+    end
+  else %>
+    <% if edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:JUDGE] %>
       <div class="attr">
         <input type="radio" id="problem_attr_key" name="attr_key" value="1"
-               <% if answer.text and answer.text.to_i == 1 %>checked="true"<% end %>/>对&nbsp;&nbsp;
+               <% if answer and answer.text and answer.text.to_i == 1 %>checked="true"<% end %>/>对&nbsp;&nbsp;
         <input type="radio" id="problem_attr_key" name="attr_key" value="0"
-               <% if answer.text and answer.text.to_i == 0 %>checked="true"<% end %>/>错&nbsp;&nbsp;
+               <% if answer and answer.text and answer.text.to_i == 0 %>checked="true"<% end %>/>错&nbsp;&nbsp;
       </div>
     <% else %>
       <textarea cols="45" rows="3" id="problem_answer" name="problem[answer]"><%= answer.text %></textarea>
-    <% end %>
-  <% end if attrs_array and attrs_array.any? %>
+    <% end
+  end %>
+
 </div>
 
 <div class="answer">
@@ -76,3 +81,5 @@
   <% end %>
   <a href="#">追加标签</a>
 </div>
+<input type="hidden" name="problem[question_id]" id="problem_question_id"
+       value="<%= edit_other_question.attributes["id"] %>" />

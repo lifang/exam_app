@@ -15,6 +15,7 @@ class Question < ActiveRecord::Base
     question = Question.find(question_id)
     options[:question_attrs] = attr_array.join(";-;") if attr_array.any?
     question.update_attributes(options) unless options.empty?
+    return question
   end
 
   #创建题点标签

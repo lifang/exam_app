@@ -1,4 +1,6 @@
 <div class="question">
+  小题描述：
+  <%= show_single_question.elements["description"].text if show_single_question.elements["description"] %>
   <% attrs_str = show_single_question.elements["questionattrs"].text
   attrs_array = attrs_str.split(";-;") unless attrs_str.nil?
   correct_type = show_single_question.attributes["correct_type"]
@@ -7,9 +9,6 @@
   (0..attrs_array.length-1).each do |i|
     is_answer = answers.include?(attrs_array[i])
   %>
-    <% if show_single_question.elements["description"] %>
-      <%= show_single_question.elements["description"].text  %>
-    <% end %>
     <div class="attr" <% if is_answer %>style="border: 1px green solid;"<% end %>>
 
       <% if !correct_type.nil? %>

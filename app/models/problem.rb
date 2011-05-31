@@ -18,9 +18,20 @@ class Problem < ActiveRecord::Base
     return Problem.create(options)
   end
 
+  #打开xml
+  def self.open_xml(url)
+    return Document.new(url)
+  end
+
+  #将新的内容写进xml
+  def self.write_xml(url, doc)
+    file = File.new(url, "w+")
+    file.write(doc)
+    file.close
+  end
+
   #创建问题的xml
-  def create_problem_xml(url, block_id, options = {})
-    doc=Document.new(url)
+  def create_problem_xml(doc, block_id, options = {})
     #添加问题的xml
     block = doc.root.elements["blocks"].elements["block[@id='#{block_id}']"]
     problems = block.elements["problems"]
@@ -44,14 +55,20 @@ class Problem < ActiveRecord::Base
     doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i + 1                   #更新试卷总题数 +1
     doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")      #试卷更新时间
     
-    file = File.new(url, "w+")
-    file.write(doc)
-    file.close
+    return doc
   end
 
-
-  def update_problem_xml(url, problem, options = {})
-
+  #删除试题
+  def self.remove_problem_xml(doc, problem_path)
+    problem = doc.elements["#{problem_path}"]
+    block = problem.parent.parent
+    #更新块和试卷的总分
+    doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - 1
+    block.attributes["total_num"] = block.attributes["total_num"].to_i - 1
+    block.attributes["total_score"] = block.attributes["total_score"].to_i - problem.attributes["score"].to_i
+    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i - problem.attributes["score"].to_i
+    doc.delete_element(problem_path)
+    return doc
   end
 
   #根据提点的分值计算题目的总分
@@ -71,7 +88,7 @@ class Problem < ActiveRecord::Base
       question = questions.add_element("question")
       question.add_attribute("id","#{q.id}")
       question.add_attribute("correct_type", "#{q.correct_type}")
-      question.add_element("description").add_text("#{q.answer}") unless q.description.nil?
+      question.add_element("description").add_text("#{q.description}") unless q.description.nil?
       question.add_element("answer").add_text("#{q.answer}") unless q.answer.nil?
       question.add_element("analysis").add_text("#{q.analysis}") unless q.analysis.nil?
       question_attrs = question.add_element("questionattrs")
@@ -86,6 +103,8 @@ class Problem < ActiveRecord::Base
     end
   end
 
+
+
   #更新题目的标签
   def update_problem_tags
     self.tags = []
@@ -96,6 +115,16 @@ class Problem < ActiveRecord::Base
       end
     end
     self.tags << tags_hash.values
+  end
+
+  #计算修改题目原来每个题点的成绩
+  def old_score(score_arr, doc, problem_path)
+    old_score = {}
+    problem = doc.elements["#{problem_path}"]
+    problem.elements["questions"].each.each do |que|
+      old_score[que.attributes["id"].to_i] = que.attributes["score"].to_i
+    end
+    return old_score.merge(score_arr)
   end
   
 end

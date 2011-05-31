@@ -12,8 +12,8 @@ class ProblemsController < ApplicationController
     #创建题点
     score_arr = {}
     if params[:real_type].to_i == Problem::QUESTION_TYPE[:COLLIGATION]
-      score_arr = save_colligation_questions(@problem,
-        colligation_questions(params["single_question_#{params[:problem][:block_id]}"]))
+      score_arr = update_colligation_questions(@problem,
+        colligation_questions(params["single_question_#{params[:problem][:block_id]}"]), "create")
     else
       answer_question_attr = answer_text(params[:problem][:correct_type].to_i,
         params[:problem][:attr_sum].to_i, params[:problem][:answer])
@@ -30,8 +30,8 @@ class ProblemsController < ApplicationController
     @problem.update_problem_tags
     #更新试卷xml
     url = File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml"
-    @problem.create_problem_xml(url, params[:problem][:block_id], {:score => score_arr})
-
+    doc = @problem.create_problem_xml(Problem.open_xml(url), params[:problem][:block_id], {:score => score_arr})
+    Problem.write_xml(url, doc)
     redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
   end
 
@@ -60,14 +60,20 @@ class ProblemsController < ApplicationController
     return all_question
   end
 
-  #保存综合题的所有提点信息
-  def save_colligation_questions(problem, questions)
+  #更新综合题的所有提点信息,update_flag有两个值，如果是create，则表示是新增，如果是update，则表示是更新
+  def update_colligation_questions(problem, questions, update_flag)
     score_arr = {}
     questions.each do |question_hash|
-      question = Question.create_question(problem,
-        {:answer => question_hash["answer"], :analysis => question_hash["analysis"],
-          :correct_type => question_hash["correct_type"].to_i, :description => question_hash["diescription"]},
-        question_hash["question_attr"])
+      if update_flag == "create"
+        question = Question.create_question(problem,
+          {:answer => question_hash["answer"], :analysis => question_hash["analysis"],
+            :correct_type => question_hash["correct_type"].to_i, :description => question_hash["diescription"]},
+          question_hash["question_attr"])
+      else
+        question = Question.update_question(question_hash["question_id"].to_i,
+          {:answer => question_hash["answer"], :analysis => question_hash["analysis"],
+            :description => question_hash["diescription"]}, question_hash["question_attr"])
+      end
       #创建标签
       if !question_hash["tag"].nil? and question_hash["tag"] != ""
         tag_name = question_hash["tag"].split(" ")
@@ -115,9 +121,16 @@ class ProblemsController < ApplicationController
     @problem = Problem.find(params[:problem][:problem_id].to_i)
     #更新题面
     @problem.update_attributes(:title=>params[:problem][:title], :updated_at=>Time.now)
-    #更新提点
-    if @problem.types == Problem::QUESTION_TYPE[:COLLIGATION]
 
+    #打开xml
+    url = File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml"
+    doc = Problem.open_xml(url)
+    #更新提点
+    score_arr = {}
+    if @problem.types == Problem::QUESTION_TYPE[:COLLIGATION]
+      score_arr = update_colligation_questions(@problem,
+        colligation_questions(params["edit_coll_question_" + params[:problem][:problem_id]]), "update")
+      score_arr = @problem.old_score(score_arr, doc, params[:problem][:problem_xpath])
     else
       answer_question_attr = answer_text(@problem.types,
         params[:problem][:attr_sum].to_i, params[:problem][:answer])
@@ -132,28 +145,12 @@ class ProblemsController < ApplicationController
     end
     @problem.update_problem_tags
 
-    
+    #更新xml
+    doc = Problem.remove_problem_xml(doc, params[:problem][:problem_xpath])
+    doc = @problem.create_problem_xml(doc, params[:problem][:block_id], {:score => score_arr})
+    Problem.write_xml(url, doc)
 
-    doc=Document.new(File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml")                       #------start---XML操作
-    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年_%m月_%d日_%H时_%M分")      #试卷更新时间
-    problem = doc.elements["#{params[:problem][:problem_xpath]}"]
-    question = problem.elements["questions"].elements["question"]
-    question.elements["questionattrs"].text = @questionattrs
-    question.elements["answer"].text = @question.answer
-    problem=question.parent.parent
-    problem.elements["title"].text = @problem.title
-    block = problem.parent.parent
-    block.attributes["total_score"] = block.attributes["total_score"].to_i - problem.attributes["score"].to_i  #模块更新总分第一步----减去以前分数
-    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i - problem.attributes["score"].to_i    #试卷更新总分第一步----减去以前前分数
-    problem.attributes["score"] = params[:problem][:score]
-    block.attributes["total_score"] = block.attributes["total_score"].to_i + problem.attributes["score"].to_i     #模块更新总分第二步----加上现在分数
-    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i + problem.attributes["score"].to_i    #试卷更新总分第二步----加上现在分数
-    file = File.new("#{papers_path}/#{params[:problem][:paper_id].to_i}.xml", "w+")                             #xml文件更新（重写文件）
-    file.write(doc)
-    file.close                                                                                                     #------end---_XML操作
     redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
-
-
 
   end
 end

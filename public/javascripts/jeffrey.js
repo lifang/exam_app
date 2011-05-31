@@ -145,36 +145,94 @@ function new_question(block_id) {
 
 //修改综合题小题
 function generate_edit_questions(problem_id) {
-    var hash_str = "||";
+    var hash_str = "";
     var ids_str = $("all_question_ids_" + problem_id).value;
-    var question_ids = ids_str.replace("[", "").replace("]", "").split(",")
+    var question_ids = ids_str.replace("[", "").replace("]", "").replace(/ /g , "").split(",")
     for (var i=0; i<question_ids.length; i++) {
-        alert(question_ids[i]);
-        hash_str = "{1=>1";
+        
+        var attr_value = "";
+        var attr_answer ="";
         var question_div = $("remote_question_" + question_ids[i]);
-        if (question_div != null) {
-            alert(question_div.innerHTML);
-            /*var inputs = question_div.getElementsByTagName("input");
-            if (inputs != null) {
-                for (var k=0; k<inputs.length; k++) {
-                    alert(inputs[0].value);
-                }
-            }
+        if (question_div != null && $("make_edit_" + question_ids[i]).value == "1") {
+            var inputs = question_div.getElementsByTagName("input");
+            hash_str += "{1=>1,|,question_id=>" + question_ids[i];
+            if (inputs != null && inputs[0] != null) {
+                var attr = parseFloat(inputs[1].value);
+                if (parseFloat(inputs[0].value) == 0) {                    
+                    for (var k=2; k<inputs.length; k++) {
+                        if (attr > 0) {
+                            for (var m=0; m<attr; m++) {
+                                if (inputs[k].id == "problem_attr_key_" + m) {
+                                    attr_value += inputs[k+1].value + ";|;";
+                                    if (inputs[k].checked == true) {
+                                        attr_answer = inputs[k+1].value;
 
-            var textarea = question_div.getElementsByTagName("textarea");
-            if (textarea != null) {
-                for (var j=0; j<textarea.length; j++) {
-                    if (textarea[j].name == "problem[description]" && textarea[j].value != "") {
-                         hash_str += ",|,diescription=>"+  textarea[j].value + "";
-                    } else if (textarea[j].name == "problem[description]" && textarea[j].value != "") {
+                                    }
+                                }                                                      
+                            } 
+                        }
+                        if (inputs[k].name == "problem[score]") {
+                            hash_str += ",|,score=>"+  inputs[k].value +"";
+                        }
+                    }
+                } else if (parseFloat(inputs[0].value) == 1) {
+                    for (var l=2; l<inputs.length; l++) {
+                        if (attr > 0) {
+                            for (var n=0; n<attr; n++) {
+                                if (inputs[l].id == "problem_attr_key_" + n) {
+                                    attr_value += inputs[l+1].value + ";|;";
+                                    if (inputs[l].checked == true) {
+                                        if (attr_answer == "") {
+                                            attr_answer =  inputs[l+1].value;
+                                        } else {
+                                            attr_answer =  attr_answer + ";|;" + inputs[l+1].value;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (inputs[l].name == "problem[score]") {
+                            hash_str += ",|,score=>"+  inputs[l].value +"";
+                        }
+                    }
 
+                } else if (parseFloat(inputs[0].value) == 2) {
+                    if (inputs[2].name == "attr_key" && inputs[2].checked == true) {
+                        attr_answer = inputs[2].value;
+                    } else if (inputs[3].name == "attr_key" && inputs[3].checked == true) {
+                        attr_answer = inputs[3].value;
+                    }
+                    if (inputs[4].name == "problem[score]") {
+                        hash_str += ",|,score=>"+  inputs[4].value +"";
+                    }
+                } else {
+                    if (inputs[2].name == "problem[score]") {
+                        hash_str += ",|,score=>"+  inputs[2].value +"";
                     }
                 }
-            }*/
+                if (attr_answer != "") {
+                    hash_str += ",|,answer=>" +  attr_answer + "";
+                }
+                hash_str += ",|,attr_value=>"+ attr_value +"";
 
-        }
+                var textarea = question_div.getElementsByTagName("textarea");
+                if (textarea != null) {
+                    for (var j=0; j<textarea.length; j++) {
+                        if (textarea[j].name == "problem[description]" && textarea[j].value != "") {
+                            hash_str += ",|,diescription=>"+  textarea[j].value + "";
+                        } else if (textarea[j].name == "problem[answer]" && textarea[j].value != "") {
+                            hash_str += ",|,answer=>" +  textarea[j].value + "";
+                        } else if (textarea[j].name == "problem[analysis]" && textarea[j].value != "") {
+                            hash_str += ",|,analysis=>" +  textarea[j].value + "";
+                        }
+                    }
+                }
+                hash_str += "}||";
+            }           
+        }   
     }
-    return false;
+    $("edit_coll_question_" + problem_id).value = hash_str;
+    $("edit_form_" + problem_id).submit();
 }
 
 //取消添加小题
@@ -392,14 +450,15 @@ function delete_attr(attr_id) {
 
 //编辑综合题的题点
 function edit_question(question_id, paper_id, xpath) {
+    $("make_edit_" + question_id).value = "1";
     new Ajax.Updater("remote_question_" + question_id, "/questions/" + question_id + "/edit_question",
     {
         asynchronous:true,
         evalScripts:true,
         method:"post",
         parameters:'paper_id=' + paper_id + '&xpath=' + xpath + '&authenticity_token='
-            + encodeURIComponent('Q3CnqJgIgZEqWnlCyD902sexHwkF7phBA8hPYM1Tqxc=')
-        });
+        + encodeURIComponent('Q3CnqJgIgZEqWnlCyD902sexHwkF7phBA8hPYM1Tqxc=')
+    });
     return false;
 }
 

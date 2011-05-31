@@ -88,8 +88,8 @@ class PapersController < ApplicationController
   
   def problem_destroy
     url="#{papers_path}/#{params[:delete][:paper_id]}.xml"
-    problem_xpath=params[:delete][:xpath]
-    xml_delete_problem(url,problem_xpath)                   #删除题目
+    doc = Problem.remove_problem_xml(Problem.open_xml(url), params[:delete][:xpath])
+    Problem.write_xml(url, doc)
     redirect_to request.referrer
   end
   
