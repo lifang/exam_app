@@ -44,6 +44,7 @@ doc\:clobber_plugins=
 doc\:clobber_rails=
 doc\:guides=
 doc\:plugins=
+doc\:plugins\:rails-prototype_legacy_helper-a2cd95c=
 doc\:rails=
 doc\:reapp=
 doc\:rerails=

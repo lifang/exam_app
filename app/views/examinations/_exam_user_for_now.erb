@@ -3,22 +3,22 @@
     <col width="160"/>
     <col width="180" />
     <col width="180" />
-    <col width="60"/>
+    <col width="80"/>
   </colgroup>
   <thead>
     <tr>
       <th>姓名</th>
       <th>手机号码</th>
       <th>email</th>
-      <th></th>
+      <th><%= flash[:email_err] %></th>
     </tr>
   </thead>
-  <tbody id="add" name="add">
+  <tbody id="add" >
     <% if @exam_users.blank? %>
       <tr id="1">
         <td colspan="4">
           <%= form_remote_tag :url => "/exam_users/create_exam_user" , :method => "get",
-            :html => {:class => "required-validate"}, :update => "exam_user_list"  do -%>
+            :html => {:class => "required-validate" },:condition => "test_exam(1)",  :update => "exam_user_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>
@@ -34,13 +34,13 @@
       <tr id="2">
         <td colspan="4">
           <%= form_remote_tag :url => "/exam_users/create_exam_user" , :method => "get",
-            :html => {:class => "required-validate"}, :update => "exam_user_list"  do -%>
+            :html => {:class => "required-validate"},:condition => "test_exam(2)", :update => "exam_user_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>
-                <td><input type="text" name="infoname" id="infoname1" class="required" size="30"/></td>
-                <td><input type="text" name="infomobile" id="infomobile1" class="required" size="30"/></td>
-                <td><input type="text" name="infoemail" id="infoemail1" class="required" size="30"/></td>
+                <td><input type="text" name="infoname" id="infoname2" class="required" size="30"/></td>
+                <td><input type="text" name="infomobile" id="infomobile2" class="required" size="30"/></td>
+                <td><input type="text" name="infoemail" id="infoemail2" class="required" size="30"/></td>
                 <td><button type="submit">创建</button></td>
               </tr>
             </table>
@@ -56,22 +56,7 @@
         </td>
       </tr>
     <% else %>
-      <% @exam_users.each do |exam_user| %>
-        <%
-        class_name = "never"
-        if exam_user.is_user_affiremed == true
-          class_name = "ever"
-        end
-      %>
-        <tr class="<%= class_name %>" id="tr_exam_user_<%= exam_user.id %>">
-          <td><%= exam_user.name %></td>
-          <td><%= exam_user.mobilephone %></td>
-          <td><%= exam_user.email %></td>
-          <td><a href="#">编辑</a>&nbsp;|&nbsp;
-            <%= link_to_remote "删除", :url => "/exam_users/#{exam_user.id}", :method => :delete,
-              :confirm => "您确定要删除当前考生么？", :update => "tr_exam_user_#{exam_user.id}" %></td>
-        </tr>
-      <% end %>
+      <%= render :partial=>"/examinations/show_exam_user" %>
       <tr>
         <td colspan="4">
           <input type="hidden" id="add_rows" name="add_rows" value="2" />

@@ -39,18 +39,18 @@ class ExamUser < ActiveRecord::Base
   #随机分配学生一张试卷
   def set_paper(examination)
     papers = examination.papers
-    self.paper = papers[rand(papers.length-1)]
+    self.paper_id = papers[rand(papers.length-1)]
     self.save
   end
 
   #组装查询成绩的sql
   def ExamUser.generate_result_sql(options={})
-    sql = "select u.id u_id, e.id e_id, e.title e_title, c.name c_name, p.total_score p_total_score,
+    sql = "select u.id u_id, e.id e_id, e.title e_title, e.description,e.start_at_time,c.name c_name,p.id p_id, p.total_score p_total_score,
       p.total_question_num, us.name u_name, us.email, u.started_at, u.total_score u_total_score, u.answer_sheet_url
       from exam_users u inner join examinations e on e.id = u.examination_id
       inner join papers p on p.id = u.paper_id
       inner join users us on us.id = u.user_id 
-      left join categories c on c.id = p.category_id where 1=1 "
+      left join categories c on c.id = p.category_id where 1=1 and e.id in (select r.examination_id from exam_users r where r.user_id=7)  "
     if !options.empty?
       options.each do |key, value|
         sql += " and #{key} #{value} "
@@ -77,15 +77,11 @@ class ExamUser < ActiveRecord::Base
     end
     exam_user_array.each do |exam_user|
       score_level_hash.each do |key, value|
-        if value.length >1
           if (exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
               (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i)
             exam_user_hash[exam_user.id] = key
+            exam_user_hash[key] += 1
           end
-        else
-          exam_user_hash[exam_user.id] = key if exam_user.total_score <= value[0].to_i
-        end
-        exam_user_hash[key] += 1
       end
     end
     return exam_user_hash

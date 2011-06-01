@@ -3,7 +3,15 @@ class UsersController < ApplicationController
   def index
 
   end
-
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(params[:user])
+       redirect_to "/papers"
+    else
+      render "edit"
+#    redirect_to "/users/#{cookies[:user_id]}/edit"
+    end
+  end
   def new
     session[:register_proof_code] = proof_code(4)
     @user=User.new
@@ -85,12 +93,6 @@ class UsersController < ApplicationController
   end
   def edit
     @user= User.find(params[:id])
-  end
-
-  def update
-    @user= User.find(params[:id])
-    @user.update_attributes(params[:user])
-    redirect_to @user
   end
 
   def get_register_code

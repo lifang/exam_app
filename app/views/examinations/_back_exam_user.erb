@@ -1,0 +1,7 @@
+<td><%= @user.name %></td>
+<td><%= @user.mobilephone %></td>
+<td><%= @user.email %></td>
+<td> <%= link_to_remote "编辑", :url => "/exam_users/#{@exam_user.id}/edit", :method => :get,
+    :update => "tr_exam_user_#{@exam_user.id}" %>&nbsp;|&nbsp;
+  <%= link_to_remote "删除", :url => "/exam_users/#{@exam_user.id}", :method => :delete,
+    :confirm => "您确定要删除当前考生么？", :update => "add" %></td>

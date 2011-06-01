@@ -69,6 +69,7 @@ function see_result(name){
     alert(document.getElementById("examplan_see_result").value);
 }
 function selectminute(name){
+  
     var checked_ids = new Array();
     var sles = document.getElementById(name).value;
     if (sles< 0){
@@ -95,15 +96,16 @@ function selecttime(name){
 function compare_value() {
     var accesstime=document.getElementById("accesstime").value;
     var timeout=document.getElementById("timeout").value;
-    if (accesstime > timeout){
+    if (parseInt(accesstime) >parseInt( timeout)){
         alert("入场结束时间超过考试时长，请检查!");
+        return false;
     }
+//    js提供了parseInt()和parseFloat()两个转换函数
 }
 function getbutton(name) {
     document.getElementById("login_form_value").value = "";
     document.getElementById("leadin_form_value").value = "";
     var login_form = $("login_form");
-    var leadin_form = $("leadin_form");
     var text= new String();
     document.getElementById("textarea").value = "" ;
     if ($("login_block").style.display != "none") {
@@ -114,13 +116,13 @@ function getbutton(name) {
             }
         }
         document.getElementById("textarea").value = text;
-        //login_form.submit();
+    //login_form.submit();
     } else {
 
         document.getElementById("leadin_form_value").value = name;
-        //leadin_form.submit();
+    //leadin_form.submit();
     }
-login_form.submit();
+    login_form.submit();
 
 }
 function showpartial(name){
@@ -139,24 +141,29 @@ function showpartial(name){
         }
     }
 }
+function test_exam(table_rows){
+    var n = $("infoname"+table_rows).value;
+    var mobile = $("infomobile"+table_rows).value;
+    var email = $("infoemail"+table_rows).value;
+
+    return test_exam_edit(n,mobile,email);
+}
 function add_item(table_id, url, update_div, examination_id){
     var table_rows = $("" + table_id).rows.length ;
     var otr = document.getElementById("" + table_id).insertRow(table_rows-2);
     otr.id = table_rows;
-    var str = "<td colspan='4'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate'";
-    str += "method='post' onsubmit='new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)}); return false;'>";
-    str += "<div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='&#x2713;' />";
+    var str = "<td colspan='4'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate' ";
+    str += "method='get' onsubmit='if (test_exam("+ otr.id +")) {new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)});}; return false;'>";
+ str += "<div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='&#x2713;' />";
     str += "<input name='authenticity_token' type='hidden' value='UEvwUF56teT4A4h8yc2xE9kbGreWJEGaDJZgItFC3fw=' />";
     str += "</div>";
     str += "<input type='hidden' name='examination_id' id='examination_id' value='"+ examination_id +"'/>";
-    str += "<table><tr><td><input type='text' name='infoname' id='infoname1' class='required' size='30'/></td>";
-    str += "<td><input type='text' name='infomobile' id='infomobile1' class='required' size='30'/></td>";
-    str += "<td><input type='text' name='infoemail' id='infoemail1' class='required' size='30'/></td>";
+    str += "<table><tr><td><input type='text' name='infoname' id='infoname"+otr.id + "'class='required' size='30'/></td>";
+    str += "<td><input type='text' name='infomobile' id='infomobile"+otr.id + "' class='required' size='30'/></td>";
+    str += "<td><input type='text' name='infoemail' id='infoemail"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><button type='submit'>创建</button></td></tr></table>";
     str += "</form></td>";
-
     otr.innerHTML = str;
-
     /*var checkTd=document.createElement("td");
     checkTd.innerHTML = "<a href=javascript:delete_item("+otr.id+")>删除</a>";
     otd1.innerHTML = '<input type="text"  name='+"infoname" +otr.id+ ' id='+"infoname" +otr.id+ ' size="30" value=""/>';
@@ -192,7 +199,7 @@ function exam_setting() {
         exam_more_setting_div.display = "block";
         exam_more_setting_btn.value = "-收起";
     } else {
-       exam_more_setting_div.display = "none";
+        exam_more_setting_div.display = "none";
         exam_more_setting_btn.value = "+高级";
     }
 }
@@ -205,3 +212,78 @@ function show_exam_info() {
     $("edit_exam_base_info").style.display = "none";
     $("exam_base_info").style.display = "block";
 }
+
+function edit_exam_user(exam_user_id){
+    var n = $("name_"+exam_user_id).value;
+    var mobile = $("miblephone_"+exam_user_id).value;
+    var email = $("email_"+exam_user_id).value;
+    if (test_exam_edit(n,mobile,email)){
+        new Ajax.Updater("tr_exam_user_" + exam_user_id, "/exam_users/"+ exam_user_id +"/update_exam_user",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:'post',
+            parameters:'name='+ n +'&mobilephone='+mobile +'&email='+ email +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+        });
+        return false;
+    }   
+}
+function edit_exam_rater(exam_rater_id){
+    var n = $("name_"+exam_rater_id).value;
+    var mobile = $("miblephone_"+exam_rater_id).value;
+    var email = $("email_"+exam_rater_id).value;
+    if (test_exam_edit(n,mobile,email)){
+        new Ajax.Updater("tr_exam_rater_" + exam_rater_id, "/exam_raters/"+ exam_rater_id +"/update_exam_rater",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:'post',
+            parameters:'name='+ n +'&mobilephone='+mobile +'&email='+ email +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+        });
+        return false;
+    }
+}
+
+function test_exam_edit(n,mobile,email){
+    var myReg =new RegExp(/^\w+([-+.])*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
+    var check_value = new RegExp(/[a-z0-9_]/g);
+    var check_mobile = new RegExp(/^[0-9]{11,11}$/)
+    if (n == null || n.length ==0||n.length>10){
+        document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过10位字符</font>";
+        return false;
+    }else{
+        if (check_value.test(n)) {
+            document.getElementById("nameErr").innerHTML="";
+            if(mobile==null ||mobile.length==0){
+                document.getElementById("nameErr").innerHTML="<font color = 'red'>手机不能为空</font>";
+                return false;
+            }
+            else{
+                if (check_mobile.test(mobile)){
+                    document.getElementById("nameErr").innerHTML="";
+                    if (email == null || email.length ==0||email.length>20){
+                        document.getElementById("nameErr").innerHTML="<font color = 'red'>邮箱不能为空，长度不能超过20位字符</font>";
+                        return false;
+                    } else {
+                        if ( myReg.test(email)) {
+                            document.getElementById("nameErr").innerHTML="";
+                            return true;
+                        } else{
+                            document.getElementById("nameErr").innerHTML="<font color = 'red'>邮箱格式不对，请重新输入！</font>";
+                            return false;
+                        }
+                    }
+                }
+                else{
+                    document.getElementById("nameErr").innerHTML="<font color = 'red'>手机号为11位数字</font>";
+                    return false;
+                }
+            }
+        } else{
+            document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名只能由字母，数字和下划线组成</font>";
+            return false;
+        }
+    }
+    
+}
+

@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
 	validates:username,  :presence=>true,:format=>{:with=>name_regex},:length=>{:maximum=>30}
 	validates:email,  :presence=>true,:uniqueness =>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
   validates:password, :confirmation=>true,:length=>{:within=>6..20}, :allow_nil => true
-
+validates:mobilephone,  :presence=>true,:length=>{:minmum=>11,:maximum=>11}
 
   STATUS = {:LOCK => 0, :NORMAL => 1} #0 未激活用户  1 已激活用户
 

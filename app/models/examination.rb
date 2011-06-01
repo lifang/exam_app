@@ -34,7 +34,6 @@ class Examination < ActiveRecord::Base
    
     #return true or false
   end
-
   #创建考生
   def self.create_exam_users(*user)
    
@@ -59,7 +58,7 @@ class Examination < ActiveRecord::Base
         papers.each do |i|
           self.papers << i
           i.set_paper_used!
-        end     
+        end   
     else
       if papers.size > 1
         papers.each { |i| self.papers.delete(i) }

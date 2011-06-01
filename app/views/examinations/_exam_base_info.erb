@@ -1,22 +1,29 @@
 <div class="main_box_back">
   <div id="exam_base_info">
-    <h2><span>考试基本信息</span><div class="right"><a href="#">显示考试码</a></div></h2>
+    <h2><span>考试基本信息</span><div class="right"></div></h2>
     <div class="in">
       <div class="paper_base_info">考试基本属性</div>
       <div class="add_details">
         <div class="detail">考试是否开放：<%= @examination.is_score_open == true ? "是":"否" %>&nbsp;&nbsp;</div>
         <div class="detail">考生是否能查看答卷：<%= @examination.is_paper_open == true ? "是":"否" %>&nbsp;&nbsp;</div>
         <div class="detail">是否需要考生确认信息：<%= @examination.user_affirm == true ? "是" : "否" %>&nbsp;&nbsp;</div>
+        <div class="detail">是否需要考生确认信息：<%= @examination.user_affirm == true ? "是" : "否" %>&nbsp;&nbsp;</div>
         <div class="detail">
-          是否要生成考试码：<%= (!@examination.exam_password1.nil? and !@examination.exam_password2.nil?) ? "是" : "否" %>&nbsp;&nbsp;
+        是否要生成考试码：<%= (!@examination.exam_password1.nil? and !@examination.exam_password2.nil?) ? "是" : "否" %>&nbsp;&nbsp;
+        </div>
+         <div class="clear"></div>
+         <% if !@examination.exam_password1.nil? %>
+        <div class="detail">
+         考试码： <%= @examination.exam_password1 %>&nbsp;&nbsp;<%= @examination.exam_password2 %>
         </div>
         <div class="clear"></div>
+        <% end %>
       </div>
       <div class="add_details">
         <div class="detail">
           试卷
           <% @examination.papers.each do |paper| %>
-            <a href="/paper/<%= paper.id %>"><%= paper.title %></a><br/>
+            <a href="/papers/<%= paper.id %>"><%= paper.title %></a><br/>
           <% end %>
         </div>
         <div class="detail"><a href="javascript:void(0);" onclick="javascript:change_paper();">[重选试卷]</a></div>
@@ -50,7 +57,7 @@
       <div class="add_details">
         <div class="detail">成绩等级：</div>
         <div class="detail">
-          <% @examination.score_levels.each do |score_level| %>
+          <% @score_levels.each do |score_level| %>
             <%= score_level.key %>  <%= score_level.value %>&nbsp;&nbsp;&nbsp;&nbsp;
           <% end unless @examination.score_levels.blank? %>
         </div>

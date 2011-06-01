@@ -128,9 +128,7 @@
         <div class="detail">&nbsp;&nbsp;&nbsp;成绩等级：</div>
         <div class="detail">
           <textarea cols="30" rows="6" class="textarea_style" id="grade" name="grade">
-            <% @examination.score_levels.each do |score_level| %>
-              <%= score_level.key %>&nbsp;&nbsp;&nbsp;&nbsp;<%= score_level.value %>&nbsp;&nbsp;&nbsp;&nbsp;
-            <% end unless @examination.score_levels.blank? %>
+            <% @examination.score_levels.each do |score_level| %><%= score_level.key %>    <%= score_level.value %>    <% end unless @examination.score_levels.blank? %>
           </textarea>
         </div>
         <div class="detail">
@@ -141,7 +139,7 @@
     </div>
   </div>
   <div class="in">
-    <input type="submit" value="更新" id="create" name="create" title="更新考试信息" class="submit_btn" />
+    <input type="submit" value="更新" id="create" name="create" title="更新考试信息" class="submit_btn" onclick="return compare_value()" />
     <input type="button" value="放弃" id="cancel" name="cancel" title="放弃更新考试信息"
            class="submit_btn"  onclick="javascript:show_exam_info();"/>
   </div>
