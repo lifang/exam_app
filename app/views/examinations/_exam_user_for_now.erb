@@ -3,14 +3,14 @@
     <col width="160"/>
     <col width="180" />
     <col width="180" />
-    <col width="60"/>
+    <col width="80"/>
   </colgroup>
   <thead>
     <tr>
       <th>姓名</th>
       <th>手机号码</th>
       <th>email</th>
-      <th></th>
+      <th><%= flash[:email_err] %></th>
     </tr>
   </thead>
   <tbody id="add" >

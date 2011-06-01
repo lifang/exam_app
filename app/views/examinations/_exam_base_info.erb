@@ -23,7 +23,7 @@
         <div class="detail">
           试卷
           <% @examination.papers.each do |paper| %>
-            <a href="/paper/<%= paper.id %>"><%= paper.title %></a><br/>
+            <a href="/papers/<%= paper.id %>"><%= paper.title %></a><br/>
           <% end %>
         </div>
         <div class="detail"><a href="javascript:void(0);" onclick="javascript:change_paper();">[重选试卷]</a></div>

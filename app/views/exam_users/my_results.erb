@@ -1,0 +1,57 @@
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
+<div class="main_box_back">
+  <h2><span>我的成绩</span></h2>
+  <div class="in">
+    <div class="paper_search">
+      <%= form_for :found,  :url => "/exam_users/search", :method => 'post' do %>
+        参与考试时间：
+        从&nbsp;<input class="input_style" name="start_at" id="start_at" type="text" onClick="WdatePicker();" readonly/>&nbsp;
+        到&nbsp;<input class="input_style" name="end_at" id="end_at" type="text" onClick="WdatePicker();" readonly/>
+        <div class="clear"></div>
+        考试标题：<input class="input_style" name="title" id="title" type="text" size="60" />&nbsp;&nbsp;
+        <button type="submit">查询</button>
+      <% end %>
+    </div>
+    <div class="clear"></div>
+    <table>
+      <colgroup>
+        <col width="210" />
+        <col width="100" />
+        <col width="120" />
+        <col width="150" />
+        <col width="120" />
+        <col width="120" />
+        <col width="80" />
+        <col width="" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>试卷标题</th>
+          <th>考试分类</th>
+          <th>题目总数/试卷总分</th>
+          <th>参与考试时间</th>
+          <th>成绩</th>
+          <th>考卷</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @results.each do |result| %>
+          <tr>
+            <td><%= link_to "#{result.e_title}", "/examinations/#{result.e_id}" %></td>
+            <td><%= result.description %></td>
+            <td><%= result.total_question_num %>题/ <%= result.p_total_score %>分</td>
+            <td><%= result.start_at_time.strftime(("%Y-%m-%d  %I:%M%p")) %></td>
+            <td><%= result.u_total_score==nil ? "暂无成绩" :result.u_total_score %>分</td>
+            <td>
+              <a href="#">查看</a>
+            </td>
+          </tr>
+        <% end %>
+
+      </tbody>
+    </table>
+    <div class="pagination_box">
+      <%=  will_paginate @results ,:prev_label=>"«", :next_label=>"»", :inner_window => 1 %>
+    </div>
+  </div>
+</div>

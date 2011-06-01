@@ -94,3 +94,77 @@ label {
 }
 .show{display:block;
 }
+.log_in_box{
+    float:left;
+    width:250px;
+}
+.log_in_box .top{
+    height:32px;
+    background-position:-530px -80px;
+    padding:9px 0 0 190px;
+    _padding:9px 0 0 180px;
+}
+.log_in_box .body{
+    background:url(/images/login_box_body_bg.gif) repeat-y;
+    padding:20px 0 10px 64px;
+}
+.log_in_box .bottom{
+    height:64px;
+    background-position:-530px -304px;
+    padding:12px 0 0 155px;
+}
+.log_in_box .top ul{
+    float:left;
+}
+.log_in_box .top ul li{
+    margin-left:10px;
+    font-size:14px;
+    font-weight:bold;
+    color:#8a8a8a;
+    padding:5px;
+    float:left;
+    cursor:pointer;
+}
+.log_in_box .top ul li.actived{
+    border:#bdbdbd 1px solid;
+    border-bottom:none;
+    background:#fcfcfc;
+    color:#333;
+
+}
+.log_in_box .check_num{
+    background:#e6e6e6;
+    color:#515151;
+    display:inline-block;
+    padding:3px;
+    font-size:14px;
+    margin-left:10px;
+    cursor:pointer;
+}
+.log_in_box .login_btn{
+    cursor:pointer;
+    border:medium none;
+    width:86px;
+    height:26px;
+    background-position:-140px 0px;
+}
+.log_in_box a{
+    color:#989898;
+    text-decoration:none;
+    margin-left:20px;
+}
+.log_in_box a:hover{
+    color:#666;
+    text-decoration:underline;
+}
+.log_in_box table td{
+    padding:5px;
+}
+.log_in_box .input_style{
+    width:180px;
+    padding:4px;
+    padding:8px 2px 0px 3px\9;
+}
+.log_in_box .check_w{
+    width:132px;
+}

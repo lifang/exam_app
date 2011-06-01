@@ -82,14 +82,19 @@ class ExaminationsController < ApplicationController
     @exam_users = ExamUser.select_exam_users(@examination.id)
   end
   def export_user_unaffirm
-    url = "#{File.expand_path(RAILS_ROOT)}"
-    file_title="用户名\t手机号\t邮箱\t\r"
+    url = "#{File.expand_path(RAILS_ROOT)}/public/excels"
+    unless File.directory?(url)               #判断dir目录是否存在，不存在则创建 下3行
+      Dir.mkdir(url)
+    end
+    file_title="用户名\b\t手机号\b\t邮箱\b\t\r"
     file_title1="name\tmobile\temail\t\r"
-    file_url = "/unsubmited_excels/#{params[:id].to_i}_#{Time.now.strftime("%Y%m%d%H%M%S")}.xls"
-    file_name = url + "/public"+ file_url
+    file_url = "/#{params[:id].to_i}_#{Time.now.strftime("%Y%m%d%H%M%S")}.xls"
+    file_name = url + file_url
     file= File.new(file_name, File::CREAT|File::TRUNC|File::RDWR, 0644)
     exam_users=ExamUser.find_by_sql("select * from exam_users where examination_id=#{params[:id].to_i} and is_user_affiremed='' ")
-    file.puts Iconv.iconv('gb2312','UTF-8',"#{file_title.force_encoding('UTF-8')}")
+    file.puts Iconv.iconv('gbk','UTF-8',"#{file_title.force_encoding('ASCII-8BIT')}")
+    puts Iconv.iconv('gb2312','UTF-8',"#{file_title.force_encoding('ASCII-8BIT')}")
+    puts Iconv.iconv('gb2312','UTF-8',"#{file_title}")
     exam_users.each do |exam_user|
       info="#{User.find(exam_user.user_id).name}\t#{User.find(exam_user.user_id).mobilephone}\t#{User.find(exam_user.user_id).email}\t\r"
       file.puts  Iconv.iconv('gb2312','UTF-8',"#{info}")

@@ -16,11 +16,7 @@ ExamApp::Application.routes.draw do
     end
   end
   resources :sessions 
-  resources :questions do
-    member do
-      post "edit_question"
-    end
-  end
+  resources :questions
   resources :paper_blocks do
     member do
       post "choose_type"
@@ -35,9 +31,11 @@ ExamApp::Application.routes.draw do
     collection do
       get "create_exam_user"
       post "add_item", "leadin"
-      
+        post "search"
+        get "search_list"
     end
     member do
+    get "my_results"
       get "new_exam_two"
       post "login"
       post "update_exam_user"
@@ -57,6 +55,7 @@ ExamApp::Application.routes.draw do
       post "search"
     end
     member do
+      get "export_user_unaffirm"
       get "published", "paper_delete", "search_papers", "choose_papers", "exam_result", "single_result_list"
       post "create_step_one", "update_base_info", "search_result"
     end

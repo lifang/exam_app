@@ -10,7 +10,7 @@
     <div class="body">
       <%= form_for(:session, :url => sessions_path ,:html => {:onsubmit => "return signin_page()", :class => "required-validate"} ) do |f| %>
         <table>
-          <td>用户名：</td>
+          <td>邮&nbsp;&nbsp;&nbsp;&nbsp; 箱：</td>
           <td><%= f.text_field :username, :class => "required input_style" %></td>
           <div id="username"></div>
           <tr>

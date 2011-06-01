@@ -45,12 +45,12 @@ class ExamUser < ActiveRecord::Base
 
   #组装查询成绩的sql
   def ExamUser.generate_result_sql(options={})
-    sql = "select u.id u_id, e.id e_id, e.title e_title, c.name c_name, p.total_score p_total_score,
+    sql = "select u.id u_id, e.id e_id, e.title e_title, e.description,e.start_at_time,c.name c_name,p.id p_id, p.total_score p_total_score,
       p.total_question_num, us.name u_name, us.email, u.started_at, u.total_score u_total_score, u.answer_sheet_url
       from exam_users u inner join examinations e on e.id = u.examination_id
       inner join papers p on p.id = u.paper_id
       inner join users us on us.id = u.user_id 
-      left join categories c on c.id = p.category_id where 1=1 "
+      left join categories c on c.id = p.category_id where 1=1 and e.id in (select r.examination_id from exam_users r where r.user_id=7)  "
     if !options.empty?
       options.each do |key, value|
         sql += " and #{key} #{value} "

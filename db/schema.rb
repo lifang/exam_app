@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110524092130) do
+ActiveRecord::Schema.define(:version => 20110525013731) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -135,10 +135,10 @@ ActiveRecord::Schema.define(:version => 20110524092130) do
 
   create_table "question_tag_relations", :force => true do |t|
     t.integer "tag_id"
-    t.integer "question_point_id"
+    t.integer "question_id"
   end
 
-  add_index "question_tag_relations", ["question_point_id"], :name => "index_question_tag_relations_on_question_point_id"
+  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|
