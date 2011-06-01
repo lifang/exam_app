@@ -1,0 +1,37 @@
+<script language="javascript" type="text/javascript">
+  var papers = new Object();
+</script>
+<%= javascript_include_tag "#{@paper_url}" %>
+
+<script language="javascript" type="text/javascript">
+  /* function loadxml(xmlFile) {
+    var xmlDoc;
+    if(window.ActiveXObject) {
+      xmlDoc = new ActiveXObject('MSXML2.DOMDocument');
+      xmlDoc.async = false;
+      xmlDoc.load(xmlFile);
+    }else if (document.implementation&&document.implementation.createDocument) {
+      var xmlhttp = new window.XMLHttpRequest();
+      xmlhttp.open("GET", xmlFile, false);
+      xmlhttp.send(null);
+      xmlDoc = xmlhttp.responseXML;
+    }else{return null;}
+    return xmlDoc;
+  }
+  var xmlDom = loadxml("<%#= @paper_url %>"); */
+  function create_paper() {
+    alert(papers.paper.id);
+    alert(papers.paper.base_info.description);
+    alert(papers.paper.base_info.created_at);
+    alert(papers.paper.blocks.block.size());
+
+  }
+
+  window.onload(create_paper()); 
+
+
+
+</script>
+
+
+<%= @paper_url %>

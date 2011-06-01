@@ -27,4 +27,5 @@ class ApplicationController < ActionController::Base
   def papers_path
     "#{Rails.root}/public/papers"
   end
+
 end

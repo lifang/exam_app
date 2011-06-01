@@ -2,7 +2,7 @@ class PapersController < ApplicationController
 
   require 'rexml/document'
   include REXML
-  include PapersHelper
+  #include PapersHelper
   before_filter :access?
 
   def index
@@ -10,14 +10,8 @@ class PapersController < ApplicationController
   end
 
   def hand_in
-  
-
     puts params["radio"]["163"]
     redirect_to request.referer
-  end
-
-  def new
-    
   end
 
   def destroy
@@ -44,12 +38,12 @@ class PapersController < ApplicationController
   end
 
   def answer_paper
-    file = File.open("#{papers_path}/#{params[:id]}.xml")
+    file = File.open("#{Constant::PAPER_PATH}/#{params[:id]}.xml")
     @xml=Document.new(file).root
   end
 
   def show
-    file = File.open("#{papers_path}/#{params[:id]}.xml")
+    file = File.open("#{Constant::PAPER_PATH}/#{params[:id]}.xml")
     @xml=Document.new(file).root
   end
 
@@ -63,7 +57,7 @@ class PapersController < ApplicationController
   end
 
   def new_step_two
-    file = File.open("#{papers_path}/#{params[:id]}.xml")
+    file = File.open("#{Constant::PAPER_PATH}/#{params[:id]}.xml")
     @xml=Document.new(file).root
   end
 
@@ -71,7 +65,7 @@ class PapersController < ApplicationController
     @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],
       :description=>params[:paper][:description], :category_id => params[:category])
     category = Category.find(params[:category].to_i)
-    @paper.create_paper_url(@paper.xml_content({"category_name" => category.name})) unless category.nil?
+    @paper.create_paper_url(@paper.xml_content({"category_name" => category.name}), "papers", "xml") unless category.nil?
 
 #    @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],
 #      :description=>params[:paper][:block_description])
@@ -88,7 +82,7 @@ class PapersController < ApplicationController
 
   
   def problem_destroy
-    url= File.open "#{papers_path}/#{params[:delete][:paper_id]}.xml"
+    url= File.open "#{Constant::PAPER_PATH}/#{params[:delete][:paper_id]}.xml"
     doc = Problem.remove_problem_xml(Problem.open_xml(url), params[:delete][:xpath])
     Problem.write_xml(url, doc)
     redirect_to request.referrer
@@ -129,11 +123,13 @@ class PapersController < ApplicationController
     render 'index'
   end
   
-  def edit
+  #创建试卷的js文件
+  def create_all_paper
+    @paper = Paper.find(params[:id].to_i)
+    @paper.create_paper_url(@paper.create_paper_js, "paperjs", "js")
+    redirect_to papers_url
   end
 
-  def new
-  end
   
   def user_exist?
     if User.find(cookies[:user_id]) != current_user

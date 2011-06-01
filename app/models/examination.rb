@@ -55,10 +55,10 @@ class Examination < ActiveRecord::Base
   #此方法用来修改考试试卷，update_flag 是传过来增加或删除的标记，*paper是试卷数组
   def update_paper(update_flag, papers)
     if update_flag == "create"
-        papers.each do |i|
-          self.papers << i
-          i.set_paper_used!
-        end   
+      papers.each do |i|
+        self.papers << i
+        i.set_paper_used!
+      end
     else
       if papers.size > 1
         papers.each { |i| self.papers.delete(i) }
@@ -99,11 +99,32 @@ class Examination < ActiveRecord::Base
     return code_array.join("")
   end
 
-   #显示单个登录考生能看到的所有的考试
-  def Examination.all_examinations(user_id)
-    sql = "select e.* from exam_users eu inner join examinations e on e.id = eu.examination_id 
-          where eu.user_id = #{user_id} and e.is_published = 1 " 
+  #显示单个登录考生能看到的所有的考试
+  def Examination.return_examinations(user_id, examination_id = nil)
+    sql = "select e.*, eu.id exam_user_id, eu.paper_id from examinations e inner join exam_users eu on e.id = eu.examination_id
+          where eu.user_id = #{user_id} and e.is_published = 1 "
+    unless examination_id.nil? or examination_id != ""
+      sql += " and e.id = #{examination_id}"
+    end
     Examination.find_by_sql(sql)
+  end
+
+  #检验当前当前考生是否能考本场考试
+  def Examination.can_answer(user_id, examination_id)
+    str = ""
+    examination = Examination.return_examinations(user_id, examination_id)
+    if examination.any?
+      if !examination[0].is_score_open
+        if examination[0].start_at_time and examination[0].start_at_time > Time.now
+          str = "本场考试开始时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")},请您做好准备。"
+        elsif (examination.start_at_time + examination.exam_time.minutes) < Time.now
+          str = "本场考试已经结束。"
+        end
+      end
+    else
+      str = "本场考试已经取消，或者您不是当前考试的考生。"
+    end
+    return [str, examination]
   end
 
 

@@ -11,13 +11,14 @@
     <div>总题数：<%= @xml.attributes["total_num"] %></div>
     <div>卷面总分：<%= @xml.attributes["total_score"] %></div>
     <div>备注：<%= @xml.elements['base_info'].elements['description'].text %></div>
-    <input type="submit" value="修改基本信息" class="submit_btn" onclick="javascript:change_info()"/>
-    <input type="submit" value="预览试卷" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id']%> '"/>
+    <input type="button" value="修改基本信息" class="submit_btn" onclick="javascript:change_info()"/>
+    <input type="button" value="预览试卷" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id']%> '"/>
+    <input type="button" value="保存试卷" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id']%>/create_all_paper '"/>
   </div>
 </div>
 
 <div id="paper_edit_info" style="display:none;">
-<%= render :partial=>"/papers/edit_paper_info" %>
+  <%= render :partial=>"/papers/edit_paper_info" %>
 </div>
 <%= render :partial=>"/papers/paper_blocks" %>
 

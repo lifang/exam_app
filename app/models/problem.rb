@@ -62,8 +62,6 @@ class Problem < ActiveRecord::Base
   #删除试题
   def self.remove_problem_xml(doc, problem_path)
     problem = doc.elements["#{problem_path}"]
-    puts problem
-    puts problem.parent
     block = problem.parent.parent
     #更新块和试卷的总分
     doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - 1

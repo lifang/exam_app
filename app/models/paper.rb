@@ -27,27 +27,26 @@ class Paper < ActiveRecord::Base
     file.close
   end
 
-
-  def create_paper_url(str)
-    dir = "#{Rails.root}/public/papers/"      #定义：目录
+  #创建试卷的文件
+  def create_paper_url(str, path, file_type)
+    dir = "#{Rails.root}/public"      #定义：目录
     unless File.directory?(dir)               #判断dir目录是否存在，不存在则创建 下3行
       Dir.mkdir(dir)
     end
-    file_name = "#{self.id}.xml"                          #定义：文件名
-    url = dir+file_name                                   #定义：url = 目录+文件名
+    file_name = "/" + path + "/#{self.id}." + file_type                          #定义：文件名
+    url = dir + file_name                                   #定义：url = 目录+文件名
     f=File.new(url,"w")                                   #写文件操作  下3行
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
-    self.paper_url = url                      #字段paper_url = url
+    if file_type == "xml"
+      self.paper_url = file_name
+    else
+      self.paper_js_url = file_name
+    end
     self.save
   end
 
-  #创建试卷的文件
-  def self.update_paper_url(str)
-    
-  end
-
-  
+  #创建xml文件
   def xml_content(options = {})
     content ="<?xml version='1.0' encoding='UTF-8'?>"
     content+="<paper id='#{self.id}' total_num='0' total_score='0'>"
@@ -60,7 +59,7 @@ class Paper < ActiveRecord::Base
     content+="<description>#{self.description.force_encoding('ASCII-8BIT')}</description>"
     if !options.empty?
       options.each do |key, value|
-          content+="<#{key}>#{value.force_encoding('ASCII-8BIT')}</#{key}>"
+        content+="<#{key}>#{value.force_encoding('ASCII-8BIT')}</#{key}>"
       end
     end
     content+="</base_info>"
@@ -94,11 +93,23 @@ class Paper < ActiveRecord::Base
         sql += " and #{key} #{value} "
       end
     end
-    puts sql
     sql += " order by created_at desc"
     return Paper.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end
-  
+
+  #生成试卷的json
+  def create_paper_js
+    doc = Document.new(File.open "#{Constant::PAPER_PATH}/#{self.id}.xml")
+    doc.elements["paper/blocks"].each do |block|
+      block.elements["problems"].each do |problem|
+        problem.elements["questions"].each do |question|
+          question.delete_element(question.elements["answer"])
+          question.delete_element(question.elements["analysis"])
+        end
+      end
+    end
+    return "papers = " + Hash.from_xml(doc.to_s).to_json
+  end
 end
 
 

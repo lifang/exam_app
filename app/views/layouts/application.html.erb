@@ -63,16 +63,17 @@
         <div class="clear"></div>
         <p class="title_link">
           <%  if cookies[:user_id]!=nil %>
-            <a href="/papers">试卷管理</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/examinations">考试管理</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩管理</a>
+            <a href="/papers">试卷</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/examinations">考试</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩</a>
           <% end %>
         </p>
         <p class="back_welcome">
           <%if cookies[:user_id]!=nil%>
             <% user=User.find(cookies[:user_id].to_i) %>
-            <a href="/users/<%= user.id %>"><%= user.email %></a> 欢迎您！
+            <%= user.email %> 欢迎您！
             <% if user1 !=nil %>
+              <%= link_to "[考试列表]", "/user/examinations" %>
               <%= link_to "[成绩查询]", "/exam_users/ #{cookies[:user_id]}/my_results" %>
             <% end %>
             <a href="#">[我的收藏]</a>

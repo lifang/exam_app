@@ -19,15 +19,7 @@
     </div>
   </h2>
   <div class="in" id="exam_user_list">
-    <% if @examination.start_at_time.nil? %>
-      <%= render :partial => "exam_user_for_never"  %>
-    <% elsif @examination.start_at_time > Time.now %>
       <%= render :partial => "exam_user_for_now"  %>
-    <% elsif (@examination.start_at_time + @examination.exam_time.minutes) < Time.now %>
-      <%= render :partial => "exam_user_for_now"  %>
-    <% else %>
-      <%= render :partial => "exam_user_for_ever"  %>
-    <% end %>
   </div>
 </div>
 <div class="clear">&nbsp;</div>

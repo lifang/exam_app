@@ -10,11 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20110525013731) do
-=======
-ActiveRecord::Schema.define(:version => 20110531085013) do
->>>>>>> 5697ed58f31094a9e4ab020233e31cdf24652ca6
+ActiveRecord::Schema.define(:version => 20110601072210) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -107,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20110531085013) do
     t.string   "paper_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "paper_js_url"
   end
 
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
@@ -143,11 +140,7 @@ ActiveRecord::Schema.define(:version => 20110531085013) do
     t.integer "question_id"
   end
 
-<<<<<<< HEAD
-  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
-=======
   add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_point_id"
->>>>>>> 5697ed58f31094a9e4ab020233e31cdf24652ca6
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|

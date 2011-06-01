@@ -22,7 +22,14 @@ module Constant
     :e263 => ['http://www.263.net','263']
   }
 
+  #服务路径
+  SERVER_PATH = "http://localhost:3000"
+  
   #试卷生成路径
   PAPER_PATH = "#{Rails.root}/public/papers"
-    
+  #试卷服务器访问路径
+  PAPER_URL_PATH = SERVER_PATH + "/papers"
+  #客户端访问试卷
+  PAPER_CLIENT_PATH = SERVER_PATH + "/paperjs"
+  
 end
