@@ -1,0 +1,46 @@
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
+<div class="main_box_back">
+  <h2><span>考试列表</span></h2>
+  <div class="in">
+    <table>
+      <colgroup>
+        <col width="160" />
+        <col width="80" />
+        <col width="130" />
+        <col width="80" />
+        <col width="80" />
+        <col width="60" />
+        <col width="70" />
+        <col width="" />
+      </colgroup>
+      <% if @examinations.blank? %>
+        <tbody>
+          <tr>
+            <td align="center" colspan="8">您目前没有参加任何考试</td>
+          </tr>
+        </tbody>
+      <% else %>
+        <thead>
+          <tr>
+            <th>考试名称</th>
+            <th>考试开始时间</th>
+            <th>创建日期</th>
+            <th></th>
+          </tr>
+        </thead>
+        <% @examinations.each do |examination| %>
+          <tbody>
+            <tr>
+              <td><%= examination.title %></td>
+              <td><%= examination.start_at_time.nil? ? "任何时候" : examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
+              <td><%= examination.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+              <td>
+                <a href="/user/examinations/<%= @examinations %>">开始考试</a>
+              </td>
+            </tr>
+          </tbody>
+        <% end %>
+      <% end %>
+    </table>
+  </div>
+</div>

@@ -88,9 +88,8 @@ class ExamUser < ActiveRecord::Base
         exam_user_hash[key] += 1
       end
     end
-    puts "=============================================="
-    puts exam_user_hash
     return exam_user_hash
   end
+
 
 end

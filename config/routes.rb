@@ -75,6 +75,11 @@ ExamApp::Application.routes.draw do
     end
   end
 
+  namespace :user do
+    resources :examinations
+    resources :answers
+  end
+
   #示例页面专用路由
   resources :pages do
     collection do

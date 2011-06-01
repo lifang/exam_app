@@ -1,0 +1,2 @@
+module Users::ExaminationsHelper
+end

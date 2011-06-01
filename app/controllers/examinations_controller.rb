@@ -2,7 +2,7 @@ class ExaminationsController < ApplicationController
   before_filter :access?
   
   def index
-    @examinations = Examination.search_method(cookies[:user_id].to_i, nil, nil, nil, 1, params[:page])
+    @examinations = Examination.search_method(cookies[:user_id].to_i, nil, nil, nil, 10, params[:page])
   end
 
   def search

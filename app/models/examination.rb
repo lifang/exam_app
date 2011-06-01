@@ -100,5 +100,12 @@ class Examination < ActiveRecord::Base
     return code_array.join("")
   end
 
+   #显示单个登录考生能看到的所有的考试
+  def Examination.all_examinations(user_id)
+    sql = "select e.* from exam_users eu inner join examinations e on e.id = eu.examination_id 
+          where eu.user_id = #{user_id} and e.is_published = 1 " 
+    Examination.find_by_sql(sql)
+  end
+
 
 end
