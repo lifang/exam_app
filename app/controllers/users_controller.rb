@@ -5,11 +5,26 @@ class UsersController < ApplicationController
   end
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(params[:user])
-       redirect_to "/papers"
+    if params[:user][:old_password].nil?
+      if @user.update_attributes(params[:user])
+        redirect_to "/papers"
+      else
+        render "edit"
+        #    redirect_to "/users/#{cookies[:user_id]}/edit"
+      end
     else
-      render "edit"
-#    redirect_to "/users/#{cookies[:user_id]}/edit"
+      if @user.has_password?(params[:user][:old_password])
+         @user.update_attributes(:encrypted_password=>params[:user][:password])
+        if @user.save
+          redirect_to "/papers"
+        else
+          render "edit"
+          #    redirect_to "/users/#{cookies[:user_id]}/edit"
+        end
+      else
+        flash[:error]="您输入的密码不正确"
+        render "edit"
+      end
     end
   end
   def new
@@ -18,34 +33,28 @@ class UsersController < ApplicationController
   end
 
   def create
+    puts "ssssssssssss"
     @user=User.new(params[:user])
-    if  (User.find_by_username(params[:user][:username]) !=nil)
-      flash[:nameused] = "用户名已经存在,请重新输入用户名"
+   
+    puts @user
+    if (User.find_by_email(params[:user][:email]) !=nil)
+      flash[:emailused] = "此邮箱已被使用，请使用其他邮箱。"
       render "/users/new"
     else
-      if (User.find_by_email(params[:user][:email]) !=nil)
-        flash[:emailused] = "此邮箱已被使用，请使用其他邮箱。"
-        render "/users/new"
+      @user.username=params[:user][:name]
+      @user.status = User::STATUS[:LOCK]
+      @user.active_code = proof_code(6)
+      if params[:user][:role].to_i == Role::TYPES[:TEACHER]
+        @user.set_role(Role.find(Role::TYPES[:TEACHER]))
       else
-        if params[:proof_code] != session[:register_proof_code]
-          flash[:prooferror] = "验证码填写错误，请重新输入"
-          render "/users/new"
-        else
-          @user.status = User::STATUS[:LOCK]
-          @user.active_code = proof_code(6)
-          if params[:user][:role].to_i == Role::TYPES[:TEACHER]
-            @user.set_role(Role.find(Role::TYPES[:TEACHER]))
-          else
-            @user.set_role(Role.find(Role::TYPES[:STUDENT]))
-          end
-          @user.encrypt_password
-          if @user.save
-            UserMailer.welcome_email(@user).deliver
-            redirect_to "/users/#{@user.id}/active"
-          else
-            redirect_to "/users/new"
-          end
-        end
+        @user.set_role(Role.find(Role::TYPES[:STUDENT]))
+      end
+      @user.encrypt_password
+      if @user.save!
+        UserMailer.welcome_email(@user).deliver
+        redirect_to "/users/#{@user.id}/active"
+      else
+        redirect_to "/users/new"
       end
     end
   end
