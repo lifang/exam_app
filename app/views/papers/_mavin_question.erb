@@ -1,6 +1,6 @@
 <script type="text/javascript">
   KE.show({
-    id : 'problem_title_<%= new_question.attributes['id'] %>',
+    id : 'mavin_problem_title_<%= mavin_question.attributes['id'] %>',
     skinType: 'tinymce',
     cssPath : '/kindeditor/examples/index.css',
     items : [
@@ -13,18 +13,16 @@
   });
 </script>
 
-<div class="question_list_style_box" id="create_question_<%= new_question.attributes['id'] %>" style="display: none;">
+<div class="question_list_style_box" id="mavin_question_<%= mavin_question.attributes['id'] %>" style="display: none;">
   <div class="arrow" style="top:35px;"></div>
   <div class="question_pic_box" style="top:0px;">
     <div class="in">
-      <%= form_for :problem ,:url=>"/problems", :method => "post" do |f| %>
-        <%= f.hidden_field :block_id ,:value=>new_question.attributes['id']  %>
+      <%= form_for :problem ,:url=>"/problems/mavin_problem", :method => "post" do |f| %>
+        <%= f.hidden_field :block_id ,:value=>mavin_question.attributes['id']  %>
         <%= f.hidden_field :paper_id ,:value=>@xml.attributes['id']  %>
-        <input type="hidden" value="" name="real_type" id="real_type_<%= new_question.attributes['id'] %>"/>
+        <input type="hidden" value="" name="real_type" id="real_type_<%= mavin_question.attributes['id'] %>"/>
         <div class="title">题面：</div>
-        <%= f.text_area :title ,:cols=>"45",:rows=>"8",:id=> "problem_title_#{new_question.attributes['id']}", :class=>"textarea_style" %>
-        <div id="new_problem_<%= new_question.attributes['id'] %>">
-        </div>
+        <%= f.text_area :title ,:cols=>"45",:rows=>"8",:id=> "mavin_problem_title_#{mavin_question.attributes['id']}", :class=>"textarea_style" %>
         <%= f.submit "提交" ,:class=>"submit_btn" %>
       <% end %>
     </div>

@@ -3,9 +3,13 @@
   <option value="">--请选择--</option>
   <% Category.category_tree.each do |category| %>
     <option value="<%= category.id %>">
+<<<<<<< HEAD
       <% (0..Category.level(category)).each do |level| %>&nbsp;<% end %><%= category.name %>
       <input type="hidden" name="category_name_<%= category.id %>"
            id="category_name_<%= category.id %>" value="<%= category.name %>" />
+=======
+      <% (0..Category.level(category)).each do |level| %>&nbsp;<% end %><%= category.name %>   
+>>>>>>> 5697ed58f31094a9e4ab020233e31cdf24652ca6
     </option>
      
   <% end if Category.category_tree.any? %>
