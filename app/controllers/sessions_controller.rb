@@ -2,11 +2,8 @@ class SessionsController < ApplicationController
   def new
     session[:signin_code] = proof_code(4)
   end
- 
   def index
-    
   end
-
   def create
 
     if params[:proof_code].downcase != session[:signin_code].to_s.downcase

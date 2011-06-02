@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include RemotePaginateHelper
   include Constant
-  include UserRole
+  include UserRoleHelper
 
   def access?
     deny_access unless signed_in?

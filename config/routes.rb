@@ -32,16 +32,17 @@ ExamApp::Application.routes.draw do
   end
   resources :exam_users do
     collection do
-      get "create_exam_user"
+      get "create_exam_user", "search_list","affiremed_false","affiremed_success"
       post "add_item", "leadin"
-        post "search"
-        get "search_list"
+      post "search"
     end
     member do
-    get "my_results"
+      get "my_results"
       get "new_exam_two"
       post "login"
+      get "exam_user_affiremed"
       post "update_exam_user"
+      post "edit_name"
     end
   end
   resources :exam_raters do
@@ -49,7 +50,7 @@ ExamApp::Application.routes.draw do
       get "new_exam_three", "create_exam_rater"
     end
     member do
-       post "update_exam_rater"
+      post "update_exam_rater"
     end
   end
   resources :examinations do
@@ -74,18 +75,9 @@ ExamApp::Application.routes.draw do
       post "problem_destroy", "edit_block"
     end
     member do
-      get "new_exam_three", "new_exam_two", "new_exam_one", "new_step_two", "answer_paper", "create_all_paper"
+      get "new_exam_three", "new_exam_two", "new_exam_one", "new_step_two", "answer_paper"
       post "change_info", "hand_in"
     end
-  end
-
-  namespace :user do
-    resources :examinations do
-      collection do
-        get "do_exam"
-      end
-    end
-    resources :answers
   end
 
   #示例页面专用路由

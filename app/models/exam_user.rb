@@ -86,6 +86,8 @@ class ExamUser < ActiveRecord::Base
     end
     return exam_user_hash
   end
-
+def user_affiremed
+  self.toggle!(:is_user_affiremed)
+end
 
 end

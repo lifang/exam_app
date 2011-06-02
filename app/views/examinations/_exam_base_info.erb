@@ -7,7 +7,6 @@
         <div class="detail">考试是否开放：<%= @examination.is_score_open == true ? "是":"否" %>&nbsp;&nbsp;</div>
         <div class="detail">考生是否能查看答卷：<%= @examination.is_paper_open == true ? "是":"否" %>&nbsp;&nbsp;</div>
         <div class="detail">是否需要考生确认信息：<%= @examination.user_affirm == true ? "是" : "否" %>&nbsp;&nbsp;</div>
-        <div class="detail">是否需要考生确认信息：<%= @examination.user_affirm == true ? "是" : "否" %>&nbsp;&nbsp;</div>
         <div class="detail">
         是否要生成考试码：<%= (!@examination.exam_password1.nil? and !@examination.exam_password2.nil?) ? "是" : "否" %>&nbsp;&nbsp;
         </div>

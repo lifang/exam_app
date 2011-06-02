@@ -43,36 +43,26 @@
     <div id="container">
       <div id="hd">
         <div class="right">
-          <a href="/">登录</a>
-          &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/users/new">免费注册</a>
-          &nbsp;&nbsp;|&nbsp;&nbsp;
-          <%if cookies[:user_id]!=nil%>
-            <% @users=User.find_all_by_name(User.find(cookies[:user_id]).name) %>
-            <% @users.each do |user1| %>
-              <% if ExamUser.find_by_user_id(user1.id) !=nil %>
-                <% cookies[:find_exam_user]=user1.id %>
-              <% end %>
-            <% end %>
-          <% end %>
-          <% user1=ExamUser.find_by_user_id(cookies[:user_id]) %>
-          <% if user1 !=nil %>
-             <%= link_to "[成绩查询]", "/exam_users/ #{cookies[:user_id]}/my_results" %>
+          <% if cookies[:user_id].nil? %>
+            <a href="/">登录</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/users/new">免费注册</a>
+            &nbsp;&nbsp; 
           <% end %>
         </div>
         <a id="logo" href="/"><span>考试系统</span></a>
         <div class="clear"></div>
         <p class="title_link">
           <%  if cookies[:user_id]!=nil %>
-            <a href="/papers">试卷</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/examinations">考试</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩</a>
-          <% end %>
+            <% if is_paper_creater? %>
+              <a href="/papers">试卷</a>
+              &nbsp;&nbsp;|
+              &nbsp;&nbsp;<a href="/examinations">考试</a>
+              &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩</a><% end  %>
         </p>
         <p class="back_welcome">
-          <%if cookies[:user_id]!=nil%>
             <% user=User.find(cookies[:user_id].to_i) %>
             <%= user.email %> 欢迎您！
-            <% if user1 !=nil %>
+            <% if is_student? %>
               <%= link_to "[考试列表]", "/user/examinations" %>
               <%= link_to "[成绩查询]", "/exam_users/ #{cookies[:user_id]}/my_results" %>
             <% end %>
@@ -80,7 +70,6 @@
             <a href="/users/<%=user.id%>/edit">[个人设置]</a>
             <a href="/signout">[退出]</a>
           <%end%>
-
         </p>
       </div>
       <div id="bd">
