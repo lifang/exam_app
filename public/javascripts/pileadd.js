@@ -154,7 +154,7 @@ function add_item(table_id, url, update_div, examination_id){
     otr.id = table_rows;
     var str = "<td colspan='4'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate' ";
     str += "method='get' onsubmit='if (test_exam("+ otr.id +")) {new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)});}; return false;'>";
- str += "<div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='&#x2713;' />";
+    str += "<div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='&#x2713;' />";
     str += "<input name='authenticity_token' type='hidden' value='UEvwUF56teT4A4h8yc2xE9kbGreWJEGaDJZgItFC3fw=' />";
     str += "</div>";
     str += "<input type='hidden' name='examination_id' id='examination_id' value='"+ examination_id +"'/>";
@@ -287,3 +287,44 @@ function test_exam_edit(n,mobile,email){
     
 }
 
+function show_name(info,passsowrd) {
+    $(info).style.display ="block";
+    $(passsowrd).style.display ="none";
+}
+function checkinfo(){
+    var check_value = new RegExp(/[a-z0-9_]/g);
+    var name=$("user_name").value;
+    if (name== null || name.length ==0||name.length>10){
+        document.getElementById("nameErr").innerHTML="用户名不能为空或长度不能超过10位字符";
+        return false;
+    }else{
+        if (check_value.test(name)) {
+            document.getElementById("nameErr").innerHTML="";
+            return true;
+        }
+        else{
+        document.getElementById("nameErr").innerHTML="用户名格式不正确";
+        return false;
+    }
+    }
+}
+function check_password() {
+    var password=$("user_password").value;
+    var confirmation=$("user_password_confirmation").value;
+    if (password == null || password.length ==0||password.length>40||password.length<6){
+
+        document.getElementById("passwordErr").innerHTML="<font color = 'red'>密码不能为空，长度在6和20之间</font>";
+        return false;
+    } else	{
+        document.getElementById("passwordErr").innerHTML="";
+        if (confirmation != password){
+
+            document.getElementById("confirmationErr").innerHTML="<font color = 'red'>两次输入的密码不一致，请重新输入</font>";
+            return false;
+        }else{
+            document.getElementById("confirmationErr").innerHTML="";
+        }
+    }
+
+
+}

@@ -1,7 +1,5 @@
 <div class="reg_content">
   <div class="step_one"></div>
-  <div ></div><%= @opened %>
-
   <table>
     <%= form_for @user, :html =>{:onsubmit => 'return check()', :class => "required-validate"} do |f| %>
      <tr>
@@ -18,7 +16,7 @@
       </tr>
       <tr>
         <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp名：</td>
-        <td><%= f.text_field :name, :class => "required input_style" %></td>
+        <td><%= f.text_field :name, :class => "required input_style" %><span id="passwordErr"></span></td>
       </tr>
       <tr>
         <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>工作单位：</td>

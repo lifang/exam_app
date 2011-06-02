@@ -13,9 +13,9 @@ class SessionsController < ApplicationController
       flash[:error] = "请输入正确的验证码"
       redirect_to '/sessions/new'
     else
-      @user = User.find_by_username(params[:session][:username])
+      @user = User.find_by_email(params[:session][:email])
       if @user.nil?
-        flash[:error] = "用户不存在"
+        flash[:error] = "邮箱不存在"
         redirect_to '/sessions/new'
       else
         unless  @user.has_password?(params[:session][:password])

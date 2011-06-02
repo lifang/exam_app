@@ -2,8 +2,7 @@
 <div class="login_box">
   <div class="top">    
     <ul>
-      <li id="li_tab1" class="actived" onclick="javascript:tab('tab1', '2');">个人用户</li>
-      <li id="li_tab2"  onclick="javascript:tab('tab2', '2')">企业用户</li>
+      <li id="li_tab1" class="actived" onclick="javascript:tab('tab1', '2');">用户登录</li>
     </ul>
   </div>
   <div id="div_tab1">
@@ -11,8 +10,8 @@
       <%= form_for(:session, :url => sessions_path ,:html => {:onsubmit => "return signin_page()", :class => "required-validate"} ) do |f| %>
         <table>
           <td>邮&nbsp;&nbsp;&nbsp;&nbsp; 箱：</td>
-          <td><%= f.text_field :username, :class => "required input_style" %></td>
-          <div id="username"></div>
+          <td><%= f.text_field :email, :class => "required input_style" %></td>
+          <div id="email"></div>
           <tr>
             <td>密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
             <td><%= f.password_field :password, :class => "required input_style" %></td>
