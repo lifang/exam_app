@@ -3,16 +3,12 @@ module UserRoleHelper
   def is_student?
     cookie_role cookies[:user_id] unless cookies[:user_roles]
     user_roles = cookies[:user_roles].split(",")
-    puts "++++++++++++++++++++++++++++"
-    puts user_roles
     user_roles.include? Role::TYPES[:STUDENT].to_s
   end
 
   def is_paper_creater?
     cookie_role cookies[:user_id] unless cookies[:user_roles]
     user_roles = cookies[:user_roles].split(",")
-    puts "222222222222222"
-     puts user_roles
     user_roles.include? Role::TYPES[:TEACHER].to_s
   end
 
@@ -24,8 +20,6 @@ module UserRoleHelper
     for role in roles
       user_roles << role.id    
     end if roles
-    puts "ddddddddd"
-     puts user_roles
     cookies[:user_roles] = {:value => user_roles.join(","), :path => "/", :secure  => false}
   end
     
