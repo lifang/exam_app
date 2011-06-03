@@ -5,6 +5,9 @@ class ExamUser < ActiveRecord::Base
   has_many :exam_raters,:through=>:rater_user_relations,:foreign_key=>"exam_rater_id"
   belongs_to:paper
 
+  require 'rexml/document'
+  include REXML
+
   IS_USER_AFFIREMED = {:YES => 1, :NO => 0} #用户是否确认  1 已确认 0 未确认
   default_scope :order => "exam_users.total_score desc"
 
@@ -77,14 +80,48 @@ class ExamUser < ActiveRecord::Base
     end
     exam_user_array.each do |exam_user|
       score_level_hash.each do |key, value|
-          if (exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
-              (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i)
-            exam_user_hash[exam_user.id] = key
-            exam_user_hash[key] += 1
-          end
+        if (exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
+            (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i)
+          exam_user_hash[exam_user.id] = key
+          exam_user_hash[key] += 1
+        end
       end
     end
     return exam_user_hash
+  end
+
+  #考生更新考试时长信息
+  def update_info_for_join_exam(exam_start_time = nil, exam_time)
+    self.toggle!(:is_user_affiremed)
+    self.started_at = Time.now
+    unless exam_time.nil?
+      self.ended_at = exam_start_time.nil? ? Time.now + exam_time.minutes : exam_start_time + exam_time.minutes
+    end
+    self.answer_sheet_url = self.generate_answer_sheet_url(self.create_answer_xml, "result")
+    self.save
+  end
+  
+  def create_answer_xml(options = {})
+    content = "<?xml version='1.0' encoding='UTF-8'?>"
+    content += "<exam id='#{self.examination_id}'>"
+    content += "<paper id='#{self.paper_id}'><problems>"
+    content += "</problems><total_score></tatal_score></paper>"
+    content += "</exam>"
+    return content
+  end
+
+
+  def generate_answer_sheet_url(str, path)
+    dir = "#{Rails.root}/public"      #定义：目录
+    unless File.directory?(dir)               #判断dir目录是否存在，不存在则创建 下3行
+      Dir.mkdir(dir)
+    end
+    file_name = "/" + path + "/#{self.id}.xml"                         #定义：文件名
+    url = dir + file_name                                   #定义：url = 目录+文件名
+    f=File.new(url,"w")                                   #写文件操作  下3行
+    f.write("#{str.force_encoding('UTF-8')}")
+    f.close
+    return file_name
   end
 
 

@@ -35,7 +35,7 @@
               <td><%= examination.start_at_time.nil? ? "任何时候" : examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td><%= examination.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td>
-                <a href="/user/examinations/<%= examination.id %>">开始考试</a>
+                <a href="/user/examinations/<%= examination.id %>" target="_blank">开始考试</a>
               </td>
             </tr>
           </tbody>
