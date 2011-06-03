@@ -47,10 +47,13 @@ ExamApp::Application.routes.draw do
   end
   resources :exam_raters do
     collection do
-      get "new_exam_three", "create_exam_rater"
+      get "new_exam_three", "create_exam_rater","session"
     end
     member do
       post "update_exam_rater"
+      get "rater_session"
+      post "rater_login"
+      get "reader_papers"
     end
   end
   resources :examinations do
