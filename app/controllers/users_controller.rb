@@ -61,7 +61,7 @@ class UsersController < ApplicationController
 
   def re_active
     @flag = false
-    if !params[:user_id].blank?
+    unless params[:user_id].blank?
       @user = User.first(:conditions => ["id = ?", params[:user_id].to_i])
       if @user
         if @user.status == true

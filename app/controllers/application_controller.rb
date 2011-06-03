@@ -21,7 +21,6 @@ class ApplicationController < ActionController::Base
   @text=text.gsub /['\n''\t''\b'' ']/," "
     @grade=@text.split(" ")
     return @grade
-  
   end
 
   def papers_path

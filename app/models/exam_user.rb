@@ -48,17 +48,16 @@ class ExamUser < ActiveRecord::Base
 
   #组装查询成绩的sql
   def ExamUser.generate_result_sql(options={})
-    sql = "select u.id u_id, e.id e_id, e.title e_title, e.description,e.start_at_time,c.name c_name,p.id p_id, p.total_score p_total_score,
+    sql = "select u.id u_id, e.id e_id, e.title e_title, e.description,e.start_at_time,
+      c.name c_name,p.id p_id, p.total_score p_total_score,
       p.total_question_num, us.name u_name, us.email, u.started_at, u.total_score u_total_score, u.answer_sheet_url
       from exam_users u inner join examinations e on e.id = u.examination_id
       inner join papers p on p.id = u.paper_id
       inner join users us on us.id = u.user_id 
-      left join categories c on c.id = p.category_id where 1=1 and e.id in (select r.examination_id from exam_users r where r.user_id=7)  "
-    if !options.empty?
-      options.each do |key, value|
+      left join categories c on c.id = p.category_id where 1=1 "
+    options.each do |key, value|
         sql += " and #{key} #{value} "
-      end
-    end
+      end unless options.empty?
     return sql
   end
 
@@ -94,31 +93,35 @@ class ExamUser < ActiveRecord::Base
   def update_info_for_join_exam(exam_start_time = nil, exam_time)
     self.toggle!(:is_user_affiremed)
     self.started_at = Time.now
-    unless exam_time.nil?
-      self.ended_at = exam_start_time.nil? ? Time.now + exam_time.minutes : exam_start_time + exam_time.minutes
-    end
+    self.ended_at = exam_start_time.nil? ? Time.now + exam_time.minutes :
+      exam_start_time + exam_time.minutes unless exam_time.nil?
     self.answer_sheet_url = self.generate_answer_sheet_url(self.create_answer_xml, "result")
     self.save
   end
   
   def create_answer_xml(options = {})
     content = "<?xml version='1.0' encoding='UTF-8'?>"
-    content += "<exam id='#{self.examination_id}'>"
-    content += "<paper id='#{self.paper_id}'><problems>"
-    content += "</problems><total_score></tatal_score></paper>"
-    content += "</exam>"
+    content += <<-XML
+      <exam id='#{self.examination_id}'>
+      <paper id='#{self.paper_id}'><problems>
+      </problems><total_score></tatal_score></paper>
+      </exam>
+    XML
+    options.each do |key, value|
+        content+="<#{key}>#{value.force_encoding('ASCII-8BIT')}</#{key}>"
+      end unless options.empty?
     return content
   end
 
 
   def generate_answer_sheet_url(str, path)
-    dir = "#{Rails.root}/public"      #定义：目录
-    unless File.directory?(dir)               #判断dir目录是否存在，不存在则创建 下3行
+    dir = "#{Rails.root}/public"     
+    unless File.directory?(dir)             
       Dir.mkdir(dir)
     end
-    file_name = "/" + path + "/#{self.id}.xml"                         #定义：文件名
-    url = dir + file_name                                   #定义：url = 目录+文件名
-    f=File.new(url,"w")                                   #写文件操作  下3行
+    file_name = "/" + path + "/#{self.id}.xml"                    
+    url = dir + file_name                               
+    f=File.new(url,"w")        
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
     return file_name

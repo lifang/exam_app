@@ -15,7 +15,7 @@ class Examination < ActiveRecord::Base
   #创建考试
   def update_examination(attr_hash)
     attr_hash[:is_published] = IS_PUBLISHED[:NEVER] 
-    if !attr_hash[:generate_exam_pwd].nil?
+    unless attr_hash[:generate_exam_pwd].nil?
       generate_exam_pwd(attr_hash) if attr_hash[:generate_exam_pwd]
       attr_hash.delete(:generate_exam_pwd)
     end
@@ -54,15 +54,9 @@ class Examination < ActiveRecord::Base
 
   def Examination.search_method(user_id, start_at, end_at, title, pre_page, page)
     sql = "select * from examinations e where creater_id = #{user_id} and is_published = 1 "
-    if !start_at.nil?
-      sql += "and e.created_at >= '#{start_at}' "
-    end
-    if !end_at.nil?
-      sql += "and e.created_at <= '#{end_at}' "
-    end
-    if !title.nil?
-      sql += "and e.title like '%#{title}%' "
-    end
+    sql += "and e.created_at >= '#{start_at}' " unless start_at.nil?
+    sql += "and e.created_at <= '#{end_at}' " unless end_at.nil?
+    sql += "and e.title like '%#{title}%' " unless title.nil?
     sql += "order by status asc, e.created_at desc "
     puts sql
     return Examination.paginate_by_sql(sql, :per_page =>pre_page, :page => page)
@@ -99,16 +93,14 @@ class Examination < ActiveRecord::Base
     str = ""
     examination = Examination.return_examinations(user_id, examination_id)
     if examination.any?
-      if !examination[0].is_score_open and examination[0].start_at_time
-        if examination[0].start_at_time  > Time.now
-          str = "本场考试开始时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")},请您做好准备。"
-        elsif examination[0].start_end_time  > Time.now
-          str = "您不能入场，本场考试入场时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")}
+      if examination[0].start_at_time  > Time.now
+        str = "本场考试开始时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")},请您做好准备。"
+      elsif examination[0].start_end_time  > Time.now
+        str = "您不能入场，本场考试入场时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")}
               -#{examination[0].start_end_time.strftime("%Y-%m-%d %H:%M:%S")}。"
-        elsif (examination.start_at_time + examination.exam_time.minutes) < Time.now
-          str = "本场考试已经结束。"
-        end
-      end
+      elsif (examination.start_at_time + examination.exam_time.minutes) < Time.now
+        str = "本场考试已经结束。"
+      end if !examination[0].is_score_open and examination[0].start_at_time
     else
       str = "本场考试已经取消，或者您不是当前考试的考生。"
     end

@@ -101,18 +101,10 @@ class PapersController < ApplicationController
     session[:maxtime] = nil
     session[:title] = nil
     session[:category] = nil
-    if !params[:mintime].nil? and params[:mintime] != ""
-      session[:mintime] = params[:mintime]
-    end
-    if !params[:maxtime].nil? and params[:maxtime] != ""
-      session[:maxtime] = params[:maxtime]
-    end
-    if !params[:title].nil? and params[:title] != ""
-      session[:title] = params[:title]
-    end
-    if !params[:category].nil? and params[:category] != ""
-      session[:category] = params[:category]
-    end
+    session[:mintime] = params[:mintime] if !params[:mintime].nil? and params[:mintime] != ""
+    session[:maxtime] = params[:maxtime] if !params[:maxtime].nil? and params[:maxtime] != ""
+    session[:title] = params[:title] if !params[:title].nil? and params[:title] != ""
+    session[:category] = params[:category] if !params[:category].nil? and params[:category] != ""
     redirect_to search_list_papers_path
     
   end

@@ -18,9 +18,7 @@ class ResultsController < ApplicationController
   end
 
   def search_list
-    puts "LLLLLLLLLLLLLLLLLLLLLLL"
     sql = ExamUser.generate_result_sql
-    puts session[:email]
     sql += " and us.email = '#{session[:email]}'" unless session[:email].nil?
     sql += " and e.created_at >= '#{session[:start_at]}'" unless session[:start_at].nil?
     sql += " and e.created_at <= '#{session[:end_at]}'" unless session[:end_at].nil?

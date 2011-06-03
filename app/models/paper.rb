@@ -17,11 +17,9 @@ class Paper < ActiveRecord::Base
     doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")
     doc.root.elements["base_info"].elements["title"].text=self.title
     doc.root.elements["base_info"].elements["description"].text=self.description
-    if !options.empty?
-      options.each do |key, value|
+    options.each do |key, value|
         doc.root.elements["base_info"].elements["#{key}"].text = value
-      end
-    end
+      end unless options.empty?
     file=File.open(url,"w+")
     file.write(doc)
     file.close
@@ -48,24 +46,26 @@ class Paper < ActiveRecord::Base
 
   #创建xml文件
   def xml_content(options = {})
-    content ="<?xml version='1.0' encoding='UTF-8'?>"
-    content+="<paper id='#{self.id}' total_num='0' total_score='0'>"
-    content+="<base_info>"
-    content+="<title>#{self.title}</title>"
-    content+="<category>#{self.category_id}</category>"
-    content+="<creater>#{self.creater_id}</creater>"
-    content+="<created_at>#{self.created_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</created_at>"
-    content+="<updated_at>#{self.updated_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</updated_at>"
-    content+="<description>#{self.description.force_encoding('ASCII-8BIT')}</description>"
-    if !options.empty?
-      options.each do |key, value|
+    content = "<?xml version='1.0' encoding='UTF-8'?>"
+    content += <<-XML
+      <paper id='#{self.id}' total_num='0' total_score='0'>
+        <base_info>
+          <title>#{self.title}</title>
+          <category>#{self.category_id}</category>
+          <creater>#{self.creater_id}</creater>
+          <created_at>#{self.created_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</created_at>
+          <updated_at>#{self.updated_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</updated_at>
+          <description>#{self.description.force_encoding('ASCII-8BIT')}</description>
+    XML
+    options.each do |key, value|
         content+="<#{key}>#{value.force_encoding('ASCII-8BIT')}</#{key}>"
-      end
-    end
-    content+="</base_info>"
-    content+="<blocks>"
-    content+="</blocks>"
-    content+="</paper>"
+      end unless options.empty?
+    content += <<-XML
+      </base_info>
+      <blocks>
+      </blocks>
+      </paper>
+    XML
     return content
   end
 
@@ -76,23 +76,13 @@ class Paper < ActiveRecord::Base
 
   def Paper.search_mothod(user_id, start_at, end_at, title, category, per_page, page, options={})
     sql = "select * from papers where creater_id=#{user_id}"
-    if !start_at.nil?
-      sql += " and created_at > '#{start_at}'"
-    end
-    if !end_at.nil?
-      sql += " and created_at < '#{end_at}'"
-    end
-    if !title.nil?
-      sql += " and title like '%#{title}%'"
-    end
-    if !category.nil?
-      sql += " and category_id = '%#{category}%'"
-    end
-    if !options.empty?
-      options.each do |key, value|
+    sql += " and created_at > '#{start_at}'" unless start_at.nil?
+    sql += " and created_at < '#{end_at}'" unless end_at.nil?
+    sql += " and title like '%#{title}%'" unless title.nil?
+    sql += " and category_id = '%#{category}%'" unless category.nil?
+    options.each do |key, value|
         sql += " and #{key} #{value} "
-      end
-    end
+      end unless options.empty?
     sql += " order by created_at desc"
     return Paper.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end

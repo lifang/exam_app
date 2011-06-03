@@ -82,7 +82,7 @@ class ExaminationsController < ApplicationController
     @exam_users = ExamUser.select_exam_users(@examination.id)
   end
   def export_user_unaffirm
-    url = "#{File.expand_path(RAILS_ROOT)}/public/excels"
+    url = "#{File.expand_path(Rails.root)}/public/excels"
     unless File.directory?(url)               #判断dir目录是否存在，不存在则创建 下3行
       Dir.mkdir(url)
     end

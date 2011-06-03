@@ -75,11 +75,9 @@ class Problem < ActiveRecord::Base
   #根据提点的分值计算题目的总分
   def generate_problem_score(options = {})
     problem_score = 0
-    if !options.empty? and !options[:score].nil?
-      options[:score].values.each do |value|
+    options[:score].values.each do |value|
         problem_score += value.to_i
-      end
-    end
+      end if !options.empty? and !options[:score].nil?
     return problem_score
   end
 
@@ -98,9 +96,7 @@ class Problem < ActiveRecord::Base
       tag_names = []
       q.tags.collect { |tag| tag_names << tag.name  }
       tags.add_text("#{tag_names.join(' ')}") unless q.tags.blank?
-      if !options.empty? and !options[:score].nil?
-        question.add_attribute("score", options[:score][q.id])
-      end
+      question.add_attribute("score", options[:score][q.id]) if !options.empty? and !options[:score].nil?
     end
   end
 
