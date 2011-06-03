@@ -54,14 +54,9 @@ class ExamUser < ActiveRecord::Base
       from exam_users u inner join examinations e on e.id = u.examination_id
       inner join papers p on p.id = u.paper_id
       inner join users us on us.id = u.user_id 
-<<<<<<< HEAD
-      left join categories c on c.id = p.category_id where 1=1   "
-    if !options.empty?
-      options.each do |key, value|
-=======
+
       left join categories c on c.id = p.category_id where 1=1 "
     options.each do |key, value|
->>>>>>> 98ca727e43389ab3ab22f17f6b549f73234a850e
         sql += " and #{key} #{value} "
       end unless options.empty?
     return sql
