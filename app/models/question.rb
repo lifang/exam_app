@@ -21,9 +21,7 @@ class Question < ActiveRecord::Base
   #创建题点标签
   def question_tags(tags)
     self.tags = []
-    tags.each do |tag|
-      self.tags << tag
-    end
+    tags.each { |tag| self.tags << tag }
   end
 
   #综合题的提点信息整理

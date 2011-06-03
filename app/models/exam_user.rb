@@ -5,6 +5,9 @@ class ExamUser < ActiveRecord::Base
   has_many :exam_raters,:through=>:rater_user_relations,:foreign_key=>"exam_rater_id"
   belongs_to:paper
 
+  require 'rexml/document'
+  include REXML
+
   IS_USER_AFFIREMED = {:YES => 1, :NO => 0} #用户是否确认  1 已确认 0 未确认
   default_scope :order => "exam_users.total_score desc"
 
@@ -45,17 +48,22 @@ class ExamUser < ActiveRecord::Base
 
   #组装查询成绩的sql
   def ExamUser.generate_result_sql(options={})
-    sql = "select u.id u_id, e.id e_id, e.title e_title, e.description,e.start_at_time,c.name c_name,p.id p_id, p.total_score p_total_score,
+    sql = "select u.id u_id, e.id e_id, e.title e_title, e.description,e.start_at_time,
+      c.name c_name,p.id p_id, p.total_score p_total_score,
       p.total_question_num, us.name u_name, us.email, u.started_at, u.total_score u_total_score, u.answer_sheet_url
       from exam_users u inner join examinations e on e.id = u.examination_id
       inner join papers p on p.id = u.paper_id
       inner join users us on us.id = u.user_id 
+<<<<<<< HEAD
       left join categories c on c.id = p.category_id where 1=1   "
     if !options.empty?
       options.each do |key, value|
+=======
+      left join categories c on c.id = p.category_id where 1=1 "
+    options.each do |key, value|
+>>>>>>> 98ca727e43389ab3ab22f17f6b549f73234a850e
         sql += " and #{key} #{value} "
-      end
-    end
+      end unless options.empty?
     return sql
   end
 
@@ -77,17 +85,56 @@ class ExamUser < ActiveRecord::Base
     end
     exam_user_array.each do |exam_user|
       score_level_hash.each do |key, value|
-          if (exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
-              (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i)
-            exam_user_hash[exam_user.id] = key
-            exam_user_hash[key] += 1
-          end
+        if (exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
+            (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i)
+          exam_user_hash[exam_user.id] = key
+          exam_user_hash[key] += 1
+        end
       end
     end
     return exam_user_hash
   end
+
 def user_affiremed
   self.toggle!(:is_user_affiremed)
 end
+
+  #考生更新考试时长信息
+  def update_info_for_join_exam(exam_start_time = nil, exam_time)
+    self.toggle!(:is_user_affiremed)
+    self.started_at = Time.now
+    self.ended_at = exam_start_time.nil? ? Time.now + exam_time.minutes :
+      exam_start_time + exam_time.minutes unless exam_time.nil?
+    self.answer_sheet_url = self.generate_answer_sheet_url(self.create_answer_xml, "result")
+    self.save
+  end
+
+  def create_answer_xml(options = {})
+    content = "<?xml version='1.0' encoding='UTF-8'?>"
+    content += <<-XML
+      <exam id='#{self.examination_id}'>
+      <paper id='#{self.paper_id}'><problems>
+      </problems><total_score></tatal_score></paper>
+      </exam>
+    XML
+    options.each do |key, value|
+        content+="<#{key}>#{value.force_encoding('ASCII-8BIT')}</#{key}>"
+      end unless options.empty?
+    return content
+  end
+
+
+  def generate_answer_sheet_url(str, path)
+    dir = "#{Rails.root}/public"
+    unless File.directory?(dir)
+      Dir.mkdir(dir)
+    end
+    file_name = "/" + path + "/#{self.id}.xml"
+    url = dir + file_name
+    f=File.new(url,"w")
+    f.write("#{str.force_encoding('UTF-8')}")
+    f.close
+    return file_name
+  end
 
 end
