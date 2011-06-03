@@ -89,6 +89,10 @@ class ExamUser < ActiveRecord::Base
     return exam_user_hash
   end
 
+def user_affiremed
+  self.toggle!(:is_user_affiremed)
+end
+
   #考生更新考试时长信息
   def update_info_for_join_exam(exam_start_time = nil, exam_time)
     self.toggle!(:is_user_affiremed)
@@ -98,7 +102,7 @@ class ExamUser < ActiveRecord::Base
     self.answer_sheet_url = self.generate_answer_sheet_url(self.create_answer_xml, "result")
     self.save
   end
-  
+
   def create_answer_xml(options = {})
     content = "<?xml version='1.0' encoding='UTF-8'?>"
     content += <<-XML
@@ -115,17 +119,16 @@ class ExamUser < ActiveRecord::Base
 
 
   def generate_answer_sheet_url(str, path)
-    dir = "#{Rails.root}/public"     
-    unless File.directory?(dir)             
+    dir = "#{Rails.root}/public"
+    unless File.directory?(dir)
       Dir.mkdir(dir)
     end
-    file_name = "/" + path + "/#{self.id}.xml"                    
-    url = dir + file_name                               
-    f=File.new(url,"w")        
+    file_name = "/" + path + "/#{self.id}.xml"
+    url = dir + file_name
+    f=File.new(url,"w")
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
     return file_name
   end
-
 
 end

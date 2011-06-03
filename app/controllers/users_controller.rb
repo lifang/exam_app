@@ -14,7 +14,8 @@ class UsersController < ApplicationController
       end
     else
       if @user.has_password?(params[:user][:old_password])
-         @user.update_attributes(:encrypted_password=>params[:user][:password])
+        @user.update_attributes(:password=>params[:user][:password])
+        @user.encrypt_password
         if @user.save
           redirect_to "/papers"
         else
@@ -33,10 +34,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    puts "ssssssssssss"
     @user=User.new(params[:user])
-   
-    puts @user
     if (User.find_by_email(params[:user][:email]) !=nil)
       flash[:emailused] = "此邮箱已被使用，请使用其他邮箱。"
       render "/users/new"
@@ -44,11 +42,7 @@ class UsersController < ApplicationController
       @user.username=params[:user][:name]
       @user.status = User::STATUS[:LOCK]
       @user.active_code = proof_code(6)
-      if params[:user][:role].to_i == Role::TYPES[:TEACHER]
-        @user.set_role(Role.find(Role::TYPES[:TEACHER]))
-      else
-        @user.set_role(Role.find(Role::TYPES[:STUDENT]))
-      end
+      @user.set_role(Role.find(Role::TYPES[:TEACHER]))
       @user.encrypt_password
       if @user.save!
         UserMailer.welcome_email(@user).deliver

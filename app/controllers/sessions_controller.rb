@@ -2,11 +2,8 @@ class SessionsController < ApplicationController
   def new
     session[:signin_code] = proof_code(4)
   end
- 
   def index
-    
   end
-
   def create
 
     if params[:proof_code].downcase != session[:signin_code].to_s.downcase
@@ -38,6 +35,7 @@ class SessionsController < ApplicationController
   def destroy
     cookies.delete(:user_id)
     cookies.delete(:user_name)
+    cookies.delete(:user_roles)
     redirect_to root_path
   end
 end
