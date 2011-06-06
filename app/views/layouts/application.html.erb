@@ -46,20 +46,20 @@
           <% if cookies[:user_id].nil? %>
             <a href="/">登录</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/users/new">免费注册</a>
-            &nbsp;&nbsp; 
+            &nbsp;&nbsp;
           <% end %>
         </div>
         <a id="logo" href="/"><span>考试系统</span></a>
         <div class="clear"></div>
         <p class="title_link">
-          <%  if cookies[:user_id]!=nil %>
-            <% if is_paper_creater? %>
+          <%  if (cookies[:user_id]!=nil) %>
+            <% if (is_paper_creater?) %>
               <a href="/papers">试卷</a>
               &nbsp;&nbsp;|
               &nbsp;&nbsp;<a href="/examinations">考试</a>
               &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩</a><% end  %>
-        </p>
-        <p class="back_welcome">
+          </p>
+          <p class="back_welcome">
             <% user=User.find(cookies[:user_id].to_i) %>
             <%= user.email %> 欢迎您！
             <% if is_student? %>

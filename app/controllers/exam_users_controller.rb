@@ -129,7 +129,7 @@ class ExamUsersController < ApplicationController
   def my_results
     @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
     sql = ExamUser.generate_result_sql
-    sql += " and e.id in ( select u.examination_id from exam_users u where u.user_id=#{cookies[:user_id]}) and u.user_id=#{cookies[:user_id]} "
+    sql += " and us.id=#{cookies[:user_id]} "
     @results=Examination.paginate_by_sql(sql,:per_page => 2, :page => params[:page])
   end
   def search
@@ -144,7 +144,7 @@ class ExamUsersController < ApplicationController
   def search_list
     @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
     sql = ExamUser.generate_result_sql
-    sql += " and e.id in ( select u.examination_id from exam_users u where u.user_id=#{cookies[:user_id]}) and u.user_id=#{cookies[:user_id]}"
+    sql += " and us.id=#{cookies[:user_id]}"
     sql += " and e.start_at_time >= '#{session[:start_at]}'" unless session[:start_at].nil?
     sql += " and e.start_at_time <= '#{session[:end_at]}'" unless session[:end_at].nil?
     sql += " and e.title like '%#{session[:title]}%'" unless session[:title].nil?

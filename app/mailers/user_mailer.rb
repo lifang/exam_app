@@ -13,6 +13,12 @@ class UserMailer < ActionMailer::Base
     @url  = "http://localhost:3000/"
     mail(:to => @user.email, :subject => "欢迎来到赶考")
   end
+  def rater_affirm(exam_rater,examination)
+    @rater=exam_rater
+    @examination=examination
+    @url  = "http://localhost:3000/"
+    mail(:to => @rater.email, :subject => "欢迎来到赶考")
+  end
   def receive(email)
     page = Page.find_by_address(email.to.first)
     page.emails.create(:subject => email.subject, :body => email.body)
