@@ -64,10 +64,7 @@ ExamApp::Application.routes.draw do
       post "create_step_one", "update_base_info", "search_result"
     end
   end
-  post "/questions/edit"
-  post "/questions/create"
-  
-  resources :back
+ 
   resources :papers do
     collection do
       get "new_step_one", "search_list"
@@ -78,6 +75,9 @@ ExamApp::Application.routes.draw do
       get "new_exam_three", "new_exam_two", "new_exam_one", "new_step_two", "answer_paper"
       post "change_info", "hand_in"
     end
+  end
+  namespace :user do
+    resources :examinations
   end
 
   #示例页面专用路由
