@@ -5,7 +5,7 @@
   </ul>
   <div class="soso">
     <div>试卷编号：<%= @xml.attributes['id'] %></div>
-    <div>试卷类别：<%= @xml.elements['base_info'].elements['category_name'].text %></div>
+    <div>试卷类别：<%= Category.find(@xml.elements['base_info'].elements['category'].text).name %></div>
     <div>出卷时间：<%= @xml.elements['base_info'].elements['created_at'].text %></div>
     <div>最后修改时间：<%= @xml.elements['base_info'].elements['updated_at'].text %></div>
     <div>总题数：<%= @xml.attributes["total_num"] %></div>

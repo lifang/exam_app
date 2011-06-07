@@ -11,6 +11,6 @@
     </div>
     <div>备注：<%= f.text_area :description,:value=>@xml.elements['base_info'].elements['description'].text ,:size=>40,:cols=>"55",:rows=>"2",%></div>
     <%= f.submit "完成", :class=>"submit_btn"%>
-    <input type="submit" value="取消" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id'] %>/new_step_two'"/>
-  </div>
-<% end %>
+  <% end %>
+  <input type="button" value="取消" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id'] %>/new_step_two'"/>
+</div>

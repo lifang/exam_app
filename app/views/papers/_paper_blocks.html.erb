@@ -1,7 +1,6 @@
 <% problem_size = 0 %>
 <% sum=["一","二","三","四","五","六","七","八","九","十"] %>
 <%  array_index=0 %>
-
 <% @xml.elements['blocks'].each_element do |block|%>
   <h1 class="biz_art_title" id="block_show"><%= sum[array_index] %>、<%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
     <a href="javascript:void(0);" onClick="javascript:edit_block(<%= block.attributes['id'] %>)">修改模块</a>
@@ -32,10 +31,10 @@
       <% end %>
       <li>
         <input type="button" value="新建试题" class="submit_btn"  onClick="javascript:choose_question_type(<%= block.attributes['id'] %>);"/>
+        <input type="button" value="新建专家试题" class="submit_btn" onclick="javascript:mavin_create_problem(<%= block.attributes['id'] %>);"/>
         <div style="display: none;" id="choose_que_type_div_<%= block.attributes['id'] %>">
           <%= render :partial => "choose_question_type", :object => block %>
         </div>
-        <input type="button" value="新建专家试题" class="submit_btn" onclick="javascript:mavin_create_problem(<%= block.attributes['id'] %>);"/>
       </li>
     </ul>
   </div>
