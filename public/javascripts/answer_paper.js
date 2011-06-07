@@ -16,7 +16,8 @@ function generate_problem_answer(problem_id) {
         }
         if (is_answer_num == (ids.length-1)) {
             $("li_" + problem_id).style.background = "#A3C6C8";
-            problem_div.style.background = "#A3C6C8";            
+            problem_div.style.background = "#A3C6C8";
+            $("is_answer_" + problem_id) = "1";
         } else {
             $("li_" + problem_id).style.background = "#fff2f2";
             problem_div.style.background = "#fff2f2";
@@ -48,5 +49,27 @@ function question_value(question_id) {
         }
     }
     return is_answer;
+}
+
+function generate_result_paper(paper_id) {
+    //var all_question_ids = $("all_question_ids").value;
+    var all_problem_ids = $("problem_ids");
+    if (all_problem_ids != null && all_problem_ids.value != "") {
+        var problem_ids = all_problem_ids.value.split(",");
+        var answer_length = 0;
+        for (var i=0; i<problem_ids.length-1; i++) {
+            var is_answer = $("is_answer_" + problem_ids[i]);
+            if (is_answer != null && is_answer.value != null) {
+                if (is_answer.value == "1") {
+                    answer_length++ ;
+                }
+            }            
+        }
+        if (answer_length < (problem_ids.length-1)) {
+            
+            alert("您还有题尚未答完，确定要交卷么");
+        }
+    }
+    return false;
 }
 

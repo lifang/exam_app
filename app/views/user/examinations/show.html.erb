@@ -12,6 +12,8 @@
     </ul>
     <div class="soso">
       <input type="hidden" name="paper_id" id="paper_id" value=""/>
+      <input type="hidden" name="all_quesiton_ids" id="all_question_ids" value=""/>
+      <input type="hidden" name="problem_ids" id="problem_ids" value=""/>
       <div>试卷分类：<span id="category_name"></span></div>
       <div>题目数：共<span id="total_num"></span>题/已完成<span id="complete_num">0</span>题</div>
       <div>卷面总分：<span id="total_score"></span></div>
@@ -25,7 +27,7 @@
 <% end %>
 <script language="javascript" type="text/javascript">
   function create_paper() {
-    /*****************显示基本信息部分**********************/
+    //显示基本信息部分
     $("paper_title").innerHTML = papers.paper.base_info.title;
     $("paper_id").value = papers.paper.id;
     $("category_name").innerHTML = papers.paper.base_info.category_name;
@@ -49,7 +51,7 @@
   }
 
   function create_block(bocks_div, block) {
-    /*******************添加block的div******************************/
+    //添加block的div
     var block_div = create_element("div", null, "block_" + block.id, null, null, "innerHTML");
     var block_str = "<h1 class='biz_art_title' id='block_show'>";
     block_str += block.base_info.title + "(共"+ block.total_num +"题，总分:"+ block.total_score +"分)</h1>";
@@ -60,7 +62,7 @@
     block_div.appendChild(ul_div);
     var ul = create_element("ul", null, "ul_" + block.id, null, null, "innerHTML");
     ul_div.appendChild(ul);
-    /*******************判断problem的存在******************************/
+    //判断problem的存在
     if (block.problems != undefined && block.problems.problem != undefined) {
       var problems = block.problems.problem;
       if (tof(problems) == "array") {
@@ -88,7 +90,7 @@
     var question_id_input = create_element("input", "question_ids", "question_ids_" + problem.id, null, "hidden", "value");
     parent_div.innerHTML = "<input type='hidden' name='problem_"+ problem.id +"' id='problem_"+ problem.id +"' value='"+ problem.id +"'/>";
     parent_div.innerHTML += "<div class='title'>"+ problem.title + "[" + problem.score +"分]</div>";   
-    /*******************添加question所需div******************************/
+    //添加question所需div
     if (problem.questions != undefined && problem.questions.question != undefined) {
       var questions = problem.questions.question;
       if (tof(questions) == "array") {
@@ -100,14 +102,18 @@
       }
     }
     parent_div.appendChild(question_id_input);
+    var is_answer_input = create_element("input", "is_answer", "is_answer_" + problem.id, null, "hidden", "value");
+    parent_div.appendChild(is_answer_input);
     parent_div.innerHTML += "<input type='button' name='problem_submit' class='submit_btn' id='problem_submit' onclick='javascript:generate_problem_answer(\""+ problem.id +"\");' value='保存'/>";
-    /*******************追加problem的标题******************************/
+    //追加problem的标题
     var problem_str = "<h2><a href='javascript:void(0)' onclick='javascript:question_info("+ problem.id +");'>"+ problem.title +"</a></h2>";
     problem_li.innerHTML += problem_str;
+    $("problem_ids").value += "" + problem.id + ",";
     //alert(parent_div.innerHTML);
   }
   //添加question所需div
   function create_question(question_id_input, parent_div, question) {
+    $("all_question_ids").value += "" + question.id + ",";
     question_id_input.value += "" + question.id + ",";
     var que_div = create_element("div", null, "question_" + question.id, "question", null, "innerHTML");
     que_div.innerHTML = "<input type='hidden' name='question_type' id='question_type_"+ question.id +"' value='"+ question.correct_type +"'/>小题";
@@ -222,7 +228,7 @@
     timer = window.setInterval("onTimer("+ all_time +", "+ time +")");    // 启动新的定时器
   }
 
-  /*******************用来判断获取数据的类型******************************/
+  //用来判断获取数据的类型
   function tof(val) {
     var t;
     switch(val) {
