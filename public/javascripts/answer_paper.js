@@ -17,7 +17,7 @@ function generate_problem_answer(problem_id) {
         if (is_answer_num == (ids.length-1)) {
             $("li_" + problem_id).style.background = "#A3C6C8";
             problem_div.style.background = "#A3C6C8";
-            $("is_answer_" + problem_id) = "1";
+            $("is_answer_" + problem_id).value = "1";
         } else {
             $("li_" + problem_id).style.background = "#fff2f2";
             problem_div.style.background = "#fff2f2";
@@ -36,7 +36,11 @@ function question_value(question_id) {
         if (attr != null) {
             for (var i=0; i<attr.length; i++) {
                 if (attr[i].checked == true) {
-                    $("answer_" + question_id).value += "" + attr[i].value + ",";
+                    if ($("answer_" + question_id).value == "") {
+                        $("answer_" + question_id).value = attr[i].value;
+                    } else {
+                        $("answer_" + question_id).value += ";|;" + attr[i].value;
+                    }                    
                     is_answer = true;
                 }
             }
@@ -52,6 +56,7 @@ function question_value(question_id) {
 }
 
 function generate_result_paper(paper_id) {
+    var flag = true;
     //var all_question_ids = $("all_question_ids").value;
     var all_problem_ids = $("problem_ids");
     if (all_problem_ids != null && all_problem_ids.value != "") {
@@ -66,10 +71,11 @@ function generate_result_paper(paper_id) {
             }            
         }
         if (answer_length < (problem_ids.length-1)) {
-            
-            alert("您还有题尚未答完，确定要交卷么");
+           if(!confirm('您还有题尚未答完，确定要交卷么?')) {
+               flag = false;
+           }
         }
     }
-    return false;
+    return flag;
 }
 

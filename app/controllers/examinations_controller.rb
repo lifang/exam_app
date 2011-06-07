@@ -179,7 +179,7 @@ def update_base_info
   if params[:timelimit] == "1"
     hour = (params[:hour] != "-1") ? params[:hour].to_i : 0
     min = (params[:minute] != "-2") ? params[:minute].to_i : 0
-    @time=params[:time].to_datetime + hour.minutes + min.to_i.hours
+    @time=params[:time].to_date + hour.hours + min.minutes
     @overtime=@time + params[:accesstime].to_i.minutes
     hash1[:start_at_time] = @time
     hash1[:start_end_time] = @overtime

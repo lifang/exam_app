@@ -79,10 +79,10 @@ class Examination < ActiveRecord::Base
 
   #显示单个登录考生能看到的所有的考试
   def Examination.return_examinations(user_id, examination_id = nil)
-    sql = "select e.*, eu.id exam_user_id, eu.paper_id, eu.started_at, eu.ended_at from examinations e
+    sql = "select e.*, eu.id exam_user_id, eu.paper_id, eu.started_at, eu.ended_at, eu.is_submited from examinations e
           inner join exam_users eu on e.id = eu.examination_id
           where eu.user_id = #{user_id} and e.is_published = 1 "
-    unless examination_id.nil? or examination_id != ""
+    if !examination_id.nil? and examination_id != ""
       sql += " and e.id = #{examination_id}"
     end
     Examination.find_by_sql(sql)
@@ -93,14 +93,15 @@ class Examination < ActiveRecord::Base
     str = ""
     examination = Examination.return_examinations(user_id, examination_id)
     if examination.any?
-      if examination[0].start_at_time  > Time.now
+      if examination[0].start_at_time > Time.now
         str = "本场考试开始时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")},请您做好准备。"
-      elsif examination[0].start_end_time  > Time.now
+      elsif examination[0].start_end_time  < Time.now
         str = "您不能入场，本场考试入场时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")}
               -#{examination[0].start_end_time.strftime("%Y-%m-%d %H:%M:%S")}。"
-      elsif (examination.start_at_time + examination.exam_time.minutes) < Time.now
+      elsif (examination[0].start_at_time + examination[0].exam_time.minutes) < Time.now
         str = "本场考试已经结束。"
-      end if !examination[0].is_score_open and examination[0].start_at_time
+      end if examination[0].start_at_time
+      str = "您已经交卷。" if examination[0].is_submited == 1
     else
       str = "本场考试已经取消，或者您不是当前考试的考生。"
     end

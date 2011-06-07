@@ -6,7 +6,7 @@
   attrs_array = attrs_str.split(";-;") unless attrs_str.nil?
   correct_type = show_single_question.attributes["correct_type"]
   answer = show_single_question.elements["answer"]
-  answers = (answer.nil? or answer.text.nil?) ? [] : answer.text.split(";")
+  answers = (answer.nil? or answer.text.nil?) ? [] : answer.text.split(";|;")
   (0..attrs_array.length-1).each do |i|
     is_answer = answers.include?(attrs_array[i])
   %>

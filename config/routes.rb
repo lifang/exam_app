@@ -75,12 +75,16 @@ ExamApp::Application.routes.draw do
       post "problem_destroy", "edit_block"
     end
     member do
-      get "new_exam_three", "new_exam_two", "new_exam_one", "new_step_two", "answer_paper"
+      get "new_exam_three", "new_exam_two", "new_exam_one", "new_step_two", "answer_paper", "create_all_paper"
       post "change_info", "hand_in"
     end
   end
   namespace :user do
-    resources :examinations
+    resources :examinations do
+      member do
+        post "save_result"
+      end
+    end
   end
 
   #示例页面专用路由

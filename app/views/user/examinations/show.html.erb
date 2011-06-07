@@ -1,6 +1,5 @@
 <script language="javascript" type="text/javascript">
   var papers = new Object();
-  var timer = null;
 </script>
 <%= javascript_include_tag "#{@paper_url}" %>
 <%= javascript_include_tag "answer_paper" %>
@@ -18,7 +17,16 @@
       <div>题目数：共<span id="total_num"></span>题/已完成<span id="complete_num">0</span>题</div>
       <div>卷面总分：<span id="total_score"></span></div>
       <div>备注：<span id="description"></span></div>
-      <div id="exam_time"></div>
+      <div id="exam_time">02:00:00<%#= unless @exam_user
+  unless @examination.ended_at.nil? or @examination.ended_at == ""
+  time = (@examination.ended_at - Time.now)
+
+  end
+  else
+  unless @exam_user.ended_at.nil? or @exam_user.ended_at == ""
+  time = (@exam_user.ended_at - Time.now)
+  end
+  end %></div>
       <%= f.submit "交卷" , :class=>"submit_btn" %>
     </div>
   </div>
@@ -133,14 +141,16 @@
     if (question.questionattrs != undefined && question.questionattrs != null) {
       var que_attrs = question.questionattrs.split(";-;");
       for (var i=0; i<que_attrs.length; i++) {
-        var attr = create_element("div", null, null, "attr", null, "innerHTML");
-        que_div.appendChild(attr);
-        if (question.correct_type == "0") {
-          attr.innerHTML += "<input type='radio' name='question_attr_"+ question.id +"' id='question_attr_"+ i +"' value='"+ que_attrs[i] +"'/>";
-        } else if (question.correct_type == "1") {
-          attr.innerHTML += "<input type='checkbox' name='question_attr_"+ question.id +"' id='question_attr_"+ i +"' value='"+ que_attrs[i] +"'/>";
+        if (que_attrs[i] != null && que_attrs[i] != "") {
+          var attr = create_element("div", null, null, "attr", null, "innerHTML");
+          que_div.appendChild(attr);
+          if (question.correct_type == "0") {
+            attr.innerHTML += "<input type='radio' name='question_attr_"+ question.id +"' id='question_attr_"+ i +"' value='"+ que_attrs[i] +"'/>";
+          } else if (question.correct_type == "1") {
+            attr.innerHTML += "<input type='checkbox' name='question_attr_"+ question.id +"' id='question_attr_"+ i +"' value='"+ que_attrs[i] +"'/>";
+          }
+          attr.innerHTML += "<label>"+ que_attrs[i] +"</label>";
         }
-        attr.innerHTML += "<label>"+ que_attrs[i] +"</label>";
       }
     } else {
       var attr = create_element("div", null, null, "attr", null, "innerHTML");
@@ -180,52 +190,63 @@
     return ele;
   }
 
-
+  var timer = null;
+  var normalelapse = 100;
+  var nextelapse = normalelapse;
+  var start = $("exam_time").innerText + ":00";
+  var finish = "00:00:00:00";
   //显示考试倒计时
   function show_exam_time() {
-    var all_time = 0;
-    var time = 0;
-<% unless @exam_user %>
-  <% unless @examination.ended_at.nil? or @examination.ended_at == "" %>
-        all_time = <%= @examination.ended_at - @examination.started_at %>;
-        time = <%= @examination.ended_at - Time.now %>;
-  <% end %>
-<% else %>
-  <% unless @exam_user.ended_at or @exam_user.ended_at == "" %>
-        all_time = <%= @exam_user.ended_at - @exam_user.started_at %>;
-        time = <%= @exam_user.ended_at - Time.now %>;
-  <% end %>
-<% end %>
-    if (all_time != 0 && time != 0) {
-      timer = window.setInterval("onTimer("+ all_time +", "+ time +")", 100);
-    }
+    // nextelapse是定时时间, 初始时为100毫秒
+    // 注意setInterval函数: 时间逝去nextelapse(毫秒)后, onTimer才开始执行
+    timer = window.setInterval("onTimer()", nextelapse);
   }
 
   // 倒计时函数
-  function onTimer(all_time, time) {
-    if (time == 0) {
+  function onTimer() {
+    if (start == finish)
+    {
       window.clearInterval(timer);
-      alert("时间已到，请勿再答题，系统会自动帮你交卷!");
+      alert("答卷时间已到，请您提交自己的答卷!");
       return;
     }
-    var h = time/3600;              //小时
-    var m = (time - h*3600)/60;     //分钟
-    var s = time - h*3600 - m*60;   //秒
-    s -= 1;
-    if (s < 0) {
-      s = 59;
-      m -= 1;
+
+    var hms = new String(start).split(":");
+    var ms = new Number(hms[3]);
+    var s = new Number(hms[2]);
+    var m = new Number(hms[1]);
+    var h = new Number(hms[0]);
+
+    ms -= 10;
+    if (ms < 0)
+    {
+      ms = 90;
+      s -= 1;
+      if (s < 0)
+      {
+        s = 59;
+        m -= 1;
+      }
+
+      if (m < 0)
+      {
+        m = 59;
+        h -= 1;
+      }
     }
-    if (m < 0) {
-      m = 59;
-      h -= 1;
-    }
+
+    var ms = ms < 10 ? ("0" + ms) : ms;
     var ss = s < 10 ? ("0" + s) : s;
     var sm = m < 10 ? ("0" + m) : m;
     var sh = h < 10 ? ("0" + h) : h;
-    $("exam_time").innerText = "考试倒计时：" + sh + ":" + sm + ":" + ss;
-    window.clearInterval(timer);    // 清除上一次的定时器
-    timer = window.setInterval("onTimer("+ all_time +", "+ time +")");    // 启动新的定时器
+
+    start = sh + ":" + sm + ":" + ss + ":" + ms;
+    $("exam_time").innerText = sh + ":" + sm + ":" + ss;
+
+    // 清除上一次的定时器
+    window.clearInterval(timer);
+    // 启动新的定时器
+    timer = window.setInterval("onTimer()", nextelapse);
   }
 
   //用来判断获取数据的类型

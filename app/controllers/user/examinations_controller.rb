@@ -12,6 +12,9 @@ class User::ExaminationsController < ApplicationController
     if arr[0] == "" and arr[1].any?
       @examination = arr[1][0]
       @paper_url = "#{Constant::PAPER_CLIENT_PATH}/#{@examination.paper_id}.js"
+#      puts "------------------------------"
+#      puts @examination.start_at_time
+#      puts @examination.exam_time
       if @examination.started_at.nil? or @examination.started_at == ""
         @exam_user = ExamUser.find(@examination.exam_user_id)
         @exam_user.update_info_for_join_exam(@examination.start_at_time, @examination.exam_time)
@@ -24,9 +27,17 @@ class User::ExaminationsController < ApplicationController
     
   end
 
-  def do_exam
-
-
+  def save_result
+    @exam_user = ExamUser.find_by_examination_id_and_user_id(params[:id], cookies[:user_id])
+    question_hash = {}
+    question_ids = params[:all_quesiton_ids].split(",") if params[:all_quesiton_ids]
+    question_ids.each do |question_id|
+      question_hash[question_id] = params["answer_" + question_id]
+    end if question_ids
+    if @exam_user
+      @exam_user.generate_answer_sheet_url(@exam_user.update_answer_url(question_hash), "result")
+      @exam_user.submited!
+    end
   end
 
 end

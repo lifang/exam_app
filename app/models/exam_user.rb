@@ -3,7 +3,7 @@ class ExamUser < ActiveRecord::Base
   has_many :rater_user_relations,:dependent=>:destroy
   belongs_to :examination
   has_many :exam_raters,:through=>:rater_user_relations,:foreign_key=>"exam_rater_id"
-  belongs_to:paper
+  belongs_to :paper
 
   require 'rexml/document'
   include REXML
@@ -42,7 +42,7 @@ class ExamUser < ActiveRecord::Base
   #随机分配学生一张试卷
   def set_paper(examination)
     papers = examination.papers
-    self.paper_id = papers[rand(papers.length-1)]
+    self.paper = papers[rand(papers.length-1)]
     self.save
   end
 
@@ -57,8 +57,8 @@ class ExamUser < ActiveRecord::Base
 
       left join categories c on c.id = p.category_id where 1=1 "
     options.each do |key, value|
-        sql += " and #{key} #{value} "
-      end unless options.empty?
+      sql += " and #{key} #{value} "
+    end unless options.empty?
     return sql
   end
 
@@ -90,9 +90,13 @@ class ExamUser < ActiveRecord::Base
     return exam_user_hash
   end
 
-def user_affiremed
-  self.toggle!(:is_user_affiremed)
-end
+  def user_affiremed
+    self.toggle!(:is_user_affiremed)
+  end
+
+  def submited!
+    self.toggle!(:is_submited)
+  end
 
   #考生更新考试时长信息
   def update_info_for_join_exam(exam_start_time = nil, exam_time)
@@ -104,21 +108,23 @@ end
     self.save
   end
 
+  #创建考生答卷
   def create_answer_xml(options = {})
     content = "<?xml version='1.0' encoding='UTF-8'?>"
     content += <<-XML
       <exam id='#{self.examination_id}'>
-      <paper id='#{self.paper_id}'><problems>
-      </problems><total_score></tatal_score></paper>
+        <paper id='#{self.paper_id}'>
+          <questions></questions>
+        </paper>
       </exam>
     XML
     options.each do |key, value|
-        content+="<#{key}>#{value.force_encoding('ASCII-8BIT')}</#{key}>"
-      end unless options.empty?
+      content+="<#{key}>#{value.force_encoding('ASCII-8BIT')}</#{key}>"
+    end unless options.empty?
     return content
   end
 
-
+  #生成考生文件
   def generate_answer_sheet_url(str, path)
     dir = "#{Rails.root}/public"
     unless File.directory?(dir)
@@ -130,6 +136,19 @@ end
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
     return file_name
+  end
+
+  def update_answer_url(question_ids_options = {})
+    dir = "#{Rails.root}/public"
+    url = File.open(dir + self.answer_sheet_url)
+    doc = Document.new(url)
+    questions = doc.root.elements["paper/questions"]
+    question_ids_options.each do |key, value|
+      question = questions.add_element("question")
+      question.add_attribute("id","#{key}")
+      question.add_element("answer").add_text("#{value}")
+    end unless question_ids_options == {}
+    return doc.to_s
   end
 
 end
