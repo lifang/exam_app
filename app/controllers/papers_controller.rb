@@ -28,12 +28,8 @@ class PapersController < ApplicationController
   def change_info
     @paper=Paper.find(params[:id].to_i)
     @paper.update_attributes(:title=>params[:info][:title],
-      :description=>params[:info][:description], :category_id => params[:category])
-    if @paper.paper_url.nil?
-      @paper.create_paper_url(@paper.xml_content({"category_name" => params["category_name_#{params[:category].to_i}"]}))
-    else
-      @paper.update_base_info(@paper.paper_url, {"category_name" => params["category_name_#{params[:category].to_i}"]})
-    end
+      :description=>params[:info][:description], :category_id => params[:category])  
+   @paper.update_base_info("#{Rails.root}/public"+@paper.paper_url, {"category"=>params[:category].to_i})
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
@@ -69,14 +65,14 @@ class PapersController < ApplicationController
 
 #    @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],
 #      :description=>params[:paper][:block_description])
-#    @block.create_block_xml(@paper.paper_url)                                        #XML操作
+#    @block.create_block_xml(@paper.paper_url)                                      #  XML操作
     
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
   def create_step_two
     @block = PaperBlock.create(:paper_id=>params[:module][:paper_id],:title=>params[:module][:title],:description=>params[:module][:description])
-    @block.create_block_xml(@block.paper.paper_url)                                            #XML操作
+    @block.create_block_xml("#{Rails.root}/public" + @block.paper.paper_url)                                            #XML操作
     redirect_to request.referrer
   end
 

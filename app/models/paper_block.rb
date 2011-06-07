@@ -24,12 +24,12 @@ class PaperBlock < ActiveRecord::Base
   end
 
   def update_block_xml(xpath)
-    doc=Document.new(File.open(self.paper.paper_url))
+    doc=Document.new(File.open("#{Rails.root}/public"+self.paper.paper_url))
     doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")
     block=doc.elements[xpath]
     block.elements["base_info"].elements["title"].text=self.title
     block.elements["base_info"].elements["description"].text=self.description
-    file = File.open(self.paper.paper_url,"w+")
+    file = File.open("#{Rails.root}/public"+self.paper.paper_url,"w+")
     file.write(doc)
     file.close
   end
