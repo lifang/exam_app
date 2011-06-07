@@ -25,7 +25,7 @@
     </div>
   <% end if attrs_array and attrs_array.any? %>
   <%= if correct_type.to_i == Problem::QUESTION_TYPE[:JUDGE]
-    answers[0].to_i ? "对" : "错"
+    answers[0].to_i==0? "错" : "对"
   elsif correct_type.to_i == Problem::QUESTION_TYPE[:SINGLE_CALK] or correct_type.to_i == Problem::QUESTION_TYPE[:CHARACTER]
     "答案：" + answers[0]
   end %>
