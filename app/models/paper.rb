@@ -51,7 +51,7 @@ class Paper < ActiveRecord::Base
     content += <<-XML
       <paper id='#{self.id}' total_num='0' total_score='0'>
         <base_info>
-          <title>#{self.title}</title>
+          <title>#{self.title.force_encoding('ASCII-8BIT')}</title>
           <category>#{self.category_id}</category>
           <creater>#{self.creater_id}</creater>
           <created_at>#{self.created_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</created_at>
@@ -91,9 +91,10 @@ class Paper < ActiveRecord::Base
   #生成试卷的json
   def create_paper_js
     doc = Document.new(File.open "#{Constant::PAPER_PATH}/#{self.id}.xml")
-    doc.elements["paper/blocks"].each do |block|
-      block.elements["problems"].each do |problem|
-        problem.elements["questions"].each do |question|
+    puts doc
+    doc.root.elements["blocks"].each_element do |block|
+      block.elements["problems"].each_element do |problem|
+        problem.elements["questions"].each_element do |question|
           question.delete_element(question.elements["answer"])
           question.delete_element(question.elements["analysis"])
         end

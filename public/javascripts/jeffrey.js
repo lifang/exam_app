@@ -40,7 +40,6 @@ function get_question_type(block_id, paper_id, correct_type, remote_div) {
     var problem_type = "";
     var question_type = "";
     var types = document.getElementsByName("type_radio_" + block_id);
-
     for (var i=0; i<types.length; i++) {
         if (types[i].checked == true) {
             problem_type = types[i].value;
@@ -147,12 +146,13 @@ function new_question(block_id) {
 function generate_edit_questions(problem_id) {
     var hash_str = "";
     var ids_str = $("all_question_ids_" + problem_id).value;
-    var question_ids = ids_str.replace("[", "").replace("]", "").replace(/ /g , "").split(",")
-    for (var i=0; i<question_ids.length; i++) {
-        
+    var question_ids = ids_str.replace("[", "").replace("]", "").replace(/ /g , "").split(",");
+ //   alert(question_ids.length);
+    for (var i=0; i<question_ids.length; i++) {     
         var attr_value = "";
         var attr_answer ="";
         var question_div = $("remote_question_" + question_ids[i]);
+//      alert("question_div = "+question_div);
         if (question_div != null && $("make_edit_" + question_ids[i]).value == "1") {
             var inputs = question_div.getElementsByTagName("input");
             hash_str += "{1=>1,|,question_id=>" + question_ids[i];
@@ -166,7 +166,6 @@ function generate_edit_questions(problem_id) {
                                     attr_value += inputs[k+1].value + ";|;";
                                     if (inputs[k].checked == true) {
                                         attr_answer = inputs[k+1].value;
-
                                     }
                                 }                                                      
                             } 
@@ -195,7 +194,6 @@ function generate_edit_questions(problem_id) {
                             hash_str += ",|,score=>"+  inputs[l].value +"";
                         }
                     }
-
                 } else if (parseFloat(inputs[0].value) == 2) {
                     if (inputs[2].name == "attr_key" && inputs[2].checked == true) {
                         attr_answer = inputs[2].value;
@@ -214,7 +212,6 @@ function generate_edit_questions(problem_id) {
                     hash_str += ",|,answer=>" +  attr_answer + "";
                 }
                 hash_str += ",|,attr_value=>"+ attr_value +"";
-
                 var textarea = question_div.getElementsByTagName("textarea");
                 if (textarea != null) {
                     for (var j=0; j<textarea.length; j++) {
@@ -233,7 +230,9 @@ function generate_edit_questions(problem_id) {
     }
     $("edit_coll_question_" + problem_id).value = hash_str;
     $("edit_form_" + problem_id).submit();
+    
 }
+
 
 //取消添加小题
 function cancel_question(block_id) {
@@ -241,6 +240,7 @@ function cancel_question(block_id) {
     $("choose_coll_que_" + block_id).style.display = "none";
     $("choose_coll_que_link_" + block_id).style.display = "block";
 }
+
 
 function choose_question_type(id){
 
@@ -489,7 +489,6 @@ function mavin_create_problem(block_id) {
 ////alert("选择的是第："+(i+1)+"个");
 ////}
 //}
-
 
 
 
