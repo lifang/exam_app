@@ -1,0 +1,2 @@
+module Rater::ExamRatersHelper
+end
