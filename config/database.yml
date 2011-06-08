@@ -4,7 +4,7 @@ development:
   adapter: mysql2
   database: exam_app
   username: root
-  password: lifang
+  password: qianjun
   encoding: utf8
   pool: 5
   timeout: 5000
@@ -16,19 +16,17 @@ development:
 test:
   adapter: mysql2
   database: exam_app
-  username: examapp
-  password: examapp2011
+  username: root
+  password: qianjun
   encoding: utf8
   pool: 5
   timeout: 5000
-  host: 192.168.10.189
 
 production:
   adapter: mysql2
   database: exam_app
-  username: examapp
-  password: examapp2011
+  username: root
+  password: qianjun
   encoding: utf8
   pool: 5
   timeout: 5000
-  host: 192.168.10.189

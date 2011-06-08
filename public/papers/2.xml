@@ -1,12 +1,12 @@
-<?xml version='1.0' encoding='UTF-8'?>      <paper id='2' total_num='1' total_score='5'>
+<?xml version='1.0' encoding='UTF-8'?>      <paper id='2' total_num='4' total_score='25'>
         <base_info>
-          <title>2011 ruby examination</title>
-          <category>4</category>
+          <title>2011 ruby test</title>
+          <category>2</category>
           <creater>1</creater>
           <created_at>2011年06月07日06时58分</created_at>
-          <updated_at>2011年06月07日16时11分</updated_at>
+          <updated_at>2011年06月08日10时23分</updated_at>
           <description>第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。</description>
 <category_name>3</category_name>      </base_info>
       <blocks>
-      <block id='5' total_num='1' total_score='5'><base_info><title>单项选择题</title><description>无</description></base_info><problems><problem id='10' score='5' types='2'><title>你是江苏人？</title><questions><question correct_type='2' id='7' score='5'><answer>1</answer><analysis></analysis><questionattrs/><tags/></question></questions></problem></problems></block><block id='6' total_num='0' total_score='0'><base_info><title>多项选择题</title><description>每一题有多个选项。</description></base_info><problems/></block></blocks>
+      <block id='5' total_num='3' total_score='15'><base_info><title>1111</title><description>每一个题只有一个选项。</description></base_info><problems><problem id='10' score='5' types='2'><title>你是江苏人？</title><questions><question correct_type='2' id='7' score='5'><answer>1</answer><analysis/><questionattrs/><tags/></question></questions></problem><problem id='16' score='5' types='3'><title>你的家乡在何方？</title><questions><question correct_type='3' id='13' score='5'><answer>江苏兴化</answer><analysis/><questionattrs/><tags/></question></questions></problem><problem id='18' score='5' types='0'><title>单选题？</title><questions><question correct_type='0' id='15' score='5'><answer>1</answer><analysis>1234567890</analysis><questionattrs>2;-;3;-;4;-;</questionattrs><tags>12</tags></question></questions></problem></problems></block><block id='6' total_num='1' total_score='10'><base_info><title>多项选择题</title><description>每一题有多个选项。</description></base_info><problems><problem id='17' score='10' types='3'><title>你在哪里上学？</title><questions><question correct_type='3' id='14' score='10'><answer>南京理工大学紫金学院</answer><analysis>南京</analysis><questionattrs/><tags>基本题</tags></question></questions></problem></problems></block></blocks>
       </paper>
