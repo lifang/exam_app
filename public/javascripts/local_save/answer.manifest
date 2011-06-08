@@ -1,0 +1,10 @@
+CACHE MANIFEST
+# version: 2011-06-08 13:00
+
+/stylesheets/exam_biz_back.css
+/stylesheets/login.css
+/javascripts/local_save/answer.js
+
+NETWORK:
+http://localhost:3000/
+/javascripts/answer_paper.js

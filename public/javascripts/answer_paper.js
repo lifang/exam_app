@@ -1,3 +1,267 @@
+function create_paper() {
+    //显示基本信息部分
+    $("paper_title").innerHTML = papers.paper.base_info.title;
+    $("paper_id").value = papers.paper.id;
+    $("category_name").innerHTML = papers.paper.base_info.category_name;
+    $("total_num").innerHTML = papers.paper.total_num;
+    $("total_score").innerHTML = papers.paper.total_score;
+    if (papers.paper.base_info.description != undefined) {
+        $("description").innerHTML = papers.paper.base_info.description;
+    }
+    if (papers.paper.blocks != undefined && papers.paper.blocks.block != undefined) {
+        var blocks = papers.paper.blocks.block;
+        var bocks_div = $("blocks");
+        if (tof(blocks) == "array") {
+            for (var i=0; i<blocks.size();i++) {
+                create_block(bocks_div, blocks[i]);
+            }
+        } else {
+            create_block(bocks_div, blocks);
+        }
+    }
+    show_exam_time();
+    local_save_start();
+}
+
+function create_block(bocks_div, block) {
+    //添加block的div
+    var block_div = create_element("div", null, "block_" + block.id, null, null, "innerHTML");
+    var block_str = "<h1 class='biz_art_title' id='block_show'>";
+    block_str += block.base_info.title + "(共"+ block.total_num +"题，总分:"+ block.total_score +"分)</h1>";
+    block_div.innerHTML = block_str;
+    bocks_div.appendChild(block_div);
+    var ul_div = create_element("div", null, null, "biz_art_list_box", null, "innerHTML");
+    ul_div.innerHTML = block.base_info.description;
+    block_div.appendChild(ul_div);
+    var ul = create_element("ul", null, "ul_" + block.id, null, null, "innerHTML");
+    ul_div.appendChild(ul);
+    //判断problem的存在
+    if (block.problems != undefined && block.problems.problem != undefined) {
+        var problems = block.problems.problem;
+        if (tof(problems) == "array") {
+            for (var j=0; j<problems.size(); j++) {
+                create_problem(ul, problems[j]);
+            }
+        } else {
+            create_problem(ul, problems);
+        }
+    }
+}
+//添加problem
+function create_problem(ul, problem) {
+    var problem_li = create_element("li", null, "li_" + problem.id, null, null, "innerHTML");
+    ul.appendChild(problem_li);
+    var que_sup_parent_div = create_element("div", null, "question_info_" + problem.id, "products_list_style_box", null, "innerHTML");
+    que_sup_parent_div.style.display = "none";
+    que_sup_parent_div.innerHTML = "<div class='arrow' style='top:35px;'></div>";
+    problem_li.appendChild(que_sup_parent_div);
+    var que_parent_div = create_element("div", null, null, "big_pic_box", null, "innerHTML");
+    que_sup_parent_div.appendChild(que_parent_div);
+
+    var parent_div = create_element("div", null, "full_problem_" + problem.id, "in", null, "innerHTML");
+    que_parent_div.appendChild(parent_div);
+    var question_id_input = create_element("input", "question_ids", "question_ids_" + problem.id, null, "hidden", "value");
+    parent_div.innerHTML = "<input type='hidden' name='problem_"+ problem.id +"' id='problem_"+ problem.id +"' value='"+ problem.id +"'/>";
+    parent_div.innerHTML += "<div class='title'>"+ problem.title + "[" + problem.score +"分]</div>";
+    //添加question所需div
+    if (problem.questions != undefined && problem.questions.question != undefined) {
+        var questions = problem.questions.question;
+        if (tof(questions) == "array") {
+            for (var j=0; j<questions.size(); j++) {
+                create_question(question_id_input, parent_div, questions[j]);
+            }
+        } else {
+            create_question(question_id_input, parent_div, questions);
+        }
+    }
+    parent_div.appendChild(question_id_input);
+    var is_answer_input = create_element("input", "is_answer", "is_answer_" + problem.id, null, "hidden", "value");
+    parent_div.appendChild(is_answer_input);
+    parent_div.innerHTML += "<input type='button' name='problem_submit' class='submit_btn' id='problem_submit' onclick='javascript:generate_problem_answer(\""+ problem.id +"\");' value='保存'/>";
+    //追加problem的标题
+    var problem_str = "<h2><a href='javascript:void(0)' onclick='javascript:question_info("+ problem.id +");'>"+ problem.title +"</a></h2>";
+    problem_li.innerHTML += problem_str;
+    $("problem_ids").value += "" + problem.id + ",";
+//alert(parent_div.innerHTML);
+}
+//添加question所需div
+function create_question(question_id_input, parent_div, question) {
+    $("all_question_ids").value += "" + question.id + ",";
+    question_id_input.value += "" + question.id + ",";
+    var que_div = create_element("div", null, "question_" + question.id, "question", null, "innerHTML");
+    que_div.innerHTML = "<input type='hidden' name='question_type' id='question_type_"+ question.id +"' value='"+ question.correct_type +"'/>小题";
+    if (question.description != undefined) {
+        que_div.innerHTML += "描述：" + question.description;
+    }
+    if (question.score != undefined) {
+        que_div.innerHTML += "[" + question.score + "分]";
+    } else {
+        que_div.innerHTML += "[0分]";
+    }
+    parent_div.appendChild(que_div);
+    create_single_question(que_div, question);
+}
+
+function create_single_question(que_div, question) {
+    if (question.questionattrs != undefined && question.questionattrs != null) {
+        var que_attrs = question.questionattrs.split(";-;");
+        for (var i=0; i<que_attrs.length; i++) {
+            if (que_attrs[i] != null && que_attrs[i] != "") {
+                var attr = create_element("div", null, null, "attr", null, "innerHTML");
+                que_div.appendChild(attr);
+                if (question.correct_type == "0") {
+                    attr.innerHTML += "<input type='radio' name='question_attr_"+ question.id +"' id='question_attr_"+ i +"' value='"+ que_attrs[i] +"'/>";
+                } else if (question.correct_type == "1") {
+                    attr.innerHTML += "<input type='checkbox' name='question_attr_"+ question.id +"' id='question_attr_"+ i +"' value='"+ que_attrs[i] +"'/>";
+                }
+                attr.innerHTML += "<label>"+ que_attrs[i] +"</label>";
+            }
+        }
+    } else {
+        var attr = create_element("div", null, null, "attr", null, "innerHTML");
+        if (question.correct_type == "2") {
+            attr.innerHTML = "<input type='radio' id='question_attr_1' name='question_attr_"+ question.id +"' value='1' />对/是&nbsp;&nbsp;";
+            attr.innerHTML += "<input type='radio' id='question_attr_0' name='question_attr_"+ question.id +"' value='0' />错/否&nbsp;&nbsp;"
+        } else {
+            attr.innerHTML += "<textarea cols='35' rows='3' id='question_answer_"+ question.id +"' name='question_answer_"+ question.id +"'></textarea>";
+        }
+        que_div.appendChild(attr);
+    }
+    if (question.tags != undefined && question.tags != null) {
+        var tags = create_element("div", null, null, "tag", null, "innerHTML");
+        tags.innerHTML = question.tags;
+        que_div.appendChild(tags);
+    }
+    var answer_input = create_element("input", "answer_" + question.id, "answer_" + question.id, null, "hidden", "value");
+    que_div.appendChild(answer_input);
+}
+
+//创建input
+function create_element(element, name, id, class_name, type, ele_flag) {
+    var ele = document.createElement("" + element);
+    if (name != null)
+        ele.name = name;
+    if (id != null)
+        ele.id = id;
+    if (class_name != null)
+        ele.className = class_name;
+    if (type != null)
+        ele.type = type;
+    if (ele_flag == "innerHTML") {
+        ele.innerHTML = "";
+    } else {
+        ele.value = "";
+    }
+    return ele;
+}
+
+//显示考试倒计时
+function show_exam_time() {
+    // nextelapse是定时时间, 初始时为100毫秒
+    // 注意setInterval函数: 时间逝去nextelapse(毫秒)后, onTimer才开始执行
+    timer = window.setInterval("onTimer()", nextelapse);
+}
+
+// 倒计时函数
+function onTimer() {
+    if (start == finish) {
+        window.clearInterval(timer);
+        $("paper_form").submit();
+        setTimeout(function(){alert("答卷时间已到，请您停止答题，系统已经自动帮您提交试卷!")}, 100);
+        return;
+    }
+
+    var hms = new String(start).split(":");
+    var ms = new Number(hms[3]);
+    var s = new Number(hms[2]);
+    var m = new Number(hms[1]);
+    var h = new Number(hms[0]);
+
+    ms -= 10;
+    if (ms < 0) {
+        ms = 90;
+        s -= 1;
+        if (s < 0) {
+            s = 59;
+            m -= 1;
+        }
+        if (m < 0) {
+            m = 59;
+            h -= 1;
+        }
+    }
+
+    var mss = ms < 10 ? ("0" + ms) : ms;
+    var ss = s < 10 ? ("0" + s) : s;
+    var sm = m < 10 ? ("0" + m) : m;
+    var sh = h < 10 ? ("0" + h) : h;
+
+    start = sh + ":" + sm + ":" + ss + ":" + mss;
+    $("exam_time").innerText = sh + ":" + sm + ":" + ss;
+
+    // 清除上一次的定时器
+    window.clearInterval(timer);
+    // 启动新的定时器
+    timer = window.setInterval("onTimer()", nextelapse);
+}
+
+//用来本地存储的定时器
+function local_save_start() {
+    local_timer = window.setInterval("local_save()", 100);
+}
+
+//本地存储函数
+function local_save() {
+    if (local_start_time == local_finish_time) {
+        window.clearInterval(local_timer);
+        alert("调用本地存储函数。");
+        
+        return;
+    }
+    var hms = new String(local_start_time).split(":");
+    var ms = new Number(hms[2]);
+    var s = new Number(hms[1]);
+    var m = new Number(hms[0]);
+    ms -= 10;
+    if (ms < 0) {
+        ms = 90;
+        s -= 1;
+        if (s < 0) {
+            s = 59;
+            m -= 1;
+        }
+        if (m < 0) {
+            m = 59;
+        }
+    }
+    var mss = ms < 10 ? ("0" + ms) : ms;
+    var ss = s < 10 ? ("0" + s) : s;
+    var sm = m < 10 ? ("0" + m) : m;
+    local_start_time = sm + ":" + ss + ":" + mss;
+    $("local_time").innerText = local_start_time;
+    // 清除上一次的定时器
+    window.clearInterval(local_timer);
+    // 启动新的定时器
+    local_timer = window.setInterval("local_save()", 100);
+}
+
+//用来判断获取数据的类型
+function tof(val) {
+    var t;
+    switch(val) {
+        case null:
+            t = "null";
+            break;
+        case undefined:
+            t = "undefined";
+            break;
+        default:
+            t = Object.prototype.toString.call(val).match(/object\s(\w+)/)[1];
+            break;
+    }
+    return  t.toLowerCase();
+}
+
 //用来返回问题是否已经回答
 function generate_problem_answer(problem_id) {
     var problem_div = $("full_problem_" + problem_id);
@@ -55,6 +319,7 @@ function question_value(question_id) {
     return is_answer;
 }
 
+//提交试卷之前判断试卷是否已经全部答完
 function generate_result_paper(paper_id) {
     var flag = true;
     //var all_question_ids = $("all_question_ids").value;
@@ -71,11 +336,34 @@ function generate_result_paper(paper_id) {
             }            
         }
         if (answer_length < (problem_ids.length-1)) {
-           if(!confirm('您还有题尚未答完，确定要交卷么?')) {
-               flag = false;
-           }
+            if(!confirm('您还有题尚未答完，确定要交卷么?')) {
+                flag = false;
+            }
         }
     }
     return flag;
 }
+
+
+
+
+
+
+
+
+  /* function loadxml(xmlFile) {
+    var xmlDoc;
+    if(window.ActiveXObject) {
+      xmlDoc = new ActiveXObject('MSXML2.DOMDocument');
+      xmlDoc.async = false;
+      xmlDoc.load(xmlFile);
+    }else if (document.implementation&&document.implementation.createDocument) {
+      var xmlhttp = new window.XMLHttpRequest();
+      xmlhttp.open("GET", xmlFile, false);
+      xmlhttp.send(null);
+      xmlDoc = xmlhttp.responseXML;
+    }else{return null;}
+    return xmlDoc;
+  }
+  var xmlDom = loadxml("<%#= @paper_url %>"); */
 

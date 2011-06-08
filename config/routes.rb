@@ -84,6 +84,9 @@ ExamApp::Application.routes.draw do
       member do
         post "save_result"
       end
+      collection do
+        get "error_page"
+      end
     end
   end
 
