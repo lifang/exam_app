@@ -17,6 +17,7 @@ function create_exam(){
             checked_ids.push(sles[i].value);
         }       
     }
+    
     document.getElementById("exam_getvalue").value = checked_ids;
 }
 function radiovalue(name){
@@ -141,26 +142,25 @@ function showpartial(name){
         }
     }
 }
-function test_exam(table_rows){
-    var n = $("infoname"+table_rows).value;
-    var mobile = $("infomobile"+table_rows).value;
-    var email = $("infoemail"+table_rows).value;
-
+function test_exam(table_rows,type_name){
+    var n = $(type_name+"_infoname"+table_rows).value;
+    var mobile = $(type_name+"_infomobile"+table_rows).value;
+    var email = $(type_name+"_infoemail"+table_rows).value;
     return test_exam_edit(n,mobile,email);
 }
-function add_item(table_id, url, update_div, examination_id){
+function add_item(table_id, url, update_div, examination_id,type_name){
     var table_rows = $("" + table_id).rows.length ;
     var otr = document.getElementById("" + table_id).insertRow(table_rows-2);
     otr.id = table_rows;
     var str = "<td colspan='4'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate' ";
-    str += "method='get' onsubmit='if (test_exam("+ otr.id +")) {new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)});}; return false;'>";
+    str += "method='get' onsubmit='if (test_exam("+ otr.id +", \""+ type_name +"\")) {new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)});}; return false;'>";
     str += "<div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='&#x2713;' />";
     str += "<input name='authenticity_token' type='hidden' value='UEvwUF56teT4A4h8yc2xE9kbGreWJEGaDJZgItFC3fw=' />";
     str += "</div>";
     str += "<input type='hidden' name='examination_id' id='examination_id' value='"+ examination_id +"'/>";
-    str += "<table><tr><td><input type='text' name='infoname' id='infoname"+otr.id + "'class='required' size='30'/></td>";
-    str += "<td><input type='text' name='infomobile' id='infomobile"+otr.id + "' class='required' size='30'/></td>";
-    str += "<td><input type='text' name='infoemail' id='infoemail"+otr.id + "' class='required' size='30'/></td>";
+    str += "<table><tr><td><input type='text' name='"+type_name +"_infoname' id='"+type_name +"_infoname"+otr.id + "' class='required' size='30'/></td>";
+    str += "<td><input type='text' name='"+type_name +"_infomobile' id='"+type_name +"_infomobile"+otr.id + "' class='required' size='30'/></td>";
+    str += "<td><input type='text' name='"+type_name +"_infoemail' id='"+type_name +"_infoemail"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><button type='submit'>创建</button></td></tr></table>";
     str += "</form></td>";
     otr.innerHTML = str;
@@ -303,9 +303,9 @@ function checkinfo(){
             return true;
         }
         else{
-        document.getElementById("nameErr").innerHTML="用户名格式不正确";
-        return false;
-    }
+            document.getElementById("nameErr").innerHTML="用户名格式不正确";
+            return false;
+        }
     }
 }
 function check_password() {

@@ -2,38 +2,39 @@ class ExamUsersController < ApplicationController
 
   def create_exam_user
     @examination = Examination.find(params[:examination_id].to_i)
-    if (User.find_by_name(params[:infoname])!=nil || User.find_by_email(params[:infoemail])!=nil)
-      @user=User.find_by_sql("select u.id from users u where u.name='#{params[:infoname]}' and u.email='#{params[:infoemail]}' ")
-      @user.each  do |user1|
-        if ExamUser.find_by_user_id(user1.id).nil?
-          new_exam_user(@examination,user1)
-        else
-          if (ExamUser.find_by_user_id(user1.id).examination_id ==params[:examination_id])
-            flash[:email_err]="该考生信息已加入"
-          else
-            new_exam_user(@examination,user1)
-          end
-        end
-      end
-    else
-      if User.find_by_email(params[:infoemail])!=nil
+    @user=User.find_by_sql("select * from users u where u.name='#{params[:exam_user_infoname]}' and u.email='#{params[:exam_user_infoemail]}' ")
+    if @user==[]
+      if User.find_by_email(params[:exam_user_infoemail])!=nil
         flash[:email_err]="邮箱已被使用"
       else
-        user = User.new(:name=>params[:infoname],:username=>params[:infoname],:email=>params[:infoemail],
-          :mobilephone=>params[:infomobile],:password=>"123456",:password_confirmation=>"123456")
+        user = User.new(:name=>params[:exam_user_infoname],:username=>params[:exam_user_infoname],:email=>params[:exam_user_infoemail],
+          :mobilephone=>params[:exam_user_infomobile],:password=>"123456",:password_confirmation=>"123456")
         user.set_role(Role.find(Role::TYPES[:STUDENT]))
         user.status = User::STATUS[:NORMAL]
         user.encrypt_password
         user.save!
         new_exam_user(@examination,user)
       end
+    else
+      @user.each  do |user1|
+        if ExamUser.find_by_user_id(user1.id).nil?
+          new_exam_user(@examination,user1)
+        else
+          if ExamUser.find_by_user_id(user1.id).examination_id == params[:examination_id].to_i
+            flash[:email_err]="该考生信息已加入"
+          else
+            new_exam_user(@examination,user1)
+          end
+        end
+      end
     end
     @exam_users = ExamUser.paginate_exam_user(@examination.id, 1, params[:page])
     render :partial => "/examinations/exam_user_for_now"
   end
+
   def new_exam_user(examination,user)
     exam_user = ExamUser.create!(:user_id=>user.id,:examination_id=>params[:examination_id],:password=>"123456",
-      :is_user_affiremed=>ExamUser::IS_USER_AFFIREMED[:NO],:total_score=>0)
+      :is_user_affiremed=>ExamUser::IS_USER_AFFIREMED[:NO],:answer_sheet_url=>"where")
     exam_user.set_paper(examination)
     if examination.user_affirm==true
       UserMailer.user_affirm(exam_user,examination).deliver

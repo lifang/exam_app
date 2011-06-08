@@ -1,11 +1,11 @@
 class ExamRatersController < ApplicationController
   def create_exam_rater
     @examination = Examination.find(params[:examination_id].to_i)
-    @rater=ExamRater.find_by_sql("select u.id from exam_raters u where u.name='#{params[:infoname]}'
-         and u.email='#{params[:infoemail]}' and u.examination_id=#{params[:examination_id].to_i} ")
+    @rater=ExamRater.find_by_sql("select u.id from exam_raters u where u.name='#{params[:exam_rater_infoname]}'
+         and u.email='#{params[:exam_rater_infoemail]}' and u.examination_id=#{params[:examination_id].to_i} ")
     if (@examination  and !@rater.nil? )
-      exam_rater=ExamRater.create!(:examination_id => @examination.id , :name => params[:infoname],
-        :mobilephone => params[:infomobile], :email => params[:infoemail], :author_code => proof_code(6))
+      exam_rater=ExamRater.create!(:examination_id => @examination.id , :name => params[:exam_rater_infoname],
+        :mobilephone => params[:exam_rater_infomobile], :email => params[:exam_rater_infoemail], :author_code => proof_code(6))
       UserMailer.rater_affirm(exam_rater,@examination).deliver
       @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
         :per_page => 1, :page => params[:page])
@@ -31,22 +31,5 @@ class ExamRatersController < ApplicationController
     @exam_rater.update_attributes(:name=>params[:name],:email=>params[:email],:mobilephone=>params[:mobilephone])
     render :partial=>"/examinations/back_exam_rater"
   end
-  def rater_session
-    @rater=ExamRater.find(params[:id])
-    @examination=Examination.find(params[:examination])
-    render "/exam_raters/session"
-  end
-  def rater_login
-    @rater=ExamRater.find(params[:id])
-    @examination=Examination.find(params[:examination_id])
-    if @rater.author_code==params[:author_code]
-      cookies[:rater_id]=@rater.id
-      flash[:success]="登陆成功"
-      render "/exam_raters/reader_papers"
-    else
-      flash[:error]="阅卷码不正确，请核对！"
-      render "/exam_raters/session"
-    end
-
-  end
+ 
 end
