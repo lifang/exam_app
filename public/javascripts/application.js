@@ -17,6 +17,11 @@ function checkspace(checkstr){
     for(var i = 0; i < checkstr.length; i++) {
         str = str + ' ';
     }
-    return (str == checkstr);
+    if (str == checkstr){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 

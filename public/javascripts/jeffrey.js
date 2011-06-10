@@ -69,6 +69,11 @@ function get_question_type(block_id, paper_id, correct_type, remote_div) {
 
 //增加综合题的小题
 function new_question(block_id) {
+
+    if(question_validate()==false){
+        return false;
+    }
+   
     var hash_str = "{1=>1";
     if ($("problem_description")!= null && $("problem_description").value != "") {
         hash_str += ",|,diescription=>"+  $("problem_description").value + "";
@@ -140,25 +145,93 @@ function new_question(block_id) {
     $("remote_que_div_" + block_id).innerHTML = "";
     $("choose_coll_que_link_" + block_id).style.display = "block";
     $("single_question_" + block_id).value += hash_str;
+
+    
 }
+
+
+
+function question_validate(){
+    if ($("problem_description")!= null && $("problem_description").value == "") {
+        alert("小题描述不能为空。");
+        return false;
+    }
+    if (parseFloat($("problem_correct_type").value) == 0 ||parseFloat($("problem_correct_type").value) == 1){
+        var answer_array=new Array;
+        for (var i=1; i<=parseFloat($("problem_attr_sum").value); i++) {
+            if ($("problem_attr" + i + "_value").value=="") {
+                alert("选项不能为空。");
+                return false;
+            }
+            answer_array.push($("problem_attr" + i + "_value").value);
+        }
+        var answer_array_sort=answer_array.sort();
+        for(var i=0;i<answer_array.length;i++){
+            if (answer_array_sort[i]==answer_array_sort[i+1]){
+                alert("选项不能重复 ： "+answer_array_sort[i]);
+                return false;
+            }
+        }
+
+        if(document.getElementsByName("attr_key").length!=0) {
+            var checked_num=0;
+            var attr_key = document.getElementsByName("attr_key");
+            for (var j=1; j<=attr_key.length; j++) {
+                if (parseFloat(attr_key[j-1].value) == j && attr_key[j-1].checked == true) {
+                    checked_num++;
+                }
+            }
+            if (checked_num==0){
+                alert("请设置正确选项。");
+                return false;
+            }
+        }     //单选题，验证设置选项
+
+        
+        if(document.getElementById("problem_attr_key_1")!=null) {
+            var checked_num=0;
+            for (var j=1; j<=parseFloat($("problem_attr_sum").value); j++) {
+                var attr_key = document.getElementById("problem_attr_key_"+j);
+                if (attr_key.value == j && attr_key.checked == true) {
+                    checked_num++;
+                }
+            }
+            if(checked_num==0){
+                alert("请设置正确选项。");
+                return false;
+            }
+        }     //多选题，验证设置选项
+    }
+
+    
+    if(parseFloat($("problem_correct_type").value) == 3||parseFloat($("problem_correct_type").value) == 5){
+        var problem_answer = $("problem_answer").value;
+        if(problem_answer==""){
+            alert("答案不能为空。");
+            return false;
+        }
+    }   //验证答案不能为空
+
+}   //验证  new_quesition(block_id)
+
 
 //修改综合题小题
 function generate_edit_questions(problem_id) {
     var hash_str = "";
     var ids_str = $("all_question_ids_" + problem_id).value;
     var question_ids = ids_str.replace("[", "").replace("]", "").replace(/ /g , "").split(",");
- //   alert(question_ids.length);
-    for (var i=0; i<question_ids.length; i++) {     
+    //   alert(question_ids.length);
+    for (var i=0; i<question_ids.length; i++) {
         var attr_value = "";
         var attr_answer ="";
         var question_div = $("remote_question_" + question_ids[i]);
-//      alert("question_div = "+question_div);
+        //      alert("question_div = "+question_div);
         if (question_div != null && $("make_edit_" + question_ids[i]).value == "1") {
             var inputs = question_div.getElementsByTagName("input");
             hash_str += "{1=>1,|,question_id=>" + question_ids[i];
             if (inputs != null && inputs[0] != null) {
                 var attr = parseFloat(inputs[1].value);
-                if (parseFloat(inputs[0].value) == 0) {                    
+                if (parseFloat(inputs[0].value) == 0) {
                     for (var k=2; k<inputs.length; k++) {
                         if (attr > 0) {
                             for (var m=0; m<attr; m++) {
@@ -167,8 +240,8 @@ function generate_edit_questions(problem_id) {
                                     if (inputs[k].checked == true) {
                                         attr_answer = inputs[k+1].value;
                                     }
-                                }                                                      
-                            } 
+                                }
+                            }
                         }
                         if (inputs[k].name == "problem[score]") {
                             hash_str += ",|,score=>"+  inputs[k].value +"";
@@ -225,8 +298,8 @@ function generate_edit_questions(problem_id) {
                     }
                 }
                 hash_str += "}||";
-            }           
-        }   
+            }
+        }
     }
     $("edit_coll_question_" + problem_id).value = hash_str;
     $("edit_form_" + problem_id).submit();
@@ -490,5 +563,9 @@ function mavin_create_problem(block_id) {
 ////}
 //}
 
+
+function new_attr(table_id,url,update_div, examination_id,type_name){
+    otr.id = table_rows;
+}
 
 

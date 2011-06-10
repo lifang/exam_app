@@ -8,7 +8,11 @@ class ProblemsController < ApplicationController
 
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     #创建题目
-    @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title], :types => params[:real_type].to_i})
+    title=params[:problem][:title]
+    if (title.reverse[0,6].reverse == "<br />")    #去除字符串最后的<br />符号
+      title = title[0,title.length-6]
+    end
+    @problem = Problem.create_problem(@paper, {:title=>title, :types => params[:real_type].to_i})
     #创建题点
     score_arr = {}
     if params[:real_type].to_i == Problem::QUESTION_TYPE[:COLLIGATION]
@@ -39,13 +43,13 @@ class ProblemsController < ApplicationController
     if problem_type == Problem::QUESTION_TYPE[:SINGLE_CHOSE]
       answer_index = params[:attr_key].to_i
       answer_question_attr << params["attr#{answer_index}_value"]
-      (0..attr_num-1).each do |i|
+      (1..attr_num).each do |i|
         attrs_array << params["attr#{i}_value"]
       end
       answer_question_attr << attrs_array
     elsif problem_type == Problem::QUESTION_TYPE[:MORE_CHOSE]
       answer_index = []
-      (0..attr_num-1).each do |i|
+      (1..attr_num).each do |i|
         if !params["attr#{i}_key"].nil? and params["attr#{i}_key"] != ""
           attr_key = params["attr#{i}_key"].to_i
           answer_index << params["attr#{attr_key}_value"]
@@ -68,7 +72,11 @@ class ProblemsController < ApplicationController
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     @problem = Problem.find(params[:problem][:problem_id].to_i)
     #更新题面
-    @problem.update_attributes(:title=>params[:problem][:title], :updated_at=>Time.now)
+    title=params[:problem][:title]
+    if (title.reverse[0,6].reverse == "<br />")    #去除字符串最后的<br />符号
+      title = title[0,title.length-6]
+    end
+    @problem.update_attributes(:title=>title, :updated_at=>Time.now)
 
     #打开xml
     url = File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml"
@@ -112,7 +120,7 @@ class ProblemsController < ApplicationController
       question_tmp = {} #用来记录初步分离的提点
       questions = [] #用来记录所有的提点
       problem_title = content.gsub(/\[\[(.|\n)+?\]\]/, "________").gsub(/\{\{(.|\n)+?\}\}/, "________")
-        .gsub(/\[\{(.|\n)+?\}\]/, "").gsub(/\[\((.|\n)+?\)\]/, "")
+      .gsub(/\[\{(.|\n)+?\}\]/, "").gsub(/\[\((.|\n)+?\)\]/, "")
       #非简答题以外的题
       if content.include? "[["
         question_tmp = Question.generate_question_hash(question_tmp, "]]", "[[", content)
@@ -166,3 +174,5 @@ class ProblemsController < ApplicationController
   
 
 end
+
+String

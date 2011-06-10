@@ -2,10 +2,11 @@
   小题描述：
   <textarea cols="45" rows="3" id="problem_description" name="problem[description]"></textarea>
 <% end %>
-<% attr_default_sum = 4 %>
+
 <div class="title">选项：</div>
 <div class="clear"></div>
 <div class="question">
+  <% attr_default_sum = 4 %>
   <input type="hidden" name="problem[correct_type]" id="problem_correct_type" value="<%= @question_type %>" />
   <input type="hidden" name="problem[attr_sum]" id="problem_attr_sum" value="<%= attr_default_sum %>" />
   <% (1..attr_default_sum).each do |i| %>
@@ -15,7 +16,8 @@
       <a href="javascript:void(0);" onclick="javascript:delete_attr(<% i %>);">删除</a>
     </div>
   <% end %>
-  <div style="text-align: left;"><a href="javascript:void(0);" onClick="javascript:void(0);">+增加选项</a></div>
+  <div style="text-align: left;"><a href="javascript:void(0);" onClick="javascript:void(0);"> <%= link_to "+增加选项","javascript:void(0);",
+            :onclick=>"javascript:new_attr(#{attr_default_sum},)" %></a></div>
 </div>
 <div class="answer">
   分值：<input type="text" name="problem[score]" id="problem_score" class="input_style" />

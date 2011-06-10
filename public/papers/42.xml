@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>      <paper id='42' total_num='4' total_score='45'>
+        <base_info>
+          <title>xuqiyong</title>
+          <category>2</category>
+          <creater>1</creater>
+          <created_at>2011年06月10日17时05分</created_at>
+          <updated_at>2011年06月10日17时11分</updated_at>
+          <description>测试试卷。</description>
+<category_name>ruby</category_name>      </base_info>
+      <blocks>
+      <block id='55' total_num='1' total_score='5'><base_info><title>单选题</title><description>每一题只有一个选项。</description></base_info><problems><problem id='120' score='5' types='0'><title>这是一个单选题么？</title><questions><question correct_type='0' id='117' score='5'><answer>是的</answer><analysis>这是常识。。</analysis><questionattrs>是的;-;不是;-;不知道;-;不告诉你</questionattrs><tags>基础题</tags></question></questions></problem></problems></block><block id='56' total_num='1' total_score='15'><base_info><title>多选题</title><description>每一题可以有多个选项。</description></base_info><problems><problem id='121' score='15' types='1'><title>这是一个多选题么？</title><questions><question correct_type='1' id='118' score='15'><answer>是的;|;YES;|;SURE</answer><analysis>我只是来打酱油的。</analysis><questionattrs>不告诉你;-;是的;-;YES;-;SURE</questionattrs><tags>基础题</tags></question></questions></problem></problems></block><block id='57' total_num='1' total_score='5'><base_info><title>判断题</title><description>请选择一个你认为正确的项。</description></base_info><problems><problem id='122' score='5' types='2'><title>你是个帅哥，对么？</title><questions><question correct_type='2' id='119' score='5'><answer>1</answer><analysis>自重啊自重。。</analysis><questionattrs/><tags>基础题</tags></question></questions></problem></problems></block><block id='58' total_num='1' total_score='20'><base_info><title>填空题</title><description>请将你认为正确的答案填入下面的输入框中。</description></base_info><problems><problem id='123' score='20' types='3'><title>你叫什么名字？</title><questions><question correct_type='3' id='120' score='20'><answer>许其勇</answer><analysis>坦白从宽，抗拒从严。</analysis><questionattrs/><tags>基础题</tags></question></questions></problem></problems></block><block id='59' total_num='0' total_score='0'><base_info><title>简答题</title><description>请问答下列问题。</description></base_info><problems/></block></blocks>
+      </paper>
