@@ -15,7 +15,7 @@ ExamApp::Application.routes.draw do
       get "session","check_paper"
       end
       member do
-        get "rater_session"
+        get "rater_session","get_score"
         post "rater_login"
         get "reader_papers","answer_paper"
       end

@@ -1,0 +1,16 @@
+<% @doc.elements[1].elements[1].each_element do |element| %>
+  <% if element.attributes["id"]==single_answer.attributes["id"] %>
+    <div class="title">
+      <div>考生答案：<%= element.elements["answer"].text %></div>
+    </div>
+    <div class="title">
+      <%= form_remote_tag :url => "/rater/exam_raters/#{element.attributes['id']}/get_score" , :method => "get",
+        :html => {:class => "required-validate" },:update => "#{Rails.root}/public/result/#{@exam_user.id}.xml"  do -%>
+        <input value="<%= @exam_user.id %>" id="answer_id" name="answer_id" type="hidden" />
+        <input type="hidden" name="problem_id" value="<%=single_answer.attributes["id"]  %>" />
+        <input type="text" name="single_value" id="single_value" value="<%= single_answer.attributes["score"] %>"/>
+        <input type="submit" value="确定" id="give_value" name="give_value" onclick="javascipt:" />
+      <% end -%>
+    </div>
+  <% end %>
+<% end %>

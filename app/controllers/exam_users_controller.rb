@@ -13,6 +13,9 @@ class ExamUsersController < ApplicationController
         user.status = User::STATUS[:NORMAL]
         user.encrypt_password
         user.save!
+          puts "ssssssssssssssssssssssssssss"
+    puts user.created_at.to_date
+     puts user.created_at.to_datetime
         new_exam_user(@examination,user)
       end
     else
@@ -28,6 +31,7 @@ class ExamUsersController < ApplicationController
         end
       end
     end
+  
     @exam_users = ExamUser.paginate_exam_user(@examination.id, 1, params[:page])
     render :partial => "/examinations/exam_user_for_now"
   end
