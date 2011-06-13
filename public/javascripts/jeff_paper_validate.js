@@ -21,12 +21,15 @@ function edit_block_info(id){
 
 //验证 编辑题目
 function edit_problem_validate(problem_id){
-    var problem_title = KE.util.getData("edit_title_"+problem_id).replace(/<br \/>/g,"");
-    var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
-    if(problem_title == null  || problem_title.length == 0 || checkspace(text_source)){
-        alert("题面不能为空。");
-        return false;
+    if($("edit_title_"+problem_id).value.replace(/<br \/>/g,"")!=null){
+        var problem_title = $("edit_title_"+problem_id).value.replace(/<br \/>/g,"");
+        var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
+        if(problem_title=="" || checkspace(text_source)){
+            alert("题面不能为空。");
+            return false;
+        }
     }
+
 
     if(document.getElementById("problem_description")!=null){           //验证小题描述不能为空
         var problem_description = document.getElementById("problem_description").value;
@@ -36,7 +39,7 @@ function edit_problem_validate(problem_id){
         }
     }
 
-    var answer_array=new Array;
+    var answer_array=[];
     for(var i=1;i<=4;i++){     //验证 选项不能为空
         if(document.getElementById("problem_attr"+i+"_value")!=null){
             var attr_value = document.getElementById("problem_attr"+i+"_value").value;
@@ -65,27 +68,25 @@ function edit_problem_validate(problem_id){
         }
     }
 
-
-    var checked_num = 0;                               //验证是否选择正确答案,单选,多选都可用
-    for(i=0;i<4;i++){
-        if(document.getElementById("problem_attr_key_"+(i+1)).checked){
-            checked_num++;
+    if(document.getElementById("problem_attr_key_1")!=null){
+        var checked_num = 0;                               //验证是否选择正确答案,单选,多选都可用
+        for(i=0;i<4;i++){
+            if(document.getElementById("problem_attr_key_"+(i+1)).checked){
+                checked_num++;
+            }
+        }
+        if (checked_num==0){
+            alert("请设置正确选项。");
+            return false;
         }
     }
-    if (checked_num==0){
-        alert("请设置正确选项。");
-        return false;
-    }
-    
-    alert("end");
-    return false;
 }
 
 
 //验证 新建试题
 function new_problem_validate(block_id){
  
-    var problem_title = KE.util.getData("problem_title_"+block_id).replace(/<br \/>/g,"");
+    var problem_title = $("problem_title_"+block_id).value.replace(/<br \/>/g,"");
     var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
     if(problem_title == null  || problem_title.length == 0 || checkspace(text_source)){
         alert("题面不能为空。");
@@ -94,7 +95,7 @@ function new_problem_validate(block_id){
 
     if(document.getElementById("problem_description")!=null){           //验证小题描述不能为空
         var problem_description = document.getElementById("problem_description").value;
-        if (problem_description==""){
+        if (problem_description==""||checkspace(problem_description)){
             alert("描述不能为空。");
             return false;
         }
@@ -106,7 +107,7 @@ function new_problem_validate(block_id){
         for(var i=1;i<=4;i++){     //验证 选项不能为空
             var attr_value = document.getElementById("problem_attr"+i+"_value").value;
             answer_array.push(attr_value);
-            if (attr_value==""){
+            if (attr_value==""||checkspace(attr_value)){
                 alert("选项不能为空。");
                 return false;
             }
@@ -122,7 +123,7 @@ function new_problem_validate(block_id){
     
     if(document.getElementById("problem_answer")!=null){           //验证答案不能为空
         var problem_answer = document.getElementById("problem_answer").value;
-        if (problem_answer==""){
+        if (problem_answer==""||checkspace(problem_answer)){
             alert("答案不能为空。");
             return false;
         }
@@ -149,7 +150,7 @@ function new_problem_validate(block_id){
 //验证  新建模块
 function new_module_validate(){
     var new_module_title = document.getElementById("new_module_title").value;
-    if ( new_module_title == null || new_module_title.length == 0 ){
+    if ( new_module_title == null || new_module_title==""||checkspace(new_module_title) ){
         alert("模块标题不能为空。");
         return false;
     }

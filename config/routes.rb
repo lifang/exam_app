@@ -33,6 +33,10 @@ ExamApp::Application.routes.draw do
     member do
       post "choose_type"
     end
+    collection do
+      post "load_edit_problem"
+      post "load_create_problem"
+    end
   end
   resources :problems do
     collection do

@@ -161,7 +161,7 @@ function add_item(table_id, url, update_div, examination_id,type_name){
     str += "<table><tr><td><input type='text' name='"+type_name +"_infoname' id='"+type_name +"_infoname"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><input type='text' name='"+type_name +"_infomobile' id='"+type_name +"_infomobile"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><input type='text' name='"+type_name +"_infoemail' id='"+type_name +"_infoemail"+otr.id + "' class='required' size='30'/></td>";
-    str += "<td><button type='submit'>创建</button></td></tr></table>";
+    str += "<td><button type='submit'>创建</button></td></tr></table>";oiik
     str += "</form></td>";
     otr.innerHTML = str;
     /*var checkTd=document.createElement("td");

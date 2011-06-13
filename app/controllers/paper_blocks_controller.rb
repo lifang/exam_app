@@ -1,5 +1,28 @@
 class PaperBlocksController < ApplicationController
 
+  require 'rexml/document'
+  include REXML
+
+  def load_create_problem
+    paper_id = params[:paper_id]
+    block_id = params[:block_id]
+    file = File.new("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml","r+")
+    @xml=REXML::Document.new(file).root
+    block=@xml.elements["blocks"].elements["block[@id='#{block_id}']"]
+    render :partial =>"/papers/new_question",:object=>block
+  end
+
+
+  def load_edit_problem
+    paper_id = params[:paper_id]
+    block_id = params[:block_id]
+    problem_id = params[:problem_id] 
+    file = File.new("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml","r+")
+    @xml=REXML::Document.new(file).root
+    problem=@xml.elements["blocks"].elements["block[@id='#{block_id}']"].elements["problems"].elements["problem[@id='#{problem_id}']"]
+    render :partial =>"/papers/edit_problem",:object=>problem
+  end
+
   def choose_type
     @block_id = params[:id]
     @paper_id = params[:paper_id]
@@ -20,5 +43,7 @@ class PaperBlocksController < ApplicationController
     end
 
   end
+
+  
   
 end

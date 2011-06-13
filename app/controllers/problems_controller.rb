@@ -49,9 +49,9 @@ class ProblemsController < ApplicationController
       answer_question_attr << attrs_array
     elsif problem_type == Problem::QUESTION_TYPE[:MORE_CHOSE]
       answer_index = []
-      (1..attr_num).each do |i|
+      (1..attr_num).each do |i|    
         if !params["attr#{i}_key"].nil? and params["attr#{i}_key"] != ""
-          attr_key = params["attr#{i}_key"].to_i
+          attr_key = params["attr#{i}_key"].to_i        
           answer_index << params["attr#{attr_key}_value"]
         end
         attrs_array << params["attr#{i}_value"]
