@@ -161,7 +161,8 @@ function add_item(table_id, url, update_div, examination_id,type_name){
     str += "<table><tr><td><input type='text' name='"+type_name +"_infoname' id='"+type_name +"_infoname"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><input type='text' name='"+type_name +"_infomobile' id='"+type_name +"_infomobile"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><input type='text' name='"+type_name +"_infoemail' id='"+type_name +"_infoemail"+otr.id + "' class='required' size='30'/></td>";
-    str += "<td><button type='submit'>创建</button></td></tr></table>";oiik
+    str += "<td><button type='submit'>创建</button></td></tr></table>";
+    oiik
     str += "</form></td>";
     otr.innerHTML = str;
     /*var checkTd=document.createElement("td");
@@ -326,23 +327,33 @@ function check_password() {
     }
 }
 close_question_info_id=0
-function compare_value(id,fact_value){
+function compare_value(id,compare_id){
+    
     if (close_question_info_id != 0) {  //关闭查看框
-        var input_value=$("single_value_"+id);
-        if (parseInt(fact_value)==0){
+        if (parseInt(compare_id)==0){
             document.getElementById("question_info_"+close_question_info_id).style.display="none";
             close_question_info_id = 0;
+        }else{ 
+            var arry=id.split("_");
+            var i;
+            for(i=1;i<arry.length;i++){
+                var input_value=$("single_value_"+arry[i]).value;
+                var fact_value=$("fact_value_"+arry[i]).value;
+                if (parseInt(fact_value) < parseInt(input_value)||parseInt(input_value)<0||input_value==""){
+                    $("if_submited_"+arry[i]).value =0;
+                    $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>您输入的数据与原数值不符</font>";
+                    return false;
+                }
+                else{
+                    $("flash_part_"+arry[i]).innerHTML="";
+                    $("if_submited_"+arry[i]).value =1;
+                    if (i==arry.length-1){
+                        document.getElementById("question_info_"+close_question_info_id).style.display="none";
+                        close_question_info_id = 0;
+                        active_button();
+                    }
 
-        }else{
-            if ((parseInt(fact_value) < parseInt(input_value.value))||parseInt(input_value.value)<0||input_value.value==""){
-                alert("您输入的数据与原数值不符");
-                return false;
-            }
-            else{
-                $("if_submited_"+id).value =1;
-                document.getElementById("question_info_"+close_question_info_id).style.display="none";
-                close_question_info_id = 0;
-                active_button();
+                }
             }
         }
     }
@@ -351,14 +362,15 @@ function compare_value(id,fact_value){
     active_button();
 }
 function active_button(){
+     $("flash_notice").innerHTML="";
     var flag=0;
     var str=$("problem_id").value;
     var n=str.split(",");
-    for(i=0;i<n.length-1;i++){
-        value=$("single_value_"+n[i+1]).value;
+    for(i=1;i<n.length;i++){
+        value=$("single_value_"+n[i]).value;
         flag=1;
         if(value ==""){
-            $("if_submited_"+id).value =0;
+            $("if_submited_"+n[i]).value =0;
             flag=0;
             $("button_id").disabled=true;
             return false;
@@ -370,11 +382,30 @@ function active_button(){
             $("button_id").disabled=false;
         }
         else{
-            alert("请检查批阅分数");
+            $("flash_notice").innerHTML="<font color = 'red'>请检查批阅分数</font>";
             $("button_id").disabled=true;
         }
-    }else{
+    }else{ 
         $("button_id").disabled=true;
+    }
+}
+function button_status(){
+    var str=$("problem_id").value;
+    var  flag=0;
+    var n=str.split(",");
+    for(i=0;i<n.length-1;i++){
+        var  value=$("if_submited_"+n[i+1]).value;
+        flag=1;
+        if(value==0){
+            flag=0;
+            return false;
+        }
+    }
+    if (flag==1){
+        return true;
+    }
+    else{
+        return false;
     }
 }
 function button_event() {
@@ -388,23 +419,4 @@ function button_event() {
         document.getElementById("hd").innerHTML = "(" + e.clientX + "," + e.clientY + ") srcElement="
         + e.srcElement.tagName + "[" + e.srcElement.id + "]lllllll"+e.button+"dddd"+e.ctrlKey+e.screenX+"ss"+e.keycode+e.offsetX;
     };
-}
-function button_status(){
-    var str=$("problem_id").value;
-    flag=0;
-    var n=str.split(",");
-    for(i=0;i<n.length-1;i++){
-        value=$("if_submited_"+n[i+1]).value;
-        flag=1;
-        if(value==0){
-            flag=0;
-            return false;
-        }   
-    }
-    if (flag==1){
-        return true;
-    }
-    else{
-        return false;
-    }
 }
