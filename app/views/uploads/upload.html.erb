@@ -1,0 +1,27 @@
+<!--<html>
+<body>
+<script>
+window.onload = function() {
+	var uf = document.getElementById('uploadform');
+	document.getElementById('nicImage').onchange = function() {
+		uf.style.display = 'none';
+		document.getElementById('uploadingMessage').style.display = 'block';
+		uf.submit();
+	}
+
+}
+</script>
+  <form method="post" enctype="multipart/form-data" id="uploadform" action="/uploads/upload?id=<%#= @id %>">
+<input type="hidden" name="APC_UPLOAD_PROGRESS" id="progress_key" value="<%#= @id %>"/>
+<div style="font-size: 14px; font-weight: bold; padding-top: 5px;">Insert a Image</div>
+<br clear="all" />
+<input type="file" size="20" id="nicImage" name="nicImage" />
+
+</form>
+<div id="uploadingMessage" style="display: none; text-align: center; font-size: 14px;">
+	<img src="/ajax-loader.gif" style="float: right; margin-right: 40px;" />
+	<strong>上传中...</strong><br />
+	请等待
+</div>
+</body>
+</html>-->

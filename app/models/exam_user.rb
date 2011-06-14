@@ -138,17 +138,21 @@ class ExamUser < ActiveRecord::Base
     return file_name
   end
 
-  def update_answer_url(question_ids_options = {})
-    dir = "#{Rails.root}/public"
-    url = File.open(dir + self.answer_sheet_url)
-    doc = Document.new(url)
+  def update_answer_url(doc, question_ids_options = {})
     questions = doc.root.elements["paper/questions"]
+    questions.each_element { |q| doc.delete_element(q.xpath) }if questions.children.any?
     question_ids_options.each do |key, value|
       question = questions.add_element("question")
       question.add_attribute("id","#{key}")
       question.add_element("answer").add_text("#{value}")
     end unless question_ids_options == {}
     return doc.to_s
+  end
+
+  def open_xml
+    dir = "#{Rails.root}/public"
+    url = File.open(dir + self.answer_sheet_url)
+    return Document.new(url)
   end
 
 end

@@ -1,8 +1,18 @@
-
 close_question_info_id = 0
 close_create_question_id = 0
 close_edit_problem_id = 0
 close_edit_block_id = 0
+
+//if (window.onbeforeunload == undefined) {
+//    window.onbeforeunload=function() {
+//        return "您还未保存试卷，确定要离开当前页面么？";
+//    }
+//}
+function save_paper_js(paper_id) {
+    window.onbeforeunload = undefined;
+    window.location.href="/papers/"+ paper_id +"/create_all_paper";
+}
+
 function create_question(id, paper_id){
 
     if (close_edit_block_id != 0) {   //关闭模块编辑框
@@ -242,6 +252,23 @@ function cancel_question(block_id) {
     $("choose_coll_que_link_" + block_id).style.display = "block";
 }
 
+function add_area(content_id, button) {
+    var area = new nicEditor({
+        fullPanel : true
+    }).panelInstance(content_id);
+    button.value = "普通文本";
+    button.onclick = function onclick(event) {
+        javascript:remove_area(area, content_id, button);
+    };
+}
+function remove_area(area,content_id, button) {
+    area.removeInstance(content_id);
+    button.value = "富文本";
+    button.onclick = function onclick(event) {
+        javascript:add_area(content_id, button);
+    };
+}
+
 function choose_question_type(id){
 
     if (close_edit_block_id != 0) {   //关闭模块编辑框
@@ -407,12 +434,12 @@ function edit_block(id){
 
 
 function already_answer(){
-    elements = document.forms["answer_box"].elements;
+    var elements = document.forms["answer_box"].elements;
 
     for(i = 0;i<elements.length;i++){
         if(elements[i].type=="radio"){
             if(elements[i].checked==true){
-                id=elements[i].id.substring(0,15);
+                var id=elements[i].id.substring(0,15);
                 document.getElementById(id).innerHTML=('你选择了答案:'+elements[i].value);
             }
         }

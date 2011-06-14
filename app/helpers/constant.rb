@@ -31,5 +31,7 @@ module Constant
   PAPER_URL_PATH = SERVER_PATH + "/papers"
   #客户端访问试卷
   PAPER_CLIENT_PATH = SERVER_PATH + "/paperjs"
+  #客户端访问答卷
+  ANSWER_CLIENT_PATH = SERVER_PATH + "/result"
   
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110601072210) do
+ActiveRecord::Schema.define(:version => 20110614033116) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20110601072210) do
     t.string   "answer_sheet_url"
     t.boolean  "is_user_affiremed"
     t.integer  "total_score"
+    t.boolean  "is_auto_rate",      :default => false
   end
 
   add_index "exam_users", ["examination_id"], :name => "index_exam_users_on_examination_id"
@@ -140,7 +141,7 @@ ActiveRecord::Schema.define(:version => 20110601072210) do
     t.integer "question_id"
   end
 
-  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
+  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_point_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|
