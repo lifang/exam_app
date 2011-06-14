@@ -26,7 +26,12 @@ class User::ExaminationsController < ApplicationController
         @exam_user = ExamUser.find(@examination.exam_user_id)
         @exam_user.update_info_for_join_exam(@examination.start_at_time, @examination.exam_time)
       end
+<<<<<<< HEAD
       render :layout => "application"
+=======
+      #render :inline => "<iframe src='#{Constant::SERVER_PATH}/user/examinations/do_exam?url=#{url}'
+      #frameborder='0' style='width: 100%; height: 100%'></iframe>"
+>>>>>>> 67f34aa09fcfce8649ede316e80acd2cb650f769
     else
       flash[:warn] = arr[0]
       redirect_to request.referer

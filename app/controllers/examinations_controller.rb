@@ -62,7 +62,7 @@ class ExaminationsController < ApplicationController
       :generate_exam_pwd => false}
     hash1[:generate_exam_pwd] = true if params[:generate_exam_pwd] == "1"
     if params[:timelimit] == "1"
-      @time=params[:time].to_datetime + @selectvalue.to_i.minutes + @result.to_i.hours
+      @time=params[:time].to_date + @selectvalue.to_i.minutes + @result.to_i.hours
       @overtime=@time + params[:accesstime].to_i.minutes
       hash1[:start_at_time] = @time
       hash1[:start_end_time] = @overtime
@@ -87,7 +87,6 @@ class ExaminationsController < ApplicationController
       Dir.mkdir(url)
     end
     file_title="用户名\b\t手机号\b\t邮箱\b\t\r"
-    file_title1="name\tmobile\temail\t\r"
     file_url = "/#{params[:id].to_i}_#{Time.now.strftime("%Y%m%d%H%M%S")}.xls"
     file_name = url + file_url
     file= File.new(file_name, File::CREAT|File::TRUNC|File::RDWR, 0644)

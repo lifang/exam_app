@@ -1,8 +1,19 @@
 <input type="hidden" value="<%=@examination.id  %>" name="examination" id="examination"/>
-<%= @examination.title %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;<%= @examination.exam_time %>
-分钟&nbsp;&nbsp;&nbsp;考试开始时间：<%=@examination.start_at_time.strftime("%Y-%m-%d  %I:%M")  %>
- &nbsp;&nbsp;&nbsp入场时间：<%=@examination.start_at_time.strftime("%I:%M")%>&nbsp;到&nbsp;
-<%=@examination.start_end_time.strftime("%I:%M") %>&nbsp;&nbsp;)
+<%= @examination.title %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;
+<% if @examination.exam_time.nil? %>
+  <a>任何时间</a>
+<%  else %>
+  <%= @examination.exam_time %>分钟&nbsp;&nbsp;&nbsp;
+<% end %>
+<% if !@examination.start_at_time.nil? %>
+  考试开始时间：<%=@examination.start_at_time.strftime("%Y-%m-%d  %I:%M")  %>
+  &nbsp;&nbsp;&nbsp
+  入场时间：<%=@examination.start_at_time.strftime("%I:%M")%>&nbsp;到&nbsp;
+  <%=@examination.start_end_time.strftime("%I:%M") %>
+<% else %>
+  试卷更新时间: <%= @examination.updated_at.strftime("%Y-%m-%d  %I:%M") %>
+<% end %>
+  &nbsp;&nbsp;)
 <p>
   本次考试由&nbsp;&nbsp<%=User.find(@examination.creater_id).name  %>&nbsp;&nbsp;组织
 <div  align="center">
@@ -22,7 +33,7 @@
 </p>
 <p>
 <h1>阅卷情况：</h1>
-<table >
+<table>
   <tr>
     <td width="60"><font color="red"><%= @exam_paper_total.size   %>&nbsp;&nbsp;份</font></td><td width="50" ><font color="red">
         <%= @exam_paper_marked.size %>&nbsp;&nbsp;份</font></td><td width="50"><font color="red">
@@ -32,5 +43,4 @@
     <th width="60">试卷总数</th>&nbsp;&nbsp;&nbsp;<th width="50">已批阅</th>&nbsp;&nbsp;&nbsp;<th width="50">未批阅</th>
   </tr>
 </table>
-
 </p>

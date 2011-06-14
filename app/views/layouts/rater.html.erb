@@ -11,22 +11,27 @@
     <%= javascript_include_tag 'button' %>
     <link href="/stylesheets/exam_biz_back.css" rel="stylesheet" />
     <link href="/stylesheets/login.css" rel="stylesheet" />
+    
   </head>
-  <body >
+  <body>
     <div id="container">
       <div id="hd">
         <a id="logo" href="/"><span>考试系统</span></a>
         <div class="clear"></div>
+        <% if cookies[:rater_id] !=nil %>
+        <% rater=ExamRater.find(cookies[:rater_id]) %>
         <p class="title_link">
           <a href="#">批阅列表</a>
         </p>
         <p class="back_welcome">
-          <a href="#">李阳老师</a> 欢迎您！
+          <a href="#"><%= rater.name %></a> 欢迎您！
+       <%= link_to "退出","/exam_raters/check_paper" %>
         </p>
+        <% end %>
       </div>
       <div id="bd">
         <div class="main fr">
-        <%#= display_flash %>
+        <%=  render :partial => "/common/display_flash" %>
           <%= yield %>
         </div>
         <div  id="tishikuang" style="display:block"></div>

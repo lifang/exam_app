@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>      <paper id='9' total_num='4' total_score='80'>
+        <base_info>
+          <title>life is more than other</title>
+          <category>2</category>
+          <creater>1</creater>
+          <created_at>2011年06月13日09时47分</created_at>
+          <updated_at>2011年06月13日14时34分</updated_at>
+          <description>something better!</description>
+<category_name>math</category_name>      </base_info>
+      <blocks>
+      <block id='10' total_num='4' total_score='80'><base_info><title>world good?</title><description>dddss</description></base_info><problems><problem id='30' score='10' types='0'><title>something get other people?&lt;br /&gt;</title><questions><question correct_type='0' id='34' score='10'><answer>some</answer><analysis/><questionattrs>;-;some;-;other;-;better</questionattrs><tags/></question></questions></problem><problem id='32' score='30' types='4'><title>good vikow&lt;br /&gt;</title><questions><question correct_type='5' id='36' score='10'><description>thing like?</description><answer>oh,no,no!</answer><questionattrs/><tags/></question><question correct_type='5' id='37' score='20'><description>yes </description><answer>oh.good</answer><questionattrs/><tags/></question></questions></problem><problem id='33' score='20' types='5'><title>dddsswewwwww?</title><questions><question correct_type='5' id='38' score='20'><answer>ddddddddddd</answer><analysis/><questionattrs/><tags/></question></questions></problem><problem id='31' score='20' types='5'><title>i know nothing ?&lt;br /&gt;</title><questions><question correct_type='5' id='35' score='20'><answer>yes!</answer><analysis></analysis><questionattrs/><tags/></question></questions></problem></problems></block></blocks>
+      </paper>

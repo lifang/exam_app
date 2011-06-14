@@ -9,6 +9,18 @@ ExamApp::Application.routes.draw do
       get "active", "user_active"
     end
   end
+  namespace :rater do
+    resources :exam_raters do
+      collection do
+      get "session","check_paper"
+      end
+      member do
+        get "rater_session","get_score"
+        post "rater_login","over_answer"
+        get "reader_papers","answer_paper"
+      end
+    end
+  end
   resources :results do
     collection do
       post "search"
@@ -20,6 +32,10 @@ ExamApp::Application.routes.draw do
   resources :paper_blocks do
     member do
       post "choose_type"
+    end
+    collection do
+      post "load_edit_problem"
+      post "load_create_problem"
     end
   end
   resources :problems do
@@ -47,13 +63,10 @@ ExamApp::Application.routes.draw do
   end
   resources :exam_raters do
     collection do
-      get "new_exam_three", "create_exam_rater","session"
+      get "new_exam_three", "create_exam_rater"
     end
     member do
       post "update_exam_rater"
-      get "rater_session"
-      post "rater_login"
-      get "reader_papers"
     end
   end
   resources :examinations do
