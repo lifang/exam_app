@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<paper id='7' total_num='11' total_score='125'>
+    <base_info>
+        <title>2012考历史</title>
+        <category>1</category><?xml version='1.0' encoding='UTF-8'?>      <paper id='6' total_num='9' total_score='60'>
+        <base_info>
+          <title>yyyyyyyy</title>
+          <category>1</category>
+          <creater>1</creater>
+          <created_at>2011年06月09日10时09分</created_at>
+          <updated_at>2011年06月10日10时06分</updated_at>
+          <description>第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。</description>
+<category_name>history</category_name>      </base_info>
+      <blocks>
+      <block id='6' total_num='5' total_score='50'><base_info><title>fffdddd</title><description>ffggrreesssssa</description></base_info><problems><problem id='6' score='30' types='1'><title>点点滴滴</title><questions><question correct_type='1' id='6' score='50'><answer>think;|;某侧</answer><analysis>让人</analysis><questionattrs>;-;think;-;某侧;-;得分达到</questionattrs><tags>广告歌</tags></question></questions></problem><problem id='7' score='0' types='2'><title>反复发发发</title><questions><question correct_type='2' id='7' score='0'><answer>1</answer><analysis>凤飞飞</analysis><questionattrs/><tags>大多数</tags></question></questions></problem><problem id='8' score='0' types='3'><title>点点滴滴等等等___？</title><questions><question correct_type='3' id='8' score='0'><answer>ddd</answer><analysis>ddssaa</analysis><questionattrs/><tags>eee ddffd</tags></question></questions></problem><problem id='9' score='0' types='5'><title>ddddsssss?</title><questions><question correct_type='5' id='9' score='0'><answer>zenbuzhidaoijdjjj</answer><analysis>ddddfccc</analysis><questionattrs/><tags>sssd gggf</tags></question></questions></problem><problem id='5' score='20' types='0'><title>世界有多大？&lt;br /&gt;</title><questions><question correct_type='0' id='5' score='20'><answer>small</answer><analysis>此题没有答案？</analysis><questionattrs>small;-;big;-;small;-;biggest</questionattrs><tags>多大 上市 知道</tags></question></questions></problem></problems></block><block id='7' total_num='4' total_score='10'><base_info><title>综合题</title><description>此为综合题！</description></base_info><problems><problem id='10' score='10' types='5'><title>我看到你了</title><questions><question correct_type='5' id='10' score='10'><answer>see see</answer><analysis>sdsssss</analysis><questionattrs/><tags>wee</tags></question></questions></problem><problem id='11' score='0' types='4'><title>看到了吧，综合题！</title><questions/></problem><problem id='12' score='0' types='4'><title>还是综合题！</title><questions/></problem><problem id='13' score='0' types='5'><title>柔柔弱弱仍然</title><questions><question correct_type='5' id='11' score='0'><answer>3333333</answer><analysis>433332455544444</analysis><questionattrs/><tags/></question></questions></problem></problems></block></blocks>
+      </paper>
+
+        <creater>1</creater>
+        <created_at>2011年06月10日09时29分</created_at>
+        <updated_at>2011年06月10日10时58分</updated_at>
+        <description>忘记吧！</description>
+        <category_name>history</category_name>
+    </base_info>
+    <blocks>
+        <block id='8' total_num='11' total_score='125'>
+            <base_info>
+                <title>历史万科</title>
+                <description>历史为古今之事，已为往后之事也！</description>
+            </base_info>
+            <problems>
+                <problem id='14' score='10' types='0'>
+                    <title>知道历史上谁官最大吗？</title>
+                    <questions>
+                        <question correct_type='0' id='12' score='10'>
+                            <answer>小龙</answer>
+                            <analysis>不知道去问问吧！</analysis>
+                            <questionattrs>;-;小龙;-;剑锋;-;其勇</questionattrs>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='15' score='20' types='2'>
+                    <title>司马懿说突然很想诸葛亮，是真的吗？</title>
+                    <questions>
+                        <question correct_type='2' id='13' score='20'>
+                            <answer>1</answer>
+                            <analysis>看三国吧！</analysis>
+                            <questionattrs/>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='16' score='30' types='3'>
+                    <title>历史上貂蝉是_____？</title>
+                    <questions>
+                        <question correct_type='3' id='14' score='30'>
+                            <answer>人</answer>
+                            <analysis>O(∩_∩)O哈哈~</analysis>
+                            <questionattrs/>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='17' score='20' types='5'>
+                    <title>你知道历史上的今天有多少人信佛吗？</title>
+                    <questions>
+                        <question correct_type='5' id='15' score='20'>
+                            <answer>不知道！</answer>
+                            <analysis>这也不会？</analysis>
+                            <questionattrs/>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='18' score='20' types='4'>
+                    <title>历史综合：</title>
+                    <questions>
+                        <question correct_type='5' id='16' score='20'>
+                            <description>天下诸侯尽归中原戮力？</description>
+                            <answer>王道横行。</answer>
+                            <questionattrs/>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='19' score='20' types='4'>
+                    <title>多出点</title>
+                    <questions>
+                        <question correct_type='5' id='17' score='20'>
+                            <description>这是最后一题啊</description>
+                            <answer>是的</answer>
+                            <analysis>让我出两题就行</analysis>
+                            <questionattrs/>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='20' score='0' types='5'>
+                    <title>________ ________ your name?</title>
+                    <complete_title>{{what}} [[is|are;were;was]] your name?</complete_title>
+                    <questions>
+                        <question correct_type='5' id='18' score='0'>
+                            <answer>what</answer>
+                            <analysis/>
+                            <questionattrs/>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='21' score='0' types='4'>
+                    <title>________________ is your name?</title>
+                    <complete_title>[[what]][[is|were;was;are]] is your name?</complete_title>
+                    <questions>
+                        <question correct_type='3' id='19' score='0'>
+                            <answer>what</answer>
+                            <analysis/>
+                            <questionattrs/>
+                            <tags/>
+                        </question>
+                        <question correct_type='0' id='20' score='0'>
+                            <answer>is</answer>
+                            <analysis/>
+                            <questionattrs>is;-;were;-;was;-;are</questionattrs>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='22' score='5' types='5'>
+                    <title>________ is your name?</title>
+                    <complete_title>{{what}} is your name?[(5)]</complete_title>
+                    <questions>
+                        <question correct_type='5' id='21' score='5'>
+                            <answer>what</answer>
+                            <analysis/>
+                            <questionattrs/>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='23' score='0' types='5'>
+                    <title>________ ________ your name?</title>
+                    <complete_title>{{what}} {{is}} your name?</complete_title>
+                    <questions>
+                        <question correct_type='5' id='22' score='0'>
+                            <answer>what</answer>
+                            <analysis/>
+                            <questionattrs/>
+                            <tags/>
+                        </question>
+                        <question correct_type='5' id='23' score='0'>
+                            <answer>is</answer>
+                            <analysis/>
+                            <questionattrs/>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='24' score='0' types='1'>
+                    <title>1111</title>
+                    <questions>
+                        <question correct_type='1' id='24' score='0'>
+                            <answer>23;|;45</answer>
+                            <analysis></analysis>
+                            <questionattrs>;-;11;-;23;-;45</questionattrs>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+            </problems>
+        </block>
+    </blocks>
+</paper>

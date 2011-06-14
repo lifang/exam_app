@@ -7,6 +7,7 @@
         <%= render :partial => "/common/show_single_question", :object => question %>
       <%= render :partial=>"/rater/exam_raters/single_answer",:object => question %>
       <% end %>
+         <h2><a href="javascript:void(0)" onclick="javascript:compare_value(<%= single_question.attributes["id"].to_i %>,<%= single_question.attributes["score"] %>)">确定</a></h2>
     </div>
   </div>
 </div>

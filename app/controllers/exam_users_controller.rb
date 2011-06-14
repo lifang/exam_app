@@ -13,9 +13,6 @@ class ExamUsersController < ApplicationController
         user.status = User::STATUS[:NORMAL]
         user.encrypt_password
         user.save!
-          puts "ssssssssssssssssssssssssssss"
-    puts user.created_at.to_date
-     puts user.created_at.to_datetime
         new_exam_user(@examination,user)
       end
     else
@@ -38,7 +35,7 @@ class ExamUsersController < ApplicationController
 
   def new_exam_user(examination,user)
     exam_user = ExamUser.create!(:user_id=>user.id,:examination_id=>params[:examination_id],:password=>"123456",
-      :is_user_affiremed=>ExamUser::IS_USER_AFFIREMED[:NO],:answer_sheet_url=>"where")
+      :is_user_affiremed=>ExamUser::IS_USER_AFFIREMED[:NO])
     exam_user.set_paper(examination)
     if examination.user_affirm==true
       UserMailer.user_affirm(exam_user,examination).deliver

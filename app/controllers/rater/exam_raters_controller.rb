@@ -14,22 +14,24 @@ class Rater::ExamRatersController < ApplicationController
       cookies[:rater_id]=@rater.id
       cookies[:examination_id]=@examination.id
       flash[:success]="登陆成功"
-      @exam_paper_total=ExamUser.find_by_sql("select * from exam_users eu where eu.examination_id=
-     #{params[:examination_id]} and eu.answer_sheet_url  is not null")
-      @exam_score_total=ExamUser.find_by_sql("select e.id from exam_users e left join rater_user_relations r on r.exam_user_id= e.user_id  where e.examination_id=#{ cookies[:examination_id]} and r.is_marked is null ")
-      @exam_paper_marked=ExamUser.find_by_sql("select e.id from exam_users e left join rater_user_relations r on r.exam_user_id=
-                         e.user_id  where e.examination_id=#{ cookies[:examination_id]} and r.is_marked is not null ")
-      render "/rater/exam_raters/reader_papers"
+      redirect_to  "/rater/exam_raters/#{@examination.id}/reader_papers"
     else
       flash[:error]="阅卷码不正确，请核对！"
       render "/rater/exam_raters/session"
     end
   end
-  def check_paper
-    exam_users=ExamUser.find_by_sql("select e.id from exam_users e left join rater_user_relations r on r.exam_user_id=
-                         e.user_id  where e.examination_id=#{ cookies[:examination_id]} and r.is_marked is null")
+  def reader_papers
+    @examination=Examination.find(params[:id])
+    @exam_paper_total=ExamUser.find_by_sql("select * from exam_users eu where eu.examination_id=
+     #{@examination.id} and eu.answer_sheet_url is not null")
+    @exam_score_total=ExamUser.find_by_sql("select * from exam_users e left join rater_user_relations r on r.exam_user_id= e.id  where e.examination_id=#{params[:id]} and e.answer_sheet_url is not null and r.id is null ")
+    @exam_paper_marked=ExamUser.find_by_sql("select * from exam_users e left join rater_user_relations r on r.exam_user_id=
+                         e.id  where e.examination_id=#{params[:id]} and r.is_marked=1 and e.answer_sheet_url is not null")
+  end
+  def check_paper  
+    exam_users=ExamUser.find_by_sql("select e.id from exam_users e left join rater_user_relations r on r.exam_user_id=e.id  where e.examination_id=#{cookies[:examination_id]} and r.id is null and e.answer_sheet_url is not null")
+    puts exam_users
     @exam_user=exam_users[rand(exam_users.length)].id
-    ExamUser.find(@exam_user).update_attributes(:total_score=>0)
     RaterUserRelation.create(:exam_rater_id=>cookies[:rater_id],:exam_user_id=>@exam_user)
     redirect_to "/rater/exam_raters/#{@exam_user}/answer_paper"
   end
@@ -40,23 +42,50 @@ class Rater::ExamRatersController < ApplicationController
     @doc=Document.new(file).root
     file1=File.open("#{Rails.root}/public/papers/#{ @doc.elements[1].attributes["id"]}.xml")
     @xml=Document.new(file1).root
-    #    @xml.elements["blocks"].each_element {|element|  element.elements["problems"].each_element {|element1| puts element1.attributes["id"]};print "end";}
-  end
-  def get_score
-    url="#{Rails.root}/public/result/#{params[:answer_id]}.xml"
-    file=File.open(url)
-    doc=Document.new(file).root
-    file1=File.open("#{Rails.root}/public/papers/#{ doc.elements[1].attributes["id"]}.xml")
-    @xml=Document.new(file1).root
-    doc.elements[1].elements[1].each_element do |element|
-      if element.attributes["id"]==params[:problem_id]
-        element.add_attribute("score","#{params[:single_value]}")
+    @str=""
+    @xml.elements["blocks"].each_element do  |block|
+      block.elements["problems"].each_element do |problem|
+        if (problem.attributes["types"].to_i !=4&&problem.attributes["types"].to_i !=5)
+          block.delete_element(problem.xpath)
+        else
+          if problem.attributes["types"].to_i ==4
+            problem.elements["questions"].each_element do |question|
+              if question.attributes["correct_type"].to_i ==5
+                @str += (question.attributes["id"]+",")
+              else
+                problem.delete_element(question.xpath)
+              end
+            end
+          end
+           if problem.attributes["types"].to_i ==5
+              @str += (problem.attributes["id"]+"_")
+           end
+        end
+        if problem.elements["questions"].elements[1].nil?
+          block.delete_element(problem.xpath)
+        end
       end
     end
+    @xml.to_s
+    puts @xml
+  end
+  def over_answer
+    @exam_relation=RaterUserRelation.find_by_exam_user_id(params[:id])
+    @exam_relation.is_marked=true
+    @exam_relation.update_attributes(:is_marked=>1)
+    url="#{Rails.root}/public/result/#{params[:id]}.xml"
+    file=File.open(url)
+    doc=Document.new(file).root
+    doc.elements[1].elements[1].each_element do |element|
+      element.add_attribute("score","#{params["single_value_#{element.attributes["id"]}"]}")
+    end
+    score=0
+    doc.elements[1].elements[1].each_element do |element|
+      score +=element.attributes["score"].to_i
+    end
+    doc.elements[1].add_attribute("score","#{score}")
     doc.to_s
-    file = File.new(url, "w+")
-    file.write(doc)
-    file.close
-    redirect_to "/rater/exam_raters/#{params[:answer_id]}/answer_paper"
+    self.write_xml(url, doc)
+    redirect_to "/rater/exam_raters/#{ExamUser.find(params[:id]).examination_id}/reader_papers"
   end
 end
