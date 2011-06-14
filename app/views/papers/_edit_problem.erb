@@ -1,18 +1,4 @@
-<script type="text/javascript">
-  KE.show({
-    id : 'edit_title_<%= edit_problem.attributes['id'] %>',
-    skinType: 'tinymce',
-    cssPath : '/kindeditor/examples/index.css',
-    items : [
-      'source', 'undo', 'redo','copy', 'paste',
-      'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent',
-      'specialchar', 'link', 'unlink', 'image', 'flash', 'media', '-',
-      'fontname', 'fontsize', 'textcolor', 'bold',
-      'italic', 'underline',  'table', 'hr'
-    ]
-  });
-</script>
-<div class="products_list_style_box"  style="display: none;" id="edit_problem_<%= edit_problem.attributes["id"].to_i %>" style="display:none;">
+<div class="products_list_style_box" id="edit_problem_<%= edit_problem.attributes["id"].to_i %>">
   <input type="hidden" name="edit_problem_<%= edit_problem.attributes["id"] %>" id="single_question_<%= edit_problem.attributes["id"] %>" value=""/>
   <div class="arrow" style="top:10px;"></div>
   <div class="question_pic_box" style="top:0px;">
@@ -48,7 +34,7 @@
               </div>
             </div>
           <% else %>
-            <%= render :partial => "/common/edit_other_question", :object => question %>
+          <%= render :partial => "/common/edit_other_question", :object => question %>
           <% end %>
         <% end %>
         <input type="hidden" name="all_question_ids_<%= edit_problem.attributes["id"] %>"
