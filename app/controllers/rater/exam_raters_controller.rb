@@ -78,7 +78,7 @@ class Rater::ExamRatersController < ApplicationController
     doc.elements[1].elements[1].each_element do |element|
       score +=element.attributes["score"].to_i
     end
-    doc.elements[1].add_attribute("score","#{score}")
+    doc.elements[1].add_attribute("rater_score","#{score}")
     doc.to_s
     self.write_xml(url, doc)
     redirect_to "/rater/exam_raters/#{ExamUser.find(params[:id]).examination_id}/reader_papers"

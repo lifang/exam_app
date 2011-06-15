@@ -12,12 +12,23 @@ ExamApp::Application.routes.draw do
   namespace :rater do
     resources :exam_raters do
       collection do
-      get "session","check_paper"
+        get "session","check_paper"
       end
       member do
         get "rater_session","get_score"
         post "rater_login","over_answer"
         get "reader_papers","answer_paper"
+      end
+    end
+  end
+  namespace :exam_user do
+    resources :exam_users do
+      collection do
+       
+        post "single_user"
+      end
+      member do
+        get "pile_exam_users"
       end
     end
   end
@@ -51,11 +62,12 @@ ExamApp::Application.routes.draw do
       get "create_exam_user", "search_list","affiremed_false","affiremed_success"
       post "add_item", "leadin"
       post "search"
+     
     end
     member do
       get "my_results"
       get "new_exam_two"
-      post "login"
+       post "login"
       get "exam_user_affiremed"
       post "update_exam_user"
       post "edit_name"

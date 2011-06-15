@@ -93,7 +93,6 @@ class ExaminationsController < ApplicationController
     exam_users=ExamUser.find_by_sql("select * from exam_users where examination_id=#{params[:id].to_i} and is_user_affiremed='' ")
     file.puts Iconv.iconv('gbk','UTF-8',"#{file_title.force_encoding('ASCII-8BIT')}")
     puts Iconv.iconv('gb2312','UTF-8',"#{file_title.force_encoding('ASCII-8BIT')}")
-    puts Iconv.iconv('gb2312','UTF-8',"#{file_title}")
     exam_users.each do |exam_user|
       info="#{User.find(exam_user.user_id).name}\t#{User.find(exam_user.user_id).mobilephone}\t#{User.find(exam_user.user_id).email}\t\r"
       file.puts  Iconv.iconv('gb2312','UTF-8',"#{info}")

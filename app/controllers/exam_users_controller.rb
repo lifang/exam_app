@@ -28,7 +28,6 @@ class ExamUsersController < ApplicationController
         end
       end
     end
-  
     @exam_users = ExamUser.paginate_exam_user(@examination.id, 1, params[:page])
     render :partial => "/examinations/exam_user_for_now"
   end
@@ -66,45 +65,45 @@ class ExamUsersController < ApplicationController
     render "/exam_users/affiremed_success"
   end
   def login
-    #    (1..params[:rows].to_i).each do |i|
-    #         @user=User.new(:name=>params["infoname#{i}"],:username=>params["infoname#{i}"],:email=>params["infoemail#{i}"],:mobilephone=>params["infomobile#{i}"],:password=>"123456",:password_confirmation=>"123456")
-    #      @user.status = User::STATUS[:NORMAL]
-    #      @user.encrypt_password
-    #      ExamUser.create!(:user_id=>@user.id,:examination_id=>cookies[:examination_id],:password=>"123456",:user_affirm=>params[:message])
-    #    end
-    if params[:login]==1
-      @info=params[:textarea].split(";")
-      @info.each do |info|
-        @textarea=info.split(",")
-        @user=User.new(:name=>@textarea[0],:username=>@textarea[0],:email=>@textarea[2],:mobilephone=>@textarea[1],:password=>"123456",:password_confirmation=>"123456")
-        @user.status = User::STATUS[:NORMAL]
-        @user.encrypt_password
-        @user.save!
-        ExamUser.create!(:user_id=>@user.id,:examination_id=>params[:id],:password=>"123456",:user_affirm=>params[:message])
+    @examination = Examination.find(params[:id].to_i)
+    @info_class=get_text(params[:user_info])
+    i=0
+    str="发现信息重复加入的考生："
+    str1="发现邮箱已被占用："
+    (0..@info_class.length/3-1).each do
+      @user=User.find_by_sql("select * from users u where u.name='#{@info_class[i]}' and u.email='#{@info_class[i+1]}' ")
+      if @user==[]
+        if User.find_by_email(@info_class[i+1])!=nil
+          str1 +=@info_class[i]+","+@info_class[i+1]+";"
+        else
+          user = User.new(:name=>@info_class[i],:username=>@info_class[i],:email=>@info_class[i+1],:mobilephone=>@info_class[i+2],:password=>"123456",:password_confirmation=>"123456")
+          user.set_role(Role.find(Role::TYPES[:STUDENT]))
+          user.status = User::STATUS[:NORMAL]
+          user.encrypt_password
+          user.save!
+          new_exam_user(@examination,user)
+        end
+      else
+        @user.each  do |user1|
+          if ExamUser.find_by_user_id(user1.id).nil?
+            new_exam_user(@examination,user1)
+          else
+            if ExamUser.find_by_sql("select * from exam_users u where u.user_id=#{user1.id} and u.examination_id=#{params[:id].to_i}")
+              str +=@info_class[i]+","+@info_class[i+1]+";"
+            else
+              new_exam_user(@examination,user1)
+            end
+          end
+        end
       end
-      if params[:exam_code]==1
-        Examination.find(cookies[:examination_id]).update_attributes(:exam_password1=>proof_code(6),:exam_password2=>proof_code(6))
-      end
-   
-    else
-      @info_class=get_text(params[:user_info])
-      i=0
-      (0..@info_class.length/3-1).each do
-        @user=User.new(:name=>@info_class[i],:username=>@info_class[i],:email=>@info_class[i+1],:mobilephone=>@info_class[i+2],:password=>"123456",:password_confirmation=>"123456",:status=>1)
-        @user.encrypt_password
-        puts @user.id
-        ExamUser.create!(:user_id=>@user.id,:examination_id=>cookies[:examination_id],:password=>"123456",:user_affirm=>params[:message])
-        i +=3
-      end
-      if params[:exam_code]==1
-        Examination.find(cookies[:examination_id]).update_attributes(:exam_password1=>proof_code(6),:exam_password2=>proof_code(6))
-      end
+      i +=3
     end
-    if params[:buttonvalue]=="保存"
-      redirect_to "/exam_users/new_exam_two"
-    else
-      redirect_to "/exam_raters/new_exam_three"
-    end
+     if str=="" && str1==""
+        render :text =>"考生信息都已成功加入"
+     else
+         render :text => "<font color='blue'>#{str1}&nbsp;&nbsp;<br/>#{str}</font>"
+     end
+  
   end
 
   def destroy

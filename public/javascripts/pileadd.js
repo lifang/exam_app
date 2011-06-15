@@ -111,7 +111,7 @@ function getbutton(name) {
     document.getElementById("textarea").value = "" ;
     if ($("login_block").style.display != "none") {
         document.getElementById("login_form_value").value = name;
-        for (var i=1;i<=$("add").rows.length;i++){
+        for (var i=1;i<=$("add1").rows.length;i++){
             if ($("infoname"+i).value!="" && $("infomobile"+i).value!=""&& $("infoemail"+i).value!=""){
                 text +=$("infoname"+i).value + ","+$("infomobile"+i).value + ","+$("infoemail"+i).value+";";
             }
@@ -162,22 +162,11 @@ function add_item(table_id, url, update_div, examination_id,type_name){
     str += "<td><input type='text' name='"+type_name +"_infomobile' id='"+type_name +"_infomobile"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><input type='text' name='"+type_name +"_infoemail' id='"+type_name +"_infoemail"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><button type='submit'>创建</button></td></tr></table>";
-    oiik
     str += "</form></td>";
     otr.innerHTML = str;
-    /*var checkTd=document.createElement("td");
-    checkTd.innerHTML = "<a href=javascript:delete_item("+otr.id+")>删除</a>";
-    otd1.innerHTML = '<input type="text"  name='+"infoname" +otr.id+ ' id='+"infoname" +otr.id+ ' size="30" value=""/>';
-    var otd2 = document.createElement("td");
-    otd2.innerHTML = '<input type="text"  name='+"infomobile" +otr.id+' id='+"infomobile" +otr.id+'  size="30" value=""/>';
-    var otd3 = document.createElement("td");
-    otd3.innerHTML = '<input type="text"   name='+"infoemail" +otr.id+' id='+"infoemail" +otr.id+'  size="30" value=""/>';
-    otr.appendChild(otd1);
-    otr.appendChild(otd2);
-    otr.appendChild(otd3);
-    otr.appendChild(checkTd); */
     document.getElementById(table_id + "_rows").value=document.getElementById("" + table_id).rows.length;
 }
+
 function delete_item(id){
     var c = document.getElementById(id);
     document.getElementById("add").deleteRow(c);
@@ -247,8 +236,8 @@ function edit_exam_rater(exam_rater_id){
 
 function test_exam_edit(n,mobile,email){
     var myReg =new RegExp(/^\w+([-+.])*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
-    var check_value = new RegExp(/[a-z0-9_]/g);
-    var check_mobile = new RegExp(/^[0-9]{11,11}$/)
+    var check_value = new RegExp(/[a-zA-Z0-9\_\u4e00-\u9fa5]/);
+    var check_mobile = new RegExp(/^[0-9]{11,11}$/);
     if (n == null || n.length ==0||n.length>10){
         document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过10位字符</font>";
         return false;
@@ -281,7 +270,7 @@ function test_exam_edit(n,mobile,email){
                 }
             }
         } else{
-            document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名只能由字母，数字和下划线组成</font>";
+            document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名不能包含非法字符</font>";
             return false;
         }
     }
@@ -419,4 +408,52 @@ function button_event() {
         document.getElementById("hd").innerHTML = "(" + e.clientX + "," + e.clientY + ") srcElement="
         + e.srcElement.tagName + "[" + e.srcElement.id + "]lllllll"+e.button+"dddd"+e.ctrlKey+e.screenX+"ss"+e.keycode+e.offsetX;
     };
+}
+function passwordStrength(password)
+{
+ var desc = new Array();
+ desc[0] = "Very Weak";
+ desc[1] = "Weak";
+ desc[2] = "Better";
+ desc[3] = "Medium";
+ desc[4] = "Strong";
+ desc[5] = "Strongest";
+ var score   = 0;
+ //if password bigger than 6 give 1 point
+ if (password.length > 6) score++;
+ //if password has both lower and uppercase characters give 1 point
+ if ( ( password.match(/[a-z]/) ) && ( password.match(/[A-Z]/) ) ) score++;
+ //if password has at least one number give 1 point
+ if (password.match(/\d+/)) score++;
+ //if password has at least one special caracther give 1 point
+ if ( password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) ) score++;
+ //if password bigger than 12 give another 1 point
+ if (password.length > 12) score++;
+  document.getElementById("passwordDescription").innerHTML = desc[score];
+  document.getElementById("passwordStrength").className = "strength" + score;
+}
+function exam_user_for_now(examination_id){
+  {
+        new Ajax.Updater("exam_user_list" , "/exam_user/exam_users/single_user",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:'post',
+            parameters:'id='+ examination_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+        });
+        return false;
+    }
+}
+function file_exam_user(examination_id){
+    var user_info=$("user_info").value;
+  {
+        new Ajax.Updater("add_failed" , "/exam_users/"+examination_id+"/login",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:'post',
+            parameters:'examination_id='+ examination_id +'&user_info='+ user_info +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+        });
+        return false;
+    }
 }
