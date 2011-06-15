@@ -1,6 +1,6 @@
 class ExamUsersController < ApplicationController
 
-  def create_exam_user
+  def create_exam_user  #单个添加考生
     @examination = Examination.find(params[:examination_id].to_i)
     @user=User.find_by_sql("select * from users u where u.name='#{params[:exam_user_infoname]}' and u.email='#{params[:exam_user_infoemail]}' ")
     if @user==[]
@@ -20,7 +20,7 @@ class ExamUsersController < ApplicationController
         if ExamUser.find_by_user_id(user1.id).nil?
           new_exam_user(@examination,user1)
         else
-          if ExamUser.find_by_user_id(user1.id).examination_id == params[:examination_id].to_i
+          if ExamUser.find_by_sql("select * from exam_users u where u.user_id=#{user1.id} and u.examination_id=#{params[:examination_id].to_i}")
             flash[:email_err]="该考生信息已加入"
           else
             new_exam_user(@examination,user1)
@@ -32,7 +32,7 @@ class ExamUsersController < ApplicationController
     render :partial => "/examinations/exam_user_for_now"
   end
 
-  def new_exam_user(examination,user)
+  def new_exam_user(examination,user) #创建考生
     exam_user = ExamUser.create!(:user_id=>user.id,:examination_id=>params[:examination_id],:password=>"123456",
       :is_user_affiremed=>ExamUser::IS_USER_AFFIREMED[:NO])
     exam_user.set_paper(examination)
@@ -40,7 +40,7 @@ class ExamUsersController < ApplicationController
       UserMailer.user_affirm(exam_user,examination).deliver
     end
   end
-  def exam_user_affiremed
+  def exam_user_affiremed   #考生确认
     if !params[:id].blank? and !params[:affiremed].blank?
       @exam_user = ExamUser.first(:conditions => ["id = ? and is_user_affiremed = ?", params[:id].to_i, params[:affiremed]])
       @user=User.find(params[:user_id])
@@ -53,7 +53,7 @@ class ExamUsersController < ApplicationController
       end
     end
   end
-  def edit_name
+  def edit_name #考生确认时修改考生姓名
     @examination=Examination.find(params[:examination])
     @exam_user=ExamUser.find(params[:exam_user])
     @user=User.find(params[:id])
@@ -64,7 +64,7 @@ class ExamUsersController < ApplicationController
     @user.save
     render "/exam_users/affiremed_success"
   end
-  def login
+  def login   #批量添加考生
     @examination = Examination.find(params[:id].to_i)
     @info_class=get_text(params[:user_info])
     i=0
@@ -106,7 +106,7 @@ class ExamUsersController < ApplicationController
   
   end
 
-  def destroy
+  def destroy #删除考生
     exam_user = ExamUser.find(params[:id].to_i)
     exam_user.destroy
     @examination = Examination.find(exam_user.examination_id)
@@ -114,20 +114,20 @@ class ExamUsersController < ApplicationController
     render :partial=>"/examinations/exam_user_for_now"
     #    render :inline => ""
   end
-  def edit
+  def edit  #编辑按钮
     @exam_user =ExamUser.find(params[:id].to_i)
     @user=User.find(ExamUser.find(params[:id].to_i).user_id)
     render :partial=>"/examinations/edit_exam_user"
   end
 
-  def update_exam_user
+  def update_exam_user  #编辑考生信息
     @exam_user =ExamUser.find(params[:id].to_i)
     @user=User.find(ExamUser.find(params[:id].to_i).user_id)
     @user.update_attributes(:name=>params[:name],:username=>params[:name],:email=>params[:email],
       :mobilephone=>params[:mobilephone])
     render :partial=>"/examinations/back_exam_user"
   end
-  def my_results
+  def my_results   #考生成绩
     @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
     sql = ExamUser.generate_result_sql
     sql += " and us.id=#{cookies[:user_id]} "
@@ -142,7 +142,7 @@ class ExamUsersController < ApplicationController
     session[:title] = params[:title] if !params[:title].nil? and params[:title] != ""
     redirect_to search_list_exam_users_path
   end
-  def search_list
+  def search_list #成绩查询
     @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
     sql = ExamUser.generate_result_sql
     sql += " and us.id=#{cookies[:user_id]}"
