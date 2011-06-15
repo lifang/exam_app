@@ -146,12 +146,47 @@ function new_problem_validate(block_id){
 
 }
 
-
 //验证  新建模块
 function new_module_validate(){
     var new_module_title = document.getElementById("new_module_title").value;
     if ( new_module_title == null || new_module_title==""||checkspace(new_module_title) ){
         alert("模块标题不能为空。");
+        return false;
+    }
+    return true;
+}
+
+//验证专家新建题目
+function check_mavin_problem(block_id) {
+    $("span_" + block_id).innerHTML = "";
+    var mavin_title = $("mavin_problem_title_" + block_id).value;
+    if (mavin_title != null && checkspace(mavin_title)) {
+        $("span_" + block_id).innerHTML = "<font color='red'>请您填写好题目后再保存。</font>";
+        return false;
+    }
+    alert($("span_" + block_id).innerHTML);
+    if (!mavin_title.include("[[") && !mavin_title.include("{{")) {
+        $("span_" + block_id).innerHTML = "<font color='red'>请您设置题点。</font>";
+        return false;
+    }
+    if ((mavin_title.include("[[") && !mavin_title.include("]]"))||(mavin_title.include("{{") && !mavin_title.include("}}"))) {
+        $("span_" + block_id).innerHTML = "<font color='red'>您的提点格式不正确，提点格式为[[提点内容]]。</font>";
+        return false;
+    }
+    if (!mavin_title.include("[(")) {
+        $("span_" + block_id).innerHTML = "<font color='red'>请您设置分值。</font>";
+        return false;
+    }
+    if (mavin_title.include("[(") && !mavin_title.include(")]")) {
+        $("span_" + block_id).innerHTML = "<font color='red'>您的分值格式不正确，提点格式为[(分数)]。</font>";
+        return false;
+    }
+    if (!mavin_title.include("[{")) {
+        $("span_" + block_id).innerHTML = "<font color='red'>请您设置解析。</font>";
+        return false;
+    }
+    if (mavin_title.include("[{") && !mavin_title.include("}]")) {
+        $("span_" + block_id).innerHTML = "<font color='red'>您的解析格式不正确，提点格式为[{解析}]。</font>";
         return false;
     }
     return true;

@@ -1,6 +1,6 @@
 class AddStatusToExaminations < ActiveRecord::Migration
   def self.up
-    add_column :examinations, :status, :integer
+    add_column :examinations, :status, :integer, :default => 0
   end
 
   def self.down

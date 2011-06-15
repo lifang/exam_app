@@ -39,7 +39,11 @@ ExamApp::Application.routes.draw do
     end
   end
   resources :sessions 
-  resources :questions
+  resources :questions do
+    member do
+      post "edit_question"
+    end
+  end
   resources :paper_blocks do
     member do
       post "choose_type"
@@ -104,10 +108,17 @@ ExamApp::Application.routes.draw do
       post "change_info", "hand_in"
     end
   end
+
+  resources :uploads do
+    collection do
+      post "upload_images", "upload"
+    end
+  end
   namespace :user do
     resources :examinations do
       member do
-        post "save_result"
+        post "save_result", "five_min_save"
+        get "do_exam"
       end
       collection do
         get "error_page"

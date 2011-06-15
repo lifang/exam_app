@@ -93,7 +93,7 @@ class Examination < ActiveRecord::Base
     str = ""
     examination = Examination.return_examinations(user_id, examination_id)
     if examination.any?
-      if examination[0].is_submited == 1
+      if !examination[0].is_submited.nil? and examination[0].is_submited == 1
         str = "您已经交卷。" 
       else
         if examination[0].start_at_time > Time.now

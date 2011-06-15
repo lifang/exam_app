@@ -1,6 +1,6 @@
-<script type="text/javascript" charset="utf-8" src="/kindeditor/build/kindeditor.js"></script>   
+<!--<script type="text/javascript" charset="utf-8" src="/kindeditor/build/kindeditor.js"></script>-->
+<script type="text/javascript" charset="utf-8" src="/javascripts/nicEdit/nicEdit.js"></script>
 <%= javascript_include_tag 'jeff_paper_validate' %>
-
 <div id="paper_show_info">
   <ul class="tab_biz">
     <li class="actived"><a href="javascript:void(0);"><%= @xml.elements['base_info'].elements['title'].text %></a></li>
@@ -15,7 +15,7 @@
     <div>备注：<%= @xml.elements['base_info'].elements['description'].text %></div>
     <input type="button" value="修改基本信息" class="submit_btn" onclick="javascript:change_info()"/>
     <input type="button" value="预览试卷" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id']%> '"/>
-    <input type="button" value="保存试卷" class="submit_btn" onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id']%>/create_all_paper '"/>
+    <input type="button" value="保存试卷" class="submit_btn" onclick="javascript:save_paper_js('<%= @xml.attributes['id']%>');"/>
   </div>
 </div>
 
@@ -23,5 +23,4 @@
   <%= render :partial=>"/papers/edit_paper_info" %>
 </div>
 <%= render :partial=>"/papers/paper_blocks" %>
-
 

@@ -1,9 +1,9 @@
 class CreateProblems < ActiveRecord::Migration
   def self.up
     create_table :problems do |t|
-      t.integer :category_id
+      t.integer :category_id, :null => false
       t.text :title
-      t.integer :types
+      t.integer :types, :default => 0
 
       t.timestamps
     end

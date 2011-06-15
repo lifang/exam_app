@@ -138,17 +138,69 @@ class ExamUser < ActiveRecord::Base
     return file_name
   end
 
-  def update_answer_url(question_ids_options = {})
-    dir = "#{Rails.root}/public"
-    url = File.open(dir + self.answer_sheet_url)
-    doc = Document.new(url)
+  def update_answer_url(doc, question_ids_options = {})
     questions = doc.root.elements["paper/questions"]
+    questions.each_element { |q| doc.delete_element(q.xpath) }if questions.children.any?
     question_ids_options.each do |key, value|
       question = questions.add_element("question")
       question.add_attribute("id","#{key}")
-      question.add_element("answer").add_text("#{value}")
+      question.add_element("answer").add_text("#{value.strip}")
     end unless question_ids_options == {}
     return doc.to_s
+  end
+
+  def open_xml
+    dir = "#{Rails.root}/public"
+    url = File.open(dir + self.answer_sheet_url)
+    return Document.new(url)
+  end
+
+  #自动统计考试的分数
+  def self.generate_user_score(answer_doc, paper_doc)
+    auto_score = 0
+    paper_doc.root.elements["blocks"].each_element do |block|
+      block.elements["problems"].each_element do |problem|
+        problem.elements["questions"].each_element do |question|
+          if question.attributes["correct_type"].to_i != Problem::QUESTION_TYPE[:CHARACTER]
+            q_answer = answer_doc.root.elements["paper/questions"].elements["question[@id='#{question.attributes["id"]}']"]
+            unless q_answer.nil? or q_answer.elements["answer"].nil?
+              score = 0
+              if q_answer.elements["answer"].text and q_answer.elements["answer"].text != ""
+                answers = question.elements["answer"].text.split(";|;")
+                if answers.length == 1
+                  score = answers[0].strip == q_answer.elements["answer"].text.strip ? question.attributes["score"].to_i : 0
+                else
+                  q_answers = q_answer.elements["answer"].text.split(";|;")
+                  all_answer = answers | q_answers
+                  if all_answer == answers
+                    score = question.attributes["score"].to_i
+                  elsif all_answer.length > answers.length
+                    score = 0
+                  elsif all_answer.length < answers.length
+                    score = ((question.attributes["score"].to_i)/2).round
+                  end
+                end
+              end
+              q_answer.add_attribute("score", "#{score}")
+              auto_score += score
+            end
+          end
+        end
+      end
+    end
+    answer_doc.root.elements["paper"].add_element("auto_score").add_text("#{auto_score}")
+    unless answer_doc.root.elements["paper"].elements["rate_score"].nil?
+      total_score = auto_score + answer_doc.root.elements["paper"].elements["rate_score"].text.to_i
+      answer_doc.root.elements["paper"].add_attribute("score", "#{total_score}")
+    end
+    return answer_doc
+  end
+
+  #自动批卷完成
+  def set_auto_rater(total_score=nil)
+    self.total_score = total_score
+    self.toggle!(:is_auto_rate)
+    self.save
   end
 
 end

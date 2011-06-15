@@ -2,8 +2,8 @@
   <div class="arrow" style="top:35px;"></div>
   <div class="big_pic_box" style="top:0px;">
     <div class="in">
-      <div class="title"><%= question_info.elements["title"].text %></div>
-      <% question_info.elements["questions"].each do |question| %>
+      <div class="title"><%= question_info.elements["title"].text.to_s.html_safe %></div>
+      <% question_info.elements["questions"].each_element do |question| %>
         <%= render :partial => "/common/show_single_question", :object => question %>
       <% end %>
     </div>

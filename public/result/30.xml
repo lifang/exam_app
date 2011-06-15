@@ -1,5 +1,25 @@
+
 <exam id='9'>
-        <paper id='7' score='60'>
-          <questions><question id='12'><answer>小龙</answer></question><question id='13'><answer>1</answer></question><question id='14'><answer>no</answer></question><question id='15' score='20'><answer>no</answer></question><question id='16' score='20'><answer>gggfff</answer></question><question id='17' score='20'><answer>ddsdsaa</answer></question></questions>
-        </paper>
-      </exam>
+    <paper id='7' score='60'>
+        <questions>
+            <question id='12'>
+                <answer>小龙</answer>
+            </question>
+            <question id='13'>
+                <answer>1</answer>
+            </question>
+            <question id='14'>
+                <answer>no</answer>
+            </question>
+            <question id='15' score='20'>
+                <answer>no</answer>
+            </question>
+            <question id='16' score='20'>
+                <answer>gggfff</answer>
+            </question>
+            <question id='17' score='20'>
+                <answer>ddsdsaa</answer>
+            </question>
+        </questions>
+    </paper>
+</exam>

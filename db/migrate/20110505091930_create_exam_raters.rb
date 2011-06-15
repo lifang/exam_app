@@ -6,7 +6,7 @@ class CreateExamRaters < ActiveRecord::Migration
       t.string :mobilephone
       t.string :email
       t.string :author_code
-      t.integer :examination_id
+      t.integer :examination_id, :null => false
       
     end
       add_index :exam_raters,:examination_id
