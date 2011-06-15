@@ -42,24 +42,19 @@ class Rater::ExamRatersController < ApplicationController
     @doc=Document.new(file).root
     file1=File.open("#{Rails.root}/public/papers/#{ @doc.elements[1].attributes["id"]}.xml")
     @xml=Document.new(file1).root
-    @str=""
+    @str="-1"
     @xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
         if (problem.attributes["types"].to_i !=4&&problem.attributes["types"].to_i !=5)
           block.delete_element(problem.xpath)
         else
-          if problem.attributes["types"].to_i ==4
-            problem.elements["questions"].each_element do |question|
-              if question.attributes["correct_type"].to_i ==5
-                @str += (question.attributes["id"]+",")
-              else
-                problem.delete_element(question.xpath)
-              end
+          problem.elements["questions"].each_element do |question|
+            if question.attributes["correct_type"].to_i ==5
+              @str += (","+question.attributes["id"])
+            else
+               problem.delete_element(question.xpath)
             end
           end
-           if problem.attributes["types"].to_i ==5
-              @str += (problem.attributes["id"]+"_")
-           end
         end
         if problem.elements["questions"].elements[1].nil?
           block.delete_element(problem.xpath)
@@ -83,7 +78,7 @@ class Rater::ExamRatersController < ApplicationController
     doc.elements[1].elements[1].each_element do |element|
       score +=element.attributes["score"].to_i
     end
-    doc.elements[1].add_attribute("score","#{score}")
+    doc.elements[1].add_attribute("rater_score","#{score}")
     doc.to_s
     self.write_xml(url, doc)
     redirect_to "/rater/exam_raters/#{ExamUser.find(params[:id]).examination_id}/reader_papers"

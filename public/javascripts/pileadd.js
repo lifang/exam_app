@@ -111,7 +111,7 @@ function getbutton(name) {
     document.getElementById("textarea").value = "" ;
     if ($("login_block").style.display != "none") {
         document.getElementById("login_form_value").value = name;
-        for (var i=1;i<=$("add").rows.length;i++){
+        for (var i=1;i<=$("add1").rows.length;i++){
             if ($("infoname"+i).value!="" && $("infomobile"+i).value!=""&& $("infoemail"+i).value!=""){
                 text +=$("infoname"+i).value + ","+$("infomobile"+i).value + ","+$("infoemail"+i).value+";";
             }
@@ -161,22 +161,12 @@ function add_item(table_id, url, update_div, examination_id,type_name){
     str += "<table><tr><td><input type='text' name='"+type_name +"_infoname' id='"+type_name +"_infoname"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><input type='text' name='"+type_name +"_infomobile' id='"+type_name +"_infomobile"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><input type='text' name='"+type_name +"_infoemail' id='"+type_name +"_infoemail"+otr.id + "' class='required' size='30'/></td>";
-    str += "<td><button type='submit'>创建</button></td></tr></table>";oiik
+    str += "<td><button type='submit'>创建</button></td></tr></table>";
     str += "</form></td>";
     otr.innerHTML = str;
-    /*var checkTd=document.createElement("td");
-    checkTd.innerHTML = "<a href=javascript:delete_item("+otr.id+")>删除</a>";
-    otd1.innerHTML = '<input type="text"  name='+"infoname" +otr.id+ ' id='+"infoname" +otr.id+ ' size="30" value=""/>';
-    var otd2 = document.createElement("td");
-    otd2.innerHTML = '<input type="text"  name='+"infomobile" +otr.id+' id='+"infomobile" +otr.id+'  size="30" value=""/>';
-    var otd3 = document.createElement("td");
-    otd3.innerHTML = '<input type="text"   name='+"infoemail" +otr.id+' id='+"infoemail" +otr.id+'  size="30" value=""/>';
-    otr.appendChild(otd1);
-    otr.appendChild(otd2);
-    otr.appendChild(otd3);
-    otr.appendChild(checkTd); */
     document.getElementById(table_id + "_rows").value=document.getElementById("" + table_id).rows.length;
 }
+
 function delete_item(id){
     var c = document.getElementById(id);
     document.getElementById("add").deleteRow(c);
@@ -246,8 +236,8 @@ function edit_exam_rater(exam_rater_id){
 
 function test_exam_edit(n,mobile,email){
     var myReg =new RegExp(/^\w+([-+.])*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
-    var check_value = new RegExp(/[a-z0-9_]/g);
-    var check_mobile = new RegExp(/^[0-9]{11,11}$/)
+    var check_value = new RegExp(/[a-zA-Z0-9\_\u4e00-\u9fa5]/);
+    var check_mobile = new RegExp(/^[0-9]{11,11}$/);
     if (n == null || n.length ==0||n.length>10){
         document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过10位字符</font>";
         return false;
@@ -280,7 +270,7 @@ function test_exam_edit(n,mobile,email){
                 }
             }
         } else{
-            document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名只能由字母，数字和下划线组成</font>";
+            document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名不能包含非法字符</font>";
             return false;
         }
     }
@@ -326,23 +316,33 @@ function check_password() {
     }
 }
 close_question_info_id=0
-function compare_value(id,fact_value){
+function compare_value(id,compare_id){
+    
     if (close_question_info_id != 0) {  //关闭查看框
-        var input_value=$("single_value_"+id);
-        if (parseInt(fact_value)==0){
+        if (parseInt(compare_id)==0){
             document.getElementById("question_info_"+close_question_info_id).style.display="none";
             close_question_info_id = 0;
+        }else{ 
+            var arry=id.split("_");
+            var i;
+            for(i=1;i<arry.length;i++){
+                var input_value=$("single_value_"+arry[i]).value;
+                var fact_value=$("fact_value_"+arry[i]).value;
+                if (parseInt(fact_value) < parseInt(input_value)||parseInt(input_value)<0||input_value==""){
+                    $("if_submited_"+arry[i]).value =0;
+                    $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>您输入的数据与原数值不符</font>";
+                    return false;
+                }
+                else{
+                    $("flash_part_"+arry[i]).innerHTML="";
+                    $("if_submited_"+arry[i]).value =1;
+                    if (i==arry.length-1){
+                        document.getElementById("question_info_"+close_question_info_id).style.display="none";
+                        close_question_info_id = 0;
+                        active_button();
+                    }
 
-        }else{
-            if ((parseInt(fact_value) < parseInt(input_value.value))||parseInt(input_value.value)<0||input_value.value==""){
-                alert("您输入的数据与原数值不符");
-                return false;
-            }
-            else{
-                $("if_submited_"+id).value =1;
-                document.getElementById("question_info_"+close_question_info_id).style.display="none";
-                close_question_info_id = 0;
-                active_button();
+                }
             }
         }
     }
@@ -351,14 +351,15 @@ function compare_value(id,fact_value){
     active_button();
 }
 function active_button(){
+     $("flash_notice").innerHTML="";
     var flag=0;
     var str=$("problem_id").value;
     var n=str.split(",");
-    for(i=0;i<n.length-1;i++){
-        value=$("single_value_"+n[i+1]).value;
+    for(i=1;i<n.length;i++){
+        value=$("single_value_"+n[i]).value;
         flag=1;
         if(value ==""){
-            $("if_submited_"+id).value =0;
+            $("if_submited_"+n[i]).value =0;
             flag=0;
             $("button_id").disabled=true;
             return false;
@@ -370,11 +371,30 @@ function active_button(){
             $("button_id").disabled=false;
         }
         else{
-            alert("请检查批阅分数");
+            $("flash_notice").innerHTML="<font color = 'red'>请检查批阅分数</font>";
             $("button_id").disabled=true;
         }
-    }else{
+    }else{ 
         $("button_id").disabled=true;
+    }
+}
+function button_status(){
+    var str=$("problem_id").value;
+    var  flag=0;
+    var n=str.split(",");
+    for(i=0;i<n.length-1;i++){
+        var  value=$("if_submited_"+n[i+1]).value;
+        flag=1;
+        if(value==0){
+            flag=0;
+            return false;
+        }
+    }
+    if (flag==1){
+        return true;
+    }
+    else{
+        return false;
     }
 }
 function button_event() {
@@ -389,22 +409,51 @@ function button_event() {
         + e.srcElement.tagName + "[" + e.srcElement.id + "]lllllll"+e.button+"dddd"+e.ctrlKey+e.screenX+"ss"+e.keycode+e.offsetX;
     };
 }
-function button_status(){
-    var str=$("problem_id").value;
-    flag=0;
-    var n=str.split(",");
-    for(i=0;i<n.length-1;i++){
-        value=$("if_submited_"+n[i+1]).value;
-        flag=1;
-        if(value==0){
-            flag=0;
-            return false;
-        }   
+function passwordStrength(password)
+{
+ var desc = new Array();
+ desc[0] = "Very Weak";
+ desc[1] = "Weak";
+ desc[2] = "Better";
+ desc[3] = "Medium";
+ desc[4] = "Strong";
+ desc[5] = "Strongest";
+ var score   = 0;
+ //if password bigger than 6 give 1 point
+ if (password.length > 6) score++;
+ //if password has both lower and uppercase characters give 1 point
+ if ( ( password.match(/[a-z]/) ) && ( password.match(/[A-Z]/) ) ) score++;
+ //if password has at least one number give 1 point
+ if (password.match(/\d+/)) score++;
+ //if password has at least one special caracther give 1 point
+ if ( password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) ) score++;
+ //if password bigger than 12 give another 1 point
+ if (password.length > 12) score++;
+  document.getElementById("passwordDescription").innerHTML = desc[score];
+  document.getElementById("passwordStrength").className = "strength" + score;
+}
+function exam_user_for_now(examination_id){
+  {
+        new Ajax.Updater("exam_user_list" , "/exam_user/exam_users/single_user",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:'post',
+            parameters:'id='+ examination_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+        });
+        return false;
     }
-    if (flag==1){
-        return true;
-    }
-    else{
+}
+function file_exam_user(examination_id){
+    var user_info=$("user_info").value;
+  {
+        new Ajax.Updater("add_failed" , "/exam_users/"+examination_id+"/login",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:'post',
+            parameters:'examination_id='+ examination_id +'&user_info='+ user_info +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+        });
         return false;
     }
 }
