@@ -9,7 +9,11 @@ class PaperBlocksController < ApplicationController
     file = File.new("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml","r+")
     @xml=REXML::Document.new(file).root
     block=@xml.elements["blocks"].elements["block[@id='#{block_id}']"]
-    render :partial =>"/papers/new_question",:object=>block
+    if params[:type] == "create"
+      render :partial =>"/papers/new_question",:object=>block
+    else
+      render :partial =>"/papers/mavin_question",:object=>block
+    end
   end
 
 
@@ -19,8 +23,9 @@ class PaperBlocksController < ApplicationController
     problem_id = params[:problem_id] 
     file = File.new("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml","r+")
     @xml=REXML::Document.new(file).root
-    problem=@xml.elements["blocks"].elements["block[@id='#{block_id}']"].elements["problems"].elements["problem[@id='#{problem_id}']"]
-    render :partial =>"/papers/edit_problem",:object=>problem
+    problem=@xml.elements["blocks"].elements["block[@id='#{block_id}']"]
+    .elements["problems"].elements["problem[@id='#{problem_id}']"]
+    render :partial => "/papers/edit_problem",:object => problem
   end
 
   def choose_type

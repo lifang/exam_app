@@ -1,4 +1,4 @@
-<div class="products_list_style_box" id="edit_problem_<%= edit_problem.attributes["id"].to_i %>" style="display:none;">
+<div class="products_list_style_box">
   <input type="hidden" name="edit_problem_<%= edit_problem.attributes["id"] %>" id="single_question_<%= edit_problem.attributes["id"] %>" value=""/>
   <div class="arrow" style="top:10px;"></div>
   <div class="question_pic_box" style="top:0px;">
@@ -19,7 +19,7 @@
           :id => "edit_title_#{edit_problem.attributes["id"].to_i}", :value=>title %>
 
         <% question_ids = []
-        edit_problem.elements["questions"].each do |question|
+        edit_problem.elements["questions"].each_element do |question|
           question_ids << question.attributes["id"].to_i
         %>
           <% if edit_problem.elements["questions"].size > 1 %>

@@ -24,7 +24,9 @@ module Constant
 
   #服务路径
   SERVER_PATH = "http://localhost:3000"
-  
+
+  #项目文件目录
+  PUBLIC_PATH = "#{Rails.root}/public"
   #试卷生成路径
   PAPER_PATH = "#{Rails.root}/public/papers"
   #试卷服务器访问路径

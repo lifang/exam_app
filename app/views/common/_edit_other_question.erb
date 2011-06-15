@@ -59,7 +59,7 @@
                <% if answer and answer.text and answer.text.to_i == 0 %>checked="true"<% end %>/>错&nbsp;&nbsp;
       </div>
     <% else %>
-      <textarea cols="45" rows="3" id="problem_answer" name="problem[answer]"><%= answer.text %></textarea>
+      <textarea cols="40" rows="3" id="problem_answer" name="problem[answer]"><%= answer.text %></textarea>
     <% end
   end %>
 

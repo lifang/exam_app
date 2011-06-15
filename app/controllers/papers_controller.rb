@@ -43,17 +43,9 @@ class PapersController < ApplicationController
     @xml=Document.new(file).root
   end
 
-  def new_step_one
-  end
-
-  def create
-    Paper.create(:paper_category_id=>"1",:title=>params[:paper][:paper_title],
-      :description=>params[:paper][:paper_describe],:creater_id=>"#{User.find_by_name(cookies[:user_name]).id}",
-      :total_score=>params[:paper][:paper_total_score],:total_question_num=>params[:paper][:paper_total_question_num])
-  end
-
   def new_step_two
-    file = File.open("#{Constant::PAPER_PATH}/#{params[:id]}.xml")
+    paper = Paper.find(params[:id].to_i)
+    file = File.open("#{Constant::PUBLIC_PATH}#{paper.paper_url}")
     @xml=Document.new(file).root
   end
 
@@ -62,17 +54,13 @@ class PapersController < ApplicationController
       :description=>params[:paper][:description], :category_id => params[:category])
     category = Category.find(params[:category].to_i)
     @paper.create_paper_url(@paper.xml_content({"category_name" => category.name}), "papers", "xml") unless category.nil?
-
-#    @block=PaperBlock.create(:paper_id=>@paper.id,:title=>params[:paper][:block_title],
-#      :description=>params[:paper][:block_description])
-#    @block.create_block_xml(@paper.paper_url)                                      #  XML操作
-    
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
   def create_step_two
-    @block = PaperBlock.create(:paper_id=>params[:module][:paper_id],:title=>params[:module][:title],:description=>params[:module][:description])
-    @block.create_block_xml("#{Rails.root}/public" + @block.paper.paper_url)                                            #XML操作
+    @block = PaperBlock.create(:paper_id => params[:module][:paper_id],
+      :title => params[:module][:title],:description => params[:module][:description])
+    @block.create_block_xml("#{Rails.root}/public" + @block.paper.paper_url)
     redirect_to request.referrer
   end
 
@@ -113,8 +101,9 @@ class PapersController < ApplicationController
   
   #创建试卷的js文件
   def create_all_paper
-    @paper = Paper.find(params[:id].to_i)
-    @paper.create_paper_url(@paper.create_paper_js, "paperjs", "js")
+    paper = Paper.find(params[:id].to_i)
+    paper.create_paper_url(paper.create_paper_js, "paperjs", "js")
+    paper.update_num_and_score
     redirect_to papers_url
   end
 

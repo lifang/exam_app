@@ -81,10 +81,10 @@ class Question < ActiveRecord::Base
     (0..length).each do |i|
       left_contents = right_contents[i].split(left_split)
       if right_split == "}}"
-        question[i] = [Problem::QUESTION_TYPE[:CHARACTER],
+        question[question.length] = [Problem::QUESTION_TYPE[:CHARACTER],
           left_contents[1]] unless (left_contents[1].nil? or left_contents[1] == "")
       else
-        question[i] = [-1, left_contents[1]] unless (left_contents[1].nil? or left_contents[1] == "")
+        question[question.length] = [-1, left_contents[1]] unless (left_contents[1].nil? or left_contents[1] == "")
       end
     end unless right_contents.blank?
     return question

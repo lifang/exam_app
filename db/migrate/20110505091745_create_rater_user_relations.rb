@@ -1,9 +1,9 @@
 class CreateRaterUserRelations < ActiveRecord::Migration
   def self.up
     create_table :rater_user_relations do |t|
-      t.integer :exam_user_id
-      t.integer :exam_rater_id
-      t.boolean :is_marked
+      t.integer :exam_user_id, :null => false
+      t.integer :exam_rater_id, :null => false
+      t.boolean :is_marked, :default => 0
       
     end
     add_index :rater_user_relations,:exam_user_id

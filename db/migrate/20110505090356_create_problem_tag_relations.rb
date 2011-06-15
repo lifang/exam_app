@@ -1,8 +1,8 @@
 class CreateProblemTagRelations < ActiveRecord::Migration
   def self.up
     create_table :problem_tag_relations do |t|
-      t.integer :tag_id
-      t.integer :problem_id
+      t.integer :tag_id, :null => false
+      t.integer :problem_id, :null => false
 
 
     end

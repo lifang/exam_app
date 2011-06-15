@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>      <paper id='31' total_num='1' total_score='0'>
+        <base_info>
+          <title>2011 ruby examination</title>
+          <category>1</category>
+          <creater>4</creater>
+          <created_at>2011年06月15日09时41分</created_at>
+          <updated_at>2011-06-15 09:42</updated_at>
+          <description>第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。</description>
+<category_name>大学英语</category_name>      </base_info>
+      <blocks>
+      <block id='17' total_num='1' total_score='0'><base_info><title>单选题</title><description>每题2分</description></base_info><problems><problem id='107' score='0' types='0'><title>________ is your name?</title><complete_title>[[what|where, when, why]] is your name?</complete_title><questions><question correct_type='0' id='136' score='0'><answer>what</answer><analysis></analysis><questionattrs>what;-;where, when, why</questionattrs><tags/></question></questions></problem></problems></block></blocks>
+      </paper>

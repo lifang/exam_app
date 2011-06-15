@@ -1,15 +1,12 @@
-<% problem_size = 0 %>
-<% sum=["一","二","三","四","五","六","七","八","九","十"] %>
-<%  array_index=0 %>
 <% @xml.elements['blocks'].each_element do |block|%>
-  <h1 class="biz_art_title" id="block_show"><%= sum[array_index] %>、<%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
+  <h1 class="biz_art_title">
+    <%= block.elements['base_info'].elements['title'].text %>
+    (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
     <a href="javascript:void(0);" onClick="javascript:edit_block(<%= block.attributes['id'] %>)">修改模块</a>
   </h1>
   <div id="create_question_<%= block.attributes["id"].to_i %>"></div>
-  <%#=  render :partial=>"papers/new_question" ,:object=>block %>
   <%= render :partial=>"/papers/edit_block" ,:object=>block %>
-  <%= render :partial => "/papers/mavin_question", :object=> block %>
-  <% array_index += 1 %>
+  <div id="mavin_question_<%= block.attributes["id"].to_i %>"></div>
   <div class="biz_art_list_box">
     <%= block.elements["base_info"].elements["description"].text %>
     <ul>
@@ -18,8 +15,9 @@
           <li>
             <%= render :partial=>"/papers/question_info",:object=>problem %>
             <div id="edit_problem_<%= problem.attributes["id"].to_i %>"></div>
-            <%#= render :partial=>"/papers/edit_problem",:object=>problem %>
-            <h2><a href="javascript:void(0)" onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)"><%= problem.elements['title'].text %></a></h2>
+            <h2><a href="javascript:void(0)" onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
+                <%= problem.elements['title'].text.to_s.html_safe %></a>
+            </h2>
           </li>
           <div class="links">
             <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
@@ -33,7 +31,8 @@
       <% end %>
       <li>
         <input type="button" value="新建试题" class="submit_btn"  onClick="javascript:choose_question_type(<%= block.attributes['id'] %>);"/>
-        <input type="button" value="新建专家试题" class="submit_btn" onclick="javascript:mavin_create_problem(<%= block.attributes['id'] %>);"/>
+        <input type="button" value="新建专家试题" class="submit_btn" 
+               onclick="javascript:load_mavin_problem(<%= block.attributes['id'] %>, <%= @xml.attributes['id'] %>);"/>
         <div style="display: none;" id="choose_que_type_div_<%= block.attributes['id'] %>">
           <%= render :partial => "choose_question_type", :object => block %>
         </div>

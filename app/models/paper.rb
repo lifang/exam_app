@@ -28,13 +28,13 @@ class Paper < ActiveRecord::Base
 
   #创建试卷的文件
   def create_paper_url(str, path, file_type)
-    dir = "#{Rails.root}/public"      #定义：目录
-    unless File.directory?(dir)               #判断dir目录是否存在，不存在则创建 下3行
+    dir = "#{Rails.root}/public" 
+    unless File.directory?(dir) 
       Dir.mkdir(dir)
     end
-    file_name = "/" + path + "/#{self.id}." + file_type                          #定义：文件名
-    url = dir + file_name                                   #定义：url = 目录+文件名
-    f=File.new(url,"w")                                   #写文件操作  下3行
+    file_name = "/" + path + "/#{self.id}." + file_type
+    url = dir + file_name
+    f=File.new(url,"w")
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
     if file_type == "xml"
@@ -54,8 +54,8 @@ class Paper < ActiveRecord::Base
           <title>#{self.title.force_encoding('ASCII-8BIT')}</title>
           <category>#{self.category_id}</category>
           <creater>#{self.creater_id}</creater>
-          <created_at>#{self.created_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</created_at>
-          <updated_at>#{self.updated_at.strftime("%Y年%m月%d日%H时%M分").force_encoding('ASCII-8BIT')}</updated_at>
+          <created_at>#{self.created_at.strftime("%Y-%m-%d %H:%M").force_encoding('ASCII-8BIT')}</created_at>
+          <updated_at>#{self.updated_at.strftime("%Y-%m-%d %H:%M").force_encoding('ASCII-8BIT')}</updated_at>
           <description>#{self.description.force_encoding('ASCII-8BIT')}</description>
     XML
     options.each do |key, value|
@@ -91,7 +91,6 @@ class Paper < ActiveRecord::Base
   #生成试卷的json
   def create_paper_js
     doc = Document.new(File.open "#{Constant::PAPER_PATH}/#{self.id}.xml")
-    puts doc
     doc.root.elements["blocks"].each_element do |block|
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|
@@ -102,6 +101,14 @@ class Paper < ActiveRecord::Base
     end
     return "papers = " + Hash.from_xml(doc.to_s).to_json
   end
+end
+
+#更新试卷的题目数和总分
+def update_num_and_score
+  doc = Document.new(File.open "#{Constant::PAPER_PATH}/#{self.id}.xml")
+  self.total_score = doc.root..attributes["total_score"].to_i
+  self.total_question_num = doc.root..attributes["total_num"].to_i
+  self.save
 end
 
 

@@ -54,7 +54,7 @@ class Problem < ActiveRecord::Base
     #更新试卷模块、试卷题目数
     block.attributes["total_num"] = block.attributes["total_num"].to_i + 1                         #更新模块总题数 +1
     doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i + 1                   #更新试卷总题数 +1
-    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")      #试卷更新时间
+    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y-%m-%d %H:%M")      #试卷更新时间
     
     return doc
   end
@@ -99,8 +99,6 @@ class Problem < ActiveRecord::Base
       question.add_attribute("score", options[:score][q.id]) if !options.empty? and !options[:score].nil?
     end
   end
-
-
 
   #更新题目的标签
   def update_problem_tags

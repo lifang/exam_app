@@ -5,14 +5,9 @@ class ProblemsController < ApplicationController
   include REXML
   
   def create
-
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     #创建题目
-    title=params[:problem][:title]
-    if (title.reverse[0,6].reverse == "<br />")    #去除字符串最后的<br />符号
-      title = title[0,title.length-6]
-    end
-    @problem = Problem.create_problem(@paper, {:title=>title, :types => params[:real_type].to_i})
+    @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title].strip, :types => params[:real_type].to_i})
     #创建题点
     score_arr = {}
     if params[:real_type].to_i == Problem::QUESTION_TYPE[:COLLIGATION]
@@ -72,11 +67,7 @@ class ProblemsController < ApplicationController
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     @problem = Problem.find(params[:problem][:problem_id].to_i)
     #更新题面
-    title=params[:problem][:title]
-    if (title.reverse[0,6].reverse == "<br />")    #去除字符串最后的<br />符号
-      title = title[0,title.length-6]
-    end
-    @problem.update_attributes(:title=>title, :updated_at=>Time.now)
+    @problem.update_attributes(:title=>params[:problem][:title].strip, :updated_at=>Time.now)
 
     #打开xml
     url = File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml"
@@ -105,7 +96,6 @@ class ProblemsController < ApplicationController
     doc = Problem.remove_problem_xml(doc, params[:problem][:problem_xpath])
     doc = @problem.create_problem_xml(doc, params[:problem][:block_id], {:score => score_arr})
     Problem.write_xml(url, doc)
-
     redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
 
   end
@@ -113,13 +103,13 @@ class ProblemsController < ApplicationController
   def mavin_problem
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     content = params[:problem][:title].gsub("<br />", "")
-    #切割字符串,简答题以“{{}}”标志，其他题目都以“[[]]”标志,“||”后面为解析，“||”前为答案，
+    #切割字符串,简答题以“{{}}”标志，其他题目都以“[[]]”标志,“||”后面为标签，“||”前为答案，
     #“|”用来区分选择题正误，前面为正确答案，后面为错误答案，“；”用来标识多个选项
     unless content.nil? or content == ""
       problem_correct_type = 0
       question_tmp = {} #用来记录初步分离的提点
       questions = [] #用来记录所有的提点
-      problem_title = content.gsub(/\[\[(.|\n)+?\]\]/, "________").gsub(/\{\{(.|\n)+?\}\}/, "________")
+      problem_title = content.gsub(/\[\[(.|\n)+?\]\]/, "______").gsub(/\{\{(.|\n)+?\}\}/, "______")
       .gsub(/\[\{(.|\n)+?\}\]/, "").gsub(/\[\((.|\n)+?\)\]/, "")
       #非简答题以外的题
       if content.include? "[["
@@ -137,7 +127,6 @@ class ProblemsController < ApplicationController
         questions = Question.generate_question_for_database(question_tmp)
         problem_correct_type = Problem::QUESTION_TYPE[:CHARACTER]
       end
-      puts questions.to_s + "_________________questions"
       #保存题目和提点，并返回所有提点的分值
       scores = Question.generate_score_or_analysis(content, ")]", "[(")
       analysis = Question.generate_score_or_analysis(content, "}]", "[{")
@@ -146,7 +135,6 @@ class ProblemsController < ApplicationController
         {:title => problem_title, :types => problem_correct_type, :complete_title => content})
       (0..questions.length-1).each do |i|
         questions[i][:analysis] = analysis[i].nil? ? "" : analysis[i]
-        puts questions[i]
         @question = Question.create_question(@problem,
           {:answer => questions[i][:answer], :analysis => questions[i][:analysis],
             :correct_type => questions[i][:correct_type].to_i}, questions[i][:question_attr])

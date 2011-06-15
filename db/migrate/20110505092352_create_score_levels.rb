@@ -1,7 +1,7 @@
 class CreateScoreLevels < ActiveRecord::Migration
   def self.up
     create_table :score_levels do |t|
-      t.integer :examination_id
+      t.integer :examination_id, :null => false
       t.string :key
       t.string :value
 

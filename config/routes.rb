@@ -28,7 +28,11 @@ ExamApp::Application.routes.draw do
     end
   end
   resources :sessions 
-  resources :questions
+  resources :questions do
+    member do
+      post "edit_question"
+    end
+  end
   resources :paper_blocks do
     member do
       post "choose_type"
@@ -96,7 +100,6 @@ ExamApp::Application.routes.draw do
   resources :uploads do
     collection do
       post "upload_images", "upload"
-      get "back"
     end
   end
   namespace :user do

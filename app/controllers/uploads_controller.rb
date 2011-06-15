@@ -12,7 +12,5 @@ class UploadsController < ApplicationController
   def upload
   end
 
-  def back
-    render :inline => "<script>nicUploadButton.statusCb({'interval':1000,'count':1});</script>"
-  end
+
 end
