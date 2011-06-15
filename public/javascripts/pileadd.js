@@ -50,13 +50,8 @@ function time_limit(name){
             }
         }
     }
-
     document.getElementById("examplan_radiovalue").value = checked_ids;
-
-
-
 //    var sles=document.getElementById(name).options[document.getElementById(name).selectedIndex].text;
-
 }
 function see_result(name){
     var sles=document.getElementsByName(name);
@@ -69,8 +64,7 @@ function see_result(name){
     document.getElementById("examplan_see_result").value = checked_ids;
     alert(document.getElementById("examplan_see_result").value);
 }
-function selectminute(name){
-  
+function selectminute(name){ 
     var checked_ids = new Array();
     var sles = document.getElementById(name).value;
     if (sles< 0){
@@ -103,29 +97,7 @@ function compare_value() {
     }
 //    js提供了parseInt()和parseFloat()两个转换函数
 }
-function getbutton(name) {
-    document.getElementById("login_form_value").value = "";
-    document.getElementById("leadin_form_value").value = "";
-    var login_form = $("login_form");
-    var text= new String();
-    document.getElementById("textarea").value = "" ;
-    if ($("login_block").style.display != "none") {
-        document.getElementById("login_form_value").value = name;
-        for (var i=1;i<=$("add1").rows.length;i++){
-            if ($("infoname"+i).value!="" && $("infomobile"+i).value!=""&& $("infoemail"+i).value!=""){
-                text +=$("infoname"+i).value + ","+$("infomobile"+i).value + ","+$("infoemail"+i).value+";";
-            }
-        }
-        document.getElementById("textarea").value = text;
-    //login_form.submit();
-    } else {
 
-        document.getElementById("leadin_form_value").value = name;
-    //leadin_form.submit();
-    }
-    login_form.submit();
-
-}
 function showpartial(name){
     var sles=document.getElementsByName(name);
     for (var i=0;i<sles.length;i++) {
@@ -194,21 +166,18 @@ function exam_setting() {
     }
 }
 
-function edit_exam_info() {
-    $("edit_exam_base_info").style.display = "block";
-    $("exam_base_info").style.display = "none";
-}
-function show_exam_info() {
-    $("edit_exam_base_info").style.display = "none";
-    $("exam_base_info").style.display = "block";
+function exam_info(edit_exam_base_info,exam_base_info) {
+    $(edit_exam_base_info).style.display = "block";
+    $(exam_base_info).style.display = "none";
 }
 
-function edit_exam_user(exam_user_id){
-    var n = $("name_"+exam_user_id).value;
-    var mobile = $("miblephone_"+exam_user_id).value;
-    var email = $("email_"+exam_user_id).value;
+function edit_exam(div,controller,exam_id,action){
+   
+    var n = $("name_"+exam_id).value;
+    var mobile = $("miblephone_"+exam_id).value;
+    var email = $("email_"+exam_id).value;
     if (test_exam_edit(n,mobile,email)){
-        new Ajax.Updater("tr_exam_user_" + exam_user_id, "/exam_users/"+ exam_user_id +"/update_exam_user",
+        new Ajax.Updater(div+"_" + exam_id, "/"+controller+"/"+ exam_id +"/"+action,
         {
             asynchronous:true,
             evalScripts:true,
@@ -217,21 +186,6 @@ function edit_exam_user(exam_user_id){
         });
         return false;
     }   
-}
-function edit_exam_rater(exam_rater_id){
-    var n = $("name_"+exam_rater_id).value;
-    var mobile = $("miblephone_"+exam_rater_id).value;
-    var email = $("email_"+exam_rater_id).value;
-    if (test_exam_edit(n,mobile,email)){
-        new Ajax.Updater("tr_exam_rater_" + exam_rater_id, "/exam_raters/"+ exam_rater_id +"/update_exam_rater",
-        {
-            asynchronous:true,
-            evalScripts:true,
-            method:'post',
-            parameters:'name='+ n +'&mobilephone='+mobile +'&email='+ email +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
-        });
-        return false;
-    }
 }
 
 function test_exam_edit(n,mobile,email){
@@ -273,10 +227,8 @@ function test_exam_edit(n,mobile,email){
             document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名不能包含非法字符</font>";
             return false;
         }
-    }
-    
+    } 
 }
-
 function show_name(info,passsowrd) {
     $(info).style.display ="block";
     $(passsowrd).style.display ="none";
@@ -396,41 +348,6 @@ function button_status(){
     else{
         return false;
     }
-}
-function button_event() {
-    document.body.onmousedown = function(e) {
-        if (!e) {
-            e = window.event;
-        }
-        else {
-            e.srcElement = e.target;
-        }
-        document.getElementById("hd").innerHTML = "(" + e.clientX + "," + e.clientY + ") srcElement="
-        + e.srcElement.tagName + "[" + e.srcElement.id + "]lllllll"+e.button+"dddd"+e.ctrlKey+e.screenX+"ss"+e.keycode+e.offsetX;
-    };
-}
-function passwordStrength(password)
-{
- var desc = new Array();
- desc[0] = "Very Weak";
- desc[1] = "Weak";
- desc[2] = "Better";
- desc[3] = "Medium";
- desc[4] = "Strong";
- desc[5] = "Strongest";
- var score   = 0;
- //if password bigger than 6 give 1 point
- if (password.length > 6) score++;
- //if password has both lower and uppercase characters give 1 point
- if ( ( password.match(/[a-z]/) ) && ( password.match(/[A-Z]/) ) ) score++;
- //if password has at least one number give 1 point
- if (password.match(/\d+/)) score++;
- //if password has at least one special caracther give 1 point
- if ( password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) ) score++;
- //if password bigger than 12 give another 1 point
- if (password.length > 12) score++;
-  document.getElementById("passwordDescription").innerHTML = desc[score];
-  document.getElementById("passwordStrength").className = "strength" + score;
 }
 function exam_user_for_now(examination_id){
   {

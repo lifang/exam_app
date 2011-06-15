@@ -81,7 +81,7 @@ class ExaminationsController < ApplicationController
     @examination = Examination.find(params[:id].to_i)
     @exam_users = ExamUser.select_exam_users(@examination.id)
   end
-  def export_user_unaffirm
+  def export_user_unaffirm  #输出未确认的考生信息
     url = "#{File.expand_path(Rails.root)}/public/excels"
     unless File.directory?(url)               #判断dir目录是否存在，不存在则创建 下3行
       Dir.mkdir(url)
@@ -101,13 +101,8 @@ class ExaminationsController < ApplicationController
     session[:file] = file_url
     flash[:notice] ="已生成文件，请查看"
     redirect_to "/examinations/#{params[:id].to_i}"
-  #       Dir.foreach(url + "/public/unsubmited_excels") do |entry|
-  #      entry.split("_").each do |examination_id|
-  #        if examination_id==params[:id].to_i
-  #           flash[:notice] ="文件已存在，请查看"
-  #        else
 end
-def show
+def show  #examination的显示
   @examination = Examination.find(params[:id].to_i)
   @exam_users = ExamUser.paginate_exam_user(@examination.id, 1,params[:page])
   @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
@@ -121,20 +116,20 @@ def show
   end
 end
 
-def  destroy
+def  destroy  #删除安排
   Examination.delete(params[:id].to_i)
   flash[:notice] = "删除成功！"
   redirect_to examinations_path
 end
 
-def published
+def published  #发布试卷
   examination = Examination.find(params[:id].to_i)
   examination.publish!
   flash[:notice] = "发布成功！"
   redirect_to examinations_path
 end
 
-def paper_delete
+def paper_delete  #重新选择试卷
   ids = params[:id].split("_")
   examination = Examination.find(ids[0].to_i)
   paper = Paper.find(ids[1].to_i)
