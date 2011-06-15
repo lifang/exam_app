@@ -1,9 +1,9 @@
 class ExamUser::ExamUsersController < ApplicationController
-  def pile_exam_users
+  def pile_exam_users  #批量添加考生信息按钮
      @examination=Examination.find(params[:id])
     render :partial=>"/exam_users/pile_exam_users"
   end
-  def single_user
+  def single_user  #考生信息按钮
     @examination = Examination.find(params[:id].to_i)
     @exam_users = ExamUser.paginate_exam_user(@examination.id, 1,params[:page])
     @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",

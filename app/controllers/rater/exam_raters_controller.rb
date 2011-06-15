@@ -2,12 +2,12 @@ class Rater::ExamRatersController < ApplicationController
   layout "rater"
   require 'rexml/document'
   include REXML
-  def rater_session
+  def rater_session #阅卷老师登陆页面
     @rater=ExamRater.find(params[:id])
     @examination=Examination.find(params[:examination])
     render "/rater/exam_raters/session"
   end
-  def rater_login
+  def rater_login  #阅卷老师登陆
     @rater=ExamRater.find(params[:id])
     @examination=Examination.find(params[:examination_id])
     if @rater.author_code==params[:author_code]
@@ -20,7 +20,7 @@ class Rater::ExamRatersController < ApplicationController
       render "/rater/exam_raters/session"
     end
   end
-  def reader_papers
+  def reader_papers  #答卷批阅状态显示
     @examination=Examination.find(params[:id])
     @exam_paper_total=ExamUser.find_by_sql("select * from exam_users eu where eu.examination_id=
      #{@examination.id} and eu.answer_sheet_url is not null")
@@ -28,14 +28,14 @@ class Rater::ExamRatersController < ApplicationController
     @exam_paper_marked=ExamUser.find_by_sql("select * from exam_users e left join rater_user_relations r on r.exam_user_id=
                          e.id  where e.examination_id=#{params[:id]} and r.is_marked=1 and e.answer_sheet_url is not null")
   end
-  def check_paper  
+  def check_paper  #选择要批阅的答卷
     exam_users=ExamUser.find_by_sql("select e.id from exam_users e left join rater_user_relations r on r.exam_user_id=e.id  where e.examination_id=#{cookies[:examination_id]} and r.id is null and e.answer_sheet_url is not null")
     puts exam_users
     @exam_user=exam_users[rand(exam_users.length)].id
     RaterUserRelation.create(:exam_rater_id=>cookies[:rater_id],:exam_user_id=>@exam_user)
     redirect_to "/rater/exam_raters/#{@exam_user}/answer_paper"
   end
-  def answer_paper
+  def answer_paper #批阅答卷
     @exam_user=ExamUser.find(params[:id])
     @url="#{Rails.root}/public"+@exam_user.answer_sheet_url
     file = File.open(@url)
@@ -64,7 +64,7 @@ class Rater::ExamRatersController < ApplicationController
     @xml.to_s
     puts @xml
   end
-  def over_answer
+  def over_answer #批阅完成，给答卷添加成绩
     @exam_relation=RaterUserRelation.find_by_exam_user_id(params[:id])
     @exam_relation.is_marked=true
     @exam_relation.update_attributes(:is_marked=>1)

@@ -1,7 +1,7 @@
 class ExaminationsController < ApplicationController
   before_filter :access?
   
-  def index
+  def index #考试安排列表
     @examinations = Examination.search_method(cookies[:user_id].to_i, nil, nil, nil, 10, params[:page])
   end
 
@@ -22,7 +22,7 @@ class ExaminationsController < ApplicationController
 
   end
 
-  def search_list
+  def search_list #查询考试安排
     @examinations = Examination.search_method(cookies[:user_id].to_i, session[:start_at], session[:end_at],
       session[:title], 10, params[:page])
     render "index"
@@ -34,7 +34,7 @@ class ExaminationsController < ApplicationController
   #=====================
   #create by qianjun -- 2011-05-09
   #=====================
-  def create
+  def create  #创建考试按钮，获取试卷id
     @paperid=params[:exam][:getvalue]
     if @paperid==""
       flash[:error]="请选择试卷"
@@ -51,7 +51,7 @@ class ExaminationsController < ApplicationController
     end
   end
   
-  def create_step_one
+  def create_step_one  #创建考试
     @papers=Paper.find(params[:post_value].split(","))
     @examination = Examination.find(params[:id].to_i)
     @selectvalue = params[:examplan][:selectvalue]
