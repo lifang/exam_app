@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110614033116) do
+ActiveRecord::Schema.define(:version => 20110619073103) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(:version => 20110614033116) do
     t.integer "question_id"
   end
 
-  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_point_id"
+  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|
@@ -180,7 +180,8 @@ ActiveRecord::Schema.define(:version => 20110614033116) do
   add_index "score_levels", ["key"], :name => "index_score_levels_on_key"
 
   create_table "tags", :force => true do |t|
-    t.string "name"
+    t.string  "name"
+    t.integer "num",  :default => 0
   end
 
   create_table "user_role_relations", :force => true do |t|

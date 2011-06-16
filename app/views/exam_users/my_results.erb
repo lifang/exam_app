@@ -40,14 +40,10 @@
             <td><%= link_to "#{result.e_title}", "/examinations/#{result.e_id}" %></td>
             <td><%= result.description %></td>
             <td><%= result.total_question_num %>题/ <%= result.p_total_score %>分</td>
-            <% if result.start_at_time.nil? %>
-            <td>时间未限制</td>
-            <% else %>
-            <td><%= result.start_at_time.strftime("%Y-%m-%d  %I:%M%p") %></td>
-            <% end %>
+             <td> <%= result.start_at_time.nil? ? "时间未限制":result.start_at_time.strftime("%Y-%m-%d  %I:%M%p")%></td>
             <td><%= result.u_total_score==nil ? "暂无成绩" :result.u_total_score.to_s+"分" %></td>
             <td>
-              <a href="#">查看</a>
+              <%= link_to "查看","/exam_users/#{@exam_user.id}/" %>
             </td>
           </tr>
         <% end %>

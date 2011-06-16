@@ -57,6 +57,7 @@ notes\:custom=Enumerate a custom annotation, specify with ANNOTATION=CUSTOM
 notes\:fixme=
 notes\:optimize=
 notes\:todo=
+paper\:rate=rate paper
 rails\:freeze\:edge=
 rails\:freeze\:gems=
 rails\:template=Applies the template supplied by LOCATION=/path/to/template

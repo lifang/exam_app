@@ -52,7 +52,7 @@ class Rater::ExamRatersController < ApplicationController
             if question.attributes["correct_type"].to_i ==5
               @str += (","+question.attributes["id"])
             else
-               problem.delete_element(question.xpath)
+              problem.delete_element(question.xpath)
             end
           end
         end
@@ -79,6 +79,12 @@ class Rater::ExamRatersController < ApplicationController
       score +=element.attributes["score"].to_i
     end
     doc.elements[1].add_attribute("rater_score","#{score}")
+    unless doc.elements[1].elements["auto_score"].nil?
+      auto_score=doc.elements[1].elements["auto_score"].text
+      if auto_score.to_i !=0
+        ExamUser.find(params[:id]).update_attributes(:total_score=>score+auto_score.to_i)
+      end
+    end
     doc.to_s
     self.write_xml(url, doc)
     redirect_to "/rater/exam_raters/#{ExamUser.find(params[:id]).examination_id}/reader_papers"

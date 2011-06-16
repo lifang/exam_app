@@ -6,7 +6,7 @@ namespace :paper do
     exam_users = ExamUser.find_by_sql("select e.id,  
         e.total_score, e.paper_id, p.paper_url, e.answer_sheet_url, e.is_auto_rate
         from exam_users e inner join papers p on p.id = e.paper_id
-        where e.is_submited = 1 and e.answer_sheet_url is not null ")
+        where e.is_submited = 1 and e.answer_sheet_url is not null")
     dir = "#{Rails.root}/public"
     exam_users.each do |exam_user|
       paper_xml = Document.new(File.open(dir + exam_user.paper_url))

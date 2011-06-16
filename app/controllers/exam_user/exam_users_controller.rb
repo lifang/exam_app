@@ -1,6 +1,6 @@
 class ExamUser::ExamUsersController < ApplicationController
   def pile_exam_users  #批量添加考生信息按钮
-     @examination=Examination.find(params[:id])
+    @examination=Examination.find(params[:id])
     render :partial=>"/exam_users/pile_exam_users"
   end
   def single_user  #考生信息按钮

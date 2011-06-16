@@ -1,0 +1,11 @@
+<div class="products_list_style_box" id="question_info_<%= single_question.attributes["id"].to_i %>" style="display:none">
+  <div class="arrow" style="top:35px;"></div>
+  <div class="big_pic_box" style="top:0px;">
+    <div class="in">
+      <div class="title"><%= single_question.elements["title"].text.to_s.html_safe %></div>
+      <% single_question.elements["questions"].each_element do |question| %>
+        <%= render :partial => "/exam_users/question_with_answer", :object => question %>
+      <% end %>
+    </div>
+  </div>
+</div>

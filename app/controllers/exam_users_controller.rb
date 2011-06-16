@@ -1,5 +1,6 @@
 class ExamUsersController < ApplicationController
-
+  require 'rexml/document'
+  include REXML
   def create_exam_user  #单个添加考生
     @examination = Examination.find(params[:examination_id].to_i)
     @user=User.find_by_sql("select * from users u where u.name='#{params[:exam_user_infoname]}' and u.email='#{params[:exam_user_infoemail]}' ")
@@ -20,7 +21,7 @@ class ExamUsersController < ApplicationController
         if ExamUser.find_by_user_id(user1.id).nil?
           new_exam_user(@examination,user1)
         else
-          if ExamUser.find_by_sql("select * from exam_users u where u.user_id=#{user1.id} and u.examination_id=#{params[:examination_id].to_i}")
+          if ExamUser.find_by_examination_id_and_user_id(params[:examination_id],user1.id)
             flash[:email_err]="该考生信息已加入"
           else
             new_exam_user(@examination,user1)
@@ -88,7 +89,7 @@ class ExamUsersController < ApplicationController
           if ExamUser.find_by_user_id(user1.id).nil?
             new_exam_user(@examination,user1)
           else
-            if ExamUser.find_by_sql("select * from exam_users u where u.user_id=#{user1.id} and u.examination_id=#{params[:id].to_i}")
+            if ExamUser.find_by_examination_id_and_user_id(params[:id],user1.id)   
               str +=@info_class[i]+","+@info_class[i+1]+";"
             else
               new_exam_user(@examination,user1)
@@ -131,7 +132,7 @@ class ExamUsersController < ApplicationController
     @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
     sql = ExamUser.generate_result_sql
     sql += " and us.id=#{cookies[:user_id]} "
-    @results=Examination.paginate_by_sql(sql,:per_page => 2, :page => params[:page])
+    @results=Examination.paginate_by_sql(sql,:per_page =>5, :page => params[:page])
   end
   def search
     session[:start_at] = nil
@@ -151,5 +152,13 @@ class ExamUsersController < ApplicationController
     sql += " and e.title like '%#{session[:title]}%'" unless session[:title].nil?
     @results = Examination.paginate_by_sql(sql, :pre_page => 1, :page => params[:page])
     render "my_results"
+  end
+    def show
+      result=ExamUser.find(params[:id])
+    exam=ExamUser.find_by_user_id_and_examination_id(cookies[:user_id],result.examination_id)
+    answer=File.open("#{Rails.root}/public/#{result.id}.xml")
+    answer
+    file = File.open("#{Constant::PAPER_PATH}/#{exam.paper_id}.xml")
+    @xml=Document.new(file).root
   end
 end
