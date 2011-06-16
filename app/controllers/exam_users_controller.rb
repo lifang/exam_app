@@ -154,10 +154,10 @@ class ExamUsersController < ApplicationController
     render "my_results"
   end
     def show
-      result=ExamUser.find(params[:id])
+    result=ExamUser.find(params[:id])
     exam=ExamUser.find_by_user_id_and_examination_id(cookies[:user_id],result.examination_id)
     answer=File.open("#{Rails.root}/public/#{result.id}.xml")
-    answer
+    @doc=Document.new(answer).root
     file = File.open("#{Constant::PAPER_PATH}/#{exam.paper_id}.xml")
     @xml=Document.new(file).root
   end

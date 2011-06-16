@@ -9,7 +9,6 @@
     <div>总题数：<%= @xml.attributes["total_num"]%></div>
     <div>卷面总分：<%= @xml.attributes["total_score"]%></div>
     <div>备注：<%= @xml.elements['base_info'].elements['description'].text%></div>
-
     <input type="submit" value="编辑试卷" class="submit_btn"
            onclick="javascript:window.location.href='/papers/<%= @xml.root.attributes["id"] %>/new_step_two'"/>
     <input type="submit" value="返回试卷列表" class="submit_btn" onclick="javascript:window.location.href='/papers'"/>
