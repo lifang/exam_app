@@ -19,8 +19,8 @@ class Paper < ActiveRecord::Base
     doc.root.elements["base_info"].elements["title"].text=self.title
     doc.root.elements["base_info"].elements["description"].text=self.description
     options.each do |key, value|
-        doc.root.elements["base_info"].elements["#{key}"].text = value
-      end unless options.empty?
+      doc.root.elements["base_info"].elements["#{key}"].text = value
+    end unless options.empty?
     file=File.open(url,"w+")
     file.write(doc)
     file.close
@@ -59,8 +59,8 @@ class Paper < ActiveRecord::Base
           <description>#{self.description.force_encoding('ASCII-8BIT')}</description>
     XML
     options.each do |key, value|
-        content+="<#{key}>#{value.force_encoding('ASCII-8BIT')}</#{key}>"
-      end unless options.empty?
+      content+="<#{key}>#{value.force_encoding('ASCII-8BIT')}</#{key}>"
+    end unless options.empty?
     content += <<-XML
       </base_info>
       <blocks>
@@ -82,8 +82,8 @@ class Paper < ActiveRecord::Base
     sql += " and title like '%#{title}%'" unless title.nil?
     sql += " and category_id = '%#{category}%'" unless category.nil?
     options.each do |key, value|
-        sql += " and #{key} #{value} "
-      end unless options.empty?
+      sql += " and #{key} #{value} "
+    end unless options.empty?
     sql += " order by created_at desc"
     return Paper.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end
@@ -101,14 +101,15 @@ class Paper < ActiveRecord::Base
     end
     return "papers = " + Hash.from_xml(doc.to_s).to_json
   end
-end
 
-#更新试卷的题目数和总分
-def update_num_and_score
-  doc = Document.new(File.open "#{Constant::PAPER_PATH}/#{self.id}.xml")
-  self.total_score = doc.root..attributes["total_score"].to_i
-  self.total_question_num = doc.root..attributes["total_num"].to_i
-  self.save
+  #更新试卷的题目数和总分
+  def update_num_score
+    doc = Document.new(File.open "#{Constant::PAPER_PATH}/#{self.id}.xml")
+    self.total_score = doc.root.attributes["total_score"].to_i
+    self.total_question_num = doc.root.attributes["total_num"].to_i
+    self.save
+  end
+
 end
 
 

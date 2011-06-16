@@ -200,7 +200,9 @@ function create_element(element, name, id, class_name, type, ele_flag) {
 function show_exam_time() {
     // nextelapse是定时时间, 初始时为100毫秒
     // 注意setInterval函数: 时间逝去nextelapse(毫秒)后, onTimer才开始执行
-    timer = window.setInterval("onTimer()", nextelapse);
+    if (start != "00:00:00:00") {
+        timer = window.setInterval("onTimer()", nextelapse);
+    }
 }
 
 // 倒计时函数
@@ -355,6 +357,11 @@ function save_problem(problem_id) {
             }
         }       
     }
+}
+
+//用来返回考生已经答完多少题了
+function alreay_answer_num() {
+    alert(1);
 }
 
 //用来返回每个提点是否已经回答

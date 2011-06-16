@@ -99,11 +99,11 @@ class ExamUsersController < ApplicationController
       end
       i +=3
     end
-     if str=="" && str1==""
-        render :text =>"考生信息都已成功加入"
-     else
-         render :text => "<font color='blue'>#{str1}&nbsp;&nbsp;<br/>#{str}</font>"
-     end
+    if str=="" && str1==""
+      render :text =>"考生信息都已成功加入"
+    else
+      render :text => "<font color='blue'>#{str1}&nbsp;&nbsp;<br/>#{str}</font>"
+    end
   
   end
 
@@ -128,6 +128,7 @@ class ExamUsersController < ApplicationController
       :mobilephone=>params[:mobilephone])
     render :partial=>"/examinations/back_exam_user"
   end
+  
   def my_results   #考生成绩
     @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
     sql = ExamUser.generate_result_sql
@@ -143,6 +144,7 @@ class ExamUsersController < ApplicationController
     session[:title] = params[:title] if !params[:title].nil? and params[:title] != ""
     redirect_to search_list_exam_users_path
   end
+  
   def search_list #成绩查询
     @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
     sql = ExamUser.generate_result_sql
@@ -153,8 +155,9 @@ class ExamUsersController < ApplicationController
     @results = Examination.paginate_by_sql(sql, :pre_page => 1, :page => params[:page])
     render "my_results"
   end
-    def show
-      result=ExamUser.find(params[:id])
+
+  def show
+    result=ExamUser.find(params[:id])
     exam=ExamUser.find_by_user_id_and_examination_id(cookies[:user_id],result.examination_id)
     answer=File.open("#{Rails.root}/public/#{result.id}.xml")
     answer

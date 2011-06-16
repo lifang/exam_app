@@ -101,9 +101,9 @@ class PapersController < ApplicationController
   
   #创建试卷的js文件
   def create_all_paper
-    paper = Paper.find(params[:id].to_i)
-    paper.create_paper_url(paper.create_paper_js, "paperjs", "js")
-    paper.update_num_and_score
+    @paper = Paper.find(params[:id].to_i)
+    @paper.create_paper_url(@paper.create_paper_js, "paperjs", "js")
+    @paper.update_num_score
     redirect_to papers_url
   end
 
