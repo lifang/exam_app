@@ -110,17 +110,31 @@ class Problem < ActiveRecord::Base
       end
     end
     self.tags << tags_hash.values
+    self.update_search_table
+  end
+
+  #更新标签查询表
+  def update_search_table
+    total_num = 1
+    self.tags.each do |t|
+      total_num = total_num*t.num
+    end
+    problem_tag = ProblemTag.find_or_create_by_problem_id(self.id)
+    problem_tag.total_num = total_num
+    problem_tag.save
   end
 
   #计算修改题目原来每个题点的成绩
   def old_score(score_arr, doc, problem_path)
     old_score = {}
     problem = doc.elements["#{problem_path}"]
-    problem.elements["questions"].each.each do |que|
+    problem.elements["questions"].each_element do |que|
       old_score[que.attributes["id"].to_i] = que.attributes["score"].to_i
     end
     return old_score.merge(score_arr)
   end
+
+
   
 end
 

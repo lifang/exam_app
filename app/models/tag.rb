@@ -24,10 +24,43 @@ class Tag < ActiveRecord::Base
       existed_name << t.name
     end
     (name - existed_name).each do  |n|
-      new_tags << Tag.create(:name => n)
+      new_tags << Tag.create(:name => n, :num => (Tag.tag_num)[-1])
     end unless (name - existed_name).blank?
     return new_tags
   end
 
-  
+  #生成素数标识每个标签
+  def self.tag_num
+    tag_nums = Tag.select("num").order(" num desc").limit(2)
+    arr=[]
+    if tag_nums.blank? or tag_nums[0].num == 0
+      arr << 2
+    else
+      if tag_nums[0].num > 2
+        start_num = tag_nums[0].num
+        arr << tag_nums[1].num
+        end_num = (start_num.to_s.length + 1) * 100
+        start_num.step(end_num, 2) do |n|
+          if Tag.is_prime?(arr, n)
+            arr << n
+            break if arr.length == 3
+          end
+        end
+      elsif  tag_nums[0].num == 2
+        arr << 3
+      end    
+    end
+    return arr
+  end
+
+
+  def self.is_prime?(arr, number)
+    j=0
+    while arr[j] * arr[j] <= number
+      return false if number % arr[j] ==0
+      j +=1
+    end
+    return true
+  end
+
 end

@@ -54,7 +54,6 @@ class ExamUser < ActiveRecord::Base
       from exam_users u inner join examinations e on e.id = u.examination_id
       inner join papers p on p.id = u.paper_id
       inner join users us on us.id = u.user_id 
-
       left join categories c on c.id = p.category_id where 1=1 "
     options.each do |key, value|
       sql += " and #{key} #{value} "
@@ -113,8 +112,10 @@ class ExamUser < ActiveRecord::Base
     content = "<?xml version='1.0' encoding='UTF-8'?>"
     content += <<-XML
       <exam id='#{self.examination_id}'>
-        <paper id='#{self.paper_id}'>
+        <paper id='#{self.paper_id}' score='0'>
           <questions></questions>
+          <auto_score></auto_score>
+          <rate_score></rate_score>
         </paper>
       </exam>
     XML
@@ -144,6 +145,7 @@ class ExamUser < ActiveRecord::Base
     question_ids_options.each do |key, value|
       question = questions.add_element("question")
       question.add_attribute("id","#{key}")
+      question.add_attribute("score","0")
       question.add_element("answer").add_text("#{value.strip}")
     end unless question_ids_options == {}
     return doc.to_s
@@ -188,8 +190,9 @@ class ExamUser < ActiveRecord::Base
         end
       end
     end
-    answer_doc.root.elements["paper"].add_element("auto_score").add_text("#{auto_score}")
-    unless answer_doc.root.elements["paper"].elements["rate_score"].nil?
+    answer_doc.root.elements["paper"].elements["auto_score"].text = auto_score
+    rate_score = answer_doc.root.elements["paper"].elements["rate_score"]
+    unless rate_score.text.nil? or rate_score.text == ""
       total_score = auto_score + answer_doc.root.elements["paper"].elements["rate_score"].text.to_i
       answer_doc.root.elements["paper"].add_attribute("score", "#{total_score}")
     end
