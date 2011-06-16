@@ -23,10 +23,10 @@ class User::ExaminationsController < ApplicationController
     if arr[0] == "" and arr[1].any?
       @examination = arr[1][0]
       @paper_url = "#{Constant::PAPER_CLIENT_PATH}/#{@examination.paper_id}.js"
-      if @examination.started_at.nil? or @examination.started_at == ""
+      #if @examination.started_at.nil? or @examination.started_at == ""
         @exam_user = ExamUser.find(@examination.exam_user_id)
         @exam_user.update_info_for_join_exam(@examination.start_at_time, @examination.exam_time)
-      end
+      #end
       render :layout => "application"
     else
       flash[:warn] = arr[0]

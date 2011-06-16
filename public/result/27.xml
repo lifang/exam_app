@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <exam id='42'>
-    <paper id='30'>
+    <paper id='30' score='9'>
         <questions>
             <question id='127' score='0'>
                 <answer>sdfsf</answer>
@@ -11,7 +11,7 @@
             <question id='129' score='0'>
                 <answer>sdsfsf</answer>
             </question>
-            <question id='130' score='1'>
+            <question id='130' score='0'>
                 <answer>is</answer>
             </question>
             <question id='133' score='5'>
@@ -20,6 +20,9 @@
             <question id='134' score='0'>
                 <answer>what;|;where</answer>
             </question>
+            <question id='135' score='0'>
+                <answer/>
+            </question>
             <question id='131' score='0'>
                 <answer>sdfsfsf</answer>
             </question>
@@ -27,5 +30,7 @@
                 <answer>is</answer>
             </question>
         </questions>
-    <auto_score>8</auto_score></paper>
+        <auto_score>7</auto_score>
+        <rate_score>2</rate_score>
+    </paper>
 </exam>

@@ -5,7 +5,7 @@
     <div class="in">
       <%= form_for :problem , :url => "/problems/#{edit_problem.attributes["id"].to_i}/update_problem",
         :id=>"edit_form_#{edit_problem.attributes["id"]}",
-        :html => {:onsubmit => "return generate_edit_questions('#{edit_problem.attributes["id"]}')"} do |f| %>
+        :html => {:onsubmit => "return generate_edit_questions('#{edit_problem.attributes["id"]}', '#{edit_problem.attributes["types"]}')"} do |f| %>
         <%= f.hidden_field :problem_xpath,:value=>"#{edit_problem.xpath}" %>
         <%= f.hidden_field :problem_id,:value=>"#{edit_problem.attributes["id"]}" %>
         <%= f.hidden_field :block_id,:value=>"#{edit_problem.parent.parent.attributes["id"]}" %>

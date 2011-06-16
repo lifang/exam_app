@@ -30,15 +30,6 @@ function edit_problem_validate(problem_id){
         }
     }
 
-
-    if(document.getElementById("problem_description")!=null){           //验证小题描述不能为空
-        var problem_description = document.getElementById("problem_description").value;
-        if (problem_description==""){
-            alert("描述不能为空。");
-            return false;
-        }
-    }
-
     var answer_array=[];
     for(var i=1;i<=4;i++){     //验证 选项不能为空
         if(document.getElementById("problem_attr"+i+"_value")!=null){
@@ -164,7 +155,6 @@ function check_mavin_problem(block_id) {
         $("span_" + block_id).innerHTML = "<font color='red'>请您填写好题目后再保存。</font>";
         return false;
     }
-    alert($("span_" + block_id).innerHTML);
     if (!mavin_title.include("[[") && !mavin_title.include("{{")) {
         $("span_" + block_id).innerHTML = "<font color='red'>请您设置题点。</font>";
         return false;

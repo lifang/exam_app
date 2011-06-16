@@ -6,7 +6,7 @@ namespace :paper do
     exam_users = ExamUser.find_by_sql("select e.id,  
         e.total_score, e.paper_id, p.paper_url, e.answer_sheet_url, e.is_auto_rate
         from exam_users e inner join papers p on p.id = e.paper_id
-        where e.is_submited = 1 and e.answer_sheet_url is not null ")
+        where e.is_submited = 1 and e.answer_sheet_url is not null and e.is_auto_rate = 0 ")
     dir = "#{Rails.root}/public"
     exam_users.each do |exam_user|
       paper_xml = Document.new(File.open(dir + exam_user.paper_url))
@@ -17,7 +17,7 @@ namespace :paper do
       f.close
       eu = ExamUser.find(exam_user.id)
       total_score = answer_xml.root.elements["paper"].attributes["score"].nil? ? 0
-          : answer_xml.root.elements["paper"].attributes["score"].text.to_i
+          : answer_xml.root.elements["paper"].attributes["score"].to_i
       eu.set_auto_rater(total_score)
     end unless exam_users.blank?
   end

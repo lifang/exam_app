@@ -64,38 +64,39 @@ class ProblemsController < ApplicationController
   end
 
   def update_problem
-    @paper = Paper.find(params[:problem][:paper_id].to_i)
-    @problem = Problem.find(params[:problem][:problem_id].to_i)
-    #更新题面
-    @problem.update_attributes(:title=>params[:problem][:title].strip, :updated_at=>Time.now)
-
-    #打开xml
-    url = File.open "#{papers_path}/#{params[:problem][:paper_id].to_i}.xml"
-    doc = Problem.open_xml(url)
-    #更新提点
-    score_arr = {}
-    if @problem.types == Problem::QUESTION_TYPE[:COLLIGATION]
-      score_arr = Question.update_colligation_questions(@problem,
-        Question.colligation_questions(params["edit_coll_question_" + params[:problem][:problem_id]]), "update")
-      score_arr = @problem.old_score(score_arr, doc, params[:problem][:problem_xpath])
-    else
-      answer_question_attr = answer_text(@problem.types,
-        params[:problem][:attr_sum].to_i, params[:problem][:answer])
-      @question = Question.update_question(params[:problem][:question_id],
-        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis],
-          :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
-      if !params[:tag].nil? and params[:tag] != ""
-        tag_name = params[:tag].split(" ")
-        @question.question_tags(Tag.create_tag(tag_name))
-      end
-      score_arr[@question.id] = params[:problem][:score].to_i
-    end
-    @problem.update_problem_tags
-
-    #更新xml
-    doc = Problem.remove_problem_xml(doc, params[:problem][:problem_xpath])
-    doc = @problem.create_problem_xml(doc, params[:problem][:block_id], {:score => score_arr})
-    Problem.write_xml(url, doc)
+    Tag.tag_num
+#    @paper = Paper.find(params[:problem][:paper_id].to_i)
+#    @problem = Problem.find(params[:problem][:problem_id].to_i)
+#    #更新题面
+#    @problem.update_attributes(:title=>params[:problem][:title].strip, :updated_at=>Time.now)
+#
+#    #打开xml
+#    url = File.open "#{Constant::PAPER_PATH}/#{params[:problem][:paper_id].to_i}.xml"
+#    doc = Problem.open_xml(url)
+#    #更新提点
+#    score_arr = {}
+#    if @problem.types == Problem::QUESTION_TYPE[:COLLIGATION]
+#      score_arr = Question.update_colligation_questions(@problem,
+#        Question.colligation_questions(params["edit_coll_question_" + params[:problem][:problem_id]]), "update")
+#      score_arr = @problem.old_score(score_arr, doc, params[:problem][:problem_xpath])
+#    else
+#      answer_question_attr = answer_text(@problem.types,
+#        params[:problem][:attr_sum].to_i, params[:problem][:answer])
+#      @question = Question.update_question(params[:problem][:question_id],
+#        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis],
+#          :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
+#      if !params[:tag].nil? and params[:tag] != ""
+#        tag_name = params[:tag].split(" ")
+#        @question.question_tags(Tag.create_tag(tag_name))
+#      end
+#      score_arr[@question.id] = params[:problem][:score].to_i
+#    end
+#    @problem.update_problem_tags
+#
+#    #更新xml
+#    doc = Problem.remove_problem_xml(doc, params[:problem][:problem_xpath])
+#    doc = @problem.create_problem_xml(doc, params[:problem][:block_id], {:score => score_arr})
+#    Problem.write_xml(url, doc)
     redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
 
   end
