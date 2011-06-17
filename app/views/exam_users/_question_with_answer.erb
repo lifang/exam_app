@@ -24,7 +24,7 @@
                <% end %>
         <label><%= attrs_array[i] %></label>
       <% end %>
-      
+   
     </div>
   <% end if attrs_array and attrs_array.any? %>
   <div class="attr" >
@@ -33,7 +33,6 @@
                checked="true"<% end %>  /><label>对</label></div>
       <div <% if answers[0].to_i==0 %>style="border: 1px green solid;"<% end %>><input type="radio"  <% if user_answer==0.to_s %>
                 checked="true"<% end %>  /><label>错</label></div>
-      <% if  user_answer=="" or user_answer==nil  %><font color="blue">考生没有作答</font><% end %>
     <% elsif correct_type.to_i == Problem::QUESTION_TYPE[:SINGLE_CALK] or correct_type.to_i == Problem::QUESTION_TYPE[:CHARACTER]
     %>
       <div style="border: 1px green solid;"><%= "答案："+ answers[0].to_s %> </div>
@@ -48,9 +47,11 @@
     analysis.text
   end %>
 </div>
-<div class="tag">知识点标签：
+<div class="title">知识点标签：
   <%= question_with_answer.elements["tags"].text %>
 </div>
-<div>
-   <%= "考生得分："+ question_with_answer.attributes["user_score"].to_i.to_s %>
+  <div class="title">  <%  if user_answers==[] %><font color="blue">考生没有作答</font><% end   %></div>
+<div class="title">
+  <font color="red"> <%= "考生得分："+ question_with_answer.attributes["user_score"].to_i.to_s+"分" %></font>
+  
 </div>
