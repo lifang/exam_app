@@ -1,45 +1,28 @@
 class ExamUsersController < ApplicationController
-
-  def create_exam_user  #单个添加考生
+  
+  #单个添加考生
+  def create_exam_user  
     @examination = Examination.find(params[:examination_id].to_i)
-    @user=User.find_by_sql("select * from users u where u.name='#{params[:exam_user_infoname]}' and u.email='#{params[:exam_user_infoemail]}' ")
-    if @user==[]
-      if User.find_by_email(params[:exam_user_infoemail])!=nil
-        flash[:email_err]="邮箱已被使用"
+    user = User.find_by_email(params[:exam_user_infoemail].strip)
+    if user
+      if user.name == params[:exam_user_infoname].strip
+        if ExamUser.find_by_examination_id_and_user_id(params[:examination_id].to_i, user.id)
+          flash[:error]="该考生信息已加入"
+        else
+          @examination.new_exam_user(user)
+        end
       else
-        user = User.new(:name=>params[:exam_user_infoname],:username=>params[:exam_user_infoname],:email=>params[:exam_user_infoemail],
-          :mobilephone=>params[:exam_user_infomobile],:password=>"123456",:password_confirmation=>"123456")
-        user.set_role(Role.find(Role::TYPES[:STUDENT]))
-        user.status = User::STATUS[:NORMAL]
-        user.encrypt_password
-        user.save!
-        new_exam_user(@examination,user)
+        flash[:error]="该邮箱已经被其他用户使用"
       end
     else
-      @user.each  do |user1|
-        if ExamUser.find_by_user_id(user1.id).nil?
-          new_exam_user(@examination,user1)
-        else
-          if ExamUser.find_by_examination_id_and_user_id(params[:examination_id],user1.id)
-            flash[:email_err]="该考生信息已加入"
-          else
-            new_exam_user(@examination,user1)
-          end
-        end
-      end
+      user = User.auto_add_user(params[:exam_user_infoname].strip, params[:exam_user_infoname].strip,
+        params[:exam_user_infoemail].strip, params[:exam_user_infomobile])
+      @examination.new_exam_user(user)
     end
-    @exam_users = ExamUser.paginate_exam_user(@examination.id, 1, params[:page])
+    @exam_users = ExamUser.paginate_exam_user(@examination.id, 10, params[:page])
     render :partial => "/examinations/exam_user_for_now"
   end
-
-  def new_exam_user(examination,user) #创建考生
-    exam_user = ExamUser.create!(:user_id=>user.id,:examination_id=>params[:examination_id],:password=>"123456",
-      :is_user_affiremed=>ExamUser::IS_USER_AFFIREMED[:NO])
-    exam_user.set_paper(examination)
-    if examination.user_affirm==true
-      UserMailer.user_affirm(exam_user,examination).deliver
-    end
-  end
+  
   def exam_user_affiremed   #考生确认
     if !params[:id].blank? and !params[:affiremed].blank?
       @exam_user = ExamUser.first(:conditions => ["id = ? and is_user_affiremed = ?", params[:id].to_i, params[:affiremed]])
@@ -64,41 +47,32 @@ class ExamUsersController < ApplicationController
     @user.save
     render "/exam_users/affiremed_success"
   end
+  
   def login   #批量添加考生
     @examination = Examination.find(params[:id].to_i)
-    @info_class=get_text(params[:user_info])
+    @info_class = get_text(params[:user_info].strip)
     i=0
-    str="发现信息重复加入的考生："
-    str1="发现邮箱已被占用："
+    str = "发现信息重复加入的考生："
+    str1 = "发现邮箱已被占用："
     (0..@info_class.length/3-1).each do
-      @user=User.find_by_sql("select * from users u where u.name='#{@info_class[i]}' and u.email='#{@info_class[i+1]}' ")
-      if @user==[]
-        if User.find_by_email(@info_class[i+1])!=nil
-          str1 +=@info_class[i]+","+@info_class[i+1]+";"
+      user = User.find_by_email(@info_class[i+2].strip)
+      if user
+        if user.name == @info_class[i+1].strip
+          if ExamUser.find_by_examination_id_and_user_id(params[:examination_id].to_i, user.id)
+            flash[:error] = str + @info_class[i] + "," + @info_class[i+1] + ";"
+          else
+            @examination.new_exam_user(user)
+          end
         else
-          user = User.new(:name=>@info_class[i],:username=>@info_class[i],:email=>@info_class[i+1],:mobilephone=>@info_class[i+2],:password=>"123456",:password_confirmation=>"123456")
-          user.set_role(Role.find(Role::TYPES[:STUDENT]))
-          user.status = User::STATUS[:NORMAL]
-          user.encrypt_password
-          user.save!
-          new_exam_user(@examination,user)
+          flash[:error] = str1 + @info_class[i] + "," + @info_class[i+1] + ";"
         end
       else
-        @user.each  do |user1|
-          if ExamUser.find_by_user_id(user1.id).nil?
-            new_exam_user(@examination,user1)
-          else
-            if ExamUser.find_by_examination_id_and_user_id(params[:id],user1.id)   
-              str +=@info_class[i]+","+@info_class[i+1]+";"
-            else
-              new_exam_user(@examination,user1)
-            end
-          end
-        end
+        user = User.auto_add_user(@info_class[i].strip, @info_class[i].strip, @info_class[i+1].strip, @info_class[i+2])
+        @examination.new_exam_user(user)
       end
       i +=3
     end
-    if str=="" && str1==""
+    if str=="发现信息重复加入的考生：" && str1=="发现邮箱已被占用："
       render :text =>"考生信息都已成功加入"
     else
       render :text => "<font color='blue'>#{str1}&nbsp;&nbsp;<br/>#{str}</font>"
@@ -112,8 +86,8 @@ class ExamUsersController < ApplicationController
     @examination = Examination.find(exam_user.examination_id)
     @exam_users =ExamUser.paginate_exam_user(exam_user.examination_id, 1, params[:page])
     render :partial=>"/examinations/exam_user_for_now"
-    #    render :inline => ""
   end
+  
   def edit  #编辑按钮
     @exam_user =ExamUser.find(params[:id].to_i)
     @user=User.find(ExamUser.find(params[:id].to_i).user_id)
@@ -134,6 +108,8 @@ class ExamUsersController < ApplicationController
     sql += " and us.id=#{cookies[:user_id]} "
     @results=Examination.paginate_by_sql(sql,:per_page =>10, :page => params[:page])
   end
+
+  
   def search
     session[:start_at] = nil
     session[:end_at] = nil

@@ -206,4 +206,6 @@ class ExamUser < ActiveRecord::Base
     self.save
   end
 
+  
+
 end

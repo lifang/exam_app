@@ -1,3 +1,5 @@
+<font color="red"><%= flash[:error] %></font>
+<% flash[:error] = nil %>
 <table>
   <colgroup>
     <col width="160"/>
@@ -10,7 +12,7 @@
       <th>姓名</th>
       <th>手机号码</th>
       <th>email</th>
-      <th><font color="blue"><%= flash[:email_err] %></font></th>
+      <th></th>
     </tr>
   </thead>
   <tbody id="add" >
