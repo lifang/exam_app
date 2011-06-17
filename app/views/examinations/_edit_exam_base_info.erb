@@ -79,10 +79,10 @@
       <div class="add_details">
         是否限制考试时段：<input type="radio" name="timelimit" value="1"
                         <% if !@examination.start_at_time.nil? %> checked="true" <% end %>
-                        onclick="javascript:time_limit('timelimit')"/>是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                       />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <input type="radio" name="timelimit" value="0"
                <% if @examination.start_at_time.nil? %> checked="true" <% end %>
-               onclick="javascript:time_limit('timelimit')"/>否
+              />否
         <span>&nbsp;&nbsp;&nbsp;</span>
       </div>
       <div  class="add_details"  >
@@ -92,7 +92,7 @@
                value="<%= @examination.start_at_time.strftime("%Y-%m-%d") if @examination.start_at_time %>"
                size="20" onClick="WdatePicker();" readonly/>
         <select name="hour" <% if @examination.start_at_time.nil? %>disabled="disabled"<% end %>
-                id="hour" onchange="javascript:selecttime('hour')">
+                id="hour" >
           <option value="-1">/ 时</option>
           <% (0..23).each do |i| %>
             <option value="<%= i %>"
@@ -142,7 +142,8 @@
     </div>
   </div>
   <div class="in">
-    <input type="submit" value="更新" id="create" name="create" title="更新考试信息" class="submit_btn" onclick="return compare_value()" />
+     <div id="notice"></div>
+    <input type="submit" value="更新" id="create" name="create" title="更新考试信息" class="submit_btn" onclick="return compare_time('time','hour','minute','accesstime','timeout')" />
     <input onclick="javascript:update_base_info('/examinations/<%= @examination.id %>/back_base_info');"
            type="button" value="放弃" class="submit_btn" />
   </div>

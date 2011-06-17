@@ -118,8 +118,7 @@ class Examination < ActiveRecord::Base
     sheet = book.create_worksheet
     sheet.row(0).concat %w{姓名 手机号 邮箱}
     exam_users = ExamUser.find_by_sql("select u.name, u.mobilephone, u.email from exam_users e
-        inner join users u on e.user_id = u.id
-        where examination_id=#{examination_id} and is_user_affiremed != 1")
+        inner join users u on e.user_id = u.id where examination_id=#{examination_id} and is_user_affiremed != 1")
     exam_users.each_with_index do |exam_user, index|
       sheet.row(index+1).concat ["#{exam_user.name}", "#{exam_user.mobilephone}", "#{exam_user.email}"]
     end   

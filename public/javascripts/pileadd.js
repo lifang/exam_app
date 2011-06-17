@@ -20,16 +20,7 @@ function create_exam(){
     
     document.getElementById("exam_getvalue").value = checked_ids;
 }
-function radiovalue(name){
-    var sles=document.getElementsByName(name);
-    var checked_ids = new Array();
-    for (var i=0;i<sles.length;i++) {
-        if (sles[i].checked) {
-            checked_ids.push(sles[i].value);
-        }
-    }
-    document.getElementById("examplan_radiovalue").value = checked_ids;
-}
+
 function time_limit(name){
     var sles=document.getElementsByName(name);
     var checked_ids = new Array();
@@ -53,51 +44,32 @@ function time_limit(name){
     document.getElementById("examplan_radiovalue").value = checked_ids;
 //    var sles=document.getElementById(name).options[document.getElementById(name).selectedIndex].text;
 }
-function see_result(name){
-    var sles=document.getElementsByName(name);
-    var checked_ids = new Array();
-    for (var i=0;i<sles.length;i++) {
-        if (sles[i].checked) {
-            checked_ids.push(sles[i].value);
-        }
-    }
-    document.getElementById("examplan_see_result").value = checked_ids;
-    alert(document.getElementById("examplan_see_result").value);
-}
-function selectminute(name){ 
-    var checked_ids = new Array();
-    var sles = document.getElementById(name).value;
-    if (sles< 0){
-        alert("请选择正确的分钟!")
-    }
-    else{
-        checked_ids.push(sles);
-        document.getElementById("examplan_selectvalue").value=checked_ids;
-    }
-}
-function selecttime(name){
-    var checked_ids = new Array();
-    var sles = document.getElementById(name).value;
-    if (sles< 0){
-        alert("请选择正确的时间!")
-    }
-    else{
-        checked_ids.push(sles);
-        document.getElementById("examplan_see_result").value=checked_ids;
-    }
-}
 
 //    var sles=document.getElementById(name).options[document.getElementById(name).selectedIndex].text;
-function compare_value() {
-    var accesstime=document.getElementById("accesstime").value;
-    var timeout=document.getElementById("timeout").value;
+function compare_time(time,hour,minute,acesstime,timeout) {
+    var time=$(time).value;
+    var hour=$(hour).value;
+    var minute=$(minute).value;
+    var accesstime=$("accesstime").value;
+    var timeout=$("timeout").value;
     if (parseInt(accesstime) >parseInt( timeout)){
-        alert("入场结束时间超过考试时长，请检查!");
+        $("notice").innerHTML="<font color = 'red'>入场结束时间超过考试时长!</font>";
         return false;
     }
-//    js提供了parseInt()和parseFloat()两个转换函数
+    if (time==""||time.length==0){
+        $("notice").innerHTML="<font color = 'red'>时间不能为空</font>";
+        return false;
+    }
+    if (hour< 0){
+        $("notice").innerHTML="<font color = 'red'>请选择正确的时间!</font>";
+        return false;
+    }
+    if (minute< 0){
+     $("notice").innerHTML="<font color = 'red'>请选择正确的分钟!</font>";
+        return false;
+    }
 }
-
+//    js提供了parseInt()和parseFloat()两个转换函数
 function showpartial(name){
     var sles=document.getElementsByName(name);
     for (var i=0;i<sles.length;i++) {
@@ -169,8 +141,12 @@ function exam_setting() {
 
 function update_base_info(url) {
     new Ajax.Updater('base_info_div', ''+url,
-    {asynchronous:true, evalScripts:true, method:'get',
-        parameters:'authenticity_token=' + encodeURIComponent('50BAfYoKpsPM7ylg3Q62hfovb0rOif8TnQl+tOGfjKY=')});
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:'get',
+        parameters:'authenticity_token=' + encodeURIComponent('50BAfYoKpsPM7ylg3Q62hfovb0rOif8TnQl+tOGfjKY=')
+        });
 }
 
 function edit_exam(div,controller,exam_id,action){
@@ -305,7 +281,7 @@ function compare_value(id,compare_id){
     active_button();
 }
 function active_button(){
-     $("flash_notice").innerHTML="";
+    $("flash_notice").innerHTML="";
     var flag=0;
     var str=$("problem_id").value;
     var n=str.split(",");
@@ -352,20 +328,20 @@ function button_status(){
     }
 }
 function exam_user_for_now(examination_id){
-  {
-        new Ajax.Updater("exam_user_list" , "/exam_user/exam_users/single_user",
-        {
-            asynchronous:true,
-            evalScripts:true,
-            method:'post',
-            parameters:'id='+ examination_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
-        });
-        return false;
-    }
+{
+    new Ajax.Updater("exam_user_list" , "/exam_user/exam_users/single_user",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:'post',
+        parameters:'id='+ examination_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+    });
+    return false;
+}
 }
 function file_exam_user(examination_id){
     var user_info=$("user_info").value;
-  {
+    {
         new Ajax.Updater("add_failed" , "/exam_users/"+examination_id+"/login",
         {
             asynchronous:true,
@@ -378,7 +354,7 @@ function file_exam_user(examination_id){
 }
 function answer_result(paper_id,examination){
     var user_id=$("exam_user_id").value;
-  {
+    {
         new Ajax.Updater("exam_users#show" , "/exam_users/"+paper_id+"/show",
         {
             asynchronous:true,

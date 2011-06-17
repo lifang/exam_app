@@ -30,7 +30,6 @@ class Rater::ExamRatersController < ApplicationController
   end
   def check_paper  #选择要批阅的答卷
     exam_users=ExamUser.find_by_sql("select e.id from exam_users e left join rater_user_relations r on r.exam_user_id=e.id  where e.examination_id=#{cookies[:examination_id]} and r.id is null and e.answer_sheet_url is not null")
-    puts exam_users
     @exam_user=exam_users[rand(exam_users.length)].id
     RaterUserRelation.create(:exam_rater_id=>cookies[:rater_id],:exam_user_id=>@exam_user)
     redirect_to "/rater/exam_raters/#{@exam_user}/answer_paper"
