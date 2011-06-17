@@ -33,11 +33,6 @@ class PapersController < ApplicationController
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
-  def answer_paper
-    file = File.open("#{Constant::PAPER_PATH}/#{params[:id]}.xml")
-    @xml=Document.new(file).root
-  end
-
   def show
     file = File.open("#{Constant::PAPER_PATH}/#{params[:id]}.xml")
     @xml=Document.new(file).root
@@ -50,8 +45,8 @@ class PapersController < ApplicationController
   end
 
   def create_step_one
-    @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title],
-      :description=>params[:paper][:description], :category_id => params[:category])
+    @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:paper][:title].strip,
+      :description=>params[:paper][:description].strip, :category_id => params[:category])
     category = Category.find(params[:category].to_i)
     @paper.create_paper_url(@paper.xml_content({"category_name" => category.name}), "papers", "xml") unless category.nil?
     redirect_to "/papers/#{@paper.id}/new_step_two"

@@ -1,73 +1,72 @@
+<ul class="new_biz">
+  <li><%= @examination.title %></li>
+</ul>
 <div class="main_box_back">
-  <div id="exam_base_info">
-    <h2><span>考试基本信息</span><div class="right"></div></h2>
-    <div class="in">
-      <div class="paper_base_info">考试基本属性</div>
-      <div class="add_details">
-        <div class="detail">考试是否开放：<%= @examination.is_score_open == true ? "是":"否" %>&nbsp;&nbsp;</div>
-        <div class="detail">考生是否能查看答卷：<%= @examination.is_paper_open == true ? "是":"否" %>&nbsp;&nbsp;</div>
-        <div class="detail">是否需要考生确认信息：<%= @examination.user_affirm == true ? "是" : "否" %>&nbsp;&nbsp;</div>
-        <div class="detail">
+  <h2><span>考试基本信息</span><div class="right"></div></h2>
+  <div class="in">
+    <div class="paper_base_info">考试基本属性</div>
+    <div class="add_details">
+      <div class="detail">考试是否开放：<%= @examination.is_score_open == true ? "是":"否" %>&nbsp;&nbsp;</div>
+      <div class="detail">考生是否能查看答卷：<%= @examination.is_paper_open == true ? "是":"否" %>&nbsp;&nbsp;</div>
+      <div class="detail">是否需要考生确认信息：<%= @examination.user_affirm == true ? "是" : "否" %>&nbsp;&nbsp;</div>
+      <div class="detail">
         是否要生成考试码：<%= (!@examination.exam_password1.nil? and !@examination.exam_password2.nil?) ? "是" : "否" %>&nbsp;&nbsp;
-        </div>
-         <div class="clear"></div>
-         <% if !@examination.exam_password1.nil? %>
+      </div>
+      <div class="clear"></div>
+      <% if !@examination.exam_password1.nil? %>
         <div class="detail">
-         考试码： <%= @examination.exam_password1 %>&nbsp;&nbsp;<%= @examination.exam_password2 %>
+          考试码： <%= @examination.exam_password1 %>&nbsp;&nbsp;<%= @examination.exam_password2 %>
         </div>
         <div class="clear"></div>
+      <% end %>
+    </div>
+    <div class="add_details">
+      <div class="detail">
+        试卷
+        <% @examination.papers.each do |paper| %>
+          <a href="/papers/<%= paper.id %>"><%= paper.title %></a><br/>
         <% end %>
       </div>
-      <div class="add_details">
-        <div class="detail">
-          试卷
-          <% @examination.papers.each do |paper| %>
-            <a href="/papers/<%= paper.id %>"><%= paper.title %></a><br/>
-          <% end %>
-        </div>
-        <div class="detail"><a href="javascript:void(0);" onclick="javascript:change_paper();">[重选试卷]</a></div>
-        <div class="clear"></div>
-        <div id="change_papers_div" style="display: none;">
-          <%= render :partial => "change_papers", :object => @examination %>
-        </div>
-      </div>
-      <div class="add_details">
-        <div>
-          <%= "描述：" + @examination.description unless @examination.description.nil? or @examination.description == "" %>
-        </div>
-      </div>
+      <div class="detail"><a href="javascript:void(0);" onclick="javascript:change_paper();">[重选试卷]</a></div>
       <div class="clear"></div>
-    </div>
-    <div class="in">
-      <div class="paper_base_info">考试时长设置</div>
-      <div class="add_details">
-        <div>是否限制考试时段：<%= @examination.start_at_time.nil? ? "否":"是" %></div>
-        <div><% unless @examination.start_at_time.nil?  %>
-            考试开始于：<%= @examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") %>
-          <% end %>
-        </div>
-        <div><% unless @examination.exam_time.nil? or @examination.exam_time == "" %>
-            考试时长：<%= @examination.exam_time %>分钟<% end %>
-        </div>
+      <div id="change_papers_div" style="display: none;">
+        <%= render :partial => "change_papers", :object => @examination %>
       </div>
     </div>
-    <div class="in">
-      <div class="paper_base_info">设置考试成绩等级</div>
-      <div class="add_details">
-        <div class="detail">成绩等级：</div>
-        <div class="detail">
-          <% @score_levels.each do |score_level| %>
-            <%= score_level.key %>  <%= score_level.value %>&nbsp;&nbsp;&nbsp;&nbsp;
-          <% end unless @examination.score_levels.blank? %>
-        </div>
+    <div class="add_details">
+      <div>
+        <%= "描述：" + @examination.description unless @examination.description.nil? or @examination.description == "" %>
       </div>
-      <div class="clear"></div>
     </div>
-    <div class="in">
-      <input type="button" value="编辑" class="submit_btn" title="编辑基本信息" onclick="javascript:exam_info('edit_exam_base_info','exam_base_info');"/>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <div class="paper_base_info">考试时长设置</div>
+    <div class="add_details">
+      <div>是否限制考试时段：<%= @examination.start_at_time.nil? ? "否":"是" %></div>
+      <div><% unless @examination.start_at_time.nil?  %>
+          考试开始于：<%= @examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") %>
+        <% end %>
+      </div>
+      <div><% unless @examination.exam_time.nil? or @examination.exam_time == "" %>
+          考试时长：<%= @examination.exam_time %>分钟<% end %>
+      </div>
     </div>
   </div>
-  <div id="edit_exam_base_info" style="display:none;">
-    <%= render :partial => "edit_exam_base_info" %>
+  <div class="in">
+    <div class="paper_base_info">设置考试成绩等级</div>
+    <div class="add_details">
+      <div class="detail">成绩等级：</div>
+      <div class="detail">
+        <% @score_levels.each do |score_level| %>
+          <%= score_level.key %>  <%= score_level.value %>&nbsp;&nbsp;&nbsp;&nbsp;
+        <% end unless @examination.score_levels.blank? %>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="in">
+    <input onclick="javascript:update_base_info('/examinations/<%= @examination.id %>/edit_base_info');"
+           type="button" value="编辑" class="submit_btn" />
   </div>
 </div>

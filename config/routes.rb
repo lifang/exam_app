@@ -91,8 +91,8 @@ ExamApp::Application.routes.draw do
       post "search"
     end
     member do
-      get "export_user_unaffirm"
-      get "published", "paper_delete", "search_papers", "choose_papers", "exam_result", "single_result_list"
+      get "export_user_unaffirm", "edit_base_info", "back_base_info",
+          "published", "paper_delete", "search_papers", "choose_papers", "exam_result", "single_result_list"
       post "create_step_one", "update_base_info", "search_result"
     end
   end
@@ -104,7 +104,7 @@ ExamApp::Application.routes.draw do
       post "problem_destroy", "edit_block"
     end
     member do
-      get "new_exam_three", "new_exam_two", "new_exam_one", "new_step_two", "answer_paper", "create_all_paper"
+      get "new_step_two", "answer_paper", "create_all_paper"
       post "change_info", "hand_in"
     end
   end

@@ -10,7 +10,7 @@ class Examination < ActiveRecord::Base
   IS_PUBLISHED = {:NEVER => 0, :ALREADY => 1} #是否发布  0 没有 1 已经发布
 
   default_scope :order => "examinations.created_at desc"
-
+  require 'spreadsheet'
 
   #创建考试
   def update_examination(attr_hash)
@@ -109,6 +109,21 @@ class Examination < ActiveRecord::Base
       str = "本场考试已经取消，或者您不是当前考试的考生。"
     end
     return [str, examination]
+  end
+
+  #导出当前考试未确认的考生名单
+  def self.export_user_unaffirm(url, examination_id)
+    Spreadsheet.client_encoding = "UTF-8"
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet
+    sheet.row(0).concat %w{姓名 手机号 邮箱}
+    exam_users = ExamUser.find_by_sql("select u.name, u.mobilephone, u.email from exam_users e
+        inner join users u on e.user_id = u.id
+        where examination_id=#{examination_id} and is_user_affiremed != 1")
+    exam_users.each_with_index do |exam_user, index|
+      sheet.row(index+1).concat ["#{exam_user.name}", "#{exam_user.mobilephone}", "#{exam_user.email}"]
+    end   
+    book.write url 
   end
 
 

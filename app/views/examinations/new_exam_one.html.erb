@@ -13,11 +13,12 @@
         <%= render :partial => "change_papers", :object => @examination %>
       </div>
     </div>
-    <%= form_for :examplan ,:url=>"/examinations/#{@examination.id}/create_step_one", :method=>:post do |f|%>
+    <%= form_for :examplan ,:url=>"/examinations/#{@examination.id}/create_step_one", 
+      :method=>:post, :html => {:class => "required-validate"} do |f|%>
       <input type="hidden" value="<%= @paperid %>" id="post_value" name="post_value" />
       <div class="add_details">
         <font color="red">*</font>
-        考试标题：<input type="text" class="input_style" name="title" value="<%= @examination.title %>" size="65"/>
+        考试标题：<input type="text" class="required input_style" name="title" value="<%= @examination.title %>" size="65"/>
         <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
       </div>
       <div class="add_details">

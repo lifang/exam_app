@@ -29,3 +29,9 @@
   <img align='absmiddle' src='/images/icon_caution.gif' style='margin-right:8px;'/><%= flash[:failure]%></div><div class='clear'></div>
 <script type='text/javascript' language='javascript'>new Effect.Highlight('flash_notice');</script>
 <% end %>
+<% flash[:warn] = nil %>
+<% flash[:error] = nil %>
+<% flash[:pic_warn] = nil %>
+<% flash[:success] = nil %>
+<% flash[:failure] = nil %>
+<% flash[:notice] = nil %>

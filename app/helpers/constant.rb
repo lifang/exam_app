@@ -28,12 +28,14 @@ module Constant
   #项目文件目录
   PUBLIC_PATH = "#{Rails.root}/public"
   #试卷生成路径
-  PAPER_PATH = "#{Rails.root}/public/papers"
+  PAPER_PATH = "#{PUBLIC_PATH}/papers"
   #试卷服务器访问路径
   PAPER_URL_PATH = SERVER_PATH + "/papers"
   #客户端访问试卷
   PAPER_CLIENT_PATH = SERVER_PATH + "/paperjs"
   #客户端访问答卷
   ANSWER_CLIENT_PATH = SERVER_PATH + "/result"
+  #导出未确认名单路径
+  UNAFFIRM_PATH = "/excels"
   
 end

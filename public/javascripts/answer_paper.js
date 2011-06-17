@@ -97,6 +97,7 @@ function create_problem(ul, problem) {
     $("problem_ids").value += "" + problem.id + ",";
     if (answer_hash != null) {
         load_problem_color(problem.id);
+        alreay_answer_num();
     // answer_hash = null;
     }
 //alert(parent_div.innerHTML);
@@ -250,12 +251,12 @@ function onTimer() {
     timer = window.setInterval("onTimer()", nextelapse);
 }
 
-//用来本地存储的定时器
+//用来5分钟存储的定时器
 function local_save_start() {
     local_timer = window.setInterval("local_save()", 100);
 }
 
-//本地存储函数
+//5分钟存储函数
 function local_save() {
     if (local_start_time == local_finish_time) {
         window.clearInterval(local_timer);
@@ -337,6 +338,7 @@ function load_problem_color(problem_id) {
 function generate_problem_answer(problem_id) {
     load_problem_color(problem_id);
     $("question_info_" + problem_id).style.display = "none";
+    alreay_answer_num();
     save_problem(problem_id);
 }
 
@@ -361,7 +363,18 @@ function save_problem(problem_id) {
 
 //用来返回考生已经答完多少题了
 function alreay_answer_num() {
-    alert(1);
+    var total_num = 0;
+    var problem_ids = $("problem_ids").value;
+    if (problem_ids != null && problem_ids != "") {
+        var ids_arr = problem_ids.split(",");
+        for (var i=0; i<ids_arr.length; i++) {
+            var problem_is_answer = $("is_answer_" + ids_arr[i]);
+            if (problem_is_answer != null && problem_is_answer.value == "1") {
+                total_num ++;
+            }
+        }
+        $("complete_num").innerHTML = total_num;
+    }
 }
 
 //用来返回每个提点是否已经回答

@@ -164,11 +164,13 @@ function exam_setting() {
         exam_more_setting_div.display = "none";
         exam_more_setting_btn.value = "+高级";
     }
+    time_limit("timelimit");
 }
 
-function exam_info(edit_exam_base_info,exam_base_info) {
-    $(edit_exam_base_info).style.display = "block";
-    $(exam_base_info).style.display = "none";
+function update_base_info(url) {
+    new Ajax.Updater('base_info_div', ''+url,
+    {asynchronous:true, evalScripts:true, method:'get',
+        parameters:'authenticity_token=' + encodeURIComponent('50BAfYoKpsPM7ylg3Q62hfovb0rOif8TnQl+tOGfjKY=')});
 }
 
 function edit_exam(div,controller,exam_id,action){

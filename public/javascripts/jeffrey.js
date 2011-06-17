@@ -466,40 +466,6 @@ function edit_block(id){
     close_edit_block_id = id;
 }
 
-
-function already_answer(){
-    var elements = document.forms["answer_box"].elements;
-
-    for(i = 0;i<elements.length;i++){
-        if(elements[i].type=="radio"){
-            if(elements[i].checked==true){
-                var id=elements[i].id.substring(0,15);
-                document.getElementById(id).innerHTML=('你选择了答案:'+elements[i].value);
-            }
-        }
-    }
-}
-var signed_id = 0;
-
-function check_all(){
-    var elements = document.forms["answer_box"].elements;
-    for(var i = 0;i<elements.length;i++){
-        if(elements[i].type=="radio"){
-            var id=elements[i].id.substring(0,15);
-            if(elements[i].checked==true){              
-                document.getElementById(id+'_sign').innerHTML=('已答:（ '+elements[i].value+' )');
-                signed_id = id;
-            }
-            else{
-                if(elements[i].id.substring(0,15)!=signed_id){
-                    document.getElementById(id+'_sign').innerHTML=('未答 ');
-                }
-            }
-        }
-    }
-    signed_id = 0;
-}
-
 function show_choose_coll_que(block_id) {
     $("choose_coll_que_" + block_id).style.display = "block";
     $("choose_coll_que_link_" + block_id).style.display = "none";

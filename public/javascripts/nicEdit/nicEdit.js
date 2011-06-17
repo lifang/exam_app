@@ -289,8 +289,14 @@ var nicEditorConfig = bkClass.extend({
     iconsPath : '/javascripts/nicEdit/nicEditorIcons.gif',
     //buttonList : ['save','bold','italic','underline','left','center','right','justify','ol','ul','fontSize','fontFamily','fontFormat','indent','outdent','image','upload','link','unlink','forecolor','bgcolor'],
     //iconList : {"xhtml":1,"bgcolor":2,"forecolor":3,"bold":4,"center":5,"hr":6,"indent":7,"italic":8,"justify":9,"left":10,"ol":11,"outdent":12,"removeformat":13,"right":14,"save":25,"strikethrough":16,"subscript":17,"superscript":18,"ul":19,"underline":20,"image":21,"link":22,"unlink":23,"close":24,"arrow":26,"upload":27}
-    buttonList : ['image','upload','flash','media'],
-    iconList : {"image":21,"upload":27,"flash":28,"media":29}
+    buttonList : ['image','upload','flash','media', 'help'],
+    iconList : {
+        "image":21,
+        "upload":27,
+        "flash":28,
+        "media":29,
+        "help":30
+    }
 	
 });
 /* END CONFIG */
@@ -1573,3 +1579,33 @@ var nicMediaButton = nicEditorAdvancedButton.extend({
 });
 
 nicEditors.registerPlugin(nicPlugin,nicMediaOptions);
+
+
+//hepl
+/* START CONFIG */
+var nicHelpOptions = {
+    buttons : {
+        'help' : {
+            name : '帮助',
+            type : 'nicHelpButton'
+        }
+    }
+};
+/* END CONFIG */
+var nicHelpButton = nicEditorAdvancedButton.extend({
+    addPane : function() {
+        this.paneDiv = new bkElement('div').setAttributes({
+            width : '100%',
+            height : '150px'
+        }).setStyle({
+            border : "1px #ccc solid"
+        }).appendTo(this.pane.pane);
+        this.paneDiv.innerHTML = "<strong>专家出题模式帮助：</strong><br/>";
+        this.paneDiv.innerHTML += "&nbsp;&nbsp;简答题以“{{}}”标志，其他题目都以“[[]]”标志,“||”后面为标签，\n\
+                    “||”前为答案，“|”用来区分选择题正误，前面为正确答案，后面为错误答案，“；”用来标识多个选项\n\
+                    分数以“[()]”区分，解析以“[{}]”区分，一道题可以有多个分值或解析，\n\
+                    多个分值/解析之间用“,|”隔开，也可跟在每个小题后面。";
+    }
+});
+
+nicEditors.registerPlugin(nicPlugin,nicHelpOptions);
