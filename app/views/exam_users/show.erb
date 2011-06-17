@@ -2,17 +2,15 @@
   <ul class="tab_biz">
     <li class="actived"><a href="javascript:void(0);"><%= @xml.elements['base_info'].elements['title'].text %></a></li>
   </ul>
-  <div class="soso">
+    <div class="soso">
+      <div align="right"><font color="red" ><strong><%= " 总  分:"+ (@doc.elements["paper"].attributes["score"].nil? ? "分数暂未公布":@doc.elements["paper"].attributes["score"]) %>
+          </strong></font></div>
     <div>试卷编号：<%= @xml.attributes['id']%></div>
     <div>出卷时间：<%= @xml.elements['base_info'].elements['created_at'].text%></div>
     <div>最后修改时间：<%= @xml.elements['base_info'].elements['updated_at'].text%></div>
     <div>总题数：<%= @xml.attributes["total_num"]%></div>
     <div>卷面总分：<%= @xml.attributes["total_score"]%></div>
     <div>备注：<%= @xml.elements['base_info'].elements['description'].text%></div>
-
-    <input type="submit" value="编辑试卷" class="submit_btn"
-           onclick="javascript:window.location.href='/papers/<%= @xml.root.attributes["id"] %>/new_step_two'"/>
-    <input type="submit" value="返回试卷列表" class="submit_btn" onclick="javascript:window.location.href='/papers'"/>
   </div>
 </div>
 

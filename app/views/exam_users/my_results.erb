@@ -45,7 +45,7 @@
             <td>
               <input type="hidden" value="<%= @exam_user.id %>" id="exam_user_id"/>
               <% exam=ExamUser.find_by_user_id_and_examination_id(cookies[:user_id],result.e_id) %>
-              <a href="javascript:void(0);" onclick="javascript:answer_result(<%= exam.paper_id %>,<%= result.e_id %>)" >查看</a>
+              <%= link_to "查看", href="/exam_users/#{result.e_id}" %>
             </td>
           </tr>
         <% end %>

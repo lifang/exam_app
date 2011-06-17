@@ -78,7 +78,7 @@ class Rater::ExamRatersController < ApplicationController
     doc.elements[1].elements[1].each_element do |element|
       score +=element.attributes["score"].to_i
     end
-    doc.elements[1].add_attribute("rater_score","#{score}")
+    doc.elements["paper"].elements["rate_score"].text=score
     unless doc.elements[1].elements["auto_score"].nil?
       auto_score=doc.elements[1].elements["auto_score"].text
       if auto_score.to_i !=0
