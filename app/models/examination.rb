@@ -35,8 +35,17 @@ class Examination < ActiveRecord::Base
     self.toggle!(:is_published)
   end
 
-  #修改试卷
-  #此方法用来修改考试试卷，update_flag 是传过来增加或删除的标记，*paper是试卷数组
+  #考试组织人员添加考生添加考试记录账号
+  def new_exam_user(user)
+    exam_user = ExamUser.create!(:user_id => user.id,:examination_id => self.id,:password => User::DEFAULT_PASSWORD,
+      :is_user_affiremed => ExamUser::IS_USER_AFFIREMED[:NO])
+    exam_user.set_paper(self)
+    if self.user_affirm == true
+      UserMailer.user_affirm(exam_user,self).deliver
+    end
+  end
+
+  #修改试卷,此方法用来修改考试试卷，update_flag 是传过来增加或删除的标记，*paper是试卷数组
   def update_paper(update_flag, papers)
     if update_flag == "create"
       papers.each do |i|
