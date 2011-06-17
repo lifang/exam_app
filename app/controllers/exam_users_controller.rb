@@ -1,6 +1,5 @@
 class ExamUsersController < ApplicationController
-  require 'rexml/document'
-  include REXML
+
   def create_exam_user  #单个添加考生
     @examination = Examination.find(params[:examination_id].to_i)
     @user=User.find_by_sql("select * from users u where u.name='#{params[:exam_user_infoname]}' and u.email='#{params[:exam_user_infoemail]}' ")
@@ -133,7 +132,7 @@ class ExamUsersController < ApplicationController
     @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
     sql = ExamUser.generate_result_sql
     sql += " and us.id=#{cookies[:user_id]} "
-    @results=Examination.paginate_by_sql(sql,:per_page =>5, :page => params[:page])
+    @results=Examination.paginate_by_sql(sql,:per_page =>10, :page => params[:page])
   end
   def search
     session[:start_at] = nil
@@ -156,12 +155,4 @@ class ExamUsersController < ApplicationController
     render "my_results"
   end
 
-  def show
-    result=ExamUser.find(params[:id])
-    exam=ExamUser.find_by_user_id_and_examination_id(cookies[:user_id],result.examination_id)
-    answer=File.open("#{Rails.root}/public/#{result.id}.xml")
-    answer
-    file = File.open("#{Constant::PAPER_PATH}/#{exam.paper_id}.xml")
-    @xml=Document.new(file).root
-  end
 end

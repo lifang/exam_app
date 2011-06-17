@@ -23,8 +23,7 @@ ExamApp::Application.routes.draw do
   end
   namespace :exam_user do
     resources :exam_users do
-      collection do
-       
+      collection do   
         post "single_user"
       end
       member do

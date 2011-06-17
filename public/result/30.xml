@@ -1,14 +1,14 @@
 
 <exam id='9'>
-    <paper id='7' score='60'>
+    <paper id='7' score='90'>
         <questions>
-            <question id='12'>
+            <question id='12' score='10'>
                 <answer>小龙</answer>
             </question>
-            <question id='13'>
+            <question id='13' score='20'>
                 <answer>1</answer>
             </question>
-            <question id='14'>
+            <question id='14' score='0'>
                 <answer>no</answer>
             </question>
             <question id='15' score='20'>
@@ -21,5 +21,7 @@
                 <answer>ddsdsaa</answer>
             </question>
         </questions>
+          <auto_score>30</auto_score>
+          <rate_score>60</rate_score>
     </paper>
 </exam>

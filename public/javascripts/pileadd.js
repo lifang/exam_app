@@ -376,3 +376,16 @@ function file_exam_user(examination_id){
         return false;
     }
 }
+function answer_result(paper_id,examination){
+    var user_id=$("exam_user_id").value;
+  {
+        new Ajax.Updater("exam_users#show" , "/exam_users/"+paper_id+"/show",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:'post',
+            parameters:'examination_id='+ examination +'&exam_user_id='+ user_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+        });
+        return false;
+    }
+}
