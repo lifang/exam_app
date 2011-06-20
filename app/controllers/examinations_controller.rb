@@ -153,9 +153,6 @@ class ExaminationsController < ApplicationController
       render :partial => "/examinations/paper_already_in_exam", :object => examination
     end
   end
-
-  
-
   def update_base_info
     @examination = Examination.find(params[:id].to_i)
     hash1 = {:title => params[:title].strip, :description => params[:description].strip,
@@ -170,16 +167,17 @@ class ExaminationsController < ApplicationController
       hash1[:start_at_time] = @time
       hash1[:start_end_time] = @overtime
       hash1[:status] = Examination::STATUS[:LOCK]
+    else
+      hash1[:start_at_time]=""
+      hash1[:start_end_time] = @overtime
     end
     @examination.update_examination(hash1)
     if !params[:grade].nil? and params[:grade] != ""
       @grade_class=get_text(params[:grade])
       @examination.update_score_level(@grade_class)
     end
-    render :partial => "exam_base_info"
-    
+    render :partial => "exam_base_info" 
   end
-
   def exam_result
     @examination = Examination.find(params[:id].to_i)
     @exam_users = ExamUser.return_exam_result(@examination.id, 10, params[:page])

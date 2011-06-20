@@ -17,19 +17,9 @@ function create_exam(){
             checked_ids.push(sles[i].value);
         }       
     }
-    
     document.getElementById("exam_getvalue").value = checked_ids;
 }
-function radiovalue(name){
-    var sles=document.getElementsByName(name);
-    var checked_ids = new Array();
-    for (var i=0;i<sles.length;i++) {
-        if (sles[i].checked) {
-            checked_ids.push(sles[i].value);
-        }
-    }
-    document.getElementById("examplan_radiovalue").value = checked_ids;
-}
+
 function time_limit(name){
     var sles=document.getElementsByName(name);
     var checked_ids = new Array();
@@ -51,69 +41,34 @@ function time_limit(name){
         }
     }
     document.getElementById("examplan_radiovalue").value = checked_ids;
-//    var sles=document.getElementById(name).options[document.getElementById(name).selectedIndex].text;
-}
-function see_result(name){
-    var sles=document.getElementsByName(name);
-    var checked_ids = new Array();
-    for (var i=0;i<sles.length;i++) {
-        if (sles[i].checked) {
-            checked_ids.push(sles[i].value);
-        }
-    }
-    document.getElementById("examplan_see_result").value = checked_ids;
-    alert(document.getElementById("examplan_see_result").value);
-}
-function selectminute(name){ 
-    var checked_ids = new Array();
-    var sles = document.getElementById(name).value;
-    if (sles< 0){
-        alert("请选择正确的分钟!")
-    }
-    else{
-        checked_ids.push(sles);
-        document.getElementById("examplan_selectvalue").value=checked_ids;
-    }
-}
-function selecttime(name){
-    var checked_ids = new Array();
-    var sles = document.getElementById(name).value;
-    if (sles< 0){
-        alert("请选择正确的时间!")
-    }
-    else{
-        checked_ids.push(sles);
-        document.getElementById("examplan_see_result").value=checked_ids;
-    }
 }
 
 //    var sles=document.getElementById(name).options[document.getElementById(name).selectedIndex].text;
-function compare_value() {
-    var accesstime=document.getElementById("accesstime").value;
-    var timeout=document.getElementById("timeout").value;
+function compare_time(time,hour,minute,acesstime,timeout) {
+    var time=$(time).value;
+    var hour=$(hour).value;
+    var minute=$(minute).value;
+    var accesstime=$("accesstime").value;
+    var timeout=$("timeout").value;
     if (parseInt(accesstime) >parseInt( timeout)){
-        alert("入场结束时间超过考试时长，请检查!");
+        $("notice").innerHTML="<font color = 'red'>入场结束时间超过考试时长!</font>";
         return false;
     }
-//    js提供了parseInt()和parseFloat()两个转换函数
-}
-
-function showpartial(name){
-    var sles=document.getElementsByName(name);
-    for (var i=0;i<sles.length;i++) {
-        if (sles[i].checked==true){
-            if (sles[i].value==1){
-                document.getElementById("login_block").style.display="block";
-                document.getElementById("leadin_div").style.display="none";
-            }
-            else
-            {       
-                document.getElementById("login_block").style.display="none";
-                document.getElementById("leadin_div").style.display="block";
-            }
-        }
+    if (time==""||time.length==0){
+        $("notice").innerHTML="<font color = 'red'>时间不能为空</font>";
+        return false;
+    }
+    if (hour< 0){
+        $("notice").innerHTML="<font color = 'red'>请选择正确的时间!</font>";
+        return false;
+    }
+    if (minute< 0){
+        $("notice").innerHTML="<font color = 'red'>请选择正确的分钟!</font>";
+        return false;
     }
 }
+//    js提供了parseInt()和parseFloat()两个转换函数
+
 function test_exam(table_rows,type_name){
     var n = $(type_name+"_infoname"+table_rows).value;
     var mobile = $(type_name+"_infomobile"+table_rows).value;
@@ -139,20 +94,7 @@ function add_item(table_id, url, update_div, examination_id,type_name){
     document.getElementById(table_id + "_rows").value=document.getElementById("" + table_id).rows.length;
 }
 
-function delete_item(id){
-    var c = document.getElementById(id);
-    document.getElementById("add").deleteRow(c);
-    document.getElementById("rows").value=document.getElementById("add").rows.length
-}
 
-function change_paper() {
-    var change_papers_div = $("change_papers_div").style;
-    if (change_papers_div.display == "none") {
-        change_papers_div.display = "block";
-    } else {
-        change_papers_div.display = "none";
-    }
-}
 
 function exam_setting() {
     var exam_more_setting_div = $("exam_more_setting_div").style;
@@ -169,8 +111,12 @@ function exam_setting() {
 
 function update_base_info(url) {
     new Ajax.Updater('base_info_div', ''+url,
-    {asynchronous:true, evalScripts:true, method:'get',
-        parameters:'authenticity_token=' + encodeURIComponent('50BAfYoKpsPM7ylg3Q62hfovb0rOif8TnQl+tOGfjKY=')});
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:'get',
+        parameters:'authenticity_token=' + encodeURIComponent('50BAfYoKpsPM7ylg3Q62hfovb0rOif8TnQl+tOGfjKY=')
+    });
 }
 
 function edit_exam(div,controller,exam_id,action){
@@ -231,12 +177,21 @@ function test_exam_edit(n,mobile,email){
         }
     } 
 }
-function show_name(info,passsowrd) {
-    $(info).style.display ="block";
-    $(passsowrd).style.display ="none";
+function show_name(first,second) {
+    $(first).style.display ="block";
+    $(second).style.display ="none";
+}
+function change_paper() {
+    var change_papers_div = $("change_papers_div").style;
+    if (change_papers_div.display == "none") {
+        change_papers_div.display = "block";
+    } else {
+        change_papers_div.display = "none";
+    }
 }
 function checkinfo(){
-    var check_value = new RegExp(/[a-z0-9_]/g);
+    var check_value = new RegExp(/[a-zA-Z0-9\_\u4e00-\u9fa5]/);
+    ;
     var name=$("user_name").value;
     if (name== null || name.length ==0||name.length>10){
         document.getElementById("nameErr").innerHTML="用户名不能为空或长度不能超过10位字符";
@@ -247,7 +202,7 @@ function checkinfo(){
             return true;
         }
         else{
-            document.getElementById("nameErr").innerHTML="用户名格式不正确";
+            document.getElementById("nameErr").innerHTML="用户名不能包含非法字符";
             return false;
         }
     }
@@ -305,12 +260,12 @@ function compare_value(id,compare_id){
     active_button();
 }
 function active_button(){
-     $("flash_notice").innerHTML="";
+    $("flash_notice").innerHTML="";
     var flag=0;
     var str=$("problem_id").value;
     var n=str.split(",");
     for(i=1;i<n.length;i++){
-        value=$("single_value_"+n[i]).value;
+        var value=$("single_value_"+n[i]).value;
         flag=1;
         if(value ==""){
             $("if_submited_"+n[i]).value =0;
@@ -335,6 +290,7 @@ function active_button(){
 function button_status(){
     var str=$("problem_id").value;
     var  flag=0;
+    var i;
     var n=str.split(",");
     for(i=0;i<n.length-1;i++){
         var  value=$("if_submited_"+n[i+1]).value;
@@ -351,41 +307,32 @@ function button_status(){
         return false;
     }
 }
-function exam_user_for_now(examination_id){
-  {
-        new Ajax.Updater("exam_user_list" , "/exam_user/exam_users/single_user",
-        {
-            asynchronous:true,
-            evalScripts:true,
-            method:'post',
-            parameters:'id='+ examination_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
-        });
-        return false;
-    }
+
+num=0;
+function give_me_value(in1,id){
+    var n = $(in1).value;
+        new Ajax.Updater("in1", "/rater/exam_raters/"+id +"/edit_value",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:'post',
+        parameters:'value='+ n +'&id='+ id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+    });
+
+    return false;
+   
 }
-function file_exam_user(examination_id){
-    var user_info=$("user_info").value;
-  {
-        new Ajax.Updater("add_failed" , "/exam_users/"+examination_id+"/login",
-        {
-            asynchronous:true,
-            evalScripts:true,
-            method:'post',
-            parameters:'examination_id='+ examination_id +'&user_info='+ user_info +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
-        });
-        return false;
-    }
+function file_exam_user(id){
+
+     new Ajax.Updater("add_failed", "/exam_users/"+id +"/login",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:'post',
+        parameters:'user_info='+$("user_info").value +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+    });
+
+    return false;
+
 }
-function answer_result(paper_id,examination){
-    var user_id=$("exam_user_id").value;
-  {
-        new Ajax.Updater("exam_users#show" , "/exam_users/"+paper_id+"/show",
-        {
-            asynchronous:true,
-            evalScripts:true,
-            method:'post',
-            parameters:'examination_id='+ examination +'&exam_user_id='+ user_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
-        });
-        return false;
-    }
-}
+

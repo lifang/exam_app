@@ -1,9 +1,8 @@
 class ExamRatersController < ApplicationController
   def create_exam_rater #创建阅卷老师
     @examination = Examination.find(params[:examination_id].to_i)
-    @rater=ExamRater.find_by_sql("select u.id from exam_raters u where u.name='#{params[:exam_rater_infoname]}'
-         and u.email='#{params[:exam_rater_infoemail]}' and u.examination_id=#{params[:examination_id].to_i} ")
-    if (@examination  and !@rater.nil? )
+    @rater=ExamRater.find_by_email_and_examination_id(params[:exam_rater_infoemail],params[:examination_id])
+    if ( !@rater.nil? )
       exam_rater=ExamRater.create!(:examination_id => @examination.id , :name => params[:exam_rater_infoname],
         :mobilephone => params[:exam_rater_infomobile], :email => params[:exam_rater_infoemail], :author_code => proof_code(6))
       UserMailer.rater_affirm(exam_rater,@examination).deliver
@@ -20,7 +19,6 @@ class ExamRatersController < ApplicationController
       :per_page => 1, :page => params[:page])
     @examination=Examination.find(@exmination_id)
     render :partial=>"/examinations/exam_rater"
-    #    render :inline => ""
   end
   def edit  #阅卷老师信息编辑
     @exam_rater =ExamRater.find(params[:id].to_i)

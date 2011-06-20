@@ -37,7 +37,7 @@
       <tbody id="result_list">
         <% @results.each do |result| %>
           <tr>
-            <td><%= link_to "#{result.e_title}", "/examinations/#{result.e_id}" %></td>
+            <td><%= result.e_title %></td>
             <td><%= result.description %></td>
             <td><%= result.total_question_num %>题/ <%= result.p_total_score %>分</td>
              <td> <%= result.start_at_time.nil? ? "时间未限制":result.start_at_time.strftime("%Y-%m-%d  %I:%M%p")%></td>
@@ -49,7 +49,6 @@
             </td>
           </tr>
         <% end %>
-
       </tbody>
     </table>
     <div class="pagination_box">

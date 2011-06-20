@@ -4,9 +4,8 @@
 </div>
 <div class="clear">&nbsp;</div>
 <div class="main_box_back">
-  <h2><span><a onclick="javascript:exam_user_for_now(<%= @examination.id %>)">考生信息</a>
-      &nbsp;&nbsp;|&nbsp;&nbsp;<%= link_to_remote "批量录入考生信息", :url => "/exam_user/exam_users/#{@examination.id}/pile_exam_users",
-        :method => :get,:update => "exam_user_list" %></span>
+  <h2><span><a onclick="javascript:show_name('exam_user_list','exam_user_pile')">考生信息</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="javascript:show_name('exam_user_pile','exam_user_list')">批量录入考生信息</a></span>
 
     <div class="right">
       <span class="expForEmail"><span id="nameErr"></span></span>&nbsp;&nbsp;&nbsp;
@@ -16,8 +15,11 @@
       <a href="/examinations/<%= @examination.id %>/exam_result">[查看成绩]</a>
     </div>
   </h2>
-  <div class="in" id="exam_user_list">
+  <div class="in" id="exam_user_list" style="display:block" >
     <%= render :partial => "exam_user_for_now"  %>
+  </div>
+   <div class="in" id="exam_user_pile" style="display:none" >
+    <%= render :partial => "/exam_users/pile_exam_users"  %>
   </div>
 </div>
 <div class="clear">&nbsp;</div>
