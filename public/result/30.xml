@@ -1,5 +1,5 @@
 <exam id='9'>
-    <paper id='7' score='90'>
+    <paper id='7' score='855'>
         <questions>
             <question id='12' score='10'>
                 <answer>小龙</answer>
@@ -10,7 +10,7 @@
             <question id='14' score='30'>
                 <answer>no</answer>
             </question>
-            <question id='15' score='15'>
+            <question id='15' score='10'>
                 <answer>no</answer>
             </question>
             <question id='16' score='20'>

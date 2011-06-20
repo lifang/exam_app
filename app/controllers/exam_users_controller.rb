@@ -59,18 +59,22 @@ class ExamUsersController < ApplicationController
         if user.name == @info_class[i].strip
           if ExamUser.find_by_examination_id_and_user_id(params[:id].to_i, user.id)
             str += @info_class[i] + "," + @info_class[i+1] + ";"
-          else
-            @examination.new_exam_user(user)
           end
         else
           str1 += @info_class[i] + "," + @info_class[i+1] + ";"
         end
-      else
-        user = User.auto_add_user(@info_class[i].strip, @info_class[i].strip, @info_class[i+1].strip, @info_class[i+2])
-        @examination.new_exam_user(user)
       end
     end
     if str=="发现信息重复加入的考生：" && str1=="发现邮箱已被占用："
+      0.step(@info_class.length-1, 3).each do |i|
+        user = User.find_by_email(@info_class[i+1].strip)
+        if user
+          @examination.new_exam_user(user)
+        else
+          user = User.auto_add_user(@info_class[i].strip, @info_class[i].strip, @info_class[i+1].strip, @info_class[i+2])
+          @examination.new_exam_user(user)
+        end
+      end
       render :text =>"考生信息都已成功加入"
     else
       render :text => "<font color='blue'>#{str1}&nbsp;&nbsp;<br/>#{str}</font>"

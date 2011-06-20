@@ -11,10 +11,9 @@ class User::ExamUsersController < ApplicationController
     doc=ExamRater.open_file(url)
     doc.elements["paper"].elements["questions"].each_element do |question|
       if question.attributes["id"]==params[:id]
-      
         exam_user=ExamUser.find(params[:user_id])
-        puts question.attributes["score"].to_i - params[:score].to_i
         exam_user.total_score += (params[:score].to_i-question.attributes["score"].to_i )
+        doc.elements["paper"].attributes["score"]=exam_user.total_score
         exam_user.save
         question.attributes["score"]=params[:score]
       end
