@@ -218,9 +218,9 @@ class ExamUser < ActiveRecord::Base
     return exam_user[0]
   end
 
-  def self.show_result(exam,doc)
+  def self.show_result(paper_id, doc)
  
-    @xml = ExamRater.open_file("/papers/#{exam.paper_id}.xml")
+    @xml = ExamRater.open_file("/papers/#{paper_id}.xml")
     @xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|

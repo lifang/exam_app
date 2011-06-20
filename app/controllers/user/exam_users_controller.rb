@@ -8,7 +8,7 @@ class User::ExamUsersController < ApplicationController
     puts params[:id]
     puts exam
     @doc=ExamRater.open_file("/result/#{exam.id}.xml")
-    @xml=ExamUser.show_result(exam,@doc)
+    @xml=ExamUser.show_result(exam.paper_id, @doc)
   end
   
 end
