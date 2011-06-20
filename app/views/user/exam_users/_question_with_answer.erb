@@ -52,6 +52,12 @@
 </div>
   <div class="title">  <%  if user_answers==[] %><font color="blue">考生没有作答</font><% end   %></div>
 <div class="title">
+  <% if is_student? %>
   <font color="red"> <%= "考生得分："+ question_with_answer.attributes["user_score"].to_i.to_s+"分" %></font>
-  
+  <% end %>
+  <% if is_paper_creater? %>
+  <font color="red">考生得分：<input size="2" id="edit_score" value="<%=  question_with_answer.attributes["user_score"].to_i.to_s %>">分</input> </font>
+  <input type="button" onclick="javascript:edit_score(<%= question_with_answer.attributes["id"].to_i %>)" />
+  <span id="last_score"></span>
+  <% end %>
 </div>
