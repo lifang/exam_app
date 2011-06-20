@@ -13,7 +13,7 @@ ExamApp::Application.routes.draw do
     end
     resources :exam_users do
       member do
-        get "show"
+       post "edit_score"
       end
     end
   end

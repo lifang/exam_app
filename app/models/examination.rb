@@ -41,7 +41,7 @@ class Examination < ActiveRecord::Base
       :is_user_affiremed => ExamUser::IS_USER_AFFIREMED[:NO])
     exam_user.set_paper(self)
     if self.user_affirm == true
-      UserMailer.user_affirm(exam_user,self).deliver
+#      UserMailer.user_affirm(exam_user,self).deliver
     end
   end
 
