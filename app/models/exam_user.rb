@@ -11,6 +11,10 @@ class ExamUser < ActiveRecord::Base
   IS_USER_AFFIREMED = {:YES => 1, :NO => 0} #用户是否确认  1 已确认 0 未确认
   default_scope :order => "exam_users.total_score desc"
 
+  def self.get_paper(examination,other)
+    sql= "select e.id from exam_users e left join rater_user_relations r on r.exam_user_id= e.id where e.examination_id=#{examination} and e.answer_sheet_url is not null "
+    return ExamUser.find_by_sql(sql + other)
+  end
   #分页显示单场考试的所有成绩
   def ExamUser.paginate_exam_user(examination_id, pre_page, page, options={})
     sql = ExamUser.generate_sql(examination_id, options)

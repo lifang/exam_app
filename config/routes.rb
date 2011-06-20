@@ -15,6 +15,7 @@ ExamApp::Application.routes.draw do
         get "session","check_paper"
       end
       member do
+        post "edit_value"
         get "rater_session","get_score"
         post "rater_login","over_answer"
         get "reader_papers","answer_paper"
@@ -24,10 +25,8 @@ ExamApp::Application.routes.draw do
   namespace :exam_user do
     resources :exam_users do
       collection do   
-        post "single_user"
       end
-      member do
-        get "pile_exam_users"
+      member do  
       end
     end
   end

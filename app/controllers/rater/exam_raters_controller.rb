@@ -23,24 +23,23 @@ class Rater::ExamRatersController < ApplicationController
   def reader_papers  #答卷批阅状态显示
     @examination=Examination.find(params[:id])
     @exam_paper_total=ExamUser.find_by_sql("select * from exam_users eu where eu.examination_id=
-     #{@examination.id} and eu.answer_sheet_url is not null")
-    @exam_score_total=ExamUser.find_by_sql("select * from exam_users e left join rater_user_relations r on r.exam_user_id= e.id  where e.examination_id=#{params[:id]} and e.answer_sheet_url is not null and r.id is null ")
-    @exam_paper_marked=ExamUser.find_by_sql("select * from exam_users e left join rater_user_relations r on r.exam_user_id=
-                         e.id  where e.examination_id=#{params[:id]} and r.is_marked=1 and e.answer_sheet_url is not null")
+     #{params[:id]} and eu.answer_sheet_url is not null")
+    sql1="and r.id is null"
+    sql2="and r.is_marked=1"
+    @exam_score_total=ExamUser.get_paper(params[:id],sql1)
+    @exam_paper_marked=ExamUser.get_paper(params[:id],sql2)
   end
   def check_paper  #选择要批阅的答卷
-    exam_users=ExamUser.find_by_sql("select e.id from exam_users e left join rater_user_relations r on r.exam_user_id=e.id  where e.examination_id=#{cookies[:examination_id]} and r.id is null and e.answer_sheet_url is not null")
+    sql="and r.id is null "
+    exam_users=ExamUser.get_paper(cookies[:examination_id],sql)
     @exam_user=exam_users[rand(exam_users.length)].id
     RaterUserRelation.create(:exam_rater_id=>cookies[:rater_id],:exam_user_id=>@exam_user)
     redirect_to "/rater/exam_raters/#{@exam_user}/answer_paper"
   end
   def answer_paper #批阅答卷
     @exam_user=ExamUser.find(params[:id])
-    @url="#{Rails.root}/public"+@exam_user.answer_sheet_url
-    file = File.open(@url)
-    @doc=Document.new(file).root
-    file1=File.open("#{Rails.root}/public/papers/#{ @doc.elements[1].attributes["id"]}.xml")
-    @xml=Document.new(file1).root
+    @doc=ExamRater.open_file(@exam_user.answer_sheet_url)
+    @xml=ExamRater.open_file("/papers/#{@doc.elements[1].attributes["id"]}.xml")
     @str="-1"
     @xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
@@ -61,15 +60,13 @@ class Rater::ExamRatersController < ApplicationController
       end
     end
     @xml.to_s
-    puts @xml
   end
   def over_answer #批阅完成，给答卷添加成绩
     @exam_relation=RaterUserRelation.find_by_exam_user_id(params[:id])
     @exam_relation.is_marked=true
     @exam_relation.update_attributes(:is_marked=>1)
-    url="#{Rails.root}/public/result/#{params[:id]}.xml"
-    file=File.open(url)
-    doc=Document.new(file).root
+    url="/result/#{params[:id]}.xml"
+    doc=ExamRater.open_file(url)
     doc.elements[1].elements[1].each_element do |element|
       element.add_attribute("score","#{params["single_value_#{element.attributes["id"]}"]}")
     end
@@ -85,7 +82,24 @@ class Rater::ExamRatersController < ApplicationController
       end
     end
     doc.to_s
-    self.write_xml(url, doc)
+    self.write_xml("#{Rails.root}/public"+url, doc)
     redirect_to "/rater/exam_raters/#{ExamUser.find(params[:id]).examination_id}/reader_papers"
   end
+   def destroy
+    cookies.delete(:rater_id)
+    cookies.delete(:examination_id)
+    redirect_to root_path
+   end
+   def show
+     @exam_rater=ExamRater.find(params[:id])
+   end
+   def edit_value
+      @exam_rater=ExamRater.find(params[:id])
+      @exam_rater.update_attributes(:name=>params[:value])
+   render :inline=>"姓&nbsp;&nbsp;&nbsp;&nbsp;名:#{ @exam_rater.name}"
+   end
+   def index
+     @exam_rater=ExamRater.find(cookies[:rater_id])
+     @exam_list=ExamRater.find_all_by_email(@exam_rater.email)
+   end
 end

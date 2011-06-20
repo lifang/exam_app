@@ -51,20 +51,24 @@ class ExamUsersController < ApplicationController
   def login   #批量添加考生
     @examination = Examination.find(params[:id].to_i)
     @info_class = get_text(params[:user_info].strip)
-    i=0
+    puts @info_class
     str = "发现信息重复加入的考生："
     str1 = "发现邮箱已被占用："
-    (0..@info_class.length/3-1).each do
-      user = User.find_by_email(@info_class[i+2].strip)
+    (0..@info_class.length/3-1).each do |i|
+      puts i
+       print @info_class[i]
+       print @info_class[i+1]
+       print @info_class[i+2]
+      user = User.find_by_email(@info_class[i+1].strip)
       if user
-        if user.name == @info_class[i+1].strip
+        if user.name == @info_class[i].strip
           if ExamUser.find_by_examination_id_and_user_id(params[:examination_id].to_i, user.id)
-            flash[:error] = str + @info_class[i] + "," + @info_class[i+1] + ";"
+            str += @info_class[i] + "," + @info_class[i+1] + ";"
           else
             @examination.new_exam_user(user)
           end
         else
-          flash[:error] = str1 + @info_class[i] + "," + @info_class[i+1] + ";"
+          str1 += @info_class[i] + "," + @info_class[i+1] + ";"
         end
       else
         user = User.auto_add_user(@info_class[i].strip, @info_class[i].strip, @info_class[i+1].strip, @info_class[i+2])
@@ -77,7 +81,6 @@ class ExamUsersController < ApplicationController
     else
       render :text => "<font color='blue'>#{str1}&nbsp;&nbsp;<br/>#{str}</font>"
     end
-  
   end
 
   def destroy #删除考生
