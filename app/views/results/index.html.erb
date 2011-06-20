@@ -40,7 +40,7 @@
       <tbody>
         <% @results.each do |result| %>
         <tr>
-          <td><a href="/examinations/<%= result.e_id %>"><%= result.e_title %></a></td>
+          <td><a href="/examinations/<%= result.e_id %>" target="_blank"><%= result.e_title %></a></td>
           <td><%= result.c_name %></td>
           <td><%= result.total_question_num %></td>
           <td><%= result.p_total_score %></td>
@@ -48,7 +48,7 @@
           <td><%= result.started_at %></td>
           <td><%= result.u_total_score %></td>
           <td>
-            <a href="#">查看</a>&nbsp;|&nbsp;
+            <a href="/exam_user/exam_users/<%= result.e_id %>" target="_blank">查看</a>&nbsp;|&nbsp;
             <a href="#">编辑得分</a>
           </td>
         </tr>
