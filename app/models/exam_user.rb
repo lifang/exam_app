@@ -52,7 +52,7 @@ class ExamUser < ActiveRecord::Base
 
   #组装查询成绩的sql
   def ExamUser.generate_result_sql(options={})
-    sql = "select u.id u_id, e.id e_id, e.title e_title, e.description,e.start_at_time,
+    sql = "select u.id u_id,u.user_id user_id, e.id e_id, e.title e_title, e.description,e.start_at_time,
       c.name c_name,p.id p_id, p.total_score p_total_score,
       p.total_question_num, us.name u_name, us.email, u.started_at, u.total_score u_total_score, u.answer_sheet_url
       from exam_users u inner join examinations e on e.id = u.examination_id
@@ -209,7 +209,23 @@ class ExamUser < ActiveRecord::Base
     self.toggle!(:is_auto_rate)
     self.save
   end
-
+  def self.show_result(exam,doc)
+ 
+    @xml = ExamRater.open_file("/papers/#{exam.paper_id}.xml")
+    @xml.elements["blocks"].each_element do  |block|
+      block.elements["problems"].each_element do |problem|
+        problem.elements["questions"].each_element do |question|
+          doc.elements["paper"].elements["questions"].each_element do |element|
+            if element.attributes["id"]==question.attributes["id"]
+              question.add_attribute("user_answer","#{element.elements["answer"].text}")
+              question.add_attribute("user_score","#{element.attributes["score"]}")
+            end
+          end
+        end
+      end
+    end
+    return @xml
+  end
   
 
 end

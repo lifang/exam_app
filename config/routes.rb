@@ -1,6 +1,23 @@
 ExamApp::Application.routes.draw do
 
   match '/signout'=> 'sessions#destroy'
+  namespace :user do
+    resources :examinations do
+      member do
+        post "save_result", "five_min_save"
+        get "do_exam"
+      end
+      collection do
+        get "error_page"
+      end
+    end
+    resources :exam_users do
+      member do
+        get "show"
+      end
+    end
+  end
+  
   resources :users do
     collection do
       get "get_proof_code", "get_register_code", "re_active", "active_success", "active_false"
@@ -19,14 +36,6 @@ ExamApp::Application.routes.draw do
         get "rater_session","get_score"
         post "rater_login","over_answer"
         get "reader_papers","answer_paper"
-      end
-    end
-  end
-  namespace :exam_user do
-    resources :exam_users do
-      collection do   
-      end
-      member do  
       end
     end
   end
@@ -59,22 +68,24 @@ ExamApp::Application.routes.draw do
       post "update_problem"
     end
   end
+
   resources :exam_users do
     collection do
       get "create_exam_user", "search_list","affiremed_false","affiremed_success"
       post "add_item", "leadin"
       post "search"
-     
+
     end
     member do
       get "my_results"
       get "new_exam_two"
-       post "login"
+      post "login"
       get "exam_user_affiremed"
       post "update_exam_user"
       post "edit_name"
     end
   end
+
   resources :exam_raters do
     collection do
       get "new_exam_three", "create_exam_rater"
@@ -83,6 +94,7 @@ ExamApp::Application.routes.draw do
       post "update_exam_rater"
     end
   end
+
   resources :examinations do
     collection do
       get "search_list", "new_exam_one"
@@ -90,7 +102,7 @@ ExamApp::Application.routes.draw do
     end
     member do
       get "export_user_unaffirm", "edit_base_info", "back_base_info",
-          "published", "paper_delete", "search_papers", "choose_papers", "exam_result", "single_result_list"
+        "published", "paper_delete", "search_papers", "choose_papers", "exam_result", "single_result_list"
       post "create_step_one", "update_base_info", "search_result"
     end
   end
@@ -112,17 +124,7 @@ ExamApp::Application.routes.draw do
       post "upload_images", "upload"
     end
   end
-  namespace :user do
-    resources :examinations do
-      member do
-        post "save_result", "five_min_save"
-        get "do_exam"
-      end
-      collection do
-        get "error_page"
-      end
-    end
-  end
+
 
   #示例页面专用路由
   resources :pages do

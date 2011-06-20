@@ -4,7 +4,7 @@
     <div class="in">
       <div class="title"><%= single_question.elements["title"].text.to_s.html_safe %></div>
       <% single_question.elements["questions"].each_element do |question| %>
-        <%= render :partial => "/exam_users/question_with_answer", :object => question %>
+        <%= render :partial => "/user/exam_users/question_with_answer", :object => question %>
       <% end %>
     </div>
   </div>
