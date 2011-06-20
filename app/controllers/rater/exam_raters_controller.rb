@@ -88,7 +88,7 @@ class Rater::ExamRatersController < ApplicationController
    def destroy
     cookies.delete(:rater_id)
     cookies.delete(:examination_id)
-    redirect_to root_path
+    render :inline=>"<script>window.close();</script>"
    end
    def show
      @exam_rater=ExamRater.find(params[:id])

@@ -48,7 +48,7 @@
           <td><%= result.started_at %></td>
           <td><%= result.u_total_score %></td>
           <td>
-            <a href="/exam_user/exam_users/<%= result.e_id %>" target="_blank">查看</a>&nbsp;|&nbsp;
+              <%= link_to "查看", href="/user/exam_users/#{result.e_id}?user_id=#{result.user_id}" %>&nbsp;|&nbsp;
             <a href="#">编辑得分</a>
           </td>
         </tr>
