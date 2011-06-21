@@ -1,11 +1,15 @@
-<%  @exam_list.each do |exam| %>
-<% examination=Examination.find(exam.examination_id) %>
+
 <table>
   <tr>
-    <td width="200"><%= link_to "#{examination.title}","/rater/exam_raters/#{exam.id}/rater_session?examination=#{examination.id}" %></td>
-     <td width="200"><%= examination.description %></td>
-      <td width="150"><%= exam.name %></td>
-       <td width="150"><%= exam.author_code %></td>
+    <th width="200">考试名称</th>
+    <th width="150">考试开始时间</th>
   </tr>
-</table>
-<% end %>
+  <%  @exam_list.each do |exam| %>
+    <% examination=Examination.find(exam.examination_id) %>
+    <tr>
+      <td ><%= link_to "#{examination.title}","/rater/exam_raters/#{exam.id}/rater_session?examination=#{examination.id}" %></td>
+      <td ><%= examination.start_at_time.nil? ? "无限制" :examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    </tr>
+    <% end %>
+  </table>
+

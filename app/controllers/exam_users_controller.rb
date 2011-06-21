@@ -51,32 +51,30 @@ class ExamUsersController < ApplicationController
   def login   #批量添加考生
     @examination = Examination.find(params[:id].to_i)
     @info_class = get_text(params[:user_info].strip)
-    puts @info_class
     str = "发现信息重复加入的考生："
     str1 = "发现邮箱已被占用："
-    (0..@info_class.length/3-1).each do |i|
-      puts i
-       print @info_class[i]
-       print @info_class[i+1]
-       print @info_class[i+2]
+    0.step(@info_class.length-1, 3).each do |i|
       user = User.find_by_email(@info_class[i+1].strip)
       if user
         if user.name == @info_class[i].strip
-          if ExamUser.find_by_examination_id_and_user_id(params[:examination_id].to_i, user.id)
+          if ExamUser.find_by_examination_id_and_user_id(params[:id].to_i, user.id)
             str += @info_class[i] + "," + @info_class[i+1] + ";"
-          else
-            @examination.new_exam_user(user)
           end
         else
           str1 += @info_class[i] + "," + @info_class[i+1] + ";"
         end
-      else
-        user = User.auto_add_user(@info_class[i].strip, @info_class[i].strip, @info_class[i+1].strip, @info_class[i+2])
-        @examination.new_exam_user(user)
       end
-      i +=3
     end
     if str=="发现信息重复加入的考生：" && str1=="发现邮箱已被占用："
+      0.step(@info_class.length-1, 3).each do |i|
+        user = User.find_by_email(@info_class[i+1].strip)
+        if user
+          @examination.new_exam_user(user)
+        else
+          user = User.auto_add_user(@info_class[i].strip, @info_class[i].strip, @info_class[i+1].strip, @info_class[i+2])
+          @examination.new_exam_user(user)
+        end
+      end
       render :text =>"考生信息都已成功加入"
     else
       render :text => "<font color='blue'>#{str1}&nbsp;&nbsp;<br/>#{str}</font>"
@@ -87,7 +85,7 @@ class ExamUsersController < ApplicationController
     exam_user = ExamUser.find(params[:id].to_i)
     exam_user.destroy
     @examination = Examination.find(exam_user.examination_id)
-    @exam_users =ExamUser.paginate_exam_user(exam_user.examination_id, 1, params[:page])
+    @exam_users =ExamUser.paginate_exam_user(exam_user.examination_id, 10, params[:page])
     render :partial=>"/examinations/exam_user_for_now"
   end
   
@@ -130,7 +128,7 @@ class ExamUsersController < ApplicationController
     sql += " and e.start_at_time >= '#{session[:start_at]}'" unless session[:start_at].nil?
     sql += " and e.start_at_time <= '#{session[:end_at]}'" unless session[:end_at].nil?
     sql += " and e.title like '%#{session[:title]}%'" unless session[:title].nil?
-    @results = Examination.paginate_by_sql(sql, :pre_page => 1, :page => params[:page])
+    @results = Examination.paginate_by_sql(sql, :pre_page => 10, :page => params[:page])
     render "my_results"
   end
 

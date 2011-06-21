@@ -56,8 +56,9 @@
   <font color="red"> <%= "考生得分："+ question_with_answer.attributes["user_score"].to_i.to_s+"分" %></font>
   <% end %>
   <% if is_paper_creater? %>
-  <font color="red">考生得分：<input size="2" id="edit_score" value="<%=  question_with_answer.attributes["user_score"].to_i.to_s %>">分</input> </font>
-  <input type="button" onclick="javascript:edit_score(<%= question_with_answer.attributes["id"].to_i %>)" />
-  <span id="last_score"></span>
-  <% end %>
+  <font color="red">考生得分：<input size="2" id="edit_score_<%=question_with_answer.attributes["id"].to_i  %>" value="">分</input> </font>
+  <input type="button" onclick="javascript:edit_score(<%= question_with_answer.attributes["id"].to_i %>,<%= @exam.id %>,<%= question_with_answer.attributes["score"].to_i %>)" value="确定" />
+  <div id="last_score_<%=question_with_answer.attributes["id"].to_i  %>"></div>
+<% end %>
 </div>
+    

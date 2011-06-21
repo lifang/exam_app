@@ -335,4 +335,20 @@ function file_exam_user(id){
     return false;
 
 }
+function edit_score(id,user_id,user_score){
+    var score=$("edit_score_"+id).value;
+    if ((user_score < parseInt(score)) || parseInt(score)<0){$("last_score_"+id).innerHTML="您输入的分值有误";return false;}
+    else{
+            new Ajax.Updater("last_score_"+id, "/user/exam_users/"+id +"/edit_score",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:'post',
+        parameters:'score='+score +'&user_id='+user_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+    });
+
+    return false;
+    }
+  
+}
 
