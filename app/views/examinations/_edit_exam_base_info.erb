@@ -78,9 +78,9 @@
       <div class="paper_base_info">考试时长设置</div>
       <div class="add_details">
         是否限制考试时段：<input type="radio" name="timelimit" value="1"
-                        <% if !@examination.start_at_time.nil? %> checked="true" <% end %>
+       onclick="javascript:time_limit('timelimit')"  <% if !@examination.start_at_time.nil? %> checked="true" <% end %>
                        />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="radio" name="timelimit" value="0"
+        <input type="radio" name="timelimit" value="0" onclick="javascript:time_limit('timelimit')"
                <% if @examination.start_at_time.nil? %> checked="true" <% end %>
               />否
         <span>&nbsp;&nbsp;&nbsp;</span>
@@ -143,7 +143,7 @@
   </div>
   <div class="in">
      <div id="notice"></div>
-    <input type="submit" value="更新" id="create" name="create" title="更新考试信息" class="submit_btn" onclick="return compare_time('time','hour','minute','accesstime','timeout')" />
+    <input type="submit" value="更新" id="create" name="create" title="更新考试信息" class="submit_btn" onclick="return compare_time('time','hour','minute','accesstime','timeout','timelimit')" />
     <input onclick="javascript:update_base_info('/examinations/<%= @examination.id %>/back_base_info');"
            type="button" value="放弃" class="submit_btn" />
   </div>

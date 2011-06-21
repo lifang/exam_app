@@ -44,7 +44,9 @@ function time_limit(name){
 }
 
 //    var sles=document.getElementById(name).options[document.getElementById(name).selectedIndex].text;
-function compare_time(time,hour,minute,acesstime,timeout) {
+function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
+    var sles=document.getElementsByName(timelimit);
+    var checked_ids = new Array();
     var time=$(time).value;
     var hour=$(hour).value;
     var minute=$(minute).value;
@@ -54,17 +56,24 @@ function compare_time(time,hour,minute,acesstime,timeout) {
         $("notice").innerHTML="<font color = 'red'>入场结束时间超过考试时长!</font>";
         return false;
     }
-    if (time==""||time.length==0){
-        $("notice").innerHTML="<font color = 'red'>时间不能为空</font>";
-        return false;
-    }
-    if (hour< 0){
-        $("notice").innerHTML="<font color = 'red'>请选择正确的时间!</font>";
-        return false;
-    }
-    if (minute< 0){
-        $("notice").innerHTML="<font color = 'red'>请选择正确的分钟!</font>";
-        return false;
+    for (var i=0;i<sles.length;i++) {
+        if (sles[i].checked){
+            checked_ids.push(sles[i].value);
+            if (checked_ids==1){
+                if (time==""||time.length==0){
+                    $("notice").innerHTML="<font color = 'red'>时间不能为空</font>";
+                    return false;
+                }
+                if (hour< 0){
+                    $("notice").innerHTML="<font color = 'red'>请选择正确的时间!</font>";
+                    return false;
+                }
+                if (minute< 0){
+                    $("notice").innerHTML="<font color = 'red'>请选择正确的分钟!</font>";
+                    return false;
+                }
+            }
+        }
     }
 }
 //    js提供了parseInt()和parseFloat()两个转换函数
@@ -311,7 +320,7 @@ function button_status(){
 num=0;
 function give_me_value(in1,id){
     var n = $(in1).value;
-        new Ajax.Updater("in1", "/rater/exam_raters/"+id +"/edit_value",
+    new Ajax.Updater("in1", "/rater/exam_raters/"+id +"/edit_value",
     {
         asynchronous:true,
         evalScripts:true,
@@ -324,7 +333,7 @@ function give_me_value(in1,id){
 }
 function file_exam_user(id){
 
-     new Ajax.Updater("add_failed", "/exam_users/"+id +"/login",
+    new Ajax.Updater("add_failed", "/exam_users/"+id +"/login",
     {
         asynchronous:true,
         evalScripts:true,
@@ -337,20 +346,21 @@ function file_exam_user(id){
 }
 function edit_score(id, user_id, question_score){
     var score=$("edit_score_"+id).value;
-    if ((question_score < parseInt(score)) || parseInt(score)<0){$("last_score_"+id).innerHTML="您输入的分值有误";return false;}
-    else{
-            new Ajax.Updater("last_score_"+id, "/user/exam_users/"+id +"/edit_score",
-    {
-        asynchronous:true,
-        evalScripts:true,
-        method:'post',
-        onComplete:function(request){
+    if ((question_score < parseInt(score)) || parseInt(score)<0){
+        $("last_score_"+id).innerHTML="您输入的分值有误";
+        return false;
+    }else{
+        new Ajax.Updater("last_score_"+id, "/user/exam_users/"+id +"/edit_score",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:'post',
+            onComplete:function(request){
             update_score(id, score, user_id, question_score)
         },
-        parameters:'score='+score +'&user_id='+user_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
-    });
-
-    return false;
+            parameters:'score='+score +'&user_id='+user_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+        });
+        return false;
     }
   
 }

@@ -235,6 +235,36 @@ class ExamUser < ActiveRecord::Base
     end
     return @xml
   end
-  
-
+  def self.judge(info,id)
+    email=""
+    str=""
+    0.step(info.length-1, 3).each do |i|
+      email +="'#{ info[i+1]}'"+","
+    end
+    emails=email.split(",").join(",")
+    user = User.find_by_sql("select * from users u where u.email in (#{emails}) ")
+    if user
+      user.each do |user|
+        if User.find_by_name(user.name)
+          if ExamUser.find_by_examination_id_and_user_id(id, user.id)
+            str += user.name + "," + user.email + ";"
+          end
+        else
+          str += user.name + "," + user.email + ";"
+        end
+      end
+    end
+    return str
+  end
+  def self.login(info,examination)
+     0.step(info.length-1, 3).each do |i|
+        user = User.find_by_email(info[i+1].strip)
+        if user
+          examination.new_exam_user(user)
+        else
+          user = User.auto_add_user(info[i].strip, info[i].strip, info[i+1].strip, info[i+2])
+          examination.new_exam_user(user)
+        end
+      end
+  end
 end
