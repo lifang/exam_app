@@ -13,12 +13,14 @@ ExamApp::Application.routes.draw do
     end
     resources :exam_users do
       collection do
-      get "search_list"
-      post "search"
-    end
+        get "session_new"
+        post "exam_session"
+        get "search_list"
+        post "search"
+      end
       member do
         get "my_results"
-       post "edit_score"
+        post "edit_score"
       end
     end
     resources :collections do

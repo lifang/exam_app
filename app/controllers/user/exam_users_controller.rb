@@ -51,5 +51,23 @@ class User::ExamUsersController < ApplicationController
     @results = Examination.paginate_by_sql(sql, :pre_page => 10, :page => params[:page])
     render "my_results"
   end
-  
+  def exam_session
+    @user = User.find_by_email(params[:session][:email])
+    if @user.nil?
+      flash[:error] = "邮箱不存在"
+      redirect_to '/sessions/new'
+    else
+      unless  @user.has_password?(params[:session][:password])
+        flash[:error] = "密码错误"
+        redirect_to '/user/exam_users/session_new'
+      else
+        cookies[:exam_user_id]=@user.id
+        redirect_to "/user/exam_users/"
+      end
+    end
+  end
+  def index
+     @user=User.find(cookies[:exam_user_id])
+    @exam_users=ExamUser.find_by_sql("select * from exam_users e where e.user_id=#{@user.id}")
+  end
 end
