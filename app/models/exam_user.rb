@@ -131,16 +131,16 @@ class ExamUser < ActiveRecord::Base
 
   #生成考生文件
   def generate_answer_sheet_url(str, path)
-    dir = "#{Rails.root}/public"
+    dir = "#{Rails.root}/public/" + path
     unless File.directory?(dir)
       Dir.mkdir(dir)
     end
-    file_name = "/" + path + "/#{self.id}.xml"
+    file_name = "/#{self.id}.xml"
     url = dir + file_name
     f=File.new(url,"w")
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
-    return file_name
+    return "/" + path + file_name
   end
 
   def update_answer_url(doc, question_ids_options = {})
@@ -209,9 +209,18 @@ class ExamUser < ActiveRecord::Base
     self.toggle!(:is_auto_rate)
     self.save
   end
-  def self.show_result(exam,doc)
+
+  #判断考生是否存在
+  def self.is_exam_user_in(paper_id, examination_id, user_id)
+    exam_user = ExamUser.find_by_sql(["select e.id, e.user_id, e.answer_sheet_url, p.paper_url from exam_users e
+        inner join papers p on p.id = e.paper_id
+        where e.paper_id = ? and e.examination_id = ? and e.user_id = ?", examination_id, paper_id, user_id])
+    return exam_user[0]
+  end
+
+  def self.show_result(paper_id, doc)
  
-    @xml = ExamRater.open_file("/papers/#{exam.paper_id}.xml")
+    @xml = ExamRater.open_file("/papers/#{paper_id}.xml")
     @xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|

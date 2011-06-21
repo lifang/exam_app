@@ -40,6 +40,7 @@ class Problem < ActiveRecord::Base
     problem.add_attribute("types", "#{self.types}")
     title = problem.add_element("title")
     title.add_text("#{self.title}")
+    problem.add_element("category").add_text("#{self.category_id}")
     problem.add_element("complete_title").add_text("#{self.complete_title}") unless self.complete_title.nil?
 
     #添加题点xml

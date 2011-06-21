@@ -16,6 +16,11 @@ ExamApp::Application.routes.draw do
        post "edit_score"
       end
     end
+    resources :collections do
+      collection do
+        post "search"
+      end
+    end
   end
   
   resources :users do

@@ -37,5 +37,7 @@ module Constant
   ANSWER_CLIENT_PATH = SERVER_PATH + "/result"
   #导出未确认名单路径
   UNAFFIRM_PATH = "/excels"
+  #收藏文件路径
+  COLLECTION_PATH = "/collections"
   
 end

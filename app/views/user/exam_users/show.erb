@@ -1,9 +1,10 @@
+<div id="collection_div"></div>
 <div id="paper_show_info">
   <ul class="tab_biz">
     <li class="actived"><a href="javascript:void(0);"><%= @xml.elements['base_info'].elements['title'].text %></a></li>
   </ul>
     <div class="soso">
-      <div align="right"><font color="red" ><strong><%=  @doc.elements["paper"].attributes["score"].nil? ? "分数暂未公布":" 总  分:"+ @exam.total_score.to_s %>
+      <div align="right"><font color="red" ><strong><%= @doc.elements["paper"].attributes["score"].nil? ? "分数暂未公布":" 总  分:"+ @doc.elements["paper"].attributes["score"] %>
           </strong></font></div>
     <div>试卷编号：<%= @xml.attributes['id']%></div>
     <div>出卷时间：<%= @xml.elements['base_info'].elements['created_at'].text%></div>

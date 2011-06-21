@@ -1,12 +1,61 @@
-<?xml version='1.0' encoding='UTF-8'?>      <paper id='31' total_num='1' total_score='0'>
-        <base_info>
-          <title>2011 ruby examination</title>
-          <category>1</category>
-          <creater>4</creater>
-          <created_at>2011年06月15日09时41分</created_at>
-          <updated_at>2011-06-15 09:42</updated_at>
-          <description>第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。</description>
-<category_name>大学英语</category_name>      </base_info>
-      <blocks>
-      <block id='17' total_num='1' total_score='0'><base_info><title>单选题</title><description>每题2分</description></base_info><problems><problem id='107' score='0' types='0'><title>________ is your name?</title><complete_title>[[what|where, when, why]] is your name?</complete_title><questions><question correct_type='0' id='136' score='0'><answer>what</answer><analysis></analysis><questionattrs>what;-;where, when, why</questionattrs><tags/></question></questions></problem></problems></block></blocks>
-      </paper>
+<?xml version='1.0' encoding='UTF-8'?>
+<paper id='31' total_num='4' total_score='25'>
+    <base_info>
+        <title>最新的考试</title>
+        <category>2</category>
+        <creater>4</creater>
+        <created_at>2011-06-21 09:37</created_at>
+        <updated_at>2011年06月21日10时09分</updated_at>
+        <description>第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。</description>
+        <category_name>英语四级</category_name>
+    </base_info>
+    <blocks>
+        <block id='17' total_num='4' total_score='25'>
+            <base_info>
+                <title>选择题</title>
+                <description>每题3分</description>
+            </base_info>
+            <problems>
+                <problem id='121' score='5' types='0'>
+                    <title>______ is your name?</title>
+                    <category>2</category>
+                    <complete_title>[[what|where;when;why||名词]] is your name?[(5)][{解析}]</complete_title>
+                    <questions>
+                        <question correct_type='0' id='149' score='5'>
+                            <answer>what</answer>
+                            <analysis>解析</analysis>
+                            <questionattrs>what;-;where;-;when;-;why</questionattrs>
+                            <tags>名词</tags>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='122' score='5' types='5'>
+                    <title>______，what can I help you?</title>
+                    <category>2</category>
+                    <complete_title>{{Excuse me||日常用语}}，what can I help you?[(5)][{日常用语}]</complete_title>
+                    <questions>
+                        <question correct_type='5' id='150' score='5'>
+                            <answer>Excuse me</answer>
+                            <analysis>日常用语</analysis>
+                            <questionattrs/>
+                            <tags>日常用语</tags>
+                        </question>
+                    </questions>
+                </problem>
+                <problem id='123' score='5' types='0'>
+                    <title>______ are you?</title>
+                    <category>2</category>
+                    <complete_title>[[how|what;when;where]] are you?[(5)][{解析2}]</complete_title>
+                    <questions>
+                        <question correct_type='0' id='151' score='5'>
+                            <answer>how</answer>
+                            <analysis>解析2</analysis>
+                            <questionattrs>how;-;what;-;when;-;where</questionattrs>
+                            <tags/>
+                        </question>
+                    </questions>
+                </problem>
+            <problem id='124' score='10' types='4'><title>______，______ can I help you?</title><category>2</category><complete_title>{{Excuse me||日常用语}}，[[what|where;when;why||名词]] can I help you?[(5,|5)][{解析1,|解析2}]</complete_title><questions><question correct_type='0' id='152' score='5'><answer>what</answer><analysis>解析1</analysis><questionattrs>what;-;where;-;when;-;why</questionattrs><tags>名词</tags></question><question correct_type='5' id='153' score='5'><answer>Excuse me</answer><analysis>解析2</analysis><questionattrs/><tags>日常用语</tags></question></questions></problem></problems>
+        </block>
+    </blocks>
+</paper>
