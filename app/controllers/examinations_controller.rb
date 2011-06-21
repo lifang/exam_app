@@ -54,14 +54,14 @@ class ExaminationsController < ApplicationController
   def create_step_one  #创建考试
     @papers=Paper.find(params[:post_value].split(","))
     @examination = Examination.find(params[:id].to_i)
-    @selectvalue = params[:examplan][:selectvalue]
-    @result = params[:examplan][:see_result]
+    hour = (params[:hour] != "-1") ? params[:hour].to_i : 0
+    min = (params[:minute] != "-2") ? params[:minute].to_i : 0
     hash1 = {:title => params[:title].strip, :description => params[:description].strip,
       :is_paper_open => params[:opened], :exam_time => params[:timeout], :is_score_open => params[:open_result],
       :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING]}
     hash1[:generate_exam_pwd] = params[:generate_exam_pwd] == "1" ? true : false
     if params[:timelimit] == "1"
-      @time=params[:time].to_date + @selectvalue.to_i.minutes + @result.to_i.hours
+      @time=params[:time].to_date + min.to_i.minutes + hour.to_i.hours
       @overtime=@time + params[:accesstime].to_i.minutes
       hash1[:start_at_time] = @time
       hash1[:start_end_time] = @overtime

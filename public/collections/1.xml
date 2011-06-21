@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<collection id='1'>
+    <problems>
+        <problem id='120' score='5' types='0'>
+            <title>______ are you?</title>
+            <complete_title>[[how|when;why;what||名词]] are you?[(5)][{解析1}]</complete_title>
+            <questions>
+                <question correct_type='0' id='148' score='5'>
+                    <answer>how</answer>
+                    <analysis>解析1</analysis>
+                    <questionattrs>how;-;when;-;why;-;what</questionattrs>
+                    <tags>名词</tags>
+                </question>
+            </questions>
+        </problem>
+        <problem id='100' score='2' types='4'>
+            <title>________ ________ your name?</title>
+            <complete_title>[[What]] [[is|are;were;was]] your name?[(1,|1)][{解析1,|解析2}]</complete_title>
+            <questions>
+                <question correct_type='3' id='131' score='1'>
+                    <answer>What</answer>
+                    <analysis>解析1</analysis>
+                    <questionattrs/>
+                    <tags/>
+                </question>
+                <question correct_type='0' id='132' score='1'>
+                    <answer>is</answer>
+                    <analysis>解析2</analysis>
+                    <questionattrs>is;-;are;-;were;-;was</questionattrs>
+                    <tags/>
+                </question>
+            </questions>
+        </problem>
+    </problems>
+</collection>

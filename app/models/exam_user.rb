@@ -211,10 +211,10 @@ class ExamUser < ActiveRecord::Base
   end
 
   #判断考生是否存在
-  def self.is_exam_user_in(paper_id, examination_id)
-    exam_user = ExamUser.find_by_sql(["select e.id, e.user_id, e.answer_sheet_url, e.paper_url from exam_users e
+  def self.is_exam_user_in(paper_id, examination_id, user_id)
+    exam_user = ExamUser.find_by_sql(["select e.id, e.user_id, e.answer_sheet_url, p.paper_url from exam_users e
         inner join papers p on p.id = e.paper_id
-        where e.paper_id = ? and e.examination_id = ?", paper_id, examination_id])
+        where e.paper_id = ? and e.examination_id = ? and e.user_id = ?", examination_id, paper_id, user_id])
     return exam_user[0]
   end
 

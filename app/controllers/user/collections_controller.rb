@@ -2,19 +2,30 @@ class User::CollectionsController < ApplicationController
   before_filter :access?
   
   def index
-    
+    @collection = Collection.find_by_user_id(cookies[:user_id])
+    @doc = @collection.open_xml
   end
 
   def create
-    paper_id = params[:paper_id]
-    examination_id = params[:examination_id]
-    problem_id = params[:problem_id]
-    exam_user = ExamUser.is_exam_user_in(paper_id, examination_id)
+    problem = params["problem_content_#{params[:problem_id]}"].strip
+    exam_user = ExamUser.is_exam_user_in(params[:paper_id].to_i, params[:examination_id].to_i, cookies[:user_id].to_i)
     if exam_user
-      collection = Collection.find_by_user_id(exam_user.user_id)
-      collection = Collection.generate_collection(cookies[:user_id]) if collection.nil?
-      
+      collection = Collection.find_or_create_by_user_id(exam_user.user_id)
+      collection.set_collection_url
+      unless problem.nil? or problem == ""
+        doc = collection.delete_problem(params[:problem_id].to_i, collection.open_xml)
+        doc = collection.add_problem(doc, problem)
+        collection.generate_collection_url(doc.to_s)
+      end     
     end
+    flash[:notice] = "收藏成功."
+    render :partial => "/common/display_flash"
+  end
+
+  def search
+    @collection = Collection.find_by_user_id(cookies[:user_id])
+    @doc = @collection.search(@collection.open_xml, params[:tag], params[:category])
+
   end
   
 end

@@ -1,0 +1,34 @@
+<div id="paper_show_info">
+  <ul class="new_biz">
+  </ul>
+  <div class="soso">
+    <div>
+      <%= form_tag "/user/collections/search", :method => "post" do -%>
+        <span>试题分类 <select name="category" id="category">
+            <option value="-1">请选择</option>
+          </select>
+        </span>
+        <span>知识点：<input type="text" class="input_style" name="tag" id="tag" /></span>
+        <span><input type="submit" name="button" id="button" value="查询" class="submit_btn" /></span>
+      <% end -%>
+    </div>
+  </div>
+</div>
+<% @doc.root.elements['problems'].each_element do |problem|%>
+  <div class="biz_art_list_box">
+    <ul>
+      <% if !problem.elements['title'].nil? %>
+        <li>
+          <%= render :partial=>"/user/collections/show_problem",:object => problem %>
+          <h2>
+            <a href="javascript:void(0)"
+               onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
+                 <%= problem.elements['title'].text.to_s.html_safe %>
+            </a>
+          </h2>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="clear"></div>

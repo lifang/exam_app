@@ -1,7 +1,21 @@
-<?xml version='1.0' encoding='UTF-8'?>      <exam id='42'>
-        <paper id='30' score='0'>
-          <questions><question id='133' score='0'><answer>what</answer></question><question id='127' score='0'><answer>sdfsfd</answer></question><question id='128' score='0'><answer>is</answer></question><question id='143' score='0'><answer>when</answer></question></questions>
-          <auto_score/>
-          <rate_score/>
-        </paper>
-      </exam>
+<?xml version='1.0' encoding='UTF-8'?>
+<exam id='42'>
+    <paper id='30' score='0'>
+        <questions>
+            <question id='133' score='0'>
+                <answer>what</answer>
+            </question>
+            <question id='127' score='0'>
+                <answer>sdfsfd</answer>
+            </question>
+            <question id='128' score='0'>
+                <answer>is</answer>
+            </question>
+            <question id='143' score='0'>
+                <answer>when</answer>
+            </question>
+        </questions>
+        <auto_score/>
+        <rate_score/>
+    </paper>
+</exam>

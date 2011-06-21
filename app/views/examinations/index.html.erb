@@ -54,7 +54,7 @@
             elsif examination.start_at_time > Time.now
               class_name = "never"
               state_name = "未开始"
-            elsif (examination.start_at_time +(examination.exam_time.nil? ? 0:examination.exam_time.minutes) ) < Time.now
+            elsif (examination.start_at_time + (examination.exam_time.nil? ? 0 : examination.exam_time.to_i.minutes)) < Time.now
               class_name = "ever"
               state_name = "已结束"
             end

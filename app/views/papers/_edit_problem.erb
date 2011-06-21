@@ -16,13 +16,12 @@
         <% title = edit_problem.elements["complete_title"].nil? ? edit_problem.elements["title"].text :
           edit_problem.elements["complete_title"].text %>
         <%= f.text_area :title ,:cols=>"45", :rows=>"3", :class=>"textarea_style",
-          :id => "edit_title_#{edit_problem.attributes["id"].to_i}", :value=>title %>
-
+          :id => "edit_title_#{edit_problem.attributes["id"].to_i}", :value=>title %>    
         <% question_ids = []
         edit_problem.elements["questions"].each_element do |question|
           question_ids << question.attributes["id"].to_i
         %>
-          <% if edit_problem.elements["questions"].size > 1 %>
+          <% if edit_problem.attributes["types"].to_i == Problem::QUESTION_TYPE[:COLLIGATION] %>
             <div id="question_list_<%= question.attributes["id"] %>">
               <input type="hidden" name="make_edit_<%= question.attributes["id"] %>" id="make_edit_<%= question.attributes["id"] %>" value="0"/>
               <div style="border: 1px solid #ccc;padding-bottom: 5px;" id="remote_question_<%= question.attributes["id"] %>">
