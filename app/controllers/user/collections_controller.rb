@@ -23,9 +23,10 @@ class User::CollectionsController < ApplicationController
   end
 
   def search
+    session[:tag] = params[:tag]
     @collection = Collection.find_by_user_id(cookies[:user_id])
     @doc = @collection.search(@collection.open_xml, params[:tag], params[:category])
-
+    render "index"
   end
   
 end

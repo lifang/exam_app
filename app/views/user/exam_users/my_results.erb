@@ -3,7 +3,7 @@
   <h2><span>我的成绩</span></h2>
   <div class="in">
     <div class="paper_search">
-      <%= form_for :found,  :url => "/exam_users/search", :method => 'post' do %>
+      <%= form_for :found,  :url => "/user/exam_users/search", :method => 'post' do %>
         参与考试时间：
         从&nbsp;<input class="input_style" name="start_at" id="start_at" type="text" onClick="WdatePicker();" readonly/>&nbsp;
         到&nbsp;<input class="input_style" name="end_at" id="end_at" type="text" onClick="WdatePicker();" readonly/>

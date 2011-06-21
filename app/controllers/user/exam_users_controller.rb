@@ -2,9 +2,9 @@ class User::ExamUsersController < ApplicationController
   require 'rexml/document'
   include REXML
   def show
-    exam=ExamUser.find_by_user_id_and_examination_id(params[:user_id],params[:id])
-    @doc=ExamRater.open_file("/result/#{exam.id}.xml")
-    @xml=ExamUser.show_result(exam.paper_id, @doc)
+    @exam=ExamUser.find_by_user_id_and_examination_id(params[:user_id],params[:id])
+    @doc=ExamRater.open_file("/result/#{@exam.id}.xml")
+    @xml=ExamUser.show_result(@exam.paper_id, @doc)
   end
 
   def edit_score
@@ -19,9 +19,37 @@ class User::ExamUsersController < ApplicationController
         question.attributes["score"]=params[:score]
       end
     end
-    doc.to_s
     self.write_xml("#{Rails.root}/public"+url, doc)
-    render :inline=>"更新成功"
+    render :inline => ""
+  end
+
+  def my_results   #考生成绩
+    @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
+    sql = ExamUser.generate_result_sql
+    sql += " and us.id=#{cookies[:user_id]} "
+    @results=Examination.paginate_by_sql(sql,:per_page =>10, :page => params[:page])
+  end
+
+
+  def search
+    session[:start_at] = nil
+    session[:end_at] = nil
+    session[:title] = nil
+    session[:start_at] = params[:start_at] if !params[:start_at].nil? and params[:start_at] != ""
+    session[:end_at] = params[:end_at] if !params[:end_at].nil? and params[:end_at] != ""
+    session[:title] = params[:title] if !params[:title].nil? and params[:title] != ""
+    redirect_to "/user/exam_users/search_list"
+  end
+
+  def search_list #成绩查询
+    @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
+    sql = ExamUser.generate_result_sql
+    sql += " and us.id=#{cookies[:user_id]}"
+    sql += " and e.start_at_time >= '#{session[:start_at]}'" unless session[:start_at].nil?
+    sql += " and e.start_at_time <= '#{session[:end_at]}'" unless session[:end_at].nil?
+    sql += " and e.title like '%#{session[:title]}%'" unless session[:title].nil?
+    @results = Examination.paginate_by_sql(sql, :pre_page => 10, :page => params[:page])
+    render "my_results"
   end
   
 end

@@ -2,6 +2,14 @@
   小题描述：
   <%= question_with_answer.elements["description"].text if question_with_answer.elements["description"] %>
   [<%= question_with_answer.attributes["score"] %>分]
+ 
+  [<span id="user_score_<%= question_with_answer.attributes["id"].to_i %>">
+    <font color="red">得<%= question_with_answer.attributes["user_score"].to_i.to_s+"分" %></font>
+    
+  <%if @exam and is_paper_creater? and cookies[:user_id].to_i != @exam.user_id %><a href="javascript:void(0);"
+     onclick="javascript:load_score_edit(<%= question_with_answer.attributes["id"].to_i %>, '<%= question_with_answer.attributes["user_score"] %>', <%= @exam.id %>, <%= question_with_answer.attributes["score"] %>)">
+    <font color="blue">编辑</font></a><% end %></span>]
+
   <% attrs_str = question_with_answer.elements["questionattrs"].text
   attrs_array = attrs_str.split(";-;") unless attrs_str.nil?
   correct_type = question_with_answer.attributes["correct_type"]
@@ -50,15 +58,7 @@
 <div class="title">知识点标签：
   <%= question_with_answer.elements["tags"].text %>
 </div>
-  <div class="title">  <%  if user_answers==[] %><font color="blue">考生没有作答</font><% end   %></div>
 <div class="title">
-  <% if is_student? %>
-  <font color="red"> <%= "考生得分："+ question_with_answer.attributes["user_score"].to_i.to_s+"分" %></font>
-  <% end %>
-  <% if is_paper_creater? %>
-  <font color="red">考生得分：<input size="2" id="edit_score_<%=question_with_answer.attributes["id"].to_i  %>" value="">分</input> </font>
-  <input type="button" onclick="javascript:edit_score(<%= question_with_answer.attributes["id"].to_i %>,<%= @exam.id %>,<%= question_with_answer.attributes["score"].to_i %>)" value="确定" />
   <div id="last_score_<%=question_with_answer.attributes["id"].to_i  %>"></div>
-<% end %>
 </div>
     

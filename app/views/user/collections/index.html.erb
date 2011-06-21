@@ -4,20 +4,19 @@
   <div class="soso">
     <div>
       <%= form_tag "/user/collections/search", :method => "post" do -%>
-        <span>试题分类 <select name="category" id="category">
-            <option value="-1">请选择</option>
-          </select>
+        <span>试题分类：<%= render :partial => "/common/categories" %>
         </span>
-        <span>知识点：<input type="text" class="input_style" name="tag" id="tag" /></span>
+        <span>知识点：<input type="text" class="input_style" name="tag" id="tag"
+                         value="<%= session[:tag] if session[:tag] %>" /></span>
         <span><input type="submit" name="button" id="button" value="查询" class="submit_btn" /></span>
       <% end -%>
     </div>
   </div>
 </div>
-<% @doc.root.elements['problems'].each_element do |problem|%>
-  <div class="biz_art_list_box">
-    <ul>
-      <% if !problem.elements['title'].nil? %>
+<div class="biz_art_list_box">
+  <ul>
+    <% @doc.root.elements['problems'].each_element do |problem|
+      if !problem.elements['title'].nil? %>
         <li>
           <%= render :partial=>"/user/collections/show_problem",:object => problem %>
           <h2>
@@ -27,8 +26,8 @@
             </a>
           </h2>
         </li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+      <% end
+    end %>
+  </ul>
+</div>
 <div class="clear"></div>

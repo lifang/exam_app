@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<paper id='31' total_num='4' total_score='25'>
+<paper id='31' total_num='5' total_score='30'>
     <base_info>
         <title>最新的考试</title>
         <category>2</category>
         <creater>4</creater>
         <created_at>2011-06-21 09:37</created_at>
-        <updated_at>2011年06月21日10时09分</updated_at>
+        <updated_at>2011-06-21 11:11</updated_at>
         <description>第一部分为听力题，请大家把答题添在答题卡上，第二部分为选择题，第三部分为综合题，第四部分为......。</description>
         <category_name>英语四级</category_name>
     </base_info>
     <blocks>
-        <block id='17' total_num='4' total_score='25'>
+        <block id='17' total_num='5' total_score='30'>
             <base_info>
                 <title>选择题</title>
                 <description>每题3分</description>
@@ -55,7 +55,7 @@
                         </question>
                     </questions>
                 </problem>
-            <problem id='124' score='10' types='4'><title>______，______ can I help you?</title><category>2</category><complete_title>{{Excuse me||日常用语}}，[[what|where;when;why||名词]] can I help you?[(5,|5)][{解析1,|解析2}]</complete_title><questions><question correct_type='0' id='152' score='5'><answer>what</answer><analysis>解析1</analysis><questionattrs>what;-;where;-;when;-;why</questionattrs><tags>名词</tags></question><question correct_type='5' id='153' score='5'><answer>Excuse me</answer><analysis>解析2</analysis><questionattrs/><tags>日常用语</tags></question></questions></problem></problems>
+            <problem id='124' score='10' types='4'><title>______，______ can I help you?</title><category>2</category><complete_title>{{Excuse me||日常用语}}，[[what|where;when;why||名词]] can I help you?[(5,|5)][{解析1,|解析2}]</complete_title><questions><question correct_type='0' id='152' score='5'><answer>what</answer><analysis>解析1</analysis><questionattrs>what;-;where;-;when;-;why</questionattrs><tags>名词</tags></question><question correct_type='5' id='153' score='5'><answer>Excuse me</answer><analysis>解析2</analysis><questionattrs/><tags>日常用语</tags></question></questions></problem><problem id='125' score='5' types='0'><title>___ are you going?</title><category>2</category><questions><question correct_type='0' id='154' score='5'><answer>where</answer><analysis>解析1</analysis><questionattrs>where;-;what;-;when;-;why</questionattrs><tags>名词 日常用语</tags></question></questions></problem></problems>
         </block>
     </blocks>
 </paper>
