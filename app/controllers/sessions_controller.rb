@@ -5,7 +5,6 @@ class SessionsController < ApplicationController
   def index
   end
   def create
-
     if params[:proof_code].downcase != session[:signin_code].to_s.downcase
       flash[:error] = "请输入正确的验证码"
       redirect_to '/sessions/new'

@@ -236,15 +236,14 @@ class ExamUser < ActiveRecord::Base
     return @xml
   end
   def self.judge(info,id)
-    email=""
+    e = []
     str=""
     0.step(info.length-1, 3).each do |i|
-      email +="'#{ info[i+1]}'"+","
+      e << "'#{info[i+1]}'"
     end
-    emails=email.split(",").join(",")
-    user = User.find_by_sql("select * from users u where u.email in (#{emails}) ")
-    if user
-      user.each do |user|
+    users = User.find_by_sql("select * from users u where u.email in (#{e .join(",")})")
+    if users
+      users.each do |user|
         if User.find_by_name(user.name)
           if ExamUser.find_by_examination_id_and_user_id(id, user.id)
             str += user.name + "," + user.email + ";"
@@ -257,14 +256,23 @@ class ExamUser < ActiveRecord::Base
     return str
   end
   def self.login(info,examination)
-     0.step(info.length-1, 3).each do |i|
-        user = User.find_by_email(info[i+1].strip)
-        if user
-          examination.new_exam_user(user)
-        else
-          user = User.auto_add_user(info[i].strip, info[i].strip, info[i+1].strip, info[i+2])
-          examination.new_exam_user(user)
-        end
+    email=[]
+    hash = {}
+    0.step(info.length-1, 3).each do |i|
+      email << "'#{info[i+1]}'"
+      hash[info[i+1]] = ["#{info[i]}", "#{info[i+2]}"]
+    end
+    users = User.find_by_sql("select * from users u where u.email in (#{email.join(",")})")
+    if users
+      users.each do |user|
+        examination.new_exam_user(user)
+        hash.delete(user.email)
       end
+    end
+    hash.each do |email|
+      user = User.auto_add_user(email[1][0].strip,email[1][0].strip, email[0].strip,email[1][1].strip)
+      examination.new_exam_user(user)
+
+    end
   end
 end

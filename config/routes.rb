@@ -12,7 +12,12 @@ ExamApp::Application.routes.draw do
       end
     end
     resources :exam_users do
+      collection do
+        get "session_new"
+        post "exam_session"
+      end
       member do
+        
        post "edit_score"
       end
     end

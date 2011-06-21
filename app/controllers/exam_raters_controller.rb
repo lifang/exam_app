@@ -2,12 +2,14 @@ class ExamRatersController < ApplicationController
   def create_exam_rater #创建阅卷老师
     @examination = Examination.find(params[:examination_id].to_i)
     @rater=ExamRater.find_by_email_and_examination_id(params[:exam_rater_infoemail],params[:examination_id])
-    if ( !@rater.nil? )
+    if @rater.nil?
       exam_rater=ExamRater.create!(:examination_id => @examination.id , :name => params[:exam_rater_infoname],
         :mobilephone => params[:exam_rater_infomobile], :email => params[:exam_rater_infoemail], :author_code => proof_code(6))
       UserMailer.rater_affirm(exam_rater,@examination).deliver
       @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
-        :per_page => 1, :page => params[:page])
+        :per_page => 5, :page => params[:page])
+    else
+       flash[:error]="信息已加入"
     end
     render :partial => "/examinations/exam_rater"
   end
