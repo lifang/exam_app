@@ -51,33 +51,13 @@ class ExamUsersController < ApplicationController
   def login   #批量添加考生
     @examination = Examination.find(params[:id].to_i)
     @info_class = get_text(params[:user_info].strip)
-    str = "发现信息重复加入的考生："
-    str1 = "发现邮箱已被占用："
-    0.step(@info_class.length-1, 3).each do |i|
-      user = User.find_by_email(@info_class[i+1].strip)
-      if user
-        if user.name == @info_class[i].strip
-          if ExamUser.find_by_examination_id_and_user_id(params[:id].to_i, user.id)
-            str += @info_class[i] + "," + @info_class[i+1] + ";"
-          end
-        else
-          str1 += @info_class[i] + "," + @info_class[i+1] + ";"
-        end
-      end
-    end
-    if str=="发现信息重复加入的考生：" && str1=="发现邮箱已被占用："
-      0.step(@info_class.length-1, 3).each do |i|
-        user = User.find_by_email(@info_class[i+1].strip)
-        if user
-          @examination.new_exam_user(user)
-        else
-          user = User.auto_add_user(@info_class[i].strip, @info_class[i].strip, @info_class[i+1].strip, @info_class[i+2])
-          @examination.new_exam_user(user)
-        end
-      end
+    str = "发现信息重复加入或邮箱已被占用："
+    str+=ExamUser.judge(@info_class,params[:id].to_i)
+    if str=="发现信息重复加入或邮箱已被占用："
+      ExamUser.login(@info_class,@examination)
       render :text =>"考生信息都已成功加入"
     else
-      render :text => "<font color='blue'>#{str1}&nbsp;&nbsp;<br/>#{str}</font>"
+      render :text => "<font color='blue'>#{str}</font>"
     end
   end
 
