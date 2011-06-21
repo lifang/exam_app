@@ -2,6 +2,7 @@ class User::CollectionsController < ApplicationController
   before_filter :access?
   
   def index
+    session[:tag] = nil
     @collection = Collection.find_by_user_id(cookies[:user_id])
     @doc = @collection.open_xml
   end

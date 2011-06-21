@@ -1,25 +1,24 @@
-
 <div class="main_box_back">
-    <h2><span>添加考生</span></h2>
-    <div class="in" id="leadin_div" name="leadin_div">
-      <div class="paper_base_info">导入考生信息</div>
-      <div class="add_details">
-        <div class="detail">按右边格式填入信息：</div>
-        <div class="detail">姓名<font color="red">[空格]</font>邮箱<font color="red">[空格]</font>手机号码</div>
-        <div class="clear"></div>
-      </div>
-      <div class="add_details">
-        <div class="detail">&nbsp;&nbsp;&nbsp;&nbsp;</div>
-        <div class="detail">
-          <textarea id="user_info" name="user_info"cols="50" rows="6" class="textarea_style">
+  <h2><span>添加考生</span></h2>
+  <div class="in" id="leadin_div" name="leadin_div">
+    <div class="paper_base_info">导入考生信息</div>
+    <div class="add_details">
+      <div class="detail">按右边格式填入信息：</div>
+      <div class="detail">姓名<font color="red">[空格]</font>邮箱<font color="red">[空格]</font>手机号码</div>
+      <div class="clear"></div>
+    </div>
+    <div class="add_details">
+      <div class="detail">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div class="detail">
+        <textarea id="user_info" name="user_info"cols="50" rows="6" class="textarea_style">
              张三  zhangsan@hotmail.com  13234567898
               李四  lisi@126.com  13445678908
               王五  wangwu@gmail.com  18912345654</textarea>
-        </div>
       </div>
-      <div class="clear"></div>
-      <%= flash[:none] %><input type="hidden" id="leadin_form_value" name="leadin_form_value" value="" />
-      <input type="submit" value="确定" onclick="javascript:file_exam_user(<%= @examination.id %>)" />
     </div>
-    <span id="add_failed" ></span>
+    <div class="clear"></div>
+    <%= flash[:none] %><input type="hidden" id="leadin_form_value" name="leadin_form_value" value="" />
+    <input type="submit" value="确定" onclick="javascript:file_exam_user(<%= @examination.id %>)" />
+  </div>
+  <span id="add_failed" ></span>
 </div>

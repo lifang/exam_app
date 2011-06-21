@@ -6,6 +6,7 @@
         <div style="float:left;display: inline;width:75%;">
           <%= single_question.elements["title"].text.to_s.html_safe %>
         </div>
+        <% if params[:result].nil? and @exam and cookies[:user_id].to_i == @exam.user_id %>
         <div style="float:left;display: inline;width:24%;">
           <%= form_remote_tag :method => "post", :update => "collection_div",
           :url => "/user/collections?paper_id=#{@doc.attributes["id"]}&examination_id=#{@doc.elements["paper"].attributes["id"]}&problem_id=#{single_question.attributes["id"]}" do -%>
@@ -13,6 +14,7 @@
           <input type="submit" name="collection" id="collection" value="收藏" class="submit_btn" />
           <% end -%>
         </div>
+        <% end %>
         <div class="clear"></div>
       </div>
       <% single_question.elements["questions"].each_element do |question| %>
