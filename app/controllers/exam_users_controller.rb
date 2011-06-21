@@ -82,34 +82,5 @@ class ExamUsersController < ApplicationController
       :mobilephone=>params[:mobilephone])
     render :partial=>"/examinations/back_exam_user"
   end
-  
-  def my_results   #考生成绩
-    @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
-    sql = ExamUser.generate_result_sql
-    sql += " and us.id=#{cookies[:user_id]} "
-    @results=Examination.paginate_by_sql(sql,:per_page =>10, :page => params[:page])
-  end
-
-  
-  def search
-    session[:start_at] = nil
-    session[:end_at] = nil
-    session[:title] = nil
-    session[:start_at] = params[:start_at] if !params[:start_at].nil? and params[:start_at] != ""
-    session[:end_at] = params[:end_at] if !params[:end_at].nil? and params[:end_at] != ""
-    session[:title] = params[:title] if !params[:title].nil? and params[:title] != ""
-    redirect_to search_list_exam_users_path
-  end
-  
-  def search_list #成绩查询
-    @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
-    sql = ExamUser.generate_result_sql
-    sql += " and us.id=#{cookies[:user_id]}"
-    sql += " and e.start_at_time >= '#{session[:start_at]}'" unless session[:start_at].nil?
-    sql += " and e.start_at_time <= '#{session[:end_at]}'" unless session[:end_at].nil?
-    sql += " and e.title like '%#{session[:title]}%'" unless session[:title].nil?
-    @results = Examination.paginate_by_sql(sql, :pre_page => 10, :page => params[:page])
-    render "my_results"
-  end
 
 end

@@ -344,23 +344,41 @@ function file_exam_user(id){
     return false;
 
 }
-function edit_score(id,user_id,user_score){
+function edit_score(id, user_id, question_score){
     var score=$("edit_score_"+id).value;
-    if ((user_score < parseInt(score)) || parseInt(score)<0){
+    if ((question_score < parseInt(score)) || parseInt(score)<0){
         $("last_score_"+id).innerHTML="您输入的分值有误";
         return false;
-    }
-    else{
+    }else{
         new Ajax.Updater("last_score_"+id, "/user/exam_users/"+id +"/edit_score",
         {
             asynchronous:true,
             evalScripts:true,
             method:'post',
+            onComplete:function(request){
+            update_score(id, score, user_id, question_score)
+        },
             parameters:'score='+score +'&user_id='+user_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
         });
-
         return false;
     }
   
 }
+
+//将小题的分值变成可编辑状态
+function load_score_edit(question_id, user_score, exam_user_id, score) {
+    var str = "得<input size='4' id='edit_score_"+ question_id +"' value='"+ user_score +"' />分\n\
+        <input type='button' onclick='javascript:edit_score("+ question_id +","+ exam_user_id +",\""+ score +"\")' value='确定' />";
+    $("user_score_" + question_id).innerHTML = str;
+}
+
+//保存分值成功
+function update_score(question_id, user_score, exam_user_id, question_score) {
+    var str = "<font color='red'>得"+ user_score +"分</font><a href='javascript:void(0);'\n\
+        onclick='javascript:load_score_edit("+ question_id +", \""+ user_score +"\", "+ exam_user_id +", \""+ question_score +"\")'>\n\
+       <font color='blue'>编辑</font></a>";
+    $("user_score_" + question_id).innerHTML = str;
+}
+
+
 

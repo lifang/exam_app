@@ -61,11 +61,28 @@ class Collection < ActiveRecord::Base
 
   #查询试题
   def search(doc, tag, category)
-    doc.root.elements['problems'].each_element do |problem|
-      if problem.category != category
-        doc.delete_element(problem)
+    doc.root.elements["problems"].each_element do |problem|
+      if problem.elements["category"].text.to_i != category.to_i
+        doc.delete_element(problem.xpath)
+      end
+    end unless category.nil? or category == ""
+    unless tag.nil? or tag == ""
+      tags = tag.strip.split(" ")
+      doc.root.elements["problems"].each_element do |problem|
+        is_include = false
+        problem.elements["questions"].each_element do |question|
+          if !question.elements["tags"].nil? and !question.elements["tags"].text.nil? and question.elements["tags"].text != ""
+            question_tag = question.elements["tags"].text.split(" ")
+            tags.each { |t| is_include = true  if question_tag.include?(t) }
+          end
+          break if is_include
+        end
+       if is_include == false
+         doc.delete_element(problem.xpath)
+       end
       end
     end
+    return doc
   end
 
 end

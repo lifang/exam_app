@@ -1,5 +1,7 @@
-<exam id='11'>
-        <paper id='9' score='30'>
-          <questions><question id='34' score=''><answer>better</answer></question><question id='35' score='10'><answer>yes</answer></question><question id='36' score=''><answer>ddddsseee</answer></question><question id='37' score='10'><answer>ffggg</answer></question><question id='38' score='10'><answer>dggrrews</answer></question></questions>
+<exam id='49'>
+        <paper id='31' score='25'>
+          <questions><question id='149' score='5'><answer>what</answer></question><question id='150' score='5'><answer>Excuse me</answer></question><question id='151' score='5'><answer>how</answer></question><question id='152' score='5'><answer>what</answer></question><question id='153' score='5'><answer>Excuse me</answer></question></questions>
+          <auto_score>15</auto_score>
+          <rate_score>10</rate_score>
         </paper>
       </exam>
