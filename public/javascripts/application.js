@@ -25,3 +25,15 @@ function checkspace(checkstr){
     }
 }
 
+function sumbit_form(form_id, button_id, pic_id) {
+    var valid = new Validation(''+form_id, {onSubmit:false});
+    var result = valid.validate();
+    if (!result) {
+      $(""+pic_id).hide();
+      $(""+button_id).show();
+      return false;
+    }
+    $(""+pic_id).show();
+    $(""+button_id).hide();
+}
+

@@ -55,11 +55,11 @@ class Rater::ExamRatersController < ApplicationController
     @str="-1"
     @xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
-        if (problem.attributes["types"].to_i !=4&&problem.attributes["types"].to_i !=5)
+        if (problem.attributes["types"].to_i != Problem::QUESTION_TYPE[:COLLIGATION] &&problem.attributes["types"].to_i != Problem::QUESTION_TYPE[:CHARACTER])
           block.delete_element(problem.xpath)
         else
           problem.elements["questions"].each_element do |question|
-            if question.attributes["correct_type"].to_i ==5
+            if question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:CHARACTER]
               @str += (","+question.attributes["id"])
             else
               problem.delete_element(question.xpath)
