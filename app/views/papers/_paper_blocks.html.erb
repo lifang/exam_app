@@ -2,7 +2,9 @@
   <h1 class="biz_art_title">
     <%= block.elements['base_info'].elements['title'].text %>
     (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
-    <a href="javascript:void(0);" onClick="javascript:edit_block(<%= block.attributes['id'] %>)">修改模块</a>
+    <a href="javascript:void(0);" onClick="javascript:edit_block(<%= block.attributes['id'] %>)">修改模块</a>&nbsp;|
+    <%= link_to "删除", "/paper_blocks/#{block.attributes['id']}",
+      :method => :delete, :confirm => "您确定要删除当前大题么？" %>
   </h1>
   <div id="create_question_<%= block.attributes["id"].to_i %>"></div>
   <%= render :partial=>"/papers/edit_block" ,:object=>block %>

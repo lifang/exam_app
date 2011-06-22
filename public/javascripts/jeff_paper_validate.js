@@ -141,10 +141,10 @@ function new_problem_validate(block_id){
 function new_module_validate(){
     var new_module_title = document.getElementById("new_module_title").value;
     if ( new_module_title == null || new_module_title==""||checkspace(new_module_title) ){
-        alert("模块标题不能为空。");
         return false;
     }
-    return true;
+    sumbit_form("module_form", "module_submit", "spinner_new_module");
+    
 }
 
 //验证专家新建题目
@@ -179,5 +179,5 @@ function check_mavin_problem(block_id) {
         $("span_" + block_id).innerHTML = "<font color='red'>您的解析格式不正确，提点格式为[{解析}]。</font>";
         return false;
     }
-    return true;
+    sumbit_form("problem_form", "problem_submit", "spinner_"+block_id);
 }

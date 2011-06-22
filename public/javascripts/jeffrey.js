@@ -384,10 +384,6 @@ function new_module(){
     manage_div(-1, "new_module");
 }
 
-function close_new_module(){
-    document.getElementById("new_module").style.display="none";
-}
-
 //显示题目
 function question_info(id){
     manage_div(id, "question_info");
