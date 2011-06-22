@@ -80,10 +80,14 @@ function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
 //    js提供了parseInt()和parseFloat()两个转换函数
 
 function test_exam(table_rows,type_name){
+    alert(2);
     var n = $(type_name+"_infoname"+table_rows).value;
     var mobile = $(type_name+"_infomobile"+table_rows).value;
     var email = $(type_name+"_infoemail"+table_rows).value;
+    alert(5);
+    button_fail("rater_button1","spinner_for_submit");
     return test_exam_edit(n,mobile,email);
+   
 }
 function add_item(table_id, url, update_div, examination_id,type_name){
     var table_rows = $("" + table_id).rows.length ;
@@ -103,8 +107,6 @@ function add_item(table_id, url, update_div, examination_id,type_name){
     otr.innerHTML = str;
     document.getElementById(table_id + "_rows").value=document.getElementById("" + table_id).rows.length;
 }
-
-
 
 function exam_setting() {
     var exam_more_setting_div = $("exam_more_setting_div").style;
@@ -367,6 +369,9 @@ function update_score(question_id, user_score, exam_user_id, question_score) {
        <font color='blue'>编辑</font></a>";
     $("user_score_" + question_id).innerHTML = str;
 }
-
+function button_fail(pic_id,button_id){
+    $(""+pic_id).show();
+    $(""+button_id).hide();
+}
 
 

@@ -18,14 +18,14 @@
       <tr id="1">
         <td colspan="4">
           <%= form_remote_tag :url => "/exam_raters/create_exam_rater" , :method => "get",
-            :html => {:class => "required-validate"},:condition => "test_exam(1,'exam_rater')", :update => "exam_rater_list"  do -%>
+            :html => {:class => "required-validate"  },:id=>"exam_rater1",:condition => "test_exam(1,'exam_rater')", :update => "exam_rater_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>
                 <td><input type="text" name="exam_rater_infoname" id="exam_rater_infoname1" class="required" size="30"/></td>
                 <td><input type="text" name="exam_rater_infomobile" id="exam_rater_infomobile1" class="required" size="30"/></td>
                 <td><input type="text" name="exam_rater_infoemail" id="exam_rater_infoemail1" class="required" size="30"/></td>
-                <td><button type="submit">创建</button></td>
+                <td><button type="submit" id="rater_button1" >创建</button></td>
               </tr>
             </table>
           <% end -%>
@@ -34,14 +34,14 @@
      <tr id="2">
         <td colspan="4">
           <%= form_remote_tag :url => "/exam_raters/create_exam_rater" , :method => "get",
-            :html => {:class => "required-validate"},:condition => "test_exam(2,'exam_rater')", :update => "exam_rater_list"  do -%>
+            :html => {:class => "required-validate" },:id=>"exam_rater2",:after=>"button_fail('rater_button2,'spinner_for_submit')",:condition => "test_exam(2,'exam_rater')", :update => "exam_rater_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>
                 <td><input type="text" name="exam_rater_infoname" id="exam_rater_infoname2" class="required" size="30"/></td>
                 <td><input type="text" name="exam_rater_infomobile" id="exam_rater_infomobile2" class="required" size="30"/></td>
                 <td><input type="text" name="exam_rater_infoemail" id="exam_rater_infoemail2" class="required" size="30"/></td>
-                <td><button type="submit">创建</button></td>
+                <td><button type="submit" id="rater_button2">创建</button></td>
               </tr>
             </table>
           <% end -%>
@@ -83,5 +83,6 @@
         </td>
       </tr>
     <% end %>
+      <%= image_tag "ajax-loader.gif", :id => "spinner_for_submit", :style => "display:none" %>
   </tbody>
 </table>
