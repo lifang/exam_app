@@ -1,5 +1,5 @@
-<font color="red"><%= flash[:error] %></font>
-<% flash[:error] = nil %>
+<font color="red"><%= flash[:error] %><%= flash[:notice] %></font>
+<% flash[:error] = nil %><% flash[:notice] = nil %>
 <table>
   <colgroup>
     <col width="160"/>

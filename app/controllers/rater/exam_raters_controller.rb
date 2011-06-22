@@ -7,6 +7,7 @@ class Rater::ExamRatersController < ApplicationController
     @examination=Examination.find(params[:examination])
     render "/rater/exam_raters/session"
   end
+  
   def rater_login  #阅卷老师登陆
     @rater=ExamRater.find(params[:id])
     @examination=Examination.find(params[:examination_id])
@@ -20,6 +21,7 @@ class Rater::ExamRatersController < ApplicationController
       render "/rater/exam_raters/session"
     end
   end
+  
   def reader_papers  #答卷批阅状态显示
     @examination=Examination.find(params[:id])
     @exam_paper_total=ExamUser.find_by_sql("select * from exam_users eu where eu.examination_id=
@@ -29,6 +31,7 @@ class Rater::ExamRatersController < ApplicationController
     @exam_score_total=ExamUser.get_paper(params[:id],sql1)
     @exam_paper_marked=ExamUser.get_paper(params[:id],sql2)
   end
+  
   def check_paper  #选择要批阅的答卷
     sql="and r.id is null "
     exam_users=ExamUser.get_paper(cookies[:examination_id],sql)
@@ -36,6 +39,7 @@ class Rater::ExamRatersController < ApplicationController
     RaterUserRelation.create(:exam_rater_id=>cookies[:rater_id],:exam_user_id=>@exam_user)
     redirect_to "/rater/exam_raters/#{@exam_user}/answer_paper"
   end
+  
   def answer_paper #批阅答卷
     @exam_user=ExamUser.find(params[:id])
     @doc=ExamRater.open_file(@exam_user.answer_sheet_url)
@@ -61,6 +65,7 @@ class Rater::ExamRatersController < ApplicationController
     end
     @xml.to_s
   end
+
   def over_answer #批阅完成，给答卷添加成绩
     @exam_relation=RaterUserRelation.find_by_exam_user_id(params[:id])
     @exam_relation.is_marked=true
@@ -85,21 +90,25 @@ class Rater::ExamRatersController < ApplicationController
     self.write_xml("#{Rails.root}/public"+url, doc)
     redirect_to "/rater/exam_raters/#{ExamUser.find(params[:id]).examination_id}/reader_papers"
   end
-   def destroy
+
+  def destroy
     cookies.delete(:rater_id)
     cookies.delete(:examination_id)
     render :inline=>"<script>window.close();</script>"
-   end
-   def show
-     @exam_rater=ExamRater.find(params[:id])
-   end
-   def edit_value
-      @exam_rater=ExamRater.find(params[:id])
-      @exam_rater.update_attributes(:name=>params[:value])
-   render :inline=>"姓&nbsp;&nbsp;&nbsp;&nbsp;名:#{ @exam_rater.name}"
-   end
-   def index
-     @exam_rater=ExamRater.find(cookies[:rater_id])
-     @exam_list=ExamRater.find_all_by_email(@exam_rater.email)
-   end
+  end
+
+  def show
+    @exam_rater=ExamRater.find(params[:id])
+  end
+
+  def edit_value
+    @exam_rater=ExamRater.find(params[:id])
+    @exam_rater.update_attributes(:name=>params[:value])
+    render :inline=>"姓&nbsp;&nbsp;&nbsp;&nbsp;名:#{ @exam_rater.name}"
+  end
+  
+  def index
+    @exam_rater=ExamRater.find(cookies[:rater_id])
+    @exam_list=ExamRater.find_all_by_email(@exam_rater.email)
+  end
 end

@@ -1,5 +1,5 @@
 class ExamUsersController < ApplicationController
-  
+  before_filter :access?
   #单个添加考生
   def create_exam_user  
     @examination = Examination.find(params[:examination_id].to_i)
@@ -36,6 +36,7 @@ class ExamUsersController < ApplicationController
       end
     end
   end
+  
   def edit_name #考生确认时修改考生姓名
     @examination=Examination.find(params[:examination])
     @exam_user=ExamUser.find(params[:exam_user])
@@ -55,9 +56,17 @@ class ExamUsersController < ApplicationController
     str+=ExamUser.judge(@info_class,params[:id].to_i)
     if str=="发现信息重复加入或邮箱已被占用："
       ExamUser.login(@info_class,@examination)
-      render :text =>"考生信息都已成功加入"
+      @exam_users = ExamUser.paginate_exam_user(@examination.id, 10, params[:page])
+      flash[:notice] = "导入学生成功。"
+      render :update do |page|
+        page.replace_html "exam_user_list" , :partial => "/examinations/exam_user_for_now"
+        page.replace_html "add_failed" ,  :inline => "<script>change_div_status();</script>"
+      end
     else
-      render :text => "<font color='blue'>#{str}</font>"
+      render :update do |page|
+        page.replace_html "exam_user_list" , :partial => "/examinations/exam_user_for_now"
+        page.replace_html "add_failed" ,  :text => "<font color='blue'>#{str}</font>"
+      end
     end
   end
 

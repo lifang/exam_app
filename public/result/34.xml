@@ -1,6 +1,6 @@
 <exam id='49'>
         <paper id='31' score='25'>
-          <questions><question id='149' score='5'><answer>what</answer></question><question id='150' score='5'><answer>Excuse me</answer></question><question id='151' score='5'><answer>how</answer></question><question id='152' score='5'><answer>what</answer></question><question id='153' score='5'><answer>Excuse me</answer></question></questions>
+          <questions><question id='149' score=''><answer>what</answer></question><question id='150' score='5'><answer>Excuse me</answer></question><question id='151' score=''><answer>how</answer></question><question id='152' score=''><answer>what</answer></question><question id='153' score='5'><answer>Excuse me</answer></question></questions>
           <auto_score>15</auto_score>
           <rate_score>10</rate_score>
         </paper>

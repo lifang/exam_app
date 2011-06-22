@@ -219,7 +219,7 @@ class ExamUser < ActiveRecord::Base
   end
 
   def self.show_result(paper_id, doc)
- 
+
     @xml = ExamRater.open_file("/papers/#{paper_id}.xml")
     @xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
