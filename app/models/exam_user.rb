@@ -245,16 +245,16 @@ class ExamUser < ActiveRecord::Base
           block.delete_element(problem.xpath)
         else
           problem.elements["questions"].each_element do |question|
-            if question.attributes["correct_type"].to_i ==Problem::QUESTION_TYPE[:CHARACTER]
-              str += (","+question.attributes["id"])
-            else
-              problem.delete_element(question.xpath)
-            end
             doc.elements["paper"].elements["questions"].each_element do |element|
               if element.attributes["id"]==question.attributes["id"]
                 question.add_attribute("user_answer","#{element.elements["answer"].text}")
               end
             end
+            if question.attributes["correct_type"].to_i ==Problem::QUESTION_TYPE[:CHARACTER]
+              str += (","+question.attributes["id"])
+            else
+              problem.delete_element(question.xpath)
+            end           
           end
         end
         if problem.elements["questions"].elements[1].nil?

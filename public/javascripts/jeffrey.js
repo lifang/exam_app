@@ -10,6 +10,8 @@ close_mavin_question_id = 0
 //    }
 //}
 function save_paper_js(paper_id) {
+    $("spinner_for_submit").show();
+    $("paper_js_button").hide();
     window.onbeforeunload = undefined;
     window.location.href="/papers/"+ paper_id +"/create_all_paper";
 }

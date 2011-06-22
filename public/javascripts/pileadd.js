@@ -1,14 +1,15 @@
-
 function sltall(checkstatus){
     var d=document.getElementsByName("check_b");
-    var i;
     var checked_ids = new Array();
-    for(i=0;i<d.length;i++){
-        d[i].checked=checkstatus;
-        checked_ids.push(d[i].value);
+    for(var i=0; i<d.length; i++){
+        if (d[i].disabled == false) {
+            d[i].checked=checkstatus;
+            checked_ids.push(d[i].value);
+        }
     }
     document.getElementById("exam_getvalue").value = checked_ids;
 }
+
 function create_exam(){
     var sles=document.getElementsByName("check_b");
     var checked_ids = new Array();
@@ -343,8 +344,8 @@ function edit_score(id, user_id, question_score){
             evalScripts:true,
             method:'post',
             onComplete:function(request){
-            update_score(id, score, user_id, question_score)
-        },
+                update_score(id, score, user_id, question_score)
+            },
             parameters:'score='+score +'&user_id='+user_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
         });
         return false;

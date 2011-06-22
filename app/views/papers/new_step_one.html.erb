@@ -2,7 +2,9 @@
   <li>添加试卷</li>
 </ul>
 <div class="main_box_back">
-  <%= form_for :paper ,:url=>"/papers/create_step_one", :method => "post", :html => {:class => "required-validate"} do |f|%>
+  <%= form_for :paper ,:url=>"/papers/create_step_one", :method => "post",
+    :html => {:name => "paper_form", :id => "paper_form", :class => "required-validate",
+    :onsubmit => "return check_paper_form()"} do |f|%>
     <h2><span>添加试卷</span><div class="right"><%= link_to "返回试卷列表","/papers" %></div></h2>
     <div class="in">
       <div class="paper_base_info">试卷基本信息<span>（为您的试卷添加一些基本的信息）</span></div>
@@ -26,7 +28,10 @@
       <div class="clear"></div>
     </div>
     <div class="in">
-      <div class="in"><%= f.submit "下一步" ,:class=>"submit_btn" %></div>
+      <div class="in">
+        <%= f.submit "下一步" ,:class=>"submit_btn" %>
+        <%= image_tag "ajax-loader.gif", :id => "spinner_for_submit", :style => "display:none" %>
+      </div>
     <% end %>
   </div>
 
