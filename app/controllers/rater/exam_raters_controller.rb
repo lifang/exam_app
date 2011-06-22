@@ -24,8 +24,16 @@ class Rater::ExamRatersController < ApplicationController
   
   def reader_papers  #答卷批阅状态显示
     @examination=Examination.find(params[:id])
-    @exam_paper_total=ExamUser.find_by_sql("select * from exam_users eu where eu.examination_id=
-     #{params[:id]} and eu.answer_sheet_url is not null")
+    
+    @exam_paper_total = ExamUser.find_by_sql("select e.id exam_user_id, r.id relation_id, r.is_marked from exam_users e
+        left join rater_user_relations r on r.exam_user_id= e.id
+        where e.examination_id=#{params[:id]} and e.answer_sheet_url is not null ")
+    @exam_score_total = 0
+    @exam_paper_marked = 0
+    @exam_paper_total.each do |e|
+     
+    end unless @exam_paper_total.blank?
+
     sql1="and r.id is null"
     sql2="and r.is_marked=1"
     @exam_score_total=ExamUser.get_paper(params[:id],sql1)
