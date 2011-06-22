@@ -331,19 +331,12 @@ function give_me_value(in1,id){
     return false;
    
 }
-function file_exam_user(id){
 
-    new Ajax.Updater("add_failed", "/exam_users/"+id +"/login",
-    {
-        asynchronous:true,
-        evalScripts:true,
-        method:'post',
-        parameters:'user_info='+$("user_info").value +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
-    });
-
-    return false;
-
+function change_div_status() {
+    $('exam_user_pile').style.display='none';
+    $('exam_user_list').style.display='block';
 }
+
 function edit_score(id, user_id, question_score){
     var score=$("edit_score_"+id).value;
     if ((question_score < parseInt(score)) || parseInt(score)<0){

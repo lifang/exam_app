@@ -6,14 +6,13 @@
   <%= @examination.exam_time %>分钟&nbsp;&nbsp;&nbsp;
 <% end %>
 <% if !@examination.start_at_time.nil? %>
-  考试开始时间：<%=@examination.start_at_time.strftime("%Y-%m-%d  %I:%M")  %>
+  考试开始时间：<%=@examination.start_at_time.strftime("%Y-%m-%d  %H:%M")  %>
   &nbsp;&nbsp;&nbsp
-  入场时间：<%=@examination.start_at_time.strftime("%I:%M")%>&nbsp;到&nbsp;
-  <%=@examination.start_end_time.strftime("%I:%M") %>
+  入场时间：<%=@examination.start_at_time.strftime("%H:%M")%>&nbsp;到&nbsp;
+  <%=@examination.start_end_time.strftime("%H:%M") %>
 <% else %>
-  试卷更新时间: <%= @examination.updated_at.strftime("%Y-%m-%d  %I:%M") %>
-<% end %>
-  &nbsp;&nbsp;)
+  试卷更新时间: <%= @examination.updated_at.strftime("%Y-%m-%d  %H:%M") %>
+<% end %> &nbsp;&nbsp;)
 <p>
   本次考试由&nbsp;&nbsp<%=User.find(@examination.creater_id).name  %>&nbsp;&nbsp;组织
 <div  align="center">
