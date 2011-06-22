@@ -43,9 +43,17 @@ class ExamRatersController < ApplicationController
     str += ExamRater.check_rater(@info_raters,params[:id].to_i)
     if str=="阅卷老师重复的信息："
       ExamRater.create_raters(@info_raters,@examination)
-      render :text =>"阅卷老师信息都已成功加入"
+      @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
+      :per_page => 10, :page => params[:page])
+      flash[:notice] = "导入信息成功。"
+      render :update do |page|
+        page.replace_html "exam_rater_list" , :partial => "/examinations/exam_rater"
+        page.replace_html "add_info" ,  :inline => "<script>show_name('exam_rater_list','pile_exam_rater');</script>"
+      end
     else
-      render :text => "<font color='blue'>#{str}</font>"
+      render :update do |page|
+        page.replace_html "add_info" ,  :text => "<font color='blue'>#{str}</font>"
+      end
     end
   end
  

@@ -9,7 +9,7 @@
 <%= form_for :over,:url=>"/rater/exam_raters/#{@exam_user.id}/over_answer"  do |f| %>
 <div class="biz_art_list_box">
     <center>
-              <input type="hidden" id="problem_id" name="problem_id" value="<%=@str  %>" />
+              <input type="hidden" id="problem_id" name="problem_id" value="<%=@xml.attributes["ids"]  %>" />
       <input type="hidden" name="examination_id" id="examination_id" value="<%=@exam_user.examination_id  %>" />
       <%=f.submit value="批阅完毕" ,:disabled=>"disabled",:id=>"button_id"  %>
       <div id="flash_notice"></div>
