@@ -1,7 +1,6 @@
 class Rater::ExamRatersController < ApplicationController
   layout "rater"
-  require 'rexml/document'
-  include REXML
+
   def rater_session #阅卷老师登陆页面
     @rater=ExamRater.find(params[:id])
     @examination=Examination.find(params[:examination])
@@ -28,12 +27,8 @@ class Rater::ExamRatersController < ApplicationController
     @exam_score_total = 0
     @exam_paper_marked = 0
     @exam_paper_total.each do |e|
-      if e.relation_id==nil
-        @exam_score_total +=1
-      end
-      if e.is_marked==1
-        @exam_paper_marked +=1
-      end
+      @exam_score_total +=1 unless e.relation_id
+      @exam_paper_marked +=1 if e.is_marked==1
     end unless @exam_paper_total.blank?
   end
   
@@ -57,8 +52,7 @@ class Rater::ExamRatersController < ApplicationController
 
   def over_answer #批阅完成，给答卷添加成绩
     @exam_relation=RaterUserRelation.find_by_exam_user_id(params[:id])
-    @exam_relation.is_marked=true
-    @exam_relation.update_attributes(:is_marked=>1)
+    @exam_relation.toggle!(:is_marked)
     url="/result/#{params[:id]}.xml"
     doc=ExamRater.open_file(url)
     score=0

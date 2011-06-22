@@ -1,8 +1,5 @@
 class ProblemsController < ApplicationController
   before_filter :access?
-
-  require 'rexml/document'
-  include REXML
   
   def create
     @paper = Paper.find(params[:problem][:paper_id].to_i)
@@ -162,5 +159,3 @@ class ProblemsController < ApplicationController
   
 
 end
-
-String
