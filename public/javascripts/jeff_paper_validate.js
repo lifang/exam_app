@@ -73,6 +73,43 @@ function edit_problem_validate(problem_id){
     }
 }
 
+function edit_colligation_validate(){
+    var question_titles = document.getElementsByName("problem[description]");
+    for(var i=0;i<question_titles.length;i++){
+        if (question_titles[i].value.replace(/<br \/>/g,"")!=null){
+            var question_title = question_titles[i].value.replace(/<br \/>/g,"");
+            var text_source = question_title.replace(/^\s+/, "").replace(/ \s+$/, "");
+            if(question_title=="" || checkspace(text_source)){
+                alert("小题描述不能为空。");
+                return false;
+            }
+        }
+    }
+
+//    var question_attr_values = document.getElementsByName("attr_value");
+//    for(var i=0;i<question_attr_values.length;i++){
+//        if (question_attr_values[i].value!=null){
+//            var attr_value = question_attr_values[i].value;
+//            if(attr_value=="" || checkspace(attr_value)){
+//                alert("选项不能为空。");
+//                return false;
+//            }
+//        }
+//    }
+
+    var answer_values = document.getElementsByName("problem[answer]");
+    for(var i=0;i<answer_values.length;i++){
+        if (answer_values[i].value!=null){
+            var answer_value = answer_values[i].value;
+            if(answer_value=="" || checkspace(answer_value)){
+                alert("答案不能为空。");
+                return false;
+            }
+        }
+    }
+    
+}
+
 
 //验证 新建试题
 function new_problem_validate(block_id){
