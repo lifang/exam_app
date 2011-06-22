@@ -23,32 +23,6 @@ class ExamUsersController < ApplicationController
     render :partial => "/examinations/exam_user_for_now"
   end
   
-  def exam_user_affiremed   #考生确认
-    if !params[:id].blank? and !params[:affiremed].blank?
-      @exam_user = ExamUser.first(:conditions => ["id = ? and is_user_affiremed = ?", params[:id].to_i, params[:affiremed]])
-      @user=User.find(params[:user_id])
-      if @exam_user
-        @examination=Examination.find(@exam_user.examination_id)
-        flash[:title]=",恭喜您参加 #{@examination.title} 的考试,请确认！"
-        render "/exam_users/affiremed_success"
-      else
-        redirect_to "/exam_users/affiremed_false"
-      end
-    end
-  end
-  
-  def edit_name #考生确认时修改考生姓名
-    @examination=Examination.find(params[:examination])
-    @exam_user=ExamUser.find(params[:exam_user])
-    @user=User.find(params[:id])
-    @exam_user.user_affiremed
-    @user.name=params[:name]
-    flash[:success]="恭喜您成功确认"
-    @exam_user.save
-    @user.save
-    render "/exam_users/affiremed_success"
-  end
-  
   def login   #批量添加考生
     @examination = Examination.find(params[:id].to_i)
     @info_class = get_text(params[:user_info].strip)

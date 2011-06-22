@@ -10,7 +10,7 @@ class ExamUser < ActiveRecord::Base
 
   IS_USER_AFFIREMED = {:YES => 1, :NO => 0} #用户是否确认  1 已确认 0 未确认
   default_scope :order => "exam_users.total_score desc"
-
+  #选择批阅试卷
   def self.get_paper(examination)
     exam_users=ExamUser.find_by_sql("select e.id exam_user_id, r.id relation_id, r.is_marked from exam_users e
         left join rater_user_relations r on r.exam_user_id= e.id
@@ -219,7 +219,7 @@ class ExamUser < ActiveRecord::Base
         where e.paper_id = ? and e.examination_id = ? and e.user_id = ?", examination_id, paper_id, user_id])
     return exam_user[0]
   end
-
+#显示答卷
   def self.show_result(paper_id, doc)
     @xml = ExamRater.open_file("/papers/#{paper_id}.xml")
     @xml.elements["blocks"].each_element do  |block|
@@ -236,6 +236,7 @@ class ExamUser < ActiveRecord::Base
     end
     return @xml
   end
+  #筛选题目
   def self.answer_questions(xml,doc)
     str="-1"
     xml.elements["blocks"].each_element do  |block|
@@ -264,7 +265,7 @@ class ExamUser < ActiveRecord::Base
     xml.add_attribute("ids","#{str}")
     return xml
   end
-
+ #批量验证考生
   def self.judge(info,id)
     str=""
     hash =get_email(info)
@@ -277,7 +278,7 @@ class ExamUser < ActiveRecord::Base
     end
     return str
   end
-
+#批量添加考生
   def self.login(info,examination)
     hash =get_email(info)
     users = User.find_by_sql(["select * from users u where u.email in (?)",hash.keys])
@@ -292,7 +293,7 @@ class ExamUser < ActiveRecord::Base
       examination.new_exam_user(user)
     end
   end
-
+  #获取批量的email
   def self.get_email(info)
     hash = {}
     0.step(info.length-1, 3).each do |i|
@@ -300,6 +301,7 @@ class ExamUser < ActiveRecord::Base
     end
     return hash
   end
+  #编辑考分
   def self.edit_scores(user_id,id,score)
     url="/result/#{user_id}.xml"
     doc=ExamRater.open_file(url)
