@@ -6,10 +6,10 @@
   [<span id="user_score_<%= question_with_answer.attributes["id"].to_i %>">
     <font color="red">得<%= question_with_answer.attributes["user_score"].to_i.to_s+"分" %></font>
     
-  <%if @exam and is_paper_creater? and cookies[:user_id].to_i != @exam.user_id %>
+  <%#if @exam and is_paper_creater? and cookies[:user_id].to_i != @exam.user_id %>
     <a href="javascript:void(0);"
      onclick="javascript:load_score_edit(<%= question_with_answer.attributes["id"].to_i %>, '<%= question_with_answer.attributes["user_score"] %>', <%= @exam.id %>, <%= question_with_answer.attributes["score"] %>)">
-    <font color="blue">编辑</font></a><% end %></span>]
+    <font color="blue">编辑</font></a></span>]
 
   <% attrs_str = question_with_answer.elements["questionattrs"].text
   attrs_array = attrs_str.split(";-;") unless attrs_str.nil?

@@ -8,7 +8,7 @@
          
         <div  id="info" style="display:none" >
 
-         <%= form_for :user,:url=>"/exam_users/#{@user.id}/edit_name" do  %>
+         <%= form_for :user,:url=>"/user/exam_users/#{@user.id}/edit_name" do  %>
            <input type="hidden" id="examination" name="examination" value="<%= @examination.id %>" />
            <input type="hidden" id="exam_user" name="exam_user" value="<%= @exam_user.id %>" />
        您的姓名：<input value="<%= @user.name %>" id="name" name="name"/>

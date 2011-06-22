@@ -1,12 +1,12 @@
 
 //验证  修改试卷基本信息
-function edit_paper_info(){
+function edit_paper_info(form_id, button_id, pic_id){
     var paper_title=document.getElementById("edit_paper_title").value;
     if (paper_title == null || paper_title.length ==0){          
         alert("试卷标题不能为空。");        
         return false;
     }
-    return true;
+    sumbit_form(form_id, button_id, pic_id);
 }
 
 //验证 修改模块信息

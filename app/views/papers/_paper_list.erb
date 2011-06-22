@@ -26,7 +26,10 @@
   <tbody>
     <% @papers.each do |paper| %>
       <tr>
-        <td><input type="checkbox" name="check_b" value="<%= paper.id %> "  onclick="javascript:create_exam()"/></td>
+        <td>
+          <input type="checkbox" name="check_b" value="<%= paper.id %>" 
+                 onclick="javascript:create_exam()" <% unless paper.paper_js_url %>disabled<% end %> />
+        </td>
         <td><%= paper.id  %></td>
         <td>  <%= paper.title  %></td>
         <td>  <%= paper.title  %></td>

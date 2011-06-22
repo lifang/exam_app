@@ -12,7 +12,7 @@
     <link href="/stylesheets/exam_biz_back.css" rel="stylesheet" />
     <link href="/stylesheets/login.css" rel="stylesheet" />
   </head>
-  <body >
+  <body>
     <div id="container">
       <div id="hd">
         <div class="right">
@@ -34,8 +34,7 @@
               &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩</a><% end  %>
           </p>
           <p class="back_welcome">
-            <% user=User.find(cookies[:user_id].to_i) %>
-            <%= user.email %> 欢迎您！
+            <%= current_user.email if current_user %> 欢迎您！
             <% if is_student? %>
               <%= link_to "[考试列表]", "/user/examinations" %>
               <%= link_to "[成绩查询]", "/user/exam_users/#{cookies[:user_id]}/my_results" %>

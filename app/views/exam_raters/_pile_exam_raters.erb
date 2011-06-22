@@ -1,0 +1,27 @@
+
+<div class="main_box_back">
+    <h2><span>添加阅卷老师</span></h2>
+     <%= form_remote_tag :url => "/exam_raters/#{@examination.id}/login_rater" , :method => "post",
+            :html => {:class => "required-validate" }  do -%>
+    <div class="in" id="leadin_div" name="leadin_div">
+      <div class="paper_base_info">导入阅卷老师信息</div>
+      <div class="add_details">
+        <div class="detail">按右边格式填入信息：</div>
+        <div class="detail">姓名<font color="red">[空格]</font>邮箱<font color="red">[空格]</font>手机号码</div>
+        <div class="clear"></div>
+      </div>
+      <div class="add_details">
+        <div class="detail">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        <div class="detail">
+          <textarea id="rater_info" name="rater_info"cols="50" rows="6" class="textarea_style">
+             张三  zhangsan@hotmail.com  13234567898
+              李四  lisi@126.com  13445678908
+              王五  wangwu@gmail.com  18912345654</textarea>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <input type="submit" value="确定"  />
+    </div>
+     <% end %>
+    <span id="add_info" ></span>
+</div>

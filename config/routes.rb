@@ -13,14 +13,14 @@ ExamApp::Application.routes.draw do
     end
     resources :exam_users do
       collection do
-        get "session_new"
-        post "exam_session"
+        get "session_new", "affiremed_false","affiremed_success"
+        post "exam_session","search"
         get "search_list"
-        post "search"
       end
       member do
         get "my_results"
-        post "edit_score"
+         get "exam_user_affiremed"
+        post "edit_score","edit_name"
       end
     end
     resources :collections do
@@ -83,15 +83,15 @@ ExamApp::Application.routes.draw do
 
   resources :exam_users do
     collection do
-      get "create_exam_user", "affiremed_false","affiremed_success"
+      get "create_exam_user"
       post "add_item", "leadin"
     end
     member do
       get "new_exam_two"
       post "login"
-      get "exam_user_affiremed"
+     
       post "update_exam_user"
-      post "edit_name"
+    
     end
   end
 
@@ -100,7 +100,8 @@ ExamApp::Application.routes.draw do
       get "new_exam_three", "create_exam_rater"
     end
     member do
-      post "update_exam_rater"
+      post "update_exam_rater","login_rater"
+
     end
   end
 

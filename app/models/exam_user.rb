@@ -10,10 +10,12 @@ class ExamUser < ActiveRecord::Base
 
   IS_USER_AFFIREMED = {:YES => 1, :NO => 0} #用户是否确认  1 已确认 0 未确认
   default_scope :order => "exam_users.total_score desc"
-
-  def self.get_paper(examination,other)
-    sql= "select e.id from exam_users e left join rater_user_relations r on r.exam_user_id= e.id where e.examination_id=#{examination} and e.answer_sheet_url is not null "
-    return ExamUser.find_by_sql(sql + other)
+  #选择批阅试卷
+  def self.get_paper(examination)
+    exam_users=ExamUser.find_by_sql("select e.id exam_user_id, r.id relation_id, r.is_marked from exam_users e
+        left join rater_user_relations r on r.exam_user_id= e.id
+        where e.examination_id=#{examination} and e.answer_sheet_url is not null ")
+    return exam_users
   end
   #分页显示单场考试的所有成绩
   def ExamUser.paginate_exam_user(examination_id, pre_page, page, options={})
@@ -217,9 +219,8 @@ class ExamUser < ActiveRecord::Base
         where e.paper_id = ? and e.examination_id = ? and e.user_id = ?", examination_id, paper_id, user_id])
     return exam_user[0]
   end
-
+#显示答卷
   def self.show_result(paper_id, doc)
-
     @xml = ExamRater.open_file("/papers/#{paper_id}.xml")
     @xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
@@ -235,34 +236,52 @@ class ExamUser < ActiveRecord::Base
     end
     return @xml
   end
-  def self.judge(info,id)
-    e = []
-    str=""
-    0.step(info.length-1, 3).each do |i|
-      e << "'#{info[i+1]}'"
+  #筛选题目
+  def self.answer_questions(xml,doc)
+    str="-1"
+    xml.elements["blocks"].each_element do  |block|
+      block.elements["problems"].each_element do |problem|
+        if (problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:CHARACTER]&&problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:COLLIGATIONR])
+          block.delete_element(problem.xpath)
+        else
+          problem.elements["questions"].each_element do |question|
+            doc.elements["paper"].elements["questions"].each_element do |element|
+              if element.attributes["id"]==question.attributes["id"]
+                question.add_attribute("user_answer","#{element.elements["answer"].text}")
+              end
+            end
+            if question.attributes["correct_type"].to_i ==Problem::QUESTION_TYPE[:CHARACTER]
+              str += (","+question.attributes["id"])
+            else
+              problem.delete_element(question.xpath)
+            end           
+          end
+        end
+        if problem.elements["questions"].elements[1].nil?
+          block.delete_element(problem.xpath)
+        end
+      end
     end
-    users = User.find_by_sql("select * from users u where u.email in (#{e .join(",")})")
+    xml.add_attribute("ids","#{str}")
+    return xml
+  end
+ #批量验证考生
+  def self.judge(info,id)
+    str=""
+    hash =get_email(info)
+    users =User.find_by_sql(["select u.* from users u left join exam_users e on u.id=e.user_id
+                             where u.email in(?) and e.examination_id=#{id}", hash.keys])
     if users
       users.each do |user|
-        if User.find_by_name(user.name)
-          if ExamUser.find_by_examination_id_and_user_id(id, user.id)
-            str += user.name + "," + user.email + ";"
-          end
-        else
-          str += user.name + "," + user.email + ";"
-        end
+        str += user.name + "," + user.email + ";"
       end
     end
     return str
   end
+#批量添加考生
   def self.login(info,examination)
-    email=[]
-    hash = {}
-    0.step(info.length-1, 3).each do |i|
-      email << "'#{info[i+1]}'"
-      hash[info[i+1]] = ["#{info[i]}", "#{info[i+2]}"]
-    end
-    users = User.find_by_sql("select * from users u where u.email in (#{email.join(",")})")
+    hash =get_email(info)
+    users = User.find_by_sql(["select * from users u where u.email in (?)",hash.keys])
     if users
       users.each do |user|
         examination.new_exam_user(user)
@@ -272,7 +291,29 @@ class ExamUser < ActiveRecord::Base
     hash.each do |email|
       user = User.auto_add_user(email[1][0].strip,email[1][0].strip, email[0].strip,email[1][1].strip)
       examination.new_exam_user(user)
-
     end
+  end
+  #获取批量的email
+  def self.get_email(info)
+    hash = {}
+    0.step(info.length-1, 3).each do |i|
+      hash[info[i+1]] = ["#{info[i]}", "#{info[i+2]}"]
+    end
+    return hash
+  end
+  #编辑考分
+  def self.edit_scores(user_id,id,score)
+    url="/result/#{user_id}.xml"
+    doc=ExamRater.open_file(url)
+    doc.elements["paper"].elements["questions"].each_element do |question|
+      if question.attributes["id"]==id
+        exam_user=ExamUser.find(user_id)
+        exam_user.total_score += (score.to_i-question.attributes["score"].to_i )
+        doc.elements["paper"].attributes["score"]=exam_user.total_score
+        exam_user.save
+        question.attributes["score"]=score
+      end
+    end
+    Problem.write_xml("#{Rails.root}/public"+url, doc)
   end
 end

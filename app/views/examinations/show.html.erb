@@ -24,8 +24,12 @@
 </div>
 <div class="clear">&nbsp;</div>
 <div class="main_box_back">
-  <h2><span>阅卷老师信息</span></h2>
+  <h2><span><a onclick="javascript:show_name('exam_rater_list','pile_exam_rater')">阅卷老师信息</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="javascript:show_name('pile_exam_rater','exam_rater_list')">批量录入阅卷老师</a></span></h2>
   <div class="in" id="exam_rater_list">
     <%= render :partial => "exam_rater" %>
+  </div>
+  <div class="in" id="pile_exam_rater" style="display:none">
+<%= render :partial => "/exam_raters/pile_exam_raters"  %>
   </div>
 </div>
