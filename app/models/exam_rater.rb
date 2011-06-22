@@ -11,12 +11,12 @@ class ExamRater < ActiveRecord::Base
   #
   #  validates :name,:presence=>true,:format=>{:with=>name_regex},:length=>{:maximum=>30}
   #  validates :email,:presence=>true,:uniqueness=>true,:format=>{:with=>email_regex},:length=>{:maximum=>50}
-  
+  #打开xml文件
   def ExamRater.open_file(url)
     file=File.open("#{Rails.root}/public"+url)
     return Document.new(file).root
   end
-
+ #批量检查阅卷老师信息
   def self.check_rater(info,id)
     rater_info=""
     hash =ExamUser.get_email(info)
@@ -28,7 +28,7 @@ class ExamRater < ActiveRecord::Base
     end
     return rater_info
   end
-
+  #批量创建阅卷老师
   def self.create_raters(info,examination)
     hash =ExamUser.get_email(info)
     chars = (1..9).to_a
