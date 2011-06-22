@@ -24,15 +24,18 @@ class ExamRatersController < ApplicationController
     @examination=Examination.find(@exmination_id)
     render :partial=>"/examinations/exam_rater"
   end
+
   def edit  #阅卷老师信息编辑
     @exam_rater =ExamRater.find(params[:id].to_i)
     render :partial=>"/examinations/edit_exam_rater"
   end
+
   def update_exam_rater #更新阅卷老师信息
     @exam_rater =ExamRater.find(params[:id].to_i)
     @exam_rater.update_attributes(:name=>params[:name],:email=>params[:email],:mobilephone=>params[:mobilephone])
     render :partial=>"/examinations/back_exam_rater"
   end
+  
   def login_rater
     @examination = Examination.find(params[:id].to_i)
     @info_raters = get_text(params[:rater_info].strip)

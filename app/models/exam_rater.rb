@@ -16,6 +16,7 @@ class ExamRater < ActiveRecord::Base
     file=File.open("#{Rails.root}/public"+url)
     return Document.new(file).root
   end
+
   def self.check_rater(info,id)
     rater_info=""
     hash =ExamUser.get_email(info)
@@ -27,6 +28,7 @@ class ExamRater < ActiveRecord::Base
     end
     return rater_info
   end
+
   def self.create_raters(info,examination)
     hash =ExamUser.get_email(info)
     chars = (1..9).to_a
