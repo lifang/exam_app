@@ -60,11 +60,10 @@ class ExamUsersController < ApplicationController
       flash[:notice] = "导入学生成功。"
       render :update do |page|
         page.replace_html "exam_user_list" , :partial => "/examinations/exam_user_for_now"
-        page.replace_html "add_failed" ,  :inline => "<script>change_div_status();</script>"
+        page.replace_html "add_failed" ,  :inline => "<script>show_name('exam_user_list','exam_user_pile');</script>"
       end
     else
       render :update do |page|
-        page.replace_html "exam_user_list" , :partial => "/examinations/exam_user_for_now"
         page.replace_html "add_failed" ,  :text => "<font color='blue'>#{str}</font>"
       end
     end

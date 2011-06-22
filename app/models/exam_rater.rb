@@ -31,11 +31,11 @@ class ExamRater < ActiveRecord::Base
     hash =ExamUser.get_email(info)
     chars = (1..9).to_a
     code_array = []
-    1.upto(6) {code_array << chars[rand(chars.length)]}
     hash.each do |email|
+      1.upto(6) {code_array << chars[rand(chars.length)]}
       exam_rater=ExamRater.create(:examination_id =>examination.id , :name =>email[1][0],
         :mobilephone =>email[1][1].strip, :email =>email[0].strip, :author_code =>code_array.join(""))
-#      UserMailer.rater_affirm(exam_rater,id).deliver
+      UserMailer.rater_affirm(exam_rater,id).deliver
     end
   end
 

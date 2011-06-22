@@ -8,18 +8,7 @@ class User::ExamUsersController < ApplicationController
   end
 
   def edit_score
-    url="/result/#{params[:user_id]}.xml"
-    doc=ExamRater.open_file(url)
-    doc.elements["paper"].elements["questions"].each_element do |question|
-      if question.attributes["id"]==params[:id]
-        exam_user=ExamUser.find(params[:user_id])
-        exam_user.total_score += (params[:score].to_i-question.attributes["score"].to_i )
-        doc.elements["paper"].attributes["score"]=exam_user.total_score
-        exam_user.save
-        question.attributes["score"]=params[:score]
-      end
-    end
-    self.write_xml("#{Rails.root}/public"+url, doc)
+    ExamUser.edit_scores(params[:user_id],params[:id],params[:score])
     render :inline => ""
   end
 
