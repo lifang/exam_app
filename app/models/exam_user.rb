@@ -219,7 +219,6 @@ class ExamUser < ActiveRecord::Base
   end
 
   def self.show_result(paper_id, doc)
-
     @xml = ExamRater.open_file("/papers/#{paper_id}.xml")
     @xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
@@ -235,6 +234,7 @@ class ExamUser < ActiveRecord::Base
     end
     return @xml
   end
+  
   def self.judge(info,id)
     str=""
     hash =get_email(info)
@@ -247,6 +247,7 @@ class ExamUser < ActiveRecord::Base
     end
     return str
   end
+
   def self.login(info,examination)
     hash =get_email(info)
     users = User.find_by_sql(["select * from users u where u.email in (?)",hash.keys])
@@ -261,6 +262,7 @@ class ExamUser < ActiveRecord::Base
       examination.new_exam_user(user)
     end
   end
+
   def self.get_email(info)
     hash = {}
     0.step(info.length-1, 3).each do |i|

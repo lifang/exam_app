@@ -64,7 +64,6 @@ class ExamUsersController < ApplicationController
       end
     else
       render :update do |page|
-        page.replace_html "exam_user_list" , :partial => "/examinations/exam_user_for_now"
         page.replace_html "add_failed" ,  :text => "<font color='blue'>#{str}</font>"
       end
     end
