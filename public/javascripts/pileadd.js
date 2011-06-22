@@ -76,6 +76,7 @@ function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
             }
         }
     }
+    sumbit_form("exam_form", "create", "spinner_for_submit");
 }
 //    js提供了parseInt()和parseFloat()两个转换函数
 

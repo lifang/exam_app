@@ -4,7 +4,7 @@
     <div class="in">
       <%= form_for :problem ,:url=>"/problems/mavin_problem", :method => "post",
         :html => {:onsubmit => "return check_mavin_problem('#{mavin_question.attributes['id']}');" ,
-                  :class => "required-validate"} do |f| %>
+                  :class => "required-validate", :id => "problem_form", :name => "problem_form"} do |f| %>
         <%= f.hidden_field :block_id ,:value=>mavin_question.attributes['id']  %>
         <%= f.hidden_field :paper_id ,:value=>@xml.attributes['id']  %>
         <input type="hidden" value="" name="real_type" id="real_type_<%= mavin_question.attributes['id'] %>"/>
@@ -15,6 +15,7 @@
          <%= f.text_area :title ,:id => "mavin_problem_title_#{mavin_question.attributes['id']}",
            :cols => "45",:rows => "8", :class => "required textarea_style" %>
          <%= f.submit "提交" ,:class=>"submit_btn" %>
+          <%= image_tag "ajax-loader.gif", :id => "spinner_#{mavin_question.attributes['id']}", :style => "display:none" %>
        <% end %>
     </div>
   </div>

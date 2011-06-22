@@ -14,7 +14,3 @@ function buttoncontrol(){
     }
 }
 
-//验证创建试卷
-function check_paper_form(){
-    return sumbit_form("paper_form", "paper_submit", "spinner_for_submit");
-}

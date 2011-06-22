@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   include REXML
 
   def edit_question
-    doc=Document.new(File.open "#{papers_path}/#{params[:paper_id].to_i}.xml")
+    doc=Document.new(File.open "#{PAPER_PATH}/#{params[:paper_id].to_i}.xml")
     question = doc.elements["#{params[:xpath]}"]
     render :partial => "/common/edit_other_question", :object => question
   end

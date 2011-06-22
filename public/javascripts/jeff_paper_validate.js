@@ -73,6 +73,43 @@ function edit_problem_validate(problem_id){
     }
 }
 
+function edit_colligation_validate(){
+    var question_titles = document.getElementsByName("problem[description]");
+    for(var i=0;i<question_titles.length;i++){
+        if (question_titles[i].value.replace(/<br \/>/g,"")!=null){
+            var question_title = question_titles[i].value.replace(/<br \/>/g,"");
+            var text_source = question_title.replace(/^\s+/, "").replace(/ \s+$/, "");
+            if(question_title=="" || checkspace(text_source)){
+                alert("小题描述不能为空。");
+                return false;
+            }
+        }
+    }
+
+//    var question_attr_values = document.getElementsByName("attr_value");
+//    for(var i=0;i<question_attr_values.length;i++){
+//        if (question_attr_values[i].value!=null){
+//            var attr_value = question_attr_values[i].value;
+//            if(attr_value=="" || checkspace(attr_value)){
+//                alert("选项不能为空。");
+//                return false;
+//            }
+//        }
+//    }
+
+    var answer_values = document.getElementsByName("problem[answer]");
+    for(var i=0;i<answer_values.length;i++){
+        if (answer_values[i].value!=null){
+            var answer_value = answer_values[i].value;
+            if(answer_value=="" || checkspace(answer_value)){
+                alert("答案不能为空。");
+                return false;
+            }
+        }
+    }
+    
+}
+
 
 //验证 新建试题
 function new_problem_validate(block_id){
@@ -141,10 +178,10 @@ function new_problem_validate(block_id){
 function new_module_validate(){
     var new_module_title = document.getElementById("new_module_title").value;
     if ( new_module_title == null || new_module_title==""||checkspace(new_module_title) ){
-        alert("模块标题不能为空。");
         return false;
     }
-    return true;
+    sumbit_form("module_form", "module_submit", "spinner_new_module");
+    
 }
 
 //验证专家新建题目
@@ -179,5 +216,5 @@ function check_mavin_problem(block_id) {
         $("span_" + block_id).innerHTML = "<font color='red'>您的解析格式不正确，提点格式为[{解析}]。</font>";
         return false;
     }
-    return true;
+    sumbit_form("problem_form", "problem_submit", "spinner_"+block_id);
 }

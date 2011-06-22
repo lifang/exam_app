@@ -6,8 +6,8 @@
 <textarea cols="45" rows="3" id="problem_description_<%= edit_other_question.attributes["id"] %>"
           name="problem[description]"><%= edit_other_question.elements["description"].text if edit_other_question.elements["description"] %></textarea>
 <% end %>
-<div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
 <div class="clear"></div>
+<div class="title">选项：<div class="chose_add"><a href="#">增加选项</a></div></div>
 <div class="question">
   <% attrs_str = edit_other_question.elements["questionattrs"].text %>
   <% attrs_array = attrs_str.split(";-;") unless attrs_str.nil? %>
@@ -15,6 +15,7 @@
   <input type="hidden" name="problem[attr_sum]" id="problem_attr_sum" value="<%= attrs_length %>" />
   <% answer = edit_other_question.elements["answer"]
   if attrs_array and attrs_array.any?
+      
     (1..attrs_array.length).each do |i|
       if edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:SINGLE_CHOSE]
         is_answer_flag = false
@@ -26,10 +27,10 @@
         end
       %>
         <div class="attr">
-          <input type="radio" name="attr_key" id="problem_attr_key_<%= i %>"
+          <input type="radio" name="attr_key_<%=  edit_other_question.attributes["id"] %>" id="problem_attr_key_<%= i %>"
                  <% if is_answer_flag %>checked="true"<% end %> value="<%= i %>" />
           <input type="text" name="attr<%= i %>_value" id="problem_attr<%= i %>_value"
-                 class="input_style" size="15" value="<%= attrs_array[i-1] %>" />
+                  class="input_style" size="15" value="<%= attrs_array[i-1] %>" />
                  <%= link_to "删除","#"%>
         </div>
       <% elsif edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:MORE_CHOSE]

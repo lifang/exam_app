@@ -49,6 +49,14 @@ class PaperBlocksController < ApplicationController
 
   end
 
+  def destroy
+    puts "-----------------------"
+    puts params[:id]
+    @block = PaperBlock.find(params[:id].to_i)
+    @block.delete_block_xml
+    @block.destroy
+    redirect_to request.referer
+  end
   
   
 end
