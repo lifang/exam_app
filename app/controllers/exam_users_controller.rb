@@ -51,9 +51,9 @@ class ExamUsersController < ApplicationController
   def login   #批量添加考生
     @examination = Examination.find(params[:id].to_i)
     @info_class = get_text(params[:user_info].strip)
-    str = "发现信息重复加入或邮箱已被占用："
+    str = "发现考生信息重复或邮箱已被占用："
     str+=ExamUser.judge(@info_class,params[:id].to_i)
-    if str=="发现信息重复加入或邮箱已被占用："
+    if str=="发现考生信息重复或邮箱已被占用："
       ExamUser.login(@info_class,@examination)
       render :text =>"考生信息都已成功加入"
     else

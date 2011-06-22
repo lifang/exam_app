@@ -100,7 +100,8 @@ ExamApp::Application.routes.draw do
       get "new_exam_three", "create_exam_rater"
     end
     member do
-      post "update_exam_rater"
+      post "update_exam_rater","login_rater"
+
     end
   end
 

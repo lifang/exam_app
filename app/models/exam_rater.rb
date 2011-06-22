@@ -16,5 +16,27 @@ class ExamRater < ActiveRecord::Base
     file=File.open("#{Rails.root}/public"+url)
     return Document.new(file).root
   end
+  def self.check_rater(info,id)
+    rater_info=""
+    hash =ExamUser.get_email(info)
+    raters = ExamRater.find_by_sql(["select * from exam_raters r where r.email in (?) and r.examination_id=#{id}",hash.keys])
+    if raters
+      raters.each do |rater|
+        rater_info += rater.name + "," + rater.email + ";"
+      end
+    end
+    return rater_info
+  end
+  def self.create_raters(info,examination)
+    hash =ExamUser.get_email(info)
+    chars = (1..9).to_a
+    code_array = []
+    1.upto(6) {code_array << chars[rand(chars.length)]}
+    hash.each do |email|
+      exam_rater=ExamRater.create(:examination_id =>examination.id , :name =>email[1][0],
+        :mobilephone =>email[1][1].strip, :email =>email[0].strip, :author_code =>code_array.join(""))
+#      UserMailer.rater_affirm(exam_rater,id).deliver
+    end
+  end
 
 end

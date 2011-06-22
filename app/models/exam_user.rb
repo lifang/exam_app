@@ -236,33 +236,20 @@ class ExamUser < ActiveRecord::Base
     return @xml
   end
   def self.judge(info,id)
-    e = []
     str=""
-    0.step(info.length-1, 3).each do |i|
-      e << "'#{info[i+1]}'"
-    end
-    users = User.find_by_sql("select * from users u where u.email in (#{e .join(",")})")
+    hash =get_email(info)
+    users =User.find_by_sql(["select u.* from users u left join exam_users e on u.id=e.user_id
+                             where u.email in(?) and e.examination_id=#{id}", hash.keys])
     if users
       users.each do |user|
-        if User.find_by_name(user.name)
-          if ExamUser.find_by_examination_id_and_user_id(id, user.id)
-            str += user.name + "," + user.email + ";"
-          end
-        else
-          str += user.name + "," + user.email + ";"
-        end
+        str += user.name + "," + user.email + ";"
       end
     end
     return str
   end
   def self.login(info,examination)
-    email=[]
-    hash = {}
-    0.step(info.length-1, 3).each do |i|
-      email << "'#{info[i+1]}'"
-      hash[info[i+1]] = ["#{info[i]}", "#{info[i+2]}"]
-    end
-    users = User.find_by_sql("select * from users u where u.email in (#{email.join(",")})")
+    hash =get_email(info)
+    users = User.find_by_sql(["select * from users u where u.email in (?)",hash.keys])
     if users
       users.each do |user|
         examination.new_exam_user(user)
@@ -272,7 +259,13 @@ class ExamUser < ActiveRecord::Base
     hash.each do |email|
       user = User.auto_add_user(email[1][0].strip,email[1][0].strip, email[0].strip,email[1][1].strip)
       examination.new_exam_user(user)
-
     end
+  end
+  def self.get_email(info)
+    hash = {}
+    0.step(info.length-1, 3).each do |i|
+      hash[info[i+1]] = ["#{info[i]}", "#{info[i+2]}"]
+    end
+    return hash
   end
 end

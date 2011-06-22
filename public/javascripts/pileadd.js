@@ -379,6 +379,17 @@ function update_score(question_id, user_score, exam_user_id, question_score) {
        <font color='blue'>编辑</font></a>";
     $("user_score_" + question_id).innerHTML = str;
 }
+function file_exam_rater(id){
+    new Ajax.Updater("add_info", "/exam_raters/"+id +"/login_rater",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:'post',
+        parameters:'rater_info='+$("rater_info").value +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+    });
 
+    return false;
+
+}
 
 
