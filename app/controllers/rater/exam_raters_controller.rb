@@ -12,7 +12,6 @@ class Rater::ExamRatersController < ApplicationController
     @examination=Examination.find(params[:examination_id])
     if @rater.author_code==params[:author_code]
       cookies[:rater_id]=@rater.id
-      cookies[:examination_id]=@examination.id
       flash[:success]="登陆成功"
       redirect_to  "/rater/exam_raters/#{@examination.id}/reader_papers"
     else
@@ -33,7 +32,7 @@ class Rater::ExamRatersController < ApplicationController
   end
   
   def check_paper  #选择要批阅的答卷
-    exam_users=ExamUser.get_paper(cookies[:examination_id])
+    exam_users=ExamUser.get_paper(params[:examination_id])
     ids=[]
     exam_users.each do |user|
       ids << user.exam_user_id
