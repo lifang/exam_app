@@ -19,8 +19,8 @@
   <table border="1" >
     <tr>
       <td>
-        <% if @exam_score_total.size>0  %>
-          <font color="blue" size="5"><%= link_to "开始批阅","/rater/exam_raters/check_paper" %></font>
+        <% if @exam_score_total >0  %>
+          <font color="blue" size="5"><%= link_to "开始批阅","/rater/exam_raters/check_paper?examination_id=#{@examination.id}" %></font>
         <% else %>
           <font color="red" size="5">所有试卷已批阅</font>
         <% end %>
