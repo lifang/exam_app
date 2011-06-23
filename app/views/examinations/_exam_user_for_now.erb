@@ -20,14 +20,14 @@
       <tr id="1">
         <td colspan="4">
           <%= form_remote_tag :url => "/exam_users/create_exam_user" , :method => "get",
-            :html => {:class => "required-validate" },:condition => "test_exam(1,'exam_user')",  :update => "exam_user_list"  do -%>
+            :html => {:class => "required-validate" },:before => "button_fail('user_button1', 'spinner_user1')",:condition => "test_exam(1,'exam_user')",  :update => "exam_user_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>
                 <td><input type="text" name="exam_user_infoname" id="exam_user_infoname1" class="required" size="30"/></td>
                 <td><input type="text" name="exam_user_infomobile" id="exam_user_infomobile1" class="required" size="30"/></td>
                 <td><input type="text" name="exam_user_infoemail" id="exam_user_infoemail1" class="required" size="30"/></td>
-                <td><button type="submit">创建</button></td>
+                <td><button type="submit" id="user_button1">创建</button><%= image_tag "ajax-loader.gif", :id => "spinner_user1", :style => "display:none" %></td>
               </tr>
             </table>
           <% end -%>
@@ -36,14 +36,14 @@
       <tr id="2">
         <td colspan="4">
           <%= form_remote_tag :url => "/exam_users/create_exam_user" , :method => "get",
-            :html => {:class => "required-validate"},:condition => "test_exam(2,'exam_user')", :update => "exam_user_list"  do -%>
+            :html => {:class => "required-validate"},:before => "button_fail('user_button2', 'spinner_user2')",:condition => "test_exam(2,'exam_user')", :update => "exam_user_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
             <table>
               <tr>
                 <td><input type="text" name="exam_user_infoname" id="exam_user_infoname2" class="required" size="30"/></td>
                 <td><input type="text" name="exam_user_infomobile" id="exam_user_infomobile2" class="required" size="30"/></td>
                 <td><input type="text" name="exam_user_infoemail" id="exam_user_infoemail2" class="required" size="30"/></td>
-                <td><button type="submit">创建</button></td>
+                <td><button type="submit" id="user_button2">创建</button><%= image_tag "ajax-loader.gif", :id => "spinner_user2", :style => "display:none" %></td>
               </tr>
             </table>
           <% end -%>
