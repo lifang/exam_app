@@ -2,7 +2,7 @@ class CreateExamUsers < ActiveRecord::Migration
   def self.up
     create_table :exam_users do |t|
       t.integer :examination_id, :null => false
-      t.integer :user_id, :null => false
+      t.integer :user_id
       t.string :password
       t.boolean :user_affirm, :default => 0
       t.datetime :created_at

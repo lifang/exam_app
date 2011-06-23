@@ -2,14 +2,14 @@
   小题描述：
   <%= question_with_answer.elements["description"].text if question_with_answer.elements["description"] %>
   [<%= question_with_answer.attributes["score"] %>分]
- 
   [<span id="user_score_<%= question_with_answer.attributes["id"].to_i %>">
     <font color="red">得<%= question_with_answer.attributes["user_score"].to_i.to_s+"分" %></font>
-    
-  <%#if @exam and is_paper_creater? and cookies[:user_id].to_i != @exam.user_id %>
-    <a href="javascript:void(0);"
-     onclick="javascript:load_score_edit(<%= question_with_answer.attributes["id"].to_i %>, '<%= question_with_answer.attributes["user_score"] %>', <%= @exam.id %>, <%= question_with_answer.attributes["score"] %>)">
-    <font color="blue">编辑</font></a></span>]
+    <%if @exam and is_paper_creater? and cookies[:user_id].to_i != @exam.user_id %>
+      <a href="javascript:void(0);"
+         onclick="javascript:load_score_edit(<%= question_with_answer.attributes["id"].to_i %>, '<%= question_with_answer.attributes["user_score"] %>', <%= @exam.id %>, <%= question_with_answer.attributes["score"] %>)">
+        <font color="blue">编辑</font></a>
+    <% end %>
+  </span>]
 
   <% attrs_str = question_with_answer.elements["questionattrs"].text
   attrs_array = attrs_str.split(";-;") unless attrs_str.nil?
@@ -33,20 +33,20 @@
                <% end %>
         <label><%= attrs_array[i] %></label>
       <% end %>
-   
+
     </div>
   <% end if attrs_array and attrs_array.any? %>
   <div class="attr" >
     <% if correct_type.to_i == Problem::QUESTION_TYPE[:JUDGE] %>
       <div <% if answers[0].to_i==1 %>style="border: 1px green solid;"<% end %>><input type="radio"<% if user_answer==1.to_s %>
-               checked="true"<% end %>  /><label>对</label></div>
+                                                                                         checked="true"<% end %>  /><label>对</label></div>
       <div <% if answers[0].to_i==0 %>style="border: 1px green solid;"<% end %>><input type="radio"  <% if user_answer==0.to_s %>
-                checked="true"<% end %>  /><label>错</label></div>
-    <% elsif correct_type.to_i == Problem::QUESTION_TYPE[:SINGLE_CALK] or correct_type.to_i == Problem::QUESTION_TYPE[:CHARACTER]
-    %>
+                                                                                         checked="true"<% end %>  /><label>错</label></div>
+      <% elsif correct_type.to_i == Problem::QUESTION_TYPE[:SINGLE_CALK] or correct_type.to_i == Problem::QUESTION_TYPE[:CHARACTER]
+      %>
       <div style="border: 1px green solid;"><%= "答案："+ answers[0].to_s %> </div>
-        <div ><font color="red"><%= "考生答案："+ user_answers[0].to_s %></font></div>
-      <% end  %>
+      <div ><font color="red"><%= "考生答案："+ user_answers[0].to_s %></font></div>
+    <% end  %>
   </div>
 </div>
 
@@ -62,4 +62,4 @@
 <div class="title">
   <div id="last_score_<%=question_with_answer.attributes["id"].to_i  %>"></div>
 </div>
-    
+

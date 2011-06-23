@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>      <exam id='40'>
         <paper id='23'>
-          <questions></questions>
+          <questions><question id='34' score='0'><answer>色调</answer></question><question id='78' score='0'><answer></answer></question><question id='79' score='0'><answer></answer></question><question id='80' score='0'><answer></answer></question><question id='81' score='0'><answer></answer></question><question id='82' score='0'><answer></answer></question><question id='90' score='0'><answer></answer></question><question id='85' score='0'><answer></answer></question><question id='86' score='0'><answer></answer></question><question id='87' score='0'><answer></answer></question><question id='88' score='0'><answer></answer></question><question id='89' score='0'><answer></answer></question><question id='111' score='0'><answer></answer></question><question id='112' score='0'><answer></answer></question><question id='117' score='0'><answer></answer></question><question id='118' score='0'><answer></answer></question><question id='37' score='0'><answer></answer></question><question id='121' score='0'><answer></answer></question><question id='122' score='0'><answer></answer></question></questions>
         </paper>
       </exam>
