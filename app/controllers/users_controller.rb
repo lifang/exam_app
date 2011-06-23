@@ -1,33 +1,23 @@
 class UsersController < ApplicationController
 
-  def index
-
-  end
   def update
     @user = User.find(params[:id])
     if params[:user][:old_password].nil?
-      if @user.update_attributes(params[:user])
-        redirect_to "/papers"
-      else
-        render "edit"
-        #    redirect_to "/users/#{cookies[:user_id]}/edit"
-      end
+      @user.update_attributes(params[:user])
+      redirect_to request.referer
     else
       if @user.has_password?(params[:user][:old_password])
         @user.update_attributes(:password=>params[:user][:password])
         @user.encrypt_password
-        if @user.save
-          redirect_to "/papers"
-        else
-          render "edit"
-          #    redirect_to "/users/#{cookies[:user_id]}/edit"
-        end
+        @user.save
+        redirect_to request.referer
       else
         flash[:error]="您输入的密码不正确"
         render "edit"
       end
     end
   end
+  
   def new
     session[:register_proof_code] = proof_code(4)
     @user=User.new
