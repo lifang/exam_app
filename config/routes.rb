@@ -112,7 +112,7 @@ ExamApp::Application.routes.draw do
     end
     member do
       get "export_user_unaffirm", "edit_base_info", "back_base_info",
-        "published", "paper_delete", "search_papers", "choose_papers", "exam_result", "single_result_list"
+        "published", "paper_delete", "search_papers", "choose_papers", "exam_result", "single_result_list", "close"
       post "create_step_one", "update_base_info", "search_result"
     end
   end

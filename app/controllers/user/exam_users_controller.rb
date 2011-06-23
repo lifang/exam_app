@@ -40,6 +40,7 @@ class User::ExamUsersController < ApplicationController
     @results = Examination.paginate_by_sql(sql, :pre_page => 10, :page => params[:page])
     render "my_results"
   end
+  
   def exam_session  #登陆查看成绩
     @user = User.find_by_email(params[:session][:email])
     if @user.nil?
@@ -55,11 +56,14 @@ class User::ExamUsersController < ApplicationController
       end
     end
   end
+  
   def index
-     @user=User.find(cookies[:exam_user_id])
+    @user=User.find(cookies[:exam_user_id])
     @exam_users=ExamUser.find_by_sql("select * from exam_users e where e.user_id=#{@user.id}")
   end
-    def exam_user_affiremed   #考生确认
+  
+  #考生确认
+  def exam_user_affiremed   
     if !params[:id].blank? and !params[:affiremed].blank?
       @exam_user = ExamUser.first(:conditions => ["id = ? and is_user_affiremed = ?", params[:id].to_i, params[:affiremed]])
       @user=User.find(params[:user_id])

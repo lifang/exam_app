@@ -91,7 +91,7 @@ class ExaminationsController < ApplicationController
       Dir.mkdir(url)
     end
     file_url = "/#{params[:id].to_i}_#{Time.now.strftime("%Y%m%d%H%M%S")}.xls"
-    Examination.export_user_unaffirm(url + file_url, params[:id].to_i)
+    ExamUser.export_user_unaffirm(url + file_url, params[:id].to_i)
     render :inline => "<script>window.location.href='#{Constant::UNAFFIRM_PATH}#{file_url}';</script>"
   end
 
@@ -153,6 +153,7 @@ class ExaminationsController < ApplicationController
       render :partial => "/examinations/paper_already_in_exam", :object => examination
     end
   end
+
   def update_base_info
     @examination = Examination.find(params[:id].to_i)
     hash1 = {:title => params[:title].strip, :description => params[:description].strip,
@@ -178,6 +179,7 @@ class ExaminationsController < ApplicationController
     end
     render :partial => "exam_base_info" 
   end
+  
   def exam_result
     @examination = Examination.find(params[:id].to_i)
     @exam_users = ExamUser.return_exam_result(@examination.id, 10, params[:page])
@@ -197,6 +199,13 @@ class ExaminationsController < ApplicationController
     @exam_users = ExamUser.paginate_by_sql(sql, :per_page =>1, :page => params[:page])
     @exam_user_hash = ExamUser.score_level_result(@examination, @exam_users)
     render "exam_result"
+  end
+
+  def close
+    @examination = Examination.find(params[:id].to_i)
+    @examination.status = Examination::STATUS[:CLOSED]
+    @examination.save
+    redirect_to request.referer
   end
   
 end

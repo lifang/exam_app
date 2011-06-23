@@ -67,7 +67,7 @@
   //用户保存本地存储的答案
   var answer_hash = null;
   //load已有的答案
-  load_answer('<%= @examination.paper_id %>', '<%= @examination.id %>');
+  load_answer('<%= @exam_user.paper_id %>', '<%= @examination.id %>');
 
   //页面load成功之后加载试卷
   window.onload(load_paper());
