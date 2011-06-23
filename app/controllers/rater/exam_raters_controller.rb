@@ -82,7 +82,6 @@ class Rater::ExamRatersController < ApplicationController
   def show
     @exam_rater=ExamRater.find(params[:id])
   end
-
   def edit_value
     @exam_rater=ExamRater.find(params[:id])
     @exam_rater.update_attributes(:name=>params[:value])

@@ -81,21 +81,17 @@ function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
 //    js提供了parseInt()和parseFloat()两个转换函数
 
 function test_exam(table_rows,type_name){
-    alert(2);
     var n = $(type_name+"_infoname"+table_rows).value;
     var mobile = $(type_name+"_infomobile"+table_rows).value;
     var email = $(type_name+"_infoemail"+table_rows).value;
-    alert(5);
-    button_fail("rater_button1","spinner_for_submit");
-    return test_exam_edit(n,mobile,email);
-   
+    return test_exam_edit(n,mobile,email) 
 }
 function add_item(table_id, url, update_div, examination_id,type_name){
     var table_rows = $("" + table_id).rows.length ;
     var otr = document.getElementById("" + table_id).insertRow(table_rows-2);
     otr.id = table_rows;
     var str = "<td colspan='4'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate' ";
-    str += "method='get' onsubmit='if (test_exam("+ otr.id +", \""+ type_name +"\")) {new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)});}; return false;'>";
+    str += "method='get' onsubmit='if (test_exam("+ otr.id +", \""+ type_name +"\")) { button_fail(\"rater_button"+ otr.id +"\", \"spinner_rate"+ otr.id +"\");new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)});}; return false;'>";
     str += "<div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='&#x2713;' />";
     str += "<input name='authenticity_token' type='hidden' value='UEvwUF56teT4A4h8yc2xE9kbGreWJEGaDJZgItFC3fw=' />";
     str += "</div>";
@@ -103,10 +99,12 @@ function add_item(table_id, url, update_div, examination_id,type_name){
     str += "<table><tr><td><input type='text' name='"+type_name +"_infoname' id='"+type_name +"_infoname"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><input type='text' name='"+type_name +"_infomobile' id='"+type_name +"_infomobile"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><input type='text' name='"+type_name +"_infoemail' id='"+type_name +"_infoemail"+otr.id + "' class='required' size='30'/></td>";
-    str += "<td><button type='submit'>创建</button></td></tr></table>";
+    str += "<td><button type='submit' id='rater_button"+otr.id + "'>创建</button><img alt='Ajax-loader' id='spinner_rate"+otr.id + "' src='/images/ajax-loader.gif?1308123179' style='display:none' /></td></tr></table>";
     str += "</form></td>";
+    alert(1);
     otr.innerHTML = str;
     document.getElementById(table_id + "_rows").value=document.getElementById("" + table_id).rows.length;
+
 }
 
 function exam_setting() {
@@ -171,7 +169,7 @@ function test_exam_edit(n,mobile,email){
                         return false;
                     } else {
                         if ( myReg.test(email)) {
-                            document.getElementById("nameErr").innerHTML="";
+                            document.getElementById("nameErr").innerHTML=""; 
                             return true;
                         } else{
                             document.getElementById("nameErr").innerHTML="<font color = 'red'>邮箱格式不对，请重新输入！</font>";
@@ -370,9 +368,10 @@ function update_score(question_id, user_score, exam_user_id, question_score) {
        <font color='blue'>编辑</font></a>";
     $("user_score_" + question_id).innerHTML = str;
 }
-function button_fail(pic_id,button_id){
+function button_fail(button_id, pic_id) {
     $(""+pic_id).show();
     $(""+button_id).hide();
 }
+
 
 
