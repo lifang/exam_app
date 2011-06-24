@@ -37,7 +37,7 @@ class Examination < ActiveRecord::Base
 
   #考试组织人员添加考生添加考试记录账号
   def new_exam_user(user)
-    exam_user = ExamUser.create!(:user_id => user.id,:examination_id => self.id,:password => User::DEFAULT_PASSWORD,
+    exam_user = ExamUser.create(:user_id => user.id,:examination_id => self.id,:password => User::DEFAULT_PASSWORD,
       :is_user_affiremed => ExamUser::IS_USER_AFFIREMED[:NO])
     exam_user.set_paper(self)
     if self.user_affirm == true

@@ -27,7 +27,7 @@ class PaperBlock < ActiveRecord::Base
     block=doc.elements[xpath]
     block.elements["base_info"].elements["title"].text=self.title
     block.elements["base_info"].elements["description"].text=self.description
-    self.write_xml("#{Rails.root}/public"+self.paper.paper_url,"w+", doc)
+    self.write_xml("#{Rails.root}/public"+self.paper.paper_url,doc)
   end
 
   def delete_block_xml

@@ -8,14 +8,16 @@
 <div class="question">
   <input type="hidden" name="problem[correct_type]" id="problem_correct_type" value="<%= @question_type %>" />
   <input type="hidden" name="problem[attr_sum]" id="problem_attr_sum" value="<%= attr_default_sum %>" />
-  <% (1..attr_default_sum).each do |i| %>
-    <div class="attr">
-      <input type="checkbox" id="problem_attr_key_<%= i %>" name="attr<%= i %>_key" value="<%= i %>"/>
-      <input type="text" name="attr<%= i %>_value" id="problem_attr<%= i %>_value" class="input_style" size="15" />
-      <%= link_to "删除","#"%>
-    </div>
-  <% end %>
-  <div style="text-align: left;"><a href="javascript:void(0);" onClick="javascript:void(0);">+增加选项</a></div>
+  <div id="attrs">
+    <% (1..attr_default_sum).each do |i| %>
+      <div class="attr" id="attr_<%= i %>">
+        <input type="checkbox" id="problem_attr_key_<%= i %>" name="attr<%= i %>_key" value="<%= i %>"/>
+        <input type="text" name="attr<%= i %>_value" id="problem_attr<%= i %>_value" class="input_style" size="15" />
+        <%= link_to "删除","javascript:void(0);",:onclick=>"javascript:delete_attr(#{i})"%>
+      </div>
+    <% end %>
+  </div>
+  <div style="text-align: left;"><a href="javascript:void(0);" onClick="javascript:new_attr('more_choose');">+增加选项</a></div>
 </div>
 <div class="answer">
   分值：<input type="text" name="problem[score]" id="problem_score" class="input_style" />
