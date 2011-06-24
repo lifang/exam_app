@@ -47,15 +47,13 @@ class UsersController < ApplicationController
     @flag = false
     unless params[:user_id].blank?
       @user = User.first(:conditions => ["id = ?", params[:user_id].to_i])
-      if @user
-        if @user.status == true
-          render :partial => "/users/re_active"
-        else
-          @flag = true
-          UserMailer.welcome_email(@user).deliver
-          render :partial => "/users/re_active"
-        end
-      end
+      if @user.status == true
+        render :partial => "/users/re_active"
+      else
+        @flag = true
+        UserMailer.welcome_email(@user).deliver
+        render :partial => "/users/re_active"
+      end if @user
     end
   end
 
@@ -80,10 +78,12 @@ class UsersController < ApplicationController
   def show
     @user=User.find(params[:id])
   end
+
   def get_proof_code
     session[:proof_code] = proof_code(4)
     render :inline => session[:proof_code]
   end
+  
   def edit
     @user= User.find(params[:id])
   end

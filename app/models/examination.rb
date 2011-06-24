@@ -76,7 +76,6 @@ class Examination < ActiveRecord::Base
   end
 
   def proof_code(len)
-    #    chars = ('A'..'Z').to_a + ('a'..'z').to_a
     chars = (1..9).to_a
     code_array = []
     1.upto(len) {code_array << chars[rand(chars.length)]}
@@ -93,9 +92,7 @@ class Examination < ActiveRecord::Base
     else
       sql += "and (e.status = #{STATUS[:GOING]}) "
     end
-    if !examination_id.nil? and examination_id != ""
-      sql += " and e.id = #{examination_id} "
-    end
+    sql += " and e.id = #{examination_id} " if !examination_id.nil? and examination_id != ""
     sql += "order by e.created_at desc"
     Examination.find_by_sql(sql)
   end

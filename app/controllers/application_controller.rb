@@ -4,14 +4,17 @@ class ApplicationController < ActionController::Base
   include RemotePaginateHelper
   include Constant
   include UserRoleHelper
+
   def access?
     deny_access unless signed_in?
   end
+
   def write_xml(url,doc)
     file = File.new(url, "w+")
     file.write(doc)
     file.close
   end
+  
   def proof_code(len)
     #    chars = ('A'..'Z').to_a + ('a'..'z').to_a
     chars = (1..9).to_a

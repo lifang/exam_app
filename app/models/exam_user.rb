@@ -37,11 +37,9 @@ class ExamUser < ActiveRecord::Base
         e.open_to_user, e.answer_sheet_url, u.name, u.mobilephone, u.email, e.total_score
         from exam_users e inner join users u on u.id = e.user_id
         where e.examination_id = #{examination_id} "
-    if !options.empty?
-      options.each do |key, value|
-        sql += " and #{key} #{value} "
-      end
-    end
+    options.each do |key, value|
+      sql += " and #{key} #{value} "
+    end unless options.empty?
     return sql
   end
 
@@ -274,16 +272,10 @@ class ExamUser < ActiveRecord::Base
     hash =get_email(info)
     users =User.find_by_sql(["select u.*,e.examination_id e_id from users u left join exam_users e on u.id=e.user_id
                              where u.email in(?) ", hash.keys])
-    if users
-      users.each do |user|
-        unless user.name ==hash["#{user.email}"][0]
-          str += user.name + "," + user.email + ";"
-        end
-        if user.e_id==id
-          str += user.name + "," + user.email + ";"
-        end
-      end
-    end
+    users.each do |user|
+      str += user.name + "," + user.email + ";" unless user.name == hash["#{user.email}"][0]
+      str += user.name + "," + user.email + ";" if user.e_id == id
+    end if users
     return str
   end
 
@@ -291,12 +283,10 @@ class ExamUser < ActiveRecord::Base
   def self.login(info,examination)
     hash =get_email(info)
     users = User.find_by_sql(["select * from users u where u.email in (?)",hash.keys])
-    if users
-      users.each do |user|
-        examination.new_exam_user(user)
-        hash.delete(user.email)
-      end
-    end
+    users.each do |user|
+      examination.new_exam_user(user)
+      hash.delete(user.email)
+    end if users
     hash.each do |email|
       user = User.auto_add_user(email[1][0].strip,email[1][0].strip, email[0].strip,email[1][1].strip)
       examination.new_exam_user(user)

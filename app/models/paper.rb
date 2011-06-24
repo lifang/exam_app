@@ -80,7 +80,7 @@ class Paper < ActiveRecord::Base
     sql += " and created_at > '#{start_at}'" unless start_at.nil?
     sql += " and created_at < '#{end_at}'" unless end_at.nil?
     sql += " and title like '%#{title}%'" unless title.nil?
-    sql += " and category_id = '%#{category}%'" unless category.nil?
+    sql += " and category_id = #{category}" unless category.nil?
     options.each do |key, value|
       sql += " and #{key} #{value} "
     end unless options.empty?
