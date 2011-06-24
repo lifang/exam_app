@@ -57,7 +57,17 @@ ExamApp::Application.routes.draw do
       get "search_list"
     end
   end
-  resources :sessions 
+  resources :sessions do
+    collection do
+      get "get_code"
+      post "user_code"
+    end
+    member do
+      get "new_code","active"
+      post "update_user_code"
+    end
+  end
+
   resources :questions do
     member do
       post "edit_question"

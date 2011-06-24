@@ -164,7 +164,7 @@ function test_exam_edit(n,mobile,email){
             else{
                 if (check_mobile.test(mobile)){
                     document.getElementById("nameErr").innerHTML="";
-                    if (email == null || email.length ==0||email.length>20){
+                    if (email == null || email.length ==0||email.length>30){
                         document.getElementById("nameErr").innerHTML="<font color = 'red'>邮箱不能为空，长度不能超过20位字符</font>";
                         return false;
                     } else {
