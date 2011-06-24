@@ -272,11 +272,16 @@ class ExamUser < ActiveRecord::Base
   def self.judge(info,id)
     str=""
     hash =get_email(info)
-    users =User.find_by_sql(["select u.* from users u left join exam_users e on u.id=e.user_id
-                             where u.email in(?) and e.examination_id=#{id}", hash.keys])
+    users =User.find_by_sql(["select u.*,e.examination_id e_id from users u left join exam_users e on u.id=e.user_id
+                             where u.email in(?) ", hash.keys])
     if users
       users.each do |user|
-        str += user.name + "," + user.email + ";"
+        unless user.name ==hash["#{user.email}"][0]
+          str += user.name + "," + user.email + ";"
+        end
+        if user.e_id==id
+          str += user.name + "," + user.email + ";"
+        end
       end
     end
     return str
@@ -302,7 +307,7 @@ class ExamUser < ActiveRecord::Base
   def self.get_email(info)
     hash = {}
     0.step(info.length-1, 3).each do |i|
-      hash[info[i+1]] = ["#{info[i]}", "#{info[i+2]}"]
+      hash[info[i+1].strip] = ["#{info[i].strip}", "#{info[i+2].strip}"]
     end
     return hash
   end

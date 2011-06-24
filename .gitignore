@@ -3,7 +3,7 @@ db/*.sqlite3
 log/*.log
 tmp/
 nbproject/
-config/database.yml
+config/database.yml     
 public/papers/*.xml
 public/excels/*.xls
 public/paperjs/*.js

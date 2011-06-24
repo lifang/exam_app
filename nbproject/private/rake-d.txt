@@ -49,6 +49,7 @@ doc\:rails=
 doc\:reapp=
 doc\:rerails=
 environment=
+examinations\:update=update examination status
 log\:clear=Truncates all *.log files in log/ to zero bytes
 middleware=Prints out your Rack middleware stack
 noop=
