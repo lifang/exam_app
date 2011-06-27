@@ -2,7 +2,7 @@
 <h4><%= @user.name %>,您好！您参加了<%= @examination.title %>的考试</h4>
 欢迎使用赶考，请点击如下链接来进行考试确认：<br/>
 <a href="http://localhost:3000/user/exam_users/<%= @exam_user.id %>/exam_user_affiremed?affiremed=<%= @exam_user.is_user_affiremed %>&user_id=<%= @user.id %>" target="_blank">
-  http://localhost:3000/exam_users/<%= @exam_user.id %>/exam_user_affiremed?affiremed=<%= @exam_user.is_user_affiremed %>&user_id=<%= @user.id %>
+  http://localhost:3000/user/exam_users/<%= @exam_user.id %>/exam_user_affiremed?affiremed=<%= @exam_user.is_user_affiremed %>&user_id=<%= @user.id %>
 </a>
 <br/>
 世界无限大，一招定乾坤！

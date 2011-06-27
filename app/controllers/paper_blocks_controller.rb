@@ -24,7 +24,7 @@ class PaperBlocksController < ApplicationController
     file = File.new("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml","r+")
     @xml=REXML::Document.new(file).root
     problem=@xml.elements["blocks"].elements["block[@id='#{block_id}']"]
-    .elements["problems"].elements["problem[@id='#{problem_id}']"]
+        .elements["problems"].elements["problem[@id='#{problem_id}']"]
     render :partial => "/papers/edit_problem",:object => problem
   end
 
@@ -50,8 +50,6 @@ class PaperBlocksController < ApplicationController
   end
 
   def destroy
-    puts "-----------------------"
-    puts params[:id]
     @block = PaperBlock.find(params[:id].to_i)
     @block.delete_block_xml
     @block.destroy

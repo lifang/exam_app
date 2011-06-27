@@ -1,8 +1,7 @@
-
 <div class="main_box_back">
     <h2><span>添加阅卷老师</span></h2>
      <%= form_remote_tag :url => "/exam_raters/#{@examination.id}/login_rater" , :method => "post",
-            :html => {:class => "required-validate" }  do -%>
+            :html => {:class => "required-validate" },:before => "button_fail('rater_button', 'spinner_rate_import')",:complete=>"button_fail('spinner_rate_import','rater_button')" do -%>
     <div class="in" id="leadin_div" name="leadin_div">
       <div class="paper_base_info">导入阅卷老师信息</div>
       <div class="add_details">
@@ -20,7 +19,8 @@
         </div>
       </div>
       <div class="clear"></div>
-      <input type="submit" value="确定"  />
+      <input type="submit" value="确定" id="rater_button" />
+      <%= image_tag "ajax-loader.gif", :id => "spinner_rate_import", :style => "display:none" %>
     </div>
      <% end %>
     <span id="add_info" ></span>

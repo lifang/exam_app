@@ -19,7 +19,7 @@
           <% if cookies[:user_id].nil? %>
             <a href="/">登录</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/users/new">免费注册</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/user/exam_users/session_new">成绩</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/user/exam_users/session_new">成绩查询</a>
             &nbsp;&nbsp;
           <% end %>
         </div>
@@ -31,7 +31,8 @@
               <a href="/papers">试卷</a>
               &nbsp;&nbsp;|
               &nbsp;&nbsp;<a href="/examinations">考试</a>
-              &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩</a><% end  %>
+              &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩</a>
+            <% end  %>
           </p>
           <p class="back_welcome">
             <%= current_user.email if current_user %> 欢迎您！

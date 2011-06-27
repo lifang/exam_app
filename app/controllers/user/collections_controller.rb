@@ -4,7 +4,11 @@ class User::CollectionsController < ApplicationController
   def index
     session[:tag] = nil
     @collection = Collection.find_by_user_id(cookies[:user_id])
-    @doc = @collection.open_xml
+      begin
+        @doc = @collection.open_xml
+      rescue
+        flash[:warn] = "您的收藏数据已清空。"
+      end
   end
 
   def create

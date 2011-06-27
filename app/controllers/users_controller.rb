@@ -1,33 +1,23 @@
 class UsersController < ApplicationController
 
-  def index
-
-  end
   def update
     @user = User.find(params[:id])
     if params[:user][:old_password].nil?
-      if @user.update_attributes(params[:user])
-        redirect_to "/papers"
-      else
-        render "edit"
-        #    redirect_to "/users/#{cookies[:user_id]}/edit"
-      end
+      @user.update_attributes(params[:user])
+      redirect_to request.referer
     else
       if @user.has_password?(params[:user][:old_password])
         @user.update_attributes(:password=>params[:user][:password])
         @user.encrypt_password
-        if @user.save
-          redirect_to "/papers"
-        else
-          render "edit"
-          #    redirect_to "/users/#{cookies[:user_id]}/edit"
-        end
+        @user.save
+        redirect_to request.referer
       else
         flash[:error]="您输入的密码不正确"
         render "edit"
       end
     end
   end
+  
   def new
     session[:register_proof_code] = proof_code(4)
     @user=User.new
@@ -57,15 +47,13 @@ class UsersController < ApplicationController
     @flag = false
     unless params[:user_id].blank?
       @user = User.first(:conditions => ["id = ?", params[:user_id].to_i])
-      if @user
-        if @user.status == true
-          render :partial => "/users/re_active"
-        else
-          @flag = true
-          UserMailer.welcome_email(@user).deliver
-          render :partial => "/users/re_active"
-        end
-      end
+      if @user.status == true
+        render :partial => "/users/re_active"
+      else
+        @flag = true
+        UserMailer.welcome_email(@user).deliver
+        render :partial => "/users/re_active"
+      end if @user
     end
   end
 
@@ -90,10 +78,12 @@ class UsersController < ApplicationController
   def show
     @user=User.find(params[:id])
   end
+
   def get_proof_code
     session[:proof_code] = proof_code(4)
     render :inline => session[:proof_code]
   end
+  
   def edit
     @user= User.find(params[:id])
   end

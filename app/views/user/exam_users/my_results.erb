@@ -31,16 +31,16 @@
           <th>题目总数/试卷总分</th>
           <th>参与考试时间</th>
           <th>成绩</th>
-          <th>考卷</th>
+          <th>考卷状态</th>
         </tr>
       </thead>
       <tbody id="result_list">
         <% @results.each do |result| %>
           <tr>
-            <td><%= result.e_title %></td>
+            <td><%= result.e_id %><%= result.e_title %></td>
             <td><%= result.description %></td>
             <td><%= result.total_question_num %>题/ <%= result.p_total_score %>分</td>
-            <td> <%= result.start_at_time.nil? ? "时间未限制":result.start_at_time.strftime("%Y-%m-%d  %I:%M%p")%></td>
+            <td> <%= result.started_at.nil? ? "未参加考试":result.started_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
             <td><%= result.u_total_score==nil ? "暂无成绩" :result.u_total_score.to_s+"分" %></td>
             <td>
               <input type="hidden" value="<%= @exam_user.id %>" id="exam_user_id"/>
@@ -50,7 +50,7 @@
                 <% else %>
                   考卷不公开
                 <% end %>
-              <% else %>
+              <% elsif result.started_at %>
                 阅卷中...
               <% end %>
             </td>

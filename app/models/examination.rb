@@ -29,7 +29,6 @@ class Examination < ActiveRecord::Base
     attr_hash[:exam_password2] = proof_code(6)
   end
 
-
   #发布考试
   def publish!
     self.toggle!(:is_published)
@@ -40,9 +39,7 @@ class Examination < ActiveRecord::Base
     exam_user = ExamUser.create(:user_id => user.id,:examination_id => self.id,:password => User::DEFAULT_PASSWORD,
       :is_user_affiremed => ExamUser::IS_USER_AFFIREMED[:NO])
     exam_user.set_paper(self)
-    if self.user_affirm == true
-      UserMailer.user_affirm(exam_user,self).deliver
-    end
+    UserMailer.user_affirm(exam_user,self).deliver if self.user_affirm == true
   end
 
   #修改试卷,此方法用来修改考试试卷，update_flag 是传过来增加或删除的标记，*paper是试卷数组
@@ -79,7 +76,6 @@ class Examination < ActiveRecord::Base
   end
 
   def proof_code(len)
-    #    chars = ('A'..'Z').to_a + ('a'..'z').to_a
     chars = (1..9).to_a
     code_array = []
     1.upto(len) {code_array << chars[rand(chars.length)]}
@@ -89,50 +85,18 @@ class Examination < ActiveRecord::Base
   #显示单个登录考生能看到的所有的考试
   def Examination.return_examinations(user_id, examination_id = nil)
     sql = "select e.*, eu.id exam_user_id, eu.paper_id, eu.started_at, eu.ended_at, eu.is_submited from examinations e
-          inner join exam_users eu on e.id = eu.examination_id
-          where eu.user_id = #{user_id} and e.is_published = 1 "
-    if !examination_id.nil? and examination_id != ""
-      sql += " and e.id = #{examination_id}"
+          left join exam_users eu on e.id = eu.examination_id
+          where e.is_published = 1 and e.status != #{STATUS[:CLOSED]} "
+    if user_id
+      sql += "and (e.status = #{STATUS[:GOING]} or eu.user_id = #{user_id}) "
+    else
+      sql += "and (e.status = #{STATUS[:GOING]}) "
     end
+    sql += " and e.id = #{examination_id} " if !examination_id.nil? and examination_id != ""
+    sql += "order by e.created_at desc"
     Examination.find_by_sql(sql)
   end
 
-  #检验当前当前考生是否能考本场考试
-  def Examination.can_answer(user_id, examination_id)
-    str = ""
-    examination = Examination.return_examinations(user_id, examination_id)
-    if examination.any?
-      if !examination[0].is_submited.nil? and examination[0].is_submited == 1
-        str = "您已经交卷。" 
-      else
-        if examination[0].start_at_time > Time.now
-          str = "本场考试开始时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")},请您做好准备。"
-        elsif (examination[0].start_at_time + examination[0].exam_time.minutes) < Time.now
-          str = "本场考试已经结束。"
-        elsif examination[0].start_end_time  < Time.now
-          str = "您不能入场，本场考试入场时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")}
-              -#{examination[0].start_end_time.strftime("%Y-%m-%d %H:%M:%S")}。"
-        end if examination[0].start_at_time
-      end
-    else
-      str = "本场考试已经取消，或者您不是当前考试的考生。"
-    end
-    return [str, examination]
-  end
-
-  #导出当前考试未确认的考生名单
-  def self.export_user_unaffirm(url, examination_id)
-    Spreadsheet.client_encoding = "UTF-8"
-    book = Spreadsheet::Workbook.new
-    sheet = book.create_worksheet
-    sheet.row(0).concat %w{姓名 手机号 邮箱}
-    exam_users = ExamUser.find_by_sql("select u.name, u.mobilephone, u.email from exam_users e
-        inner join users u on e.user_id = u.id where examination_id=#{examination_id} and is_user_affiremed != 1")
-    exam_users.each_with_index do |exam_user, index|
-      sheet.row(index+1).concat ["#{exam_user.name}", "#{exam_user.mobilephone}", "#{exam_user.email}"]
-    end   
-    book.write url 
-  end
 
 
 end

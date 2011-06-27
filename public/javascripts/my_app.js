@@ -1,4 +1,4 @@
-function check(){
+function check_new(){ 
     var username=document.getElementById("user_name").value;
     var strEmail=document.getElementById("user_email").value;
     var password=document.getElementById("user_password").value;
@@ -6,7 +6,6 @@ function check(){
     var myReg =new RegExp(/^\w+([-+.])*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
     var check_value = new RegExp(/[a-z0-9_]/g);
     var strEmail=document.getElementById("user_email").value;
-
     if (strEmail == null || strEmail.length ==0||strEmail.length>50){
         document.getElementById("emailErr").innerHTML="<font color = 'red'>邮箱不能为空，长度不能超过50</font>";
         return false;
@@ -33,7 +32,7 @@ function check(){
             document.getElementById("confirmationErr").innerHTML="";
         }
     }
-if (username == null || username.length ==0||username.length>30){
+    if (username == null || username.length ==0||username.length>30){
         document.getElementById("usernameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过30</font>";
         return false;
     }else{
@@ -44,10 +43,11 @@ if (username == null || username.length ==0||username.length>30){
             return false;
         }
     }
+    alert(0);
 }
 
 function signin_page(){
- var check_value =new RegExp(/^\w+([-+.])*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
+    var check_value =new RegExp(/^\w+([-+.])*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
     var user_name= document.getElementById("session_email").value;
     var user_password= document.getElementById("session_password").value;
     if (user_name == null||user_name.length==0|| check_value.test(user_name)==false){

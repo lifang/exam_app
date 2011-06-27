@@ -19,7 +19,7 @@
   <img align='absmiddle' src='/images/icon_caution.gif' style='margin-right:8px;'/><%= flash[:pic_warn] %></div><div class='clear'></div>
   <script type='text/javascript' language='javascript'>new Effect.Highlight('flash_notice');</script>
 <% elsif flash[:success] %>
-<div id='flash_notice' class='flash_notice'>" +
+<div id='flash_notice' class='flash_notice'>
   <span title='关闭' style='float:right;cursor:pointer;' onclick="$('flash_notice').remove()"><img src='/images/small-close.gif'/></span>
   <img align='absmiddle' src='/images/icon_notice.gif' style='margin-right:8px;' /><%= flash[:success]%></div><div class='clear'></div>
 <script type='text/javascript' language='javascript'>new Effect.Highlight('flash_notice', {startcolor: '#74CF89',endcolor: '#d1efd8'});</script>

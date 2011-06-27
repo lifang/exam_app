@@ -6,7 +6,10 @@ class UserMailer < ActionMailer::Base
     @url  = Constant::SERVER_PATH
     mail(:to => user.email, :subject =>"欢迎来到赶考" )
   end
-
+  def update_code(user)
+    @user=user
+    mail(:to => user.email, :subject =>"赶考网密码更新" )
+  end
   def user_affirm(user,examination)
     @exam_user=user
     @user = User.find(user.user_id)

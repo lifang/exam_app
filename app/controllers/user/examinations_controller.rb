@@ -8,7 +8,7 @@ class User::ExaminationsController < ApplicationController
   end
 
   def do_exam
-    arr = Examination.can_answer(cookies[:user_id], params[:id].to_i)
+    arr = ExamUser.can_answer(cookies[:user_id], params[:id].to_i)
     if arr[0] == "" and arr[1].any?
       render :inline => "<iframe src='#{Constant::SERVER_PATH}/user/examinations/#{params[:id]}'
             frameborder='0' style='width: 1270px; height: 760px;'></iframe>"
@@ -19,15 +19,20 @@ class User::ExaminationsController < ApplicationController
   end
 
   def show
-    arr = Examination.can_answer(cookies[:user_id], params[:id].to_i)
+    arr = ExamUser.can_answer(cookies[:user_id].to_i, params[:id].to_i)
     if arr[0] == "" and arr[1].any?
       @examination = arr[1][0]
-      @paper_url = "#{Constant::PAPER_CLIENT_PATH}/#{@examination.paper_id}.js"
-      if @examination.started_at.nil? or @examination.started_at == ""
-        @exam_user = ExamUser.find(@examination.exam_user_id)
-        @exam_user.update_info_for_join_exam(@examination.start_at_time, @examination.exam_time)
+      @exam_user = ExamUser.find_by_examination_id_and_user_id(@examination.id, cookies[:user_id].to_i)
+      if @exam_user and @exam_user.paper_id
+        @paper_url = "#{Constant::PAPER_CLIENT_PATH}/#{@exam_user.paper_id}.js"
+        if @examination.started_at.nil? or @examination.started_at == ""
+          @exam_user.update_info_for_join_exam(@examination.start_at_time, @examination.exam_time)
+        end
+        render :layout => "application"
+      else
+        flash[:warn] = "试卷加载错误，请您重新尝试。"
+        redirect_to "/user/examinations"
       end
-      render :layout => "application"
     else
       flash[:warn] = arr[0]
       redirect_to request.referer
