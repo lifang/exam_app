@@ -32,10 +32,10 @@
             end
           end
         %>
-          <div class="attr" id="attr_<%= i %>_<%=  edit_other_question.attributes["id"] %>">
-            <input type="radio" name="attr_key<%=  edit_other_question.attributes["id"] %>" id="problem_attr_key"
+          <div class="attr" id="attr_<%= i %>_<%= edit_other_question.attributes["id"] %>">
+            <input type="radio" name="attr_key<%= edit_other_question.attributes["id"] %>" id="problem_attr_key_<%= i %>"
                    <% if is_answer_flag %>checked="true"<% end %> value="<%= i %>" />
-            <input type="text" name="attr<%= i %>_value<%=  edit_other_question.attributes["id"] %>" id="problem_attr<%= i %>_value"
+            <input type="text" name="attr<%= i %>_value<%= edit_other_question.attributes["id"] %>" id="problem_attr<%= i %>_value"
                    class="input_style" size="15" value="<%= attrs_array[i-1] %>" />
                    <%= link_to "删除","javascript:void(0);", :onclick=>"javascript:delete_attr_edit(#{i},#{edit_other_question.attributes["id"]})"%>
           </div>
@@ -60,14 +60,14 @@
     else %>
       <% if edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:JUDGE] %>
         <div class="attr">
-          <input type="radio" id="problem_attr_key" name="attr_key<%=  edit_other_question.attributes["id"] %>" value="1"
+          <input type="radio" id="problem_attr_key" name="attr_key<%= edit_other_question.attributes["id"] %>" value="1"
                  <% if answer and answer.text and answer.text.to_i == 1 %>checked="true"<% end %> /> 对&nbsp;&nbsp;
-          <input type="radio" id="problem_attr_key" name="attr_key<%=  edit_other_question.attributes["id"] %>" value="0"
+          <input type="radio" id="problem_attr_key" name="attr_key<%= edit_other_question.attributes["id"] %>" value="0"
                  <% if answer and answer.text and answer.text.to_i == 0 %>checked="true"<% end %> /> 错&nbsp;&nbsp;
                  <%  puts "attr_key#{edit_other_question.attributes['id']}"   %>
         </div>
       <% else %>
-        <textarea cols="40" rows="3" id="problem_answer" name="problem<%=  edit_other_question.attributes["id"] %>[answer]"><%= answer.text %></textarea>
+        <textarea cols="40" rows="3" id="problem_answer" name="problem<%= edit_other_question.attributes["id"] %>[answer]"><%= answer.text %></textarea>
       <% end
     end %>
   </div>
