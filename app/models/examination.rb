@@ -10,7 +10,6 @@ class Examination < ActiveRecord::Base
   IS_PUBLISHED = {:NEVER => 0, :ALREADY => 1} #是否发布  0 没有 1 已经发布
 
   default_scope :order => "examinations.created_at desc"
-  require 'spreadsheet'
 
   #创建考试
   def update_examination(attr_hash)
@@ -42,7 +41,7 @@ class Examination < ActiveRecord::Base
     UserMailer.user_affirm(exam_user,self).deliver if self.user_affirm == true
   end
 
-  #修改试卷,此方法用来修改考试试卷，update_flag 是传过来增加或删除的标记，*paper是试卷数组
+  #修改试卷,此方法用来修改考试试卷，update_flag 是传过来增加或删除的标记，papers是试卷数组
   def update_paper(update_flag, papers)
     if update_flag == "create"
       papers.each do |i|

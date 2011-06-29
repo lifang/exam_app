@@ -177,7 +177,6 @@ function new_question(block_id) {
     $("remote_que_div_" + block_id).innerHTML = "";
     $("choose_coll_que_link_" + block_id).style.display = "block";
     $("single_question_" + block_id).value += hash_str;
-    
 }
 
 //验证添加综合题的小题

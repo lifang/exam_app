@@ -7,6 +7,7 @@ class ExamUser < ActiveRecord::Base
 
   require 'rexml/document'
   include REXML
+  require 'spreadsheet'
 
   IS_USER_AFFIREMED = {:YES => 1, :NO => 0} #用户是否确认  1 已确认 0 未确认
   default_scope :order => "exam_users.total_score desc"
@@ -83,8 +84,8 @@ class ExamUser < ActiveRecord::Base
     end
     exam_user_array.each do |exam_user|
       score_level_hash.each do |key, value|
-        if (exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
-            (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i)
+        if exam_user.total_score and ((exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
+            (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i))
           exam_user_hash[exam_user.id] = key
           exam_user_hash[key] += 1
         end
@@ -241,7 +242,8 @@ class ExamUser < ActiveRecord::Base
     str="-1"
     xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
-        if (problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:CHARACTER]&&problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:COLLIGATIONR])
+        if (problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:CHARACTER] and
+              problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:COLLIGATIONR])
           block.delete_element(problem.xpath)
         else
           problem.elements["questions"].each_element do |question|
@@ -257,9 +259,7 @@ class ExamUser < ActiveRecord::Base
             end           
           end
         end
-        if problem.elements["questions"].elements[1].nil?
-          block.delete_element(problem.xpath)
-        end
+        block.delete_element(problem.xpath) if problem.elements["questions"].elements[1].nil?
       end
     end
     xml.add_attribute("ids","#{str}")
@@ -351,7 +351,7 @@ class ExamUser < ActiveRecord::Base
             str = "本场考试已经结束。"
           elsif examination[0].start_end_time  < Time.now
             str = "您不能入场，本场考试入场时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")}
-              -#{examination[0].start_end_time.strftime("%Y-%m-%d %H:%M:%S")}。#"
+              -#{examination[0].start_end_time.strftime("%Y-%m-%d %H:%M:%S")}。"
           end if examination[0].start_at_time
         end
       end

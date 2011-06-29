@@ -6,7 +6,7 @@ class PaperBlock < ActiveRecord::Base
 
   def create_block_xml(url)
     doc=Document.new( File.open(url) )
-    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")
+    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y-%m-%d %H:%M")
     blocks = doc.root.elements["blocks"]
     block = blocks.add_element("block")
     block.add_attribute("id","#{self.id}")
@@ -23,7 +23,7 @@ class PaperBlock < ActiveRecord::Base
 
   def update_block_xml(xpath)
     doc = Document.new(File.open("#{Rails.root}/public"+self.paper.paper_url))
-    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")
+    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y-%m-%d %H:%M")
     block=doc.elements[xpath]
     block.elements["base_info"].elements["title"].text=self.title
     block.elements["base_info"].elements["description"].text=self.description
