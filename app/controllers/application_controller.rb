@@ -29,7 +29,18 @@ class ApplicationController < ActionController::Base
     return @grade
   end
 
-  
-
+  #总体处理错误
+  def rescue_action_in_public(exception)
+    case exception
+    when ActiveRecord::RecordNotFound
+      render :file => "#{Rails.root}/public/error.html"
+    when NoMethodError, ActionController::RoutingError
+      render :file => "#{Rails.root}/public/error.html"
+    when Rails.logger.error("404 displayed")
+      render(:file => "#{Rails.root}/public/404.html", :status => "404 Error")
+    else Rails.logger.error("500 displayed")
+      render(:file => "#{Rails.root}/public/500.html", :status => "500 Error")
+    end
+  end
 
 end

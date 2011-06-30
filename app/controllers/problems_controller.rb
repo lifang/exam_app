@@ -14,11 +14,11 @@ class ProblemsController < ApplicationController
       answer_question_attr = answer_text(params[:problem][:correct_type].to_i,
         params[:problem][:attr_sum].to_i, params[:problem][:answer])
       @question = Question.create_question(@problem,
-        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis],
+        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis].strip,
           :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
       #创建标签
-      if !params[:tag].nil? and params[:tag] != ""
-        tag_name = params[:tag].split(" ")
+      if !params[:tag].nil? and params[:tag].strip != ""
+        tag_name = params[:tag].strip.split(" ")
         @question.question_tags(Tag.create_tag(tag_name))
       end
       score_arr[@question.id] = params[:problem][:score].to_i
@@ -83,10 +83,10 @@ class ProblemsController < ApplicationController
       answer_question_attr = answer_text(@problem.types,
         params[:problem][:attr_sum].to_i, params[:problem][:answer],params[:problem][:question_id])
       @question = Question.update_question(params[:problem][:question_id],
-        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis],
+        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis].strip,
           :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
-      if !params[:tag].nil? and params[:tag] != ""
-        tag_name = params[:tag].split(" ")
+      if !params[:tag].nil? and params[:tag].strip != ""
+        tag_name = params[:tag].strip.split(" ")
         @question.question_tags(Tag.create_tag(tag_name))
       end
       score_arr[@question.id] = params[:problem][:score].to_i

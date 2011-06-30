@@ -9,7 +9,7 @@ class QuestionsController < ApplicationController
     render :partial => "/common/edit_other_question", :object => question
   end
 
-  def  destroy
+  def destroy
     @question=Question.find(params[:id])
     @question.destroy
     redirect_to request.referrer

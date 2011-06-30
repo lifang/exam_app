@@ -45,8 +45,13 @@ class PapersController < ApplicationController
 
   def new_step_two
     paper = Paper.find(params[:id].to_i)
-    file = File.open("#{Constant::PUBLIC_PATH}#{paper.paper_url}")
-    @xml=Document.new(file).root
+    begin
+      file = File.open("#{Constant::PUBLIC_PATH}#{paper.paper_url}")
+      @xml=Document.new(file).root
+    rescue
+      flash[:error] = "当前试卷不能正常打开，请检查试卷是否正常。"
+      redirect_to papers_path
+    end
   end
 
   def create_step_one
