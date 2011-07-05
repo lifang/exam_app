@@ -127,7 +127,6 @@ function new_question(block_id) {
                 }
             }
         }
-            
     } else if (parseFloat($("problem_correct_type").value) == 1) {
         for (var k=1; k<=parseFloat($("problem_attr_sum").value); k++) {
             if($("problem_attr" + k + "_value")!=null){
@@ -207,8 +206,9 @@ function question_validate(){
         if(document.getElementsByName("attr_key").length!=0) {
             var checked_num=0;
             var attr_key = document.getElementsByName("attr_key");
-            for (var j=1; j<=attr_key.length; j++) {
-                if (parseFloat(attr_key[j-1].value) == j && attr_key[j-1].checked == true) {
+            var attr_sum = document.getElementById("problem_attr_sum").value;
+            for (var j=1; j<=attr_sum; j++) {
+                if (attr_key[j-1]!=null && attr_key[j-1].checked == true) {
                     checked_num++;
                 }
             }
@@ -218,12 +218,11 @@ function question_validate(){
             }
         }     //单选题，验证设置选项
 
-        
-        if(document.getElementById("problem_attr_key_1")!=null) {
+        if(parseFloat($("problem_correct_type").value) == 1) {
             var checked_num=0;
             for (var j=1; j<=parseFloat($("problem_attr_sum").value); j++) {
                 var attr_key = document.getElementById("problem_attr_key_"+j);
-                if (attr_key.value == j && attr_key.checked == true) {
+                if (attr_key!=null && attr_key.value == j && attr_key.checked == true) {
                     checked_num++;
                 }
             }
@@ -242,7 +241,6 @@ function question_validate(){
             return false;
         }
     }   //验证答案不能为空
-
 }   
 
 //修改综合题小题
@@ -250,9 +248,6 @@ function generate_edit_questions(problem_id, problem_type) {
     if(edit_problem_validate(problem_id)==false){
         return false;
     } 
-    //    if(edit_colligation_validate()==false){
-    //        return false;
-    //    }
     if (parseFloat(problem_type) == 4) {
         var hash_str = "";
         var ids_str = $("all_question_ids_" + problem_id).value;
@@ -289,12 +284,12 @@ function generate_edit_questions(problem_id, problem_type) {
                             }
                         }
                         var attr_array_sort=attr_array.sort();
-                        for(var q=0;q<attr_array.length;q++){
-                            if (attr_array_sort[q]==attr_array_sort[q+1]){
-                                alert("选项内容重复："+attr_array_sort[q]);
-                                return false;
-                            }
-                        }
+//                        for(var q=0;q<attr_array.length;q++){
+//                            if (attr_array_sort[q]==attr_array_sort[q+1]){
+//                                alert("选项内容重复："+attr_array_sort[q]);
+//                                return false;
+//                            }
+//                        }
                     } else if (parseFloat(inputs[0].value) == 1) {
                         var attr_array = [];
                         var answer_sum = 0;
@@ -324,12 +319,12 @@ function generate_edit_questions(problem_id, problem_type) {
                             }
                         }
                         var attr_array_sort=attr_array.sort();
-                        for(var q=0;q<attr_array.length;q++){
-                            if (attr_array_sort[q]==attr_array_sort[q+1]){
-                                alert("选项内容重复："+attr_array_sort[q]);
-                                return false;
-                            }
-                        }
+//                        for(var q=0;q<attr_array.length;q++){
+//                            if (attr_array_sort[q]==attr_array_sort[q+1]){
+//                                alert("选项内容重复："+attr_array_sort[q]);
+//                                return false;
+//                            }
+//                        }
                         if(answer_sum==0){
                             alert("请设置正确答案。");
                             return false;
@@ -578,13 +573,14 @@ function delete_attr(attr_id) {
 
 function new_attr_edit(type,question_id){
     if(type=="single_choose"){
-        var attr_sum_element=document.getElementById("problem_attr_sum");
+        var attrs =  document.getElementById("attrs_"+question_id);
+        var inputs = attrs.getElementsByTagName("input");
+        var attr_sum_element=inputs[0];
         var attr_sum=attr_sum_element.value;
         attr_sum++;
         var content = "<input type='radio' id='problem_attr_key_"+attr_sum+"' name='attr_key"+question_id+"' value='"+attr_sum+"'/>";
         content += "<input type='text' name='attr"+attr_sum+"_value"+question_id+"' id='problem_attr"+attr_sum+"_value' class='input_style' size='15' value='' />";
         content += "<a href='javascript:void(0);' onclick='javascript:delete_attr_edit("+attr_sum+","+question_id+");'> 删除</a>";
-        var attrs =  document.getElementById("attrs_"+question_id);
         var tmpObj = document.createElement("div");
         tmpObj.setAttribute("class", "attr");
         var attribute_id="attr_"+attr_sum+"_"+question_id;
@@ -594,13 +590,16 @@ function new_attr_edit(type,question_id){
         attr_sum_element.setAttribute("value",attr_sum.toString());
     }
     if(type=="more_choose"){
-        var attr_sum_element=document.getElementById("problem_attr_sum");
+        var attrs =  document.getElementById("attrs_"+question_id);
+        var inputs = attrs.getElementsByTagName("input");
+        var attr_sum_element=inputs[0];
         var attr_sum=attr_sum_element.value;
         attr_sum++;
         var content = "<input type='checkbox' id='problem_attr_key_"+attr_sum+"' name='attr"+attr_sum+"_key"+question_id+"' value='"+attr_sum+"'/>";
         content += "<input type='text' name='attr"+attr_sum+"_value"+question_id+"' id='problem_attr"+attr_sum+"_value' class='input_style' size='15' value='' />";
         content += "<a href='javascript:void(0);' onclick='javascript:delete_attr_edit("+attr_sum+","+question_id+");'> 删除</a>";
-        var attrs =  document.getElementById("attrs_"+question_id);
+
+
         var tmpObj = document.createElement("div");
         tmpObj.setAttribute("class", "attr");
         var attribute_id="attr_"+attr_sum+"_"+question_id;

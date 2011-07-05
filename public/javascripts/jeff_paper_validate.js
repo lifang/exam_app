@@ -31,7 +31,7 @@ function edit_problem_validate(problem_id){
     }
 
     var answer_array=[];
-    for(var i=1;i<=4;i++){     //验证 选项不能为空
+    for(var i=1;i<=parseInt(document.getElementById("problem_attr_sum").value);i++){     //验证 选项不能为空
         if(document.getElementById("problem_attr"+i+"_value")!=null){
             var attr_value = document.getElementById("problem_attr"+i+"_value").value;
             answer_array.push(attr_value);
@@ -42,13 +42,13 @@ function edit_problem_validate(problem_id){
         }
     }
 
-    var answer_array_sort=answer_array.sort();
-    for(var i=0;i<answer_array.length;i++){
-        if (answer_array_sort[i]==answer_array_sort[i+1]){
-            alert("选项内容重复："+answer_array_sort[i]);
-            return false;
-        }
-    }
+//    var answer_array_sort=answer_array.sort();
+//    for(var i=0;i<answer_array.length;i++){
+//        if (answer_array_sort[i]==answer_array_sort[i+1]){
+//            alert("选项内容重复："+answer_array_sort[i]);
+//            return false;
+//        }
+//    }
 
 
     if(document.getElementById("problem_answer")!=null){           //验证答案不能为空
@@ -61,8 +61,8 @@ function edit_problem_validate(problem_id){
 
     if(document.getElementById("problem_attr_key_1")!=null){
         var checked_num = 0;                               //验证是否选择正确答案,单选,多选都可用
-        for(i=0;i<4;i++){
-            if(document.getElementById("problem_attr_key_"+(i+1)).checked){
+        for(i=0;i<parseInt(document.getElementById("problem_attr_sum").value);i++){
+            if(document.getElementById("problem_attr_key_"+(i+1))!=null && document.getElementById("problem_attr_key_"+(i+1)).checked){
                 checked_num++;
             }
         }
@@ -86,16 +86,6 @@ function edit_colligation_validate(){
         }
     }
 
-//    var question_attr_values = document.getElementsByName("attr_value");
-//    for(var i=0;i<question_attr_values.length;i++){
-//        if (question_attr_values[i].value!=null){
-//            var attr_value = question_attr_values[i].value;
-//            if(attr_value=="" || checkspace(attr_value)){
-//                alert("选项不能为空。");
-//                return false;
-//            }
-//        }
-//    }
 
     var answer_values = document.getElementsByName("problem[answer]");
     for(var i=0;i<answer_values.length;i++){
@@ -132,12 +122,14 @@ function new_problem_validate(block_id){
 
     if(document.getElementById("problem_attr1_value")!=null){
         var answer_array=new Array;
-        for(var i=1;i<=4;i++){     //验证 选项不能为空
-            var attr_value = document.getElementById("problem_attr"+i+"_value").value;
-            answer_array.push(attr_value);
-            if (attr_value==""||checkspace(attr_value)){
-                alert("选项不能为空。");
-                return false;
+        for(var i=1;i<=parseInt(document.getElementById("problem_attr_sum").value);i++){     //验证 选项不能为空
+            if(document.getElementById("problem_attr"+i+"_value")!=null){
+                var attr_value = document.getElementById("problem_attr"+i+"_value").value;
+                answer_array.push(attr_value);
+                if (attr_value==""||checkspace(attr_value)){
+                    alert("选项不能为空。");
+                    return false;
+                }
             }
         }
         var answer_array_sort=answer_array.sort();
@@ -160,7 +152,7 @@ function new_problem_validate(block_id){
     //验证是否选择正确答案,单选,多选都可用
     if(document.getElementById("problem_attr_key_1")!=null){
         var checked_num = 0;
-        for(i=0;i<4;i++){
+        for(i=0;i<parseInt(document.getElementById("problem_attr_sum").value);i++){
             var index=i+1;
             if(document.getElementById("problem_attr_key_"+index).checked){
                 checked_num++;
