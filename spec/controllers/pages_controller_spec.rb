@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe PagesController do
 render_views
-
-
   describe "GET 'index'" do
     before(:each) do
    @attr={:title=>"example",:types=>"java",:creater_id=>1,:description=>"ssdfgggg",:total_question_num=>12,:total_score=>"100"}

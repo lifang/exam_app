@@ -1,8 +1,8 @@
 class PaperBlock < ActiveRecord::Base
-   require 'rexml/document'
-   include REXML
+  require 'rexml/document'
+  include REXML
 
-   belongs_to :paper
+  belongs_to :paper
 
   def create_block_xml(url)
     doc=Document.new( File.open(url) )

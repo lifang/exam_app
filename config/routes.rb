@@ -36,6 +36,7 @@ ExamApp::Application.routes.draw do
     end
     member do
       get "active", "user_active"
+      post "update_info"
     end
   end
   namespace :rater do
@@ -99,9 +100,7 @@ ExamApp::Application.routes.draw do
     member do
       get "new_exam_two"
       post "login"
-     
-      post "update_exam_user"
-    
+      post "update_exam_user" 
     end
   end
 
@@ -111,7 +110,6 @@ ExamApp::Application.routes.draw do
     end
     member do
       post "update_exam_rater","login_rater"
-
     end
   end
 

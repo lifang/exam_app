@@ -8,10 +8,12 @@ class ExamUsersController < ApplicationController
       if user.name == params[:exam_user_infoname].strip
         if ExamUser.find_by_examination_id_and_user_id(params[:examination_id].to_i, user.id)
           flash[:error]="该考生信息已加入"
+          flash[:warn] = "be_joined"
         else
           @examination.new_exam_user(user)
         end
       else
+        flash[:warn] ="be_used"
         flash[:error]="该邮箱已经被其他用户使用"
       end
     else
@@ -19,6 +21,7 @@ class ExamUsersController < ApplicationController
         params[:exam_user_infoemail].strip, params[:exam_user_infomobile])
       @examination.new_exam_user(user)
     end
+    
     @exam_users = ExamUser.paginate_exam_user(@examination.id, 10, params[:page])
     render :partial => "/examinations/exam_user_for_now"
   end
@@ -28,7 +31,7 @@ class ExamUsersController < ApplicationController
     @info_class = get_text(params[:user_info].strip)
     str = "发现考生信息重复或邮箱已被占用："
     str+=ExamUser.judge(@info_class,params[:id].to_i)
-    if str=="发现考生信息重复或邮箱已被占用："
+    if str== "发现考生信息重复或邮箱已被占用："
       ExamUser.login(@info_class,@examination)
       @exam_users = ExamUser.paginate_exam_user(@examination.id, 10, params[:page])
       flash[:notice] = "导入学生成功。"
@@ -44,10 +47,11 @@ class ExamUsersController < ApplicationController
   end
 
   def destroy #删除考生
-    exam_user = ExamUser.find(params[:id].to_i)
+    exam_user = ExamUser.find(params[:id])
+    examination_id = exam_user.examination_id
     exam_user.destroy
-    @examination = Examination.find(exam_user.examination_id)
-    @exam_users =ExamUser.paginate_exam_user(exam_user.examination_id, 10, params[:page])
+    @examination = Examination.find(examination_id)
+    @exam_users =ExamUser.paginate_exam_user(examination_id, 10, params[:page])
     render :partial=>"/examinations/exam_user_for_now"
   end
   
@@ -59,9 +63,19 @@ class ExamUsersController < ApplicationController
 
   def update_exam_user  #编辑考生信息
     @exam_user =ExamUser.find(params[:id].to_i)
-    @user=User.find(ExamUser.find(params[:id].to_i).user_id)
-    @user.update_attributes(:name=>params[:name],:username=>params[:name],:email=>params[:email],
-      :mobilephone=>params[:mobilephone])
+    user = User.find_by_email(params[:email].strip)
+    @user=User.find(@exam_user.user_id)
+    if user
+      if @user.email == params[:email].strip
+        @user.update_attributes(:name=>params[:name],:username=>params[:name],:email=>params[:email],
+          :mobilephone=>params[:mobilephone])
+      else
+        flash[:error]="be_used"
+      end
+    else
+      @user.update_attributes(:name=>params[:name],:username=>params[:name],:email=>params[:email],
+        :mobilephone=>params[:mobilephone])
+    end
     render :partial=>"/examinations/back_exam_user"
   end
 

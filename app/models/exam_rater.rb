@@ -16,7 +16,7 @@ class ExamRater < ActiveRecord::Base
     file=File.open("#{Rails.root}/public"+url)
     return Document.new(file).root
   end
- #批量检查阅卷老师信息
+  #批量检查阅卷老师信息
   def self.check_rater(info,id)
     rater_info=""
     hash =ExamUser.get_email(info)
@@ -37,8 +37,19 @@ class ExamRater < ActiveRecord::Base
       1.upto(6) {code_array << chars[rand(chars.length)]}
       exam_rater=ExamRater.create(:examination_id =>examination.id , :name =>email[1][0],
         :mobilephone =>email[1][1].strip, :email =>email[0].strip, :author_code =>code_array.join(""))
-#      UserMailer.rater_affirm(exam_rater,examination).deliver
+      #      UserMailer.rater_affirm(exam_rater,examination).deliver
     end
+  end
+  def self.rater(doc,id,score)
+    doc.elements["paper"].elements["rate_score"].text=score
+    unless doc.elements[1].elements["auto_score"].nil?
+      auto_score=doc.elements[1].elements["auto_score"].text
+      if auto_score.to_i !=0
+        doc.elements[1].attributes["score"]=score+auto_score.to_i
+        ExamUser.find(id).update_attributes(:total_score=>score+auto_score.to_i)
+      end
+    end
+    return doc.to_s
   end
 
 end

@@ -15,7 +15,7 @@ class Paper < ActiveRecord::Base
   #更新试卷基本信息
   def update_base_info(url, options = {})
     doc=Document.new(File.open(url))
-    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")
+#    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")
     doc.root.elements["base_info"].elements["title"].text=self.title
     doc.root.elements["base_info"].elements["description"].text=self.description
     options.each do |key, value|

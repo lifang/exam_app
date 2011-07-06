@@ -3,16 +3,16 @@ class ExamRatersController < ApplicationController
   
   def create_exam_rater #创建阅卷老师
     @examination = Examination.find(params[:examination_id].to_i)
-    @rater=ExamRater.find_by_email_and_examination_id(params[:exam_rater_infoemail],params[:examination_id])
-    if @rater.nil?
-      exam_rater=ExamRater.create!(:examination_id => @examination.id , :name => params[:exam_rater_infoname],
-        :mobilephone => params[:exam_rater_infomobile], :email => params[:exam_rater_infoemail], :author_code => proof_code(6))
-      UserMailer.rater_affirm(exam_rater,@examination).deliver
-      @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
-        :per_page => 10, :page => params[:page])
-    else
+    rater=ExamRater.find_by_email_and_examination_id(params[:exam_rater_infoemail],params[:examination_id])
+    if rater
       flash[:error]="信息已加入"
+    else
+      @exam_rater=ExamRater.create!(:examination_id => @examination.id , :name => params[:exam_rater_infoname],
+        :mobilephone => params[:exam_rater_infomobile], :email => params[:exam_rater_infoemail], :author_code => proof_code(6))
+      UserMailer.rater_affirm(@exam_rater,@examination).deliver
     end
+    @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
+      :per_page => 10, :page => params[:page])
     render :partial => "/examinations/exam_rater"
   end
 
@@ -32,7 +32,16 @@ class ExamRatersController < ApplicationController
 
   def update_exam_rater #更新阅卷老师信息
     @exam_rater =ExamRater.find(params[:id].to_i)
-    @exam_rater.update_attributes(:name=>params[:name],:email=>params[:email],:mobilephone=>params[:mobilephone])
+    rater=ExamRater.find_by_email_and_examination_id(params[:email],@exam_rater.examination_id)
+    if rater
+      if @exam_rater.email == params[:email]
+        @exam_rater.update_attributes(:name=>params[:name],:email=>params[:email],:mobilephone=>params[:mobilephone])
+      else
+        flash.now[:error]="be_used"
+      end
+    else
+      @exam_rater.update_attributes(:name=>params[:name],:email=>params[:email],:mobilephone=>params[:mobilephone])
+    end  
     render :partial=>"/examinations/back_exam_rater"
   end
   
@@ -44,8 +53,8 @@ class ExamRatersController < ApplicationController
     if str=="阅卷老师重复的信息："
       ExamRater.create_raters(@info_raters,@examination)
       @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
-      :per_page => 10, :page => params[:page])
-      flash[:notice] = "导入信息成功。"
+        :per_page => 10, :page => params[:page])
+     flash[:notice] = "导入信息成功。"
       render :update do |page|
         page.replace_html "exam_rater_list" , :partial => "/examinations/exam_rater"
         page.replace_html "add_info" ,  :inline => "<script>show_name('exam_rater_list','pile_exam_rater');</script>"

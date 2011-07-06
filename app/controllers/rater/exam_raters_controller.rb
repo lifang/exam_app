@@ -12,10 +12,10 @@ class Rater::ExamRatersController < ApplicationController
     @examination=Examination.find(params[:examination_id])
     if @rater.author_code==params[:author_code]
       cookies[:rater_id]=@rater.id
-      flash[:success]="登陆成功"
+            flash[:success]="登陆成功"
       redirect_to  "/rater/exam_raters/#{@examination.id}/reader_papers"
     else
-      flash[:error]="阅卷码不正确，请核对！"
+           flash[:error]="阅卷码不正确，请核对！"
       render "/rater/exam_raters/session"
     end
   end
@@ -23,6 +23,7 @@ class Rater::ExamRatersController < ApplicationController
   def reader_papers  #答卷批阅状态显示
     @examination=Examination.find(params[:id])
     @exam_paper_total =ExamUser.get_paper(params[:id])
+    @user=User.find(@examination.creater_id)
     @exam_score_total = 0
     @exam_paper_marked = 0
     @exam_paper_total.each do |e|
@@ -40,11 +41,9 @@ class Rater::ExamRatersController < ApplicationController
       RaterUserRelation.create(:exam_rater_id=>cookies[:rater_id],:exam_user_id=>@exam_user[0].id)
       redirect_to "/rater/exam_raters/#{@exam_user[0].id}/answer_paper"
     else
-      flash[:notice] = "当场考试试卷已经全部阅完。"
+            flash[:notice] = "当场考试试卷已经全部阅完。"
       redirect_to request.referer
     end
-    
-    
   end
   
   def answer_paper #批阅答卷
@@ -57,6 +56,7 @@ class Rater::ExamRatersController < ApplicationController
   def over_answer #批阅完成，给答卷添加成绩
     @exam_relation=RaterUserRelation.find_by_exam_user_id(params[:id])
     @exam_relation.toggle!(:is_marked)
+    @exam_user=ExamUser.find(params[:id])
     url="/result/#{params[:id]}.xml"
     doc=ExamRater.open_file(url)
     score=0
@@ -64,20 +64,12 @@ class Rater::ExamRatersController < ApplicationController
       score +=element.attributes["score"].to_i
       element.add_attribute("score","#{params["single_value_#{element.attributes["id"]}"]}")
     end
-    doc.elements["paper"].elements["rate_score"].text=score
-    unless doc.elements[1].elements["auto_score"].nil?
-      auto_score=doc.elements[1].elements["auto_score"].text
-      if auto_score.to_i !=0
-        doc.elements[1].attributes["score"]=score+auto_score.to_i
-        ExamUser.find(params[:id]).update_attributes(:total_score=>score+auto_score.to_i)
-      end
-    end
-    doc.to_s
-    self.write_xml("#{Rails.root}/public"+url, doc)
-    redirect_to "/rater/exam_raters/#{ExamUser.find(params[:id]).examination_id}/reader_papers"
+     @doc=ExamRater.rater(doc,params[:id],score)
+    self.write_xml("#{Rails.root}/public"+url, @doc)
+    redirect_to "/rater/exam_raters/#{ @exam_user.examination_id}/reader_papers"
   end
 
-  def destroy
+  def destroy #退出
     cookies.delete(:rater_id)
     cookies.delete(:examination_id)
     render :inline=>"<script>window.close();</script>"
@@ -86,13 +78,14 @@ class Rater::ExamRatersController < ApplicationController
   def show
     @exam_rater=ExamRater.find(params[:id])
   end
-  def edit_value
+  def edit_value #编辑考分
     @exam_rater=ExamRater.find(params[:id])
     @exam_rater.update_attributes(:name=>params[:value])
-    render :inline=>"姓&nbsp;&nbsp;&nbsp;&nbsp;名:#{ @exam_rater.name}"
+    render :inline=>"name"
+       render :inline=>"姓&nbsp;&nbsp;&nbsp;&nbsp;名:#{ @exam_rater.name}"
   end
   
-  def index
+  def index #参加的阅卷列表
     @exam_rater=ExamRater.find(cookies[:rater_id])
     @exam_list=ExamRater.find_all_by_email(@exam_rater.email)
   end

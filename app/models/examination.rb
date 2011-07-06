@@ -39,7 +39,7 @@ class Examination < ActiveRecord::Base
     exam_user = ExamUser.create!(:user_id => user.id,:examination_id => self.id,:password => User::DEFAULT_PASSWORD,
       :is_user_affiremed => ExamUser::IS_USER_AFFIREMED[:NO])
     exam_user.set_paper(self)
-    UserMailer.user_affirm(exam_user,self).deliver if self.user_affirm == true
+    UserMailer.user_affirmed(exam_user,self).deliver if self.user_affirm == true
   end
 
   #修改试卷,此方法用来修改考试试卷，update_flag 是传过来增加或删除的标记，*paper是试卷数组

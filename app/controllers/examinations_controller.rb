@@ -52,7 +52,6 @@ class ExaminationsController < ApplicationController
   end
   
   def create_step_one  #创建考试
-    @papers=Paper.find(params[:post_value].split(","))
     @examination = Examination.find(params[:id].to_i)
     hour = (params[:hour] != "-1") ? params[:hour].to_i : 0
     min = (params[:minute] != "-2") ? params[:minute].to_i : 0

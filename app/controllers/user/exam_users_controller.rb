@@ -3,7 +3,7 @@ class User::ExamUsersController < ApplicationController
   include REXML
   def show
     @exam=ExamUser.find_by_user_id_and_examination_id(params[:user_id],params[:id])
-    @doc=ExamRater.open_file("/result/#{@exam.id}.xml")
+    @doc=ExamRater.open_file(@exam.answer_sheet_url)
     @xml=ExamUser.show_result(@exam.paper_id, @doc)
   end
 
@@ -45,7 +45,7 @@ class User::ExamUsersController < ApplicationController
     @user = User.find_by_email(params[:session][:email])
     if @user.nil?
       flash[:error] = "邮箱不存在"
-      redirect_to '/sessions/new'
+      redirect_to '/user/exam_users/session_new'
     else
       unless  @user.has_password?(params[:session][:password])
         flash[:error] = "密码错误"

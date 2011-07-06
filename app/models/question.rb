@@ -103,7 +103,7 @@ class Question < ActiveRecord::Base
       if answers.length == 1 #表示当前提点为填空或简答题
         hash_tmp[:correct_type] = (v[0] != -1) ? v[0] : Problem::QUESTION_TYPE[:SINGLE_CALK]
         hash_tmp[:correct_type] =
-          Problem::QUESTION_TYPE[:JUDGE] if (answers[0].strip == "对" or answers[0].strip == "是")
+          Problem::QUESTION_TYPE[:JUDGE] if (answers[0].strip == "no" or answers[0].strip == "yes")
       else       
         hash_tmp[:correct_type] = answers[0].split(";").length == 1 ?
           Problem::QUESTION_TYPE[:SINGLE_CHOSE] : Problem::QUESTION_TYPE[:MORE_CHOSE]

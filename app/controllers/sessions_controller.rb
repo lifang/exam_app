@@ -16,6 +16,7 @@ class SessionsController < ApplicationController
       else
         unless  @user.has_password?(params[:session][:password])
           flash[:error] = "密码错误"
+          
           redirect_to '/sessions/new'
         else
           if @user.status == User::STATUS[:LOCK]
@@ -30,7 +31,7 @@ class SessionsController < ApplicationController
       end
     end
   end
-#退出登录
+  #退出登录
   def destroy
     cookies.delete(:user_id)
     cookies.delete(:user_name)
@@ -44,16 +45,15 @@ class SessionsController < ApplicationController
       UserMailer.update_code(user).deliver
       redirect_to "/sessions/#{user.id}/active"
     else
-    flash[:error]="密码有误，请重新输入"
-       render "/sessions/get_code"
-
+      flash[:error]="密码有误，请重新输入"
+      render "/sessions/get_code"
     end
   end
-#填写密码界面
+  #填写密码界面
   def new_code
     @user=User.find(params[:id])
   end
-#更新密码
+  #更新密码
   def update_user_code
     user=User.find(params[:id])
     user.update_attributes(:password=>params[:session][:password])
@@ -62,10 +62,9 @@ class SessionsController < ApplicationController
     flash[:success]="密码更新成功"
     redirect_to "/"
   end
- #收取邮件并登录
+  #收取邮件并登录
   def active
     @user = User.find(params[:id].to_i)
   end
-
 end
 

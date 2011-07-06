@@ -50,6 +50,6 @@ module ApplicationHelper
   end
 
   def title
-    return @title.nil? ? "赶考" : @title
+    return @title.nil? ? "gankao" : @title
   end
 end
