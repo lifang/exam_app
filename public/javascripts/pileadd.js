@@ -101,7 +101,6 @@ function add_item(table_id, url, update_div, examination_id,type_name){
     str += "<td><input type='text' name='"+type_name +"_infoemail' id='"+type_name +"_infoemail"+otr.id + "' class='required' size='30'/></td>";
     str += "<td><button type='submit' id='rater_button"+otr.id + "'>创建</button><img alt='Ajax-loader' id='spinner_rate"+otr.id + "' src='/images/ajax-loader.gif?1308123179' style='display:none' /></td></tr></table>";
     str += "</form></td>";
-    alert(1);
     otr.innerHTML = str;
     document.getElementById(table_id + "_rows").value=document.getElementById("" + table_id).rows.length;
 

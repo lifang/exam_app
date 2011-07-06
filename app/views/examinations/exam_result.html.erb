@@ -13,9 +13,9 @@
     </div>
     <div class="add_details">
       <div class="detail">考生人数：<%= @exam_users.size %>人</div>
-        <div class="clear"></div>
+      <div class="clear"></div>
     </div>
-     <div class="add_details">
+    <div class="add_details">
       <% @examination.score_levels.each do |score_level| %>
         <div class="detail"><%= score_level.value %>：<%= @exam_user_hash[score_level.value] %>人</div>
       <% end %>
@@ -23,9 +23,9 @@
     </div>
     <div class="add_details">
       <%= form_for :examinations,  :url => "/examinations/#{@examination.id}/search_result", :method => 'post' do %>
-      <div class="detail">姓名/邮箱：<input type="text" class="input_style" name="search_text" id="search_text" size="25"/></div>
-      <div class="detail"><input type="submit" class="input_btn" value="查询" size="30"/></div>
-      <div class="clear"></div>
+        <div class="detail">姓名/邮箱：<input type="text" class="input_style" name="search_text" id="search_text" size="25"/></div>
+        <div class="detail"><input type="submit" class="input_btn" value="查询" size="30"/></div>
+        <div class="clear"></div>
       <% end %>
     </div>
     <table>
@@ -47,13 +47,25 @@
       </thead>
       <tbody>
         <% @exam_users.each do |exam_user| %>
-        <tr>
-          <td><%= exam_user.name %></td>
-          <td><%= exam_user.email %></td>
-          <td><%= exam_user.total_score %></td>
-          <td><%= @exam_user_hash[exam_user.id] if !@exam_user_hash.empty? %></td>
-          <td><a href="#">查看</a></td>
-        </tr>
+          <tr>
+            <td><%= exam_user.name %></td>
+            <td><%= exam_user.email %></td>
+            <td><%= exam_user.total_score %></td>
+            <td><%= @exam_user_hash[exam_user.id] if !@exam_user_hash.empty? %></td>
+            <% result=Examination.find(exam_user.examination_id)  %>
+            <td>
+              <% if exam_user.total_score %>
+                <% if result.is_paper_open %>
+                  <%= link_to "查看", href="/user/exam_users/#{exam_user.examination_id}?user_id=#{exam_user.user_id}" %>
+                <% else %>
+                  考卷不公开
+                <% end %>
+              <% elsif result.started_at %>
+                阅卷中...
+              <% end %>
+
+            </td>
+          </tr>
         <% end %>
       </tbody>
     </table>
