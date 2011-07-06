@@ -2,7 +2,6 @@ class ResultsController < ApplicationController
   before_filter :access?
   
   def index
-
   end
 
   def search
@@ -23,7 +22,7 @@ class ResultsController < ApplicationController
     sql += " and e.created_at >= '#{session[:start_at]}'" unless session[:start_at].nil?
     sql += " and e.created_at <= '#{session[:end_at]}'" unless session[:end_at].nil?
     sql += " and e.title like '%#{session[:title]}%'" unless session[:title].nil?
-    @results = ExamUser.paginate_by_sql(sql, :pre_page => 1, :page => params[:page])
+    @results = ExamUser.paginate_by_sql(sql, :pre_page => 10, :page => params[:page])
     render "index"
   end
   

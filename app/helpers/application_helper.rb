@@ -31,8 +31,7 @@ module ApplicationHelper
   end
 
   def deny_access
-    flash[:notice] = "你尚未登录，请您先登录！"
-    redirect_to "/sessions/new"
+    redirect_to "/"
   end
 
   def signed_in?

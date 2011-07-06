@@ -10,14 +10,21 @@ Factory.define :user do |user|
    user.status 1
 end
 
+Factory.define :category do |category|
+  category.name "english"
+  category.parent_id 0
+end
+
 Factory.define :paper do |paper|
   paper.title "ruby class test examination"
+  paper.category_id 1
   paper.creater_id 1
   paper.description "this is a test paper."
-  paper.total_score "100"
-  paper.total_question_num "25"
- 
+  paper.total_score 100
+  paper.total_question_num 25
+  paper.is_used 0
 end
+
 Factory.define :exam_rater do |rater|
 	rater.name "qianjun"
 	rater.email "er6788@126.com"
@@ -25,6 +32,7 @@ Factory.define :exam_rater do |rater|
   rater.author_code "654916"
   rater.examination_id 1
 end
+
 Factory.define :examination do |examination|
 	examination.creater_id 1
 	examination.description "ssddd"
@@ -32,6 +40,7 @@ Factory.define :examination do |examination|
   examination.status 1
   examination.user_affirm 1
 end
+
 Factory.define :exam_user do |exam_user|
   exam_user.examination_id 1
   exam_user.user_id 1
@@ -41,8 +50,24 @@ Factory.define :exam_user do |exam_user|
   exam_user.answer_sheet_url "/result/155.xml"
   exam_user.is_auto_rate 1
 end
+
 Factory.define :rater_user_relation do |exam_relation|
   exam_relation.exam_rater_id 1
   exam_relation.exam_user_id 155
   exam_relation.is_marked 0
+end
+
+Factory.define :paper_block do |paper_block|
+  paper_block.title "single choose"
+  paper_block.description "single choose"
+end
+
+Factory.define :examination do |examination|
+  examination.title "examination test"
+  examination.description "examination description"
+  examination.is_score_open 1
+  examination.is_paper_open 1
+  examination.is_published 1
+  examination.user_affirm 0
+  examination.status 2
 end

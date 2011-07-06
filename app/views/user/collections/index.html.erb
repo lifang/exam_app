@@ -1,3 +1,4 @@
+<% if @collection and @doc %>
 <div id="paper_show_info">
   <ul class="new_biz">
   </ul>
@@ -30,4 +31,7 @@
     end %>
   </ul>
 </div>
+<% else %>
+<div style="text-align: center;">您的收藏里面暂无数据。</div>
+<% end %>
 <div class="clear"></div>

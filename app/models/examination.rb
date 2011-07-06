@@ -10,7 +10,6 @@ class Examination < ActiveRecord::Base
   IS_PUBLISHED = {:NEVER => 0, :ALREADY => 1} #是否发布  0 没有 1 已经发布
 
   default_scope :order => "examinations.created_at desc"
-  require 'spreadsheet'
 
   #创建考试
   def update_examination(attr_hash)
@@ -36,13 +35,13 @@ class Examination < ActiveRecord::Base
 
   #考试组织人员添加考生添加考试记录账号
   def new_exam_user(user)
-    exam_user = ExamUser.create!(:user_id => user.id,:examination_id => self.id,:password => User::DEFAULT_PASSWORD,
+    exam_user = ExamUser.create(:user_id => user.id,:examination_id => self.id,:password => User::DEFAULT_PASSWORD,
       :is_user_affiremed => ExamUser::IS_USER_AFFIREMED[:NO])
     exam_user.set_paper(self)
     UserMailer.user_affirmed(exam_user,self).deliver if self.user_affirm == true
   end
 
-  #修改试卷,此方法用来修改考试试卷，update_flag 是传过来增加或删除的标记，*paper是试卷数组
+  #修改试卷,此方法用来修改考试试卷，update_flag 是传过来增加或删除的标记，papers是试卷数组
   def update_paper(update_flag, papers)
     if update_flag == "create"
       papers.each do |i|
@@ -76,7 +75,6 @@ class Examination < ActiveRecord::Base
   end
 
   def proof_code(len)
-    #    chars = ('A'..'Z').to_a + ('a'..'z').to_a
     chars = (1..9).to_a
     code_array = []
     1.upto(len) {code_array << chars[rand(chars.length)]}
@@ -93,9 +91,7 @@ class Examination < ActiveRecord::Base
     else
       sql += "and (e.status = #{STATUS[:GOING]}) "
     end
-    if !examination_id.nil? and examination_id != ""
-      sql += " and e.id = #{examination_id} "
-    end
+    sql += " and e.id = #{examination_id} " if !examination_id.nil? and examination_id != ""
     sql += "order by e.created_at desc"
     Examination.find_by_sql(sql)
   end

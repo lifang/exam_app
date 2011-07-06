@@ -6,7 +6,7 @@ class CreateExamUsers < ActiveRecord::Migration
       t.string :password
       t.boolean :user_affirm, :default => 0
       t.datetime :created_at
-      t.integer :paper_id, :null => false
+      t.integer :paper_id
       t.datetime :started_at
       t.datetime :submited_at
       t.datetime :ended_at

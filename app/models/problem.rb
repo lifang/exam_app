@@ -63,13 +63,15 @@ class Problem < ActiveRecord::Base
   #删除试题
   def self.remove_problem_xml(doc, problem_path)
     problem = doc.elements["#{problem_path}"]
-    block = problem.parent.parent
-    #更新块和试卷的总分
-    doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - 1
-    block.attributes["total_num"] = block.attributes["total_num"].to_i - 1
-    block.attributes["total_score"] = block.attributes["total_score"].to_i - problem.attributes["score"].to_i
-    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i - problem.attributes["score"].to_i
-    doc.delete_element(problem_path)
+    unless problem.nil?
+      block = problem.parent.parent
+      #更新块和试卷的总分
+      doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - 1
+      block.attributes["total_num"] = block.attributes["total_num"].to_i - 1
+      block.attributes["total_score"] = block.attributes["total_score"].to_i - problem.attributes["score"].to_i
+      doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i - problem.attributes["score"].to_i
+      doc.delete_element(problem_path)
+    end
     return doc
   end
 
@@ -77,8 +79,8 @@ class Problem < ActiveRecord::Base
   def generate_problem_score(options = {})
     problem_score = 0
     options[:score].values.each do |value|
-        problem_score += value.to_i
-      end if !options.empty? and !options[:score].nil?
+      problem_score += value.to_i
+    end if !options.empty? and !options[:score].nil?
     return problem_score
   end
 

@@ -14,11 +14,11 @@ class ProblemsController < ApplicationController
       answer_question_attr = answer_text(params[:problem][:correct_type].to_i,
         params[:problem][:attr_sum].to_i, params[:problem][:answer])
       @question = Question.create_question(@problem,
-        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis],
+        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis].strip,
           :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
       #创建标签
-      if !params[:tag].nil? and params[:tag] != ""
-        tag_name = params[:tag].split(" ")
+      if !params[:tag].nil? and params[:tag].strip != ""
+        tag_name = params[:tag].strip.split(" ")
         @question.question_tags(Tag.create_tag(tag_name))
       end
       score_arr[@question.id] = params[:problem][:score].to_i
@@ -29,29 +29,33 @@ class ProblemsController < ApplicationController
   end
 
   #组装答案和选项
-  def answer_text(problem_type, attr_num, answer)
+  def answer_text(problem_type, attr_num, answer,question_id="")
     answer_question_attr = []
     attrs_array = []
     if problem_type == Problem::QUESTION_TYPE[:SINGLE_CHOSE]
-      answer_index = params[:attr_key].to_i
-      answer_question_attr << params["attr#{answer_index}_value"]
+      answer_index = params["attr_key#{question_id}"].to_i
+      answer_question_attr << params["attr#{answer_index}_value#{question_id}"]
       (1..attr_num).each do |i|
-        attrs_array << params["attr#{i}_value"]
+        if !params["attr#{i}_value#{question_id}"].nil? && params["attr#{i}_value#{question_id}"] != ""
+          attrs_array << params["attr#{i}_value#{question_id}"]
+        end
       end
       answer_question_attr << attrs_array
     elsif problem_type == Problem::QUESTION_TYPE[:MORE_CHOSE]
       answer_index = []
       (1..attr_num).each do |i|    
-        if !params["attr#{i}_key"].nil? and params["attr#{i}_key"] != ""
-          attr_key = params["attr#{i}_key"].to_i        
-          answer_index << params["attr#{attr_key}_value"]
+        if !params["attr#{i}_key#{question_id}"].nil? and params["attr#{i}_key#{question_id}"] != ""
+          attr_key = params["attr#{i}_key#{question_id}"].to_i
+          answer_index << params["attr#{attr_key}_value#{question_id}"]
         end
-        attrs_array << params["attr#{i}_value"]
+        if !params["attr#{i}_value#{question_id}"].nil? && params["attr#{i}_value#{question_id}"] != ""
+          attrs_array << params["attr#{i}_value#{question_id}"]
+        end
       end
       answer_question_attr << answer_index.join(";|;")
       answer_question_attr << attrs_array
     elsif problem_type == Problem::QUESTION_TYPE[:JUDGE]
-      answer_question_attr << params[:attr_key].to_i
+      answer_question_attr << params["attr_key#{question_id}"].to_i
       answer_question_attr << []
     elsif problem_type == Problem::QUESTION_TYPE[:SINGLE_CALK] or problem_type == Problem::QUESTION_TYPE[:CHARACTER]
       answer_question_attr << answer
@@ -77,12 +81,12 @@ class ProblemsController < ApplicationController
       score_arr = @problem.old_score(score_arr, doc, params[:problem][:problem_xpath])
     else
       answer_question_attr = answer_text(@problem.types,
-        params[:problem][:attr_sum].to_i, params[:problem][:answer])
+        params[:problem][:attr_sum].to_i, params[:problem][:answer],params[:problem][:question_id])
       @question = Question.update_question(params[:problem][:question_id],
-        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis],
+        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis].strip,
           :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
-      if !params[:tag].nil? and params[:tag] != ""
-        tag_name = params[:tag].split(" ")
+      if !params[:tag].nil? and params[:tag].strip != ""
+        tag_name = params[:tag].strip.split(" ")
         @question.question_tags(Tag.create_tag(tag_name))
       end
       score_arr[@question.id] = params[:problem][:score].to_i

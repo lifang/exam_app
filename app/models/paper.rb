@@ -15,7 +15,7 @@ class Paper < ActiveRecord::Base
   #更新试卷基本信息
   def update_base_info(url, options = {})
     doc=Document.new(File.open(url))
-#    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y年%m月%d日%H时%M分")
+    doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y-%m-%d %H:%M")
     doc.root.elements["base_info"].elements["title"].text=self.title
     doc.root.elements["base_info"].elements["description"].text=self.description
     options.each do |key, value|
@@ -29,8 +29,8 @@ class Paper < ActiveRecord::Base
   #创建试卷的文件
   def create_paper_url(str, path, file_type)
     dir = "#{Rails.root}/public" 
-    unless File.directory?(dir) 
-      Dir.mkdir(dir)
+    unless File.directory?(dir + "/" + path)
+      Dir.mkdir(dir + "/" + path)
     end
     file_name = "/" + path + "/#{self.id}." + file_type
     url = dir + file_name
@@ -80,7 +80,7 @@ class Paper < ActiveRecord::Base
     sql += " and created_at > '#{start_at}'" unless start_at.nil?
     sql += " and created_at < '#{end_at}'" unless end_at.nil?
     sql += " and title like '%#{title}%'" unless title.nil?
-    sql += " and category_id = '%#{category}%'" unless category.nil?
+    sql += " and category_id = #{category}" unless category.nil?
     options.each do |key, value|
       sql += " and #{key} #{value} "
     end unless options.empty?
@@ -90,7 +90,7 @@ class Paper < ActiveRecord::Base
 
   #生成试卷的json
   def create_paper_js
-    doc = Document.new(File.open "#{Constant::PAPER_PATH}/#{self.id}.xml")
+    doc = Document.new(File.open "#{Constant::PUBLIC_PATH}/#{self.paper_url}")
     doc.root.elements["blocks"].each_element do |block|
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|
@@ -104,7 +104,7 @@ class Paper < ActiveRecord::Base
 
   #更新试卷的题目数和总分
   def update_num_score
-    doc = Document.new(File.open "#{Constant::PAPER_PATH}/#{self.id}.xml")
+    doc = Document.new(File.open "#{Constant::PUBLIC_PATH}/#{self.paper_url}")
     self.total_score = doc.root.attributes["total_score"].to_i
     self.total_question_num = doc.root.attributes["total_num"].to_i
     self.save

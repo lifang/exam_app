@@ -7,6 +7,7 @@ class ExamUser < ActiveRecord::Base
 
   require 'rexml/document'
   include REXML
+  require 'spreadsheet'
 
   IS_USER_AFFIREMED = {:YES => 1, :NO => 0} #用户是否确认  1 已确认 0 未确认
   default_scope :order => "exam_users.total_score desc"
@@ -37,11 +38,9 @@ class ExamUser < ActiveRecord::Base
         e.open_to_user, e.answer_sheet_url, u.name, u.mobilephone, u.email, e.total_score
         from exam_users e inner join users u on u.id = e.user_id
         where e.examination_id = #{examination_id} "
-    if !options.empty?
-      options.each do |key, value|
-        sql += " and #{key} #{value} "
-      end
-    end
+    options.each do |key, value|
+      sql += " and #{key} #{value} "
+    end unless options.empty?
     return sql
   end
 
@@ -85,8 +84,8 @@ class ExamUser < ActiveRecord::Base
     end
     exam_user_array.each do |exam_user|
       score_level_hash.each do |key, value|
-        if (exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
-            (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i)
+        if exam_user.total_score and ((exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
+            (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i))
           exam_user_hash[exam_user.id] = key
           exam_user_hash[key] += 1
         end
@@ -243,7 +242,8 @@ class ExamUser < ActiveRecord::Base
     str="-1"
     xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
-        if (problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:CHARACTER]&&problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:COLLIGATIONR])
+        if (problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:CHARACTER] and
+              problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:COLLIGATIONR])
           block.delete_element(problem.xpath)
         else
           problem.elements["questions"].each_element do |question|
@@ -259,9 +259,7 @@ class ExamUser < ActiveRecord::Base
             end           
           end
         end
-        if problem.elements["questions"].elements[1].nil?
-          block.delete_element(problem.xpath)
-        end
+        block.delete_element(problem.xpath) if problem.elements["questions"].elements[1].nil?
       end
     end
     xml.add_attribute("ids","#{str}")
@@ -274,16 +272,10 @@ class ExamUser < ActiveRecord::Base
     hash =get_email(info)
     users =User.find_by_sql(["select u.*,e.examination_id e_id from users u left join exam_users e on u.id=e.user_id
                              where u.email in(?) ", hash.keys])
-    if users
-      users.each do |user|
-        unless user.name ==hash["#{user.email}"][0]
-          str += user.name + "," + user.email + ";"
-        end
-        if user.e_id==id
-          str += user.name + "," + user.email + ";"
-        end
-      end
-    end
+    users.each do |user|
+      str += user.name + "," + user.email + ";" unless user.name == hash["#{user.email}"][0]
+      str += user.name + "," + user.email + ";" if user.e_id == id
+    end if users
     return str
   end
 
@@ -291,12 +283,10 @@ class ExamUser < ActiveRecord::Base
   def self.login(info,examination)
     hash =get_email(info)
     users = User.find_by_sql(["select * from users u where u.email in (?)",hash.keys])
-    if users
-      users.each do |user|
-        examination.new_exam_user(user)
-        hash.delete(user.email)
-      end
-    end
+    users.each do |user|
+      examination.new_exam_user(user)
+      hash.delete(user.email)
+    end if users
     hash.each do |email|
       user = User.auto_add_user(email[1][0].strip,email[1][0].strip, email[0].strip,email[1][1].strip)
       examination.new_exam_user(user)
@@ -343,31 +333,32 @@ class ExamUser < ActiveRecord::Base
   end
 
   #检验当前当前考生是否能考本场考试
-#  def self.can_answer(user_id, examination_id)
-#    str = ""
-#    examination = Examination.return_examinations(user_id, examination_id)
-#    if examination.any?
-#      if !examination[0].is_submited.nil? and examination[0].is_submited == 1
-#        str = "您已经交卷。"
-#      else
-#        if examination[0].exam_user_id.nil? and examination[0].status == Examination::STATUS[:GOING]
-#          examination[0].new_exam_user(User.find(user_id))
-#        else
-#          if examination[0].start_at_time > Time.now
-#            str = "本场考试开始时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")},请您做好准备。"
-#          elsif (!examination[0].exam_time.nil? and examination[0].exam_time !=0 and
-#                (examination[0].start_at_time + examination[0].exam_time.minutes) < Time.now) or
-#              examination[0].status == STATUS[:CLOSED]
-#            str = "本场考试已经结束。"
-#          elsif examination[0].start_end_time  < Time.now
-#            str = "您不能入场，本场考试入场时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")}-
-#            #{examination[0].start_end_time.strftime("%Y-%m-%d %H:%M:%S")}。##"
-#          end if examination[0].start_at_time
-#        end
-#      end
-#    else
-#      str = "本场考试已经取消，或者您没有资格参加本场考试。"
-#    end
-#    return [str, examination]
-#  end
+
+  def self.can_answer(user_id, examination_id)
+    str = ""
+    examination = Examination.return_examinations(user_id, examination_id)
+    if examination.any?
+      if !examination[0].is_submited.nil? and examination[0].is_submited == 1
+        str = "您已经交卷。"
+      else
+        if examination[0].exam_user_id.nil? and examination[0].status == Examination::STATUS[:GOING]
+          examination[0].new_exam_user(User.find(user_id))
+        else
+          if examination[0].start_at_time > Time.now
+            str = "本场考试开始时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")},请您做好准备。"
+          elsif (!examination[0].exam_time.nil? and examination[0].exam_time !=0 and
+                (examination[0].start_at_time + examination[0].exam_time.minutes) < Time.now) or
+              examination[0].status == STATUS[:CLOSED]
+            str = "本场考试已经结束。"
+          elsif examination[0].start_end_time  < Time.now
+            str = "您不能入场，本场考试入场时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")}
+              -#{examination[0].start_end_time.strftime("%Y-%m-%d %H:%M:%S")}。"
+          end if examination[0].start_at_time
+        end
+      end
+    else
+      str = "本场考试已经取消，或者您没有资格参加本场考试。"
+    end
+    return [str, examination]
+  end
 end

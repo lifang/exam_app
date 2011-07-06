@@ -64,8 +64,8 @@ class Category < ActiveRecord::Base
     return level
   end
 
-  def Category.is_have_son?(category)
-    return Category.find_by_parent_id(category.id)
+  def is_have_son?
+    return Category.find_all_by_parent_id(self.id).any?
   end
 
 end

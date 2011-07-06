@@ -9,15 +9,9 @@ class ExaminationsController < ApplicationController
     session[:start_at] = nil
     session[:end_at] = nil
     session[:title] = nil    
-    if !params[:start_at].nil? and params[:start_at] != ""
-      session[:start_at] = params[:start_at]
-    end
-    if !params[:end_at].nil? and params[:end_at] != ""
-      session[:end_at] = params[:end_at]
-    end
-    if !params[:title].nil? and params[:title] != ""
-      session[:title] = params[:title]
-    end
+    session[:start_at] = params[:start_at] if !params[:start_at].nil? and params[:start_at] != ""
+    session[:end_at] = params[:end_at] if !params[:end_at].nil? and params[:end_at] != ""
+    session[:title] = params[:title] if !params[:title].nil? and params[:title] != ""
     redirect_to search_list_examinations_path
 
   end
@@ -37,7 +31,7 @@ class ExaminationsController < ApplicationController
   def create  #创建考试按钮，获取试卷id
     @paperid=params[:exam][:getvalue]
     if @paperid==""
-      flash[:error]="请选择试卷"
+      flash[:warn]="请选择试卷"
       redirect_to "/papers"
     else
       paper_ids = []
@@ -100,12 +94,8 @@ class ExaminationsController < ApplicationController
     @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
       :per_page => 10, :page => params[:page])
     @score_levels=@examination.score_levels
-    if request.xml_http_request? and params[:kind] == 'exam_user'
-      render :partial => "exam_user_for_now"
-    end
-    if request.xml_http_request? and params[:kind] == 'exam_rater'
-      render :partial => "exam_rater"
-    end
+    render :partial => "exam_user_for_now" if request.xml_http_request? and params[:kind] == 'exam_user'
+    render :partial => "exam_rater" if request.xml_http_request? and params[:kind] == 'exam_rater'
   end
 
   def  destroy  #删除安排

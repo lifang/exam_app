@@ -29,19 +29,29 @@ class PapersController < ApplicationController
     @paper=Paper.find(params[:id].to_i)
     @paper.update_attributes(:title=>params[:info][:title],
       :description=>params[:info][:description], :category_id => params[:category])  
-   @paper.update_base_info("#{Rails.root}/public"+@paper.paper_url, {"category"=>params[:category].to_i})
+    @paper.update_base_info("#{Rails.root}/public"+@paper.paper_url, {"category"=>params[:category].to_i})
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
   def show
-    file = File.open("#{Constant::PAPER_PATH}/#{params[:id]}.xml")
-    @xml=Document.new(file).root
+    begin
+      file = File.open("#{Constant::PAPER_PATH}/#{params[:id]}.xml")
+      @xml=Document.new(file).root
+    rescue
+      flash[:error] = "当前试卷不能正常打开，请检查试卷是否正常。"
+      redirect_to papers_path
+    end
   end
 
   def new_step_two
     paper = Paper.find(params[:id].to_i)
-    file = File.open("#{Constant::PUBLIC_PATH}#{paper.paper_url}")
-    @xml=Document.new(file).root
+    begin
+      file = File.open("#{Constant::PUBLIC_PATH}#{paper.paper_url}")
+      @xml=Document.new(file).root
+    rescue
+      flash[:error] = "当前试卷不能正常打开，请检查试卷是否正常。"
+      redirect_to papers_path
+    end
   end
 
   def create_step_one
@@ -90,7 +100,7 @@ class PapersController < ApplicationController
 
   def search_list
     @papers = Paper.search_mothod(cookies[:user_id].to_i, session[:mintime], session[:maxtime],
-      session[:title], session[:category], 10, params[:page])
+      session[:title], session[:category].to_i, 10, params[:page])
     render 'index'
   end
   

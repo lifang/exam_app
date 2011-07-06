@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(:version => 20110620025957) do
     t.integer "question_id"
   end
 
-  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
+  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_point_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|
