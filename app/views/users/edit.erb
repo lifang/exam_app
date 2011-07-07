@@ -6,7 +6,7 @@
   </ul>
   <div id="div_tab1">        
     <table>
-      <%= form_for @user, :html =>{:onsubmit => 'return checkinfo()', :class => "required-validate"} do |f| %>
+      <%= form_for :user_info,:url=>"/users/#{@user.id}/update_info", :html =>{:onsubmit => 'return checkinfo()', :class => "required-validate"} do |f| %>
         <tr>
           <td valign="top" align="right"><span class="must_r">&nbsp;&nbsp;</span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp名：</td>
           <td><%= f.text_field :name ,:id => "user_name",:class => "required input_style",:size => "30" %>&nbsp;&nbsp;&nbsp;<span  id="nameErr"></span></td>

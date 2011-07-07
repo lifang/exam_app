@@ -50,7 +50,7 @@ class User::ExamUsersController < ApplicationController
     @user = User.find_by_email(params[:session][:email])
     if @user.nil?
       flash[:error] = "邮箱不存在"
-      redirect_to '/sessions/new'
+      redirect_to '/user/exam_users/session_new'
     else
       unless  @user.has_password?(params[:session][:password])
         flash[:error] = "密码错误"

@@ -14,7 +14,7 @@
   试卷更新时间: <%= @examination.updated_at.strftime("%Y-%m-%d  %H:%M") %>
 <% end %> &nbsp;&nbsp;)
 <p>
-  本次考试由&nbsp;&nbsp<%=User.find(@examination.creater_id).name  %>&nbsp;&nbsp;组织
+  本次考试由&nbsp;&nbsp<%=@user.name  %>&nbsp;&nbsp;组织
 <div  align="center">
   <table border="1" >
     <tr>

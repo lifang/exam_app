@@ -15,6 +15,7 @@ class SessionsController < ApplicationController
       else
         unless  @user.has_password?(params[:session][:password])
           flash[:error] = "密码错误"
+          
           redirect_to '/sessions/new'
         else
           if @user.status == User::STATUS[:LOCK]
@@ -69,6 +70,5 @@ class SessionsController < ApplicationController
   def active
     @user = User.find(params[:id].to_i)
   end
-
 end
 

@@ -323,7 +323,7 @@ class ExamUser < ActiveRecord::Base
     Spreadsheet.client_encoding = "UTF-8"
     book = Spreadsheet::Workbook.new
     sheet = book.create_worksheet
-    sheet.row(0).concat %w{姓名 手机号 邮箱}
+       sheet.row(0).concat %w{姓名 手机号 邮箱}
     exam_users = ExamUser.find_by_sql("select u.name, u.mobilephone, u.email from exam_users e
         inner join users u on e.user_id = u.id where examination_id=#{examination_id} and is_user_affiremed != 1")
     exam_users.each_with_index do |exam_user, index|
@@ -333,6 +333,7 @@ class ExamUser < ActiveRecord::Base
   end
 
   #检验当前当前考生是否能考本场考试
+
   def self.can_answer(user_id, examination_id)
     str = ""
     examination = Examination.return_examinations(user_id, examination_id)
