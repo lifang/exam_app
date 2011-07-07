@@ -146,17 +146,18 @@ function create_single_question(que_div, question) {
         }
     } else {
         var attr1 = create_element("div", null, null, "attr", null, "innerHTML");
-        if (question.correct_type == "2") {
-            attr1.innerHTML = "<input type='radio' id='question_attr_1' name='question_attr_"+ question.id +"' value='1'";
+        if (question.correct_type == "2") {  
             if (answer_hash != null && answer_hash[question.id] != null && answer_hash[question.id] == "1") {
-                attr1.innerHTML += " checked='true' ";
+                attr1.innerHTML = "<input type='radio' id='question_attr_1' name='question_attr_"+ question.id +"' value='1' checked='true' />对/是&nbsp;&nbsp;";
+            } else {
+                attr1.innerHTML = "<input type='radio' id='question_attr_1' name='question_attr_"+ question.id +"' value='1' />对/是&nbsp;&nbsp;";
             }
-            attr1.innerHTML += " />对/是&nbsp;&nbsp;";
-            attr1.innerHTML += "<input type='radio' id='question_attr_0' name='question_attr_"+ question.id +"' value='0'";
+            
             if (answer_hash != null && answer_hash[question.id] != null && answer_hash[question.id] == "0") {
-                attr1.innerHTML += " checked='true' ";
+                attr1.innerHTML += "<input type='radio' id='question_attr_0' name='question_attr_"+ question.id +"' value='0' checked='true' />错/否&nbsp;&nbsp;";
+            } else {
+                attr1.innerHTML += "<input type='radio' id='question_attr_0' name='question_attr_"+ question.id +"' value='0'/>错/否&nbsp;&nbsp;";
             }
-            attr1.innerHTML += " />错/否&nbsp;&nbsp;"
         } else {
             if (answer_hash != null && answer_hash[question.id] != null) {
                 attr1.innerHTML += "<textarea cols='35' rows='3' id='question_answer_"+ question.id +"' name='question_answer_"+ question.id +"'>"+ answer_hash[question.id] +"</textarea>";
