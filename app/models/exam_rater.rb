@@ -44,8 +44,7 @@ class ExamRater < ActiveRecord::Base
       UserMailer.rater_affirm(exam_rater,examination).deliver
     end
   end
-  def self.rater(doc,id,score)
-    doc.elements["paper"].elements["rate_score"].text=score
+  def self.rater(doc,id)
     unless doc.elements[1].elements["auto_score"].nil?
       auto_score=doc.elements[1].elements["auto_score"].text
       if auto_score.to_i !=0
@@ -53,6 +52,7 @@ class ExamRater < ActiveRecord::Base
         ExamUser.find(id).update_attributes(:total_score=>score+auto_score.to_i)
       end
     end
+    puts doc
     return doc.to_s
   end
 

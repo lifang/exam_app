@@ -12,10 +12,10 @@ class Rater::ExamRatersController < ApplicationController
     @examination=Examination.find(params[:examination_id])
     if @rater.author_code==params[:author_code]
       cookies[:rater_id]=@rater.id
-            flash[:success]="登陆成功"
+      flash[:success]="登陆成功"
       redirect_to  "/rater/exam_raters/#{@examination.id}/reader_papers"
     else
-           flash[:error]="阅卷码不正确，请核对！"
+      flash[:error]="阅卷码不正确，请核对！"
       render "/rater/exam_raters/session"
     end
   end
@@ -41,7 +41,7 @@ class Rater::ExamRatersController < ApplicationController
       RaterUserRelation.create(:exam_rater_id=>cookies[:rater_id],:exam_user_id=>@exam_user[0].id)
       redirect_to "/rater/exam_raters/#{@exam_user[0].id}/answer_paper"
     else
-            flash[:notice] = "当场考试试卷已经全部阅完。"
+      flash[:notice] = "当场考试试卷已经全部阅完。"
       redirect_to request.referer
     end
   end
@@ -64,7 +64,8 @@ class Rater::ExamRatersController < ApplicationController
       score +=element.attributes["score"].to_i
       element.add_attribute("score","#{params["single_value_#{element.attributes["id"]}"]}")
     end
-     @doc=ExamRater.rater(doc,params[:id],score)
+    doc.elements["paper"].elements["rate_score"].text=score
+    @doc=ExamRater.rater(doc,params[:id])
     self.write_xml("#{Rails.root}/public"+url, @doc)
     redirect_to "/rater/exam_raters/#{ @exam_user.examination_id}/reader_papers"
   end
@@ -82,7 +83,7 @@ class Rater::ExamRatersController < ApplicationController
     @exam_rater=ExamRater.find(params[:id])
     @exam_rater.update_attributes(:name=>params[:value])
     render :inline=>"name"
-       render :inline=>"姓&nbsp;&nbsp;&nbsp;&nbsp;名:#{ @exam_rater.name}"
+    render :inline=>"姓&nbsp;&nbsp;&nbsp;&nbsp;名:#{ @exam_rater.name}"
   end
   
   def index #参加的阅卷列表
