@@ -125,6 +125,18 @@ class UsersController < ApplicationController
     end
     redirect_to request.referer
   end
+
+  def load_edit_role
+    @role = Role.find(params[:role_id].to_i)
+    render :partial => "/users/edit_role",:object =>@role
+  end
+
+  def edit_role
+    @role = Role.find(params[:role][:role_id].to_i)
+    @role_name = params[:role_name_test]
+    @role.update_attributes(:name=>@role_name)
+    redirect_to request.referer
+  end
   
   def add_role
     @role=Role.create(:name=>params[:role][:name])

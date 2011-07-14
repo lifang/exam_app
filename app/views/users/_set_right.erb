@@ -6,7 +6,7 @@
   <%= f.hidden_field :right_num,:value=>@rights.size %>
     <% num=0 %>
     <% @rights.values.each do |right| %>
-      <input type="checkbox" id="checkbox<%= right[1] %>" name="check_box<%= num %>" value="<%= right[1] %>" <% if set_right.model_role!=nil && (set_right.model_role.right_sum/(2**num))%2!=0 %>checked="true"<% end %>></input><%= right[0] %>&nbsp;&nbsp;
+      <input type="checkbox" id="checkbox<%= right[1] %>" name="check_box<%= num %>" value="<%= right[1] %>" <% if set_right.model_role!=nil && (set_right.model_role.right_sum/(2**num))%2==1 %>checked="true"<% end %>></input><%= right[0] %>&nbsp;&nbsp;
       <% num += 1 %>
       <% if num%4 == 0 %><br/><% end %>
     <% end %>

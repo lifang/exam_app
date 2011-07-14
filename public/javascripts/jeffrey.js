@@ -512,6 +512,44 @@ function cancel_set_right(){
     return false;
 }
 
+function load_edit_role(role_id){
+    new Ajax.Updater("set_right_div", "/users/load_edit_role",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters:'role_id=' + role_id +'&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+    });
+    return false;
+}
+
+function validate_role_name(){
+    var role_name = document.getElementById("role_name_test");
+    if (role_name!=null){
+        if (role_name.value==""){
+            alert("角色名不能为空");
+            return false;
+        }
+    }
+}s
+
+function validate_new_role_name(){
+    var role_name2 = document.getElementById("new_role_name");
+    if (role_name2!=null){
+        if (role_name2.value==""){
+            alert("角色名不能为空");
+            return false;
+        }
+    }
+}
+
+function visible_add_role(){
+    if($("add_role_div").style.display=="none")
+        $("add_role_div").style.display="block";
+    else
+        $("add_role_div").style.display="none";
+}
+
 
 //编辑模块
 function edit_block(id){

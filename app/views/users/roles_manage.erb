@@ -4,22 +4,25 @@
     <table>
       <thead>
         <tr>
-          <th width="30">&nbsp;&nbsp;<font color="blue"><b>角色列表</b></font></th>
-          <th width="20"></th>
+          <th>&nbsp;&nbsp;<font color="blue"><b>角色列表</b></font></th>
+          <th width="500"><a href="javascript:void(0);" onclick="javascript:visible_add_role();" style="float:left;">新建角色</a>
+            <div id="add_role_div" style="float:left;display:none;">
+              <%=  form_for :role ,:url=>"/users/add_role",:html=>{:onsubmit=>"return validate_new_role_name();"} do |f| %>
+                &nbsp;&nbsp;&nbsp;&nbsp;输入新角色名： &nbsp;&nbsp;<font color="red">*</font> <%= f.text_field:name ,:id=>"new_role_name"%>&nbsp;&nbsp;<%= f.submit "确认" %>&nbsp;&nbsp;<input type="button" value="取消" onclick="javascript:visible_add_role();"/>
+              <% end %>
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody>
         <% @roles.find_all.each do |role| %>
           <tr>
             <td><%= role.name %>   </td>
-            <td><%= link_to "编辑"%> | <a href="javascript:void(0);" onclick="javascript:load_set_right(<%= role.id %>)">设置权限</a> </td>
+            <td><a href="javascript:void(0);" onclick="javascript:load_edit_role(<%= role.id %>)">更改名称</a> | <a href="javascript:void(0);" onclick="javascript:load_set_right(<%= role.id %>)">设置权限</a> </td>
           </tr>
         </tbody>
       <% end %>
     </table>
-    <%=  form_for :role ,:url=>"/users/add_role" do |f| %>
-      <p>&nbsp;&nbsp;增加角色 &nbsp;&nbsp;<font color="red">*</font> <%= f.text_field:name %>&nbsp;&nbsp;<%= f.submit "确认" %></p>
-    <% end %>
     <br/><br/>
     <div id="set_right_div" name="set_right_div"></div>
   </div>
