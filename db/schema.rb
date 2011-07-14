@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110620025957) do
+ActiveRecord::Schema.define(:version => 20110714022612) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -169,6 +169,7 @@ ActiveRecord::Schema.define(:version => 20110620025957) do
     t.integer "exam_user_id"
     t.integer "exam_rater_id"
     t.boolean "is_marked"
+    t.boolean "is_authed",     :default => false
   end
 
   add_index "rater_user_relations", ["exam_rater_id"], :name => "index_rater_user_relations_on_exam_rater_id"
