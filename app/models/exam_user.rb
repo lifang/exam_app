@@ -23,7 +23,7 @@ class ExamUser < ActiveRecord::Base
     sql = ExamUser.generate_sql(examination_id, options)
     return Examination.paginate_by_sql(sql, :per_page =>pre_page, :page => page)
   end
-  
+
 
   #显示单场考试的所有的考生
   def ExamUser.select_exam_users(examination_id, options={})
@@ -31,7 +31,7 @@ class ExamUser < ActiveRecord::Base
     return Examination.find_by_sql(sql)
   end
 
-  
+
   #组装查询学生的sql语句
   def ExamUser.generate_sql(examination_id, options={})
     sql = "select e.examination_id, e.id, e.user_id, e.is_user_affiremed, e.is_submited,
@@ -58,7 +58,7 @@ class ExamUser < ActiveRecord::Base
       p.total_question_num, us.name u_name, us.email, u.started_at, u.total_score u_total_score, u.answer_sheet_url
       from exam_users u inner join examinations e on e.id = u.examination_id
       inner join papers p on p.id = u.paper_id
-      inner join users us on us.id = u.user_id 
+      inner join users us on us.id = u.user_id
       left join categories c on c.id = p.category_id where 1=1 and u.answer_sheet_url is not null"
     options.each do |key, value|
       sql += " and #{key} #{value} "
@@ -243,7 +243,7 @@ class ExamUser < ActiveRecord::Base
     xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
         if (problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:CHARACTER] and
-              problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:COLLIGATION])
+              problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:COLLIGATIONR])
           block.delete_element(problem.xpath)
         else
           problem.elements["questions"].each_element do |question|
@@ -256,7 +256,7 @@ class ExamUser < ActiveRecord::Base
               str += (","+question.attributes["id"])
             else
               problem.delete_element(question.xpath)
-            end           
+            end
           end
         end
         block.delete_element(problem.xpath) if problem.elements["questions"].elements[1].nil?
@@ -323,7 +323,7 @@ class ExamUser < ActiveRecord::Base
     Spreadsheet.client_encoding = "UTF-8"
     book = Spreadsheet::Workbook.new
     sheet = book.create_worksheet
-       sheet.row(0).concat %w{姓名 手机号 邮箱}
+    sheet.row(0).concat %w{姓名 手机号 邮箱}
     exam_users = ExamUser.find_by_sql("select u.name, u.mobilephone, u.email from exam_users e
         inner join users u on e.user_id = u.id where examination_id=#{examination_id} and is_user_affiremed != 1")
     exam_users.each_with_index do |exam_user, index|
@@ -333,7 +333,6 @@ class ExamUser < ActiveRecord::Base
   end
 
   #检验当前当前考生是否能考本场考试
-
   def self.can_answer(user_id, examination_id)
     str = ""
     examination = Examination.return_examinations(user_id, examination_id)

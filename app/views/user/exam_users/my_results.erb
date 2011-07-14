@@ -37,7 +37,7 @@
       <tbody id="result_list">
         <% @results.each do |result| %>
           <tr>
-            <td><%= result.e_id %><%= result.e_title %></td>
+            <td><%= result.e_title %></td>
             <td><%= result.description %></td>
             <td><%= result.total_question_num %>题/ <%= result.p_total_score %>分</td>
             <td> <%= result.started_at.nil? ? "未参加考试":result.started_at.strftime("%Y-%m-%d %H:%M:%S") %></td>

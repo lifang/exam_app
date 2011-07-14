@@ -52,7 +52,6 @@ class ExamRater < ActiveRecord::Base
         ExamUser.find(id).update_attributes(:total_score=>score+auto_score.to_i)
       end
     end
-    puts doc
     return doc.to_s
   end
 
