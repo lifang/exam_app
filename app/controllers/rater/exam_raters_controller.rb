@@ -6,7 +6,7 @@ class Rater::ExamRatersController < ApplicationController
     @examination=Examination.find(params[:examination])
     render "/rater/exam_raters/session"
   end
-  
+
   def rater_login  #阅卷老师登陆
     @rater=ExamRater.find(params[:id])
     @examination=Examination.find(params[:examination_id])
@@ -19,7 +19,7 @@ class Rater::ExamRatersController < ApplicationController
       render "/rater/exam_raters/session"
     end
   end
-  
+
   def reader_papers  #答卷批阅状态显示
     @examination=Examination.find(params[:id])
     @exam_paper_total =ExamUser.get_paper(params[:id])
@@ -31,21 +31,21 @@ class Rater::ExamRatersController < ApplicationController
       @exam_paper_marked +=1 if e.is_marked==1
     end unless @exam_paper_total.blank?
   end
-  
+
   def check_paper  #选择要批阅的答卷
     @exam_user= ExamUser.find_by_sql("select eu.id from exam_users eu
       left join rater_user_relations r on r.exam_user_id = eu.id
       where eu.answer_sheet_url is not null and eu.examination_id = #{params[:examination_id].to_i}
       and r.exam_user_id is null order by rand() limit 1")
     unless @exam_user.blank?
-      RaterUserRelation.create(:exam_rater_id=>cookies[:rater_id],:exam_user_id=>@exam_user[0].id)
+      RaterUserRelation.create(:exam_rater_id=>cookies[:rater_id],:exam_user_id=>@exam_user[0].id,:started_at=>Time.now)
       redirect_to "/rater/exam_raters/#{@exam_user[0].id}/answer_paper"
     else
       flash[:notice] = "当场考试试卷已经全部阅完。"
       redirect_to request.referer
     end
   end
-  
+
   def answer_paper #批阅答卷
     @exam_user=ExamUser.find(params[:id])
     doc=ExamRater.open_file(@exam_user.answer_sheet_url)
@@ -56,6 +56,7 @@ class Rater::ExamRatersController < ApplicationController
   def over_answer #批阅完成，给答卷添加成绩
     @exam_relation=RaterUserRelation.find_by_exam_user_id(params[:id])
     @exam_relation.toggle!(:is_marked)
+    @exam_relation.update_attributes(:rate_time=>((Time.now-@exam_relation.started_at)/60+1).to_i)
     @exam_user=ExamUser.find(params[:id])
     url="/result/#{params[:id]}.xml"
     doc=ExamRater.open_file(url)
@@ -66,7 +67,7 @@ class Rater::ExamRatersController < ApplicationController
     end
     doc.elements["paper"].elements["rate_score"].text=score
     @doc=ExamRater.rater(doc,params[:id])
-    self.write_xml("#{Rails.root}/public"+url, @doc)
+    self.write_xml("#{Constant::PUBLIC_PATH}"+url, @doc)
     redirect_to "/rater/exam_raters/#{ @exam_user.examination_id}/reader_papers"
   end
 
@@ -85,10 +86,9 @@ class Rater::ExamRatersController < ApplicationController
     render :inline=>"name"
     render :inline=>"姓&nbsp;&nbsp;&nbsp;&nbsp;名:#{ @exam_rater.name}"
   end
-  
+
   def index #参加的阅卷列表
     @exam_rater=ExamRater.find(cookies[:rater_id])
     @exam_list=ExamRater.find_all_by_email(@exam_rater.email)
   end
-
 end
