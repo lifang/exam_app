@@ -38,5 +38,10 @@ module Constant
   UNAFFIRM_PATH = "/excels"
   #收藏文件路径
   COLLECTION_PATH = "/collections"
-  
+
+  RIGHTS = {
+    :english_fourth_level=>["英语四级权限",1],
+    :english_sixth_level=>["英语六级权限",2]
+  }
+
 end

@@ -192,7 +192,7 @@ function question_validate(){
                 return false;
             }
             if($("problem_attr" + i + "_value")!=null){
-            answer_array.push($("problem_attr" + i + "_value").value);
+                answer_array.push($("problem_attr" + i + "_value").value);
             }
         }
         var answer_array_sort=answer_array.sort();
@@ -284,12 +284,12 @@ function generate_edit_questions(problem_id, problem_type) {
                             }
                         }
                         var attr_array_sort=attr_array.sort();
-//                        for(var q=0;q<attr_array.length;q++){
-//                            if (attr_array_sort[q]==attr_array_sort[q+1]){
-//                                alert("选项内容重复："+attr_array_sort[q]);
-//                                return false;
-//                            }
-//                        }
+                    //                        for(var q=0;q<attr_array.length;q++){
+                    //                            if (attr_array_sort[q]==attr_array_sort[q+1]){
+                    //                                alert("选项内容重复："+attr_array_sort[q]);
+                    //                                return false;
+                    //                            }
+                    //                        }
                     } else if (parseFloat(inputs[0].value) == 1) {
                         var attr_array = [];
                         var answer_sum = 0;
@@ -319,12 +319,12 @@ function generate_edit_questions(problem_id, problem_type) {
                             }
                         }
                         var attr_array_sort=attr_array.sort();
-//                        for(var q=0;q<attr_array.length;q++){
-//                            if (attr_array_sort[q]==attr_array_sort[q+1]){
-//                                alert("选项内容重复："+attr_array_sort[q]);
-//                                return false;
-//                            }
-//                        }
+                        //                        for(var q=0;q<attr_array.length;q++){
+                        //                            if (attr_array_sort[q]==attr_array_sort[q+1]){
+                        //                                alert("选项内容重复："+attr_array_sort[q]);
+                        //                                return false;
+                        //                            }
+                        //                        }
                         if(answer_sum==0){
                             alert("请设置正确答案。");
                             return false;
@@ -494,6 +494,60 @@ function load_create_problem(block_id,paper_id, create_type){
         '&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
     });
     return false;
+}
+
+function load_set_right(role_id){
+    new Ajax.Updater("set_right_div", "/users/load_set_right",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters:'role_id=' + role_id +'&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+    });
+    return false;
+}
+
+function cancel_set_right(){
+    $("set_right_div").innerHTML="";
+    return false;
+}
+
+function load_edit_role(role_id){
+    new Ajax.Updater("set_right_div", "/users/load_edit_role",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters:'role_id=' + role_id +'&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+    });
+    return false;
+}
+
+function validate_role_name(){
+    var role_name = document.getElementById("role_name_test");
+    if (role_name!=null){
+        if (role_name.value==""){
+            alert("角色名不能为空");
+            return false;
+        }
+    }
+}s
+
+function validate_new_role_name(){
+    var role_name2 = document.getElementById("new_role_name");
+    if (role_name2!=null){
+        if (role_name2.value==""){
+            alert("角色名不能为空");
+            return false;
+        }
+    }
+}
+
+function visible_add_role(){
+    if($("add_role_div").style.display=="none")
+        $("add_role_div").style.display="block";
+    else
+        $("add_role_div").style.display="none";
 }
 
 
