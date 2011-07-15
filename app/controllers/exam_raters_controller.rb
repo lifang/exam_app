@@ -54,7 +54,7 @@ class ExamRatersController < ApplicationController
       ExamRater.create_raters(@info_raters,@examination)
       @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
         :per_page => 10, :page => params[:page])
-     flash[:notice] = "导入信息成功。"
+      flash[:notice] = "导入信息成功。"
       render :update do |page|
         page.replace_html "exam_rater_list" , :partial => "/examinations/exam_rater"
         page.replace_html "add_info" ,  :inline => "<script>show_name('exam_rater_list','pile_exam_rater');</script>"
@@ -65,5 +65,39 @@ class ExamRatersController < ApplicationController
       end
     end
   end
- 
+
+  def accept_score
+    @rater_relations=RaterUserRelation.find_all_by_exam_rater_id(params[:id])
+    @rater_relations.each do |rater_relation|
+      rater_relation.toggle!(:is_authed)
+    end
+    flash[:success]="成绩认可成功"
+    redirect_to request.referer
+  end
+  def cancel_score
+    @rater_relations=RaterUserRelation.find_all_by_exam_rater_id(params[:id])
+    @rater_relations.each do |rater_relation|
+      unless rater_relation.is_authed ==true
+        ExamUser.find(rater_relation.exam_user_id).update_attributes(:total_score=>0)
+        rater_relation.destroy
+      end
+    end
+    flash[:error]="未认可的已作废"
+    redirect_to request.referer
+  end
+  def random_paper
+    @rater=ExamRater.find(params[:id])
+    @examination=Examination.find(@rater.examination_id)
+    @exam_users=ExamUser.find_by_sql("select * from exam_users eu inner join rater_user_relations r on r.exam_user_id = eu.id
+      where eu.examination_id = #{@examination.id} and r.is_authed=1 order by rand() limit 1")
+    unless @exam_users.blank?
+      @exam_user=@exam_users[0]
+      doc=ExamRater.open_file(@exam_user.answer_sheet_url)
+      xml=ExamRater.open_file("/papers/#{doc.elements[1].attributes["id"]}.xml")
+      @xml=ExamUser.answer_questions(xml,doc)
+    else
+      flash[:notice] = "没有能查看的试卷"
+      redirect_to request.referer
+    end
+  end
 end

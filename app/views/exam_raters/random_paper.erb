@@ -11,7 +11,7 @@
     <center>
               <input type="hidden" id="problem_id" name="problem_id" value="<%=@xml.attributes["ids"]  %>" />
       <input type="hidden" name="examination_id" id="examination_id" value="<%=@exam_user.examination_id  %>" />
-      <%=f.submit value="批阅完毕" ,:disabled=>"disabled",:id=>"button_id"  %>
+      <%=  link_to "下一份" ,"/exam_raters/#{@rater.id}/random_paper"  %>
       <div id="flash_notice"></div>
     </center>
 </div>
@@ -30,7 +30,7 @@
               <li>
                 <%= render :partial=>"/rater/exam_raters/single_question",:object=>problem %>
           <%#= render :partial=>"/papers/edit_problem",:object=>problem %>
-                <h2><a href="javascript:void(0)" onclick="javascript:compare_value(<%= problem.attributes["id"].to_i %>,0)"><%= problem.elements['title'].text %></a></h2>
+                <h2><a href="javascript:void(0)" onclick="javascript:compare_value(<%= problem.attributes["id"].to_i %>,0)"><%= problem.elements['title'].text %></a>(共&nbsp;<%= problem.attributes["score"] %>&nbsp;&nbsp;<font color="red">得<%= problem.attributes["user_score"] %>分</font>)</h2>
               </li>
               <div class="links">
                 <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>

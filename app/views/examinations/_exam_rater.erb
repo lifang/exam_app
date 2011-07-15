@@ -1,22 +1,27 @@
 <table>
   <colgroup>
-    <col width="200"/>
-    <col width="200" />
-    <col width="200" />
+    <col width="60"/>
+    <col width="80" />
+    <col width="80" />
     <col width="60" />
+    <col width="40" />
+    <col  width="150"/>
+
   </colgroup>
   <thead>
     <tr>
-      <th>姓名</th>
+      <th >姓名</th>
       <th>手机号码</th>
       <th>email</th>
+      <th>平均阅卷时间</th>
+      <th>批卷数量</th>
       <th></th>
     </tr>
   </thead>
   <tbody id="rater_table">
     <% if @exam_raters.blank? %>
       <tr id="1">
-        <td colspan="4">
+        <td colspan="9">
           <%= form_remote_tag :url => "/exam_raters/create_exam_rater" , :method => "get",
             :html => {:class => "required-validate"  },:id=>"exam_rater1",:before => "button_fail('rater_button1', 'spinner_rater')",:condition => "test_exam(1,'exam_rater')", :update => "exam_rater_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
@@ -32,7 +37,7 @@
         </td>
       </tr>
       <tr id="2">
-        <td colspan="4">
+        <td colspan="6">
           <%= form_remote_tag :url => "/exam_raters/create_exam_rater" , :method => "get",
             :html => {:class => "required-validate" },:id=>"exam_rater2",:before => "button_fail('rater_button2', 'spinner_for_submit')",:condition => "test_exam(2,'exam_rater')", :update => "exam_rater_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
@@ -48,7 +53,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="4">
+        <td colspan="6">
           <input type="hidden" id="rater_table_rows" name="rater_table_rows" value="2" />
           <input type="hidden" id="textarea" name="textarea" />
           <%= link_to "追加","javascript:void(0);",
@@ -58,17 +63,22 @@
     <% else %>
       <% @exam_raters.each do |exam_rater| %>
         <tr id="tr_exam_rater_<%= exam_rater.id %>">
-          <td><%= exam_rater.name %></td>
-          <td><%= exam_rater.mobilephone %></td>
-          <td><%= exam_rater.email %></td>
-          <td> <%= link_to_remote "编辑", :url => "/exam_raters/#{exam_rater.id}/edit", :method => :get,
+          <% exam_rater_for= @exam_all["#{exam_rater.id}"][1]%>
+          <td><%=exam_rater_for .name %></td>
+          <td><%= exam_rater_for.mobilephone %></td>
+          <td><%=  exam_rater_for.email %></td>
+          <% exam_rater_info=@exam_all["#{exam_rater.id}"][0][0] %>
+          <td align="center"><%=exam_rater_info.nil? ? "未统计":(exam_rater_info.long_time.to_i/exam_rater_info.sum).to_s+"分钟/张" %></td>
+          <td align="center" ><%=exam_rater_info.nil? ? "未阅卷":exam_rater_info.sum.to_s+"份" %></td>
+          <td><%= link_to "抽查","/exam_raters/#{exam_rater.id}/random_paper"   %>&nbsp;|&nbsp;<%= link_to "认可成绩","/exam_raters/#{exam_rater.id}/accept_score" %>&nbsp;|&nbsp;<%= link_to"作废成绩","/exam_raters/#{exam_rater.id}/cancel_score"  %>&nbsp;|&nbsp;
+            <%= link_to_remote "编辑", :url => "/exam_raters/#{exam_rater.id}/edit", :method => :get,
               :update => "tr_exam_rater_#{exam_rater.id}" %>&nbsp;|&nbsp;
             <%= link_to_remote "删除", :url => "/exam_raters/#{exam_rater.id}", :method => :delete,
               :confirm => "您确定要删除当前阅卷老师么？", :update => "exam_rater_list" %></td>
         </tr>
       <% end %>
       <tr>
-        <td colspan="4">
+        <td colspan="6">
           <input type="hidden" id="rater_table_rows" name="rater_table_rows" value="2" />
           <input type="hidden" id="textarea" name="textarea" />
           <%= link_to "追加","javascript:void(0);",
@@ -76,7 +86,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="4">
+        <td colspan="9">
           <div class="pagination_box">
             <%=will_paginate_remote(@exam_raters , "kind=exam_rater" , {:update => 'exam_rater_list', :url => "/examinations/#{@examination.id}"})%>
           </div>

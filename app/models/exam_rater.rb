@@ -18,7 +18,7 @@ class ExamRater < ActiveRecord::Base
   end
 
 
- #批量检查阅卷老师信息
+  #批量检查阅卷老师信息
   def self.check_rater(info,id)
     rater_info=""
     hash =ExamUser.get_email(info)
@@ -52,8 +52,6 @@ class ExamRater < ActiveRecord::Base
         ExamUser.find(id).update_attributes(:total_score=>score+auto_score.to_i)
       end
     end
-    puts doc
     return doc.to_s
   end
-
 end

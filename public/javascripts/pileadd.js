@@ -90,7 +90,7 @@ function add_item(table_id, url, update_div, examination_id,type_name){
     var table_rows = $("" + table_id).rows.length ;
     var otr = document.getElementById("" + table_id).insertRow(table_rows-2);
     otr.id = table_rows;
-    var str = "<td colspan='4'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate' ";
+    var str = "<td colspan='6'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate' ";
     str += "method='get' onsubmit='if (test_exam("+ otr.id +", \""+ type_name +"\")) { button_fail(\"rater_button"+ otr.id +"\", \"spinner_rate"+ otr.id +"\");new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)});}; return false;'>";
     str += "<div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='&#x2713;' />";
     str += "<input name='authenticity_token' type='hidden' value='UEvwUF56teT4A4h8yc2xE9kbGreWJEGaDJZgItFC3fw=' />";
@@ -236,7 +236,7 @@ function check_password() {
 }
 close_question_info_id=0
 function compare_value(id,compare_id){
-    
+    var check_mobile = new RegExp(/^[0-9]$/);
     if (close_question_info_id != 0) {  //关闭查看框
         if (parseInt(compare_id)==0){
             document.getElementById("question_info_"+close_question_info_id).style.display="none";
@@ -253,14 +253,19 @@ function compare_value(id,compare_id){
                     return false;
                 }
                 else{
-                    $("flash_part_"+arry[i]).innerHTML="";
-                    $("if_submited_"+arry[i]).value =1;
-                    if (i==arry.length-1){
-                        document.getElementById("question_info_"+close_question_info_id).style.display="none";
-                        close_question_info_id = 0;
-                        active_button();
+                    if (check_mobile.test(input_value)){
+                        $("flash_part_"+arry[i]).innerHTML="";
+                        $("if_submited_"+arry[i]).value =1;
+                        if (i==arry.length-1){
+                            document.getElementById("question_info_"+close_question_info_id).style.display="none";
+                            close_question_info_id = 0;
+                            active_button();
+                        }
+                        
                     }
-
+                    else{
+                        $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>您输入的只能是数值</font>";
+                    }
                 }
             }
         }

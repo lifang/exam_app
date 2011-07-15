@@ -1,5 +1,5 @@
 module Constant
-  #邮箱地址
+    #邮箱地址
   EMAILS = {
     :e126 => ['http://www.126.com','网易126'],
     :eqq => ['http://mail.qq.com','QQ'],
@@ -21,7 +21,6 @@ module Constant
     :ewo => ['http://mail.wo.com.cn','联通手机'],
     :e263 => ['http://www.263.net','263']
   }
-
   #服务路径
   SERVER_PATH = "http://localhost:3000"
 
