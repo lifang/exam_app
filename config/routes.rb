@@ -109,6 +109,7 @@ ExamApp::Application.routes.draw do
       get "new_exam_three", "create_exam_rater"
     end
     member do
+      get "accept_score","cancel_score","random_paper"
       post "update_exam_rater","login_rater"
     end
   end

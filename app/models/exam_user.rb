@@ -246,10 +246,12 @@ class ExamUser < ActiveRecord::Base
               problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:COLLIGATIONR])
           block.delete_element(problem.xpath)
         else
+          score=0
           problem.elements["questions"].each_element do |question|
             doc.elements["paper"].elements["questions"].each_element do |element|
               if element.attributes["id"]==question.attributes["id"]
                 question.add_attribute("user_answer","#{element.elements["answer"].text}")
+                score += element.attributes["score"].to_i
               end
             end
             if question.attributes["correct_type"].to_i ==Problem::QUESTION_TYPE[:CHARACTER]
@@ -258,6 +260,7 @@ class ExamUser < ActiveRecord::Base
               problem.delete_element(question.xpath)
             end
           end
+          problem.add_attribute("user_score","#{score}")
         end
         block.delete_element(problem.xpath) if problem.elements["questions"].elements[1].nil?
       end

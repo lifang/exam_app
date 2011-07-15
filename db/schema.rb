@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(:version => 20110714022612) do
     t.integer "question_id"
   end
 
-  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_point_id"
+  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|
@@ -166,10 +166,12 @@ ActiveRecord::Schema.define(:version => 20110714022612) do
   add_index "questions", ["problem_id"], :name => "index_questions_on_problem_id"
 
   create_table "rater_user_relations", :force => true do |t|
-    t.integer "exam_user_id"
-    t.integer "exam_rater_id"
-    t.boolean "is_marked"
-    t.boolean "is_authed",     :default => false
+    t.integer  "exam_user_id"
+    t.integer  "exam_rater_id"
+    t.boolean  "is_marked"
+    t.boolean  "is_authed",     :default => false
+    t.datetime "started_at"
+    t.datetime "rate_time"
   end
 
   add_index "rater_user_relations", ["exam_rater_id"], :name => "index_rater_user_relations_on_exam_rater_id"

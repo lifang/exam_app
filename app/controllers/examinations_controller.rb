@@ -93,6 +93,9 @@ class ExaminationsController < ApplicationController
     @exam_users = ExamUser.paginate_exam_user(@examination.id, 10,params[:page])
     @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
       :per_page => 10, :page => params[:page])
+    @exam_all={}
+    @exam_raters.collect() { |exam_rater| @exam_all["#{exam_rater.id}"]=[RaterUserRelation.find_by_sql("select sum(rate_time) long_time, count(id) sum from rater_user_relations where exam_rater_id=#{exam_rater.id} group by exam_rater_id"),exam_rater] }
+   puts @exam_all
     @score_levels=@examination.score_levels
     render :partial => "exam_user_for_now" if request.xml_http_request? and params[:kind] == 'exam_user'
     render :partial => "exam_rater" if request.xml_http_request? and params[:kind] == 'exam_rater'

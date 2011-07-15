@@ -90,4 +90,5 @@ class Rater::ExamRatersController < ApplicationController
     @exam_rater=ExamRater.find(cookies[:rater_id])
     @exam_list=ExamRater.find_all_by_email(@exam_rater.email)
   end
+
 end
