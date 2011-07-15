@@ -111,7 +111,7 @@ class UsersController < ApplicationController
     @role_id=params[:right][:role_id].to_i
     @rights_num=params[:right][:right_num].to_i
     @right_sum=0
-    (1..@rights_num).each do |id|
+    (0..@rights_num).each do |id|
       puts params["check_box#{id}"]
       if params["check_box#{id}"]!=nil && params["check_box#{id}"] != ""
         @right_sum += params["check_box#{id}"].to_i
