@@ -1,0 +1,28 @@
+<div class="main_box_back">
+  <%= form_for :user,:url=>"/users/index_search" do |f|  %>
+  <p style="text-align:center;">帐号(邮箱)：<input type="text" name="user_email">&nbsp;&nbsp;&nbsp;用户名：<input type="text" name="user_name"></input>&nbsp;<%= f.submit "查询"%></p>
+  <% end %>
+  <div class="in">
+    <table>
+      <thead>
+        <tr>
+          <th width="150">&nbsp;&nbsp;帐号</th>
+          <th width="70">&nbsp;&nbsp;姓名</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.email %></td>
+            <td><%= user.name %> </td>
+            <td><a href="javascript:void(0);" onclick="javascript:load_set_role(<%= user.id %>)">设置角色</a></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+    <br/>
+    <div id="set_role_div"></div>
+    
+  </div>
+</div>
