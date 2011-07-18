@@ -523,6 +523,22 @@ function load_edit_role(role_id){
     return false;
 }
 
+function load_set_role(user_id){
+    new Ajax.Updater("set_role_div", "/users/load_set_role",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters:'user_id=' + user_id +'&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+    });
+    return false;
+}
+
+function cancel_set_role(){
+    $("set_role_div").innerHTML="";
+    return false;
+}
+
 function validate_role_name(){
     var role_name = document.getElementById("role_name_test");
     if (role_name!=null){
@@ -531,7 +547,8 @@ function validate_role_name(){
             return false;
         }
     }
-}s
+}
+s
 
 function validate_new_role_name(){
     var role_name2 = document.getElementById("new_role_name");

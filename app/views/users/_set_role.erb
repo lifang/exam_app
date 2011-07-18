@@ -1,0 +1,20 @@
+<br/>
+<p><font color="blue"><b>&nbsp;&nbsp;设置角色：</b></font> <%=set_role.name %></p>
+<table>
+  <% @user_role_relations = set_role.user_role_relations %>
+  <%= form_for :role,:url=>"/users/set_role" do |f| %>
+    <%  num = 0 %>
+    <%= f.hidden_field:num,:value=>@roles.size %>
+    <%= f.hidden_field:user_id,:value=>set_role.id %>
+    <% @roles.each do |role| %>
+      <% if num%5 == 0 %><tr> <% end %>
+        <td <% if @user_role_relations.find_by_role_id(role.id)!=nil %> bgcolor="#cff" <% end %>><input type="checkbox" name="check_box<%= role.id %>" value="<%= role.id %>" <% if @user_role_relations.find_by_role_id(role.id)!=nil %> checked="true"<%end%>></input><%= role.name %></td>
+        <% if num%5 == 4 %></tr> <% end %>
+      <% num += 1 %>
+    <% end %>
+      <tr>
+        <td><%= f.submit "确认" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="取消" onclick="javascript:cancel_set_role();" ></input></td>
+      </tr>
+      <% end %>
+  </table>
+  

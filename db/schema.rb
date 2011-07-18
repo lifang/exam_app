@@ -185,6 +185,7 @@ ActiveRecord::Schema.define(:version => 20110715071330) do
     t.datetime "started_at"
     t.integer  "rate_time"
     t.boolean  "is_checked",    :default => false
+
   end
 
   add_index "rater_user_relations", ["exam_rater_id"], :name => "index_rater_user_relations_on_exam_rater_id"
