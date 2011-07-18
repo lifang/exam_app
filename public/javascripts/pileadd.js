@@ -247,6 +247,7 @@ function compare_value(id,compare_id){
             for(i=1;i<arry.length;i++){
                 var input_value=$("single_value_"+arry[i]).value;
                 var fact_value=$("fact_value_"+arry[i]).value;
+                var reason=$("reason_for_"+arry[i]).value;
                 if (parseInt(fact_value) < parseInt(input_value)||parseInt(input_value)<0||input_value==""){
                     $("if_submited_"+arry[i]).value =0;
                     $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>您输入的数据与原数值不符</font>";
@@ -255,13 +256,17 @@ function compare_value(id,compare_id){
                 else{
                     if (check_mobile.test(input_value)){
                         $("flash_part_"+arry[i]).innerHTML="";
-                        $("if_submited_"+arry[i]).value =1;
-                        if (i==arry.length-1){
-                            document.getElementById("question_info_"+close_question_info_id).style.display="none";
-                            close_question_info_id = 0;
-                            active_button();
+                        if(reason==""||reason.length==0){
+                            $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>请输入评分理由</font>";
+
+                        }else{
+                            $("if_submited_"+arry[i]).value =1;
+                            if (i==arry.length-1){
+                                document.getElementById("question_info_"+close_question_info_id).style.display="none";
+                                close_question_info_id = 0;
+                                active_button();
+                            }
                         }
-                        
                     }
                     else{
                         $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>您输入的只能是数值</font>";
@@ -281,12 +286,21 @@ function active_button(){
     var n=str.split(",");
     for(i=1;i<n.length;i++){
         var value=$("single_value_"+n[i]).value;
+        var reason=$("reason_for_"+n[i]).value;
         flag=1;
         if(value ==""){
             $("if_submited_"+n[i]).value =0;
             flag=0;
             $("button_id").disabled=true;
             return false;
+        }else{
+            if(reason==""){
+                $("if_submited_"+n[i]).value =0;
+                flag=0;
+                $("button_id").disabled=true;
+                return false;
+            }
+
         }
     }
     if(flag==1){

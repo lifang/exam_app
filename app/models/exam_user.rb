@@ -85,7 +85,7 @@ class ExamUser < ActiveRecord::Base
     exam_user_array.each do |exam_user|
       score_level_hash.each do |key, value|
         if exam_user.total_score and ((exam_user.total_score >= value[0].to_i and exam_user.total_score <= value[1].to_i) or
-            (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i))
+              (exam_user.total_score <= value[0].to_i and exam_user.total_score >= value[1].to_i))
           exam_user_hash[exam_user.id] = key
           exam_user_hash[key] += 1
         end
@@ -252,6 +252,8 @@ class ExamUser < ActiveRecord::Base
               if element.attributes["id"]==question.attributes["id"]
                 question.add_attribute("user_answer","#{element.elements["answer"].text}")
                 score += element.attributes["score"].to_i
+                question.add_attribute("score_reason","#{element.attributes["reason"]}")
+                question.add_attribute("user_score","#{element.attributes["score"]}")
               end
             end
             if question.attributes["correct_type"].to_i ==Problem::QUESTION_TYPE[:CHARACTER]

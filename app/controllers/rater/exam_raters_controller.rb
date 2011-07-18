@@ -64,6 +64,7 @@ class Rater::ExamRatersController < ApplicationController
     doc.elements[1].elements[1].each_element do |element|
       score +=element.attributes["score"].to_i
       element.add_attribute("score","#{params["single_value_#{element.attributes["id"]}"]}")
+        element.add_attribute("reason","#{params["reason_for_#{element.attributes["id"]}"]}")
     end
     doc.elements["paper"].elements["rate_score"].text=score
     @doc=ExamRater.rater(doc,params[:id])
