@@ -236,7 +236,7 @@ function check_password() {
 }
 close_question_info_id=0
 function compare_value(id,compare_id){
-    var check_mobile = new RegExp(/^[0-9]$/);
+    var check_mobile = new RegExp(/^[0-9]{1,2}$/);
     if (close_question_info_id != 0) {  //关闭查看框
         if (parseInt(compare_id)==0){
             document.getElementById("question_info_"+close_question_info_id).style.display="none";

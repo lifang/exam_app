@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110714062816) do
+ActiveRecord::Schema.define(:version => 20110715071330) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -97,6 +97,13 @@ ActiveRecord::Schema.define(:version => 20110714062816) do
     t.integer "right_sum"
   end
 
+  create_table "orders", :force => true do |t|
+    t.integer "user_id"
+    t.integer "types"
+    t.integer "total_price"
+    t.string  "remark"
+  end
+
   create_table "paper_blocks", :force => true do |t|
     t.integer  "paper_id"
     t.string   "title"
@@ -155,7 +162,7 @@ ActiveRecord::Schema.define(:version => 20110714062816) do
     t.integer "question_id"
   end
 
-  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_point_id"
+  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|
@@ -171,10 +178,13 @@ ActiveRecord::Schema.define(:version => 20110714062816) do
   add_index "questions", ["problem_id"], :name => "index_questions_on_problem_id"
 
   create_table "rater_user_relations", :force => true do |t|
-    t.integer "exam_user_id"
-    t.integer "exam_rater_id"
-    t.boolean "is_marked"
-    t.boolean "is_authed",     :default => false
+    t.integer  "exam_user_id"
+    t.integer  "exam_rater_id"
+    t.boolean  "is_marked"
+    t.boolean  "is_authed",     :default => false
+    t.datetime "started_at"
+    t.integer  "rate_time"
+    t.boolean  "is_checked",    :default => false
   end
 
   add_index "rater_user_relations", ["exam_rater_id"], :name => "index_rater_user_relations_on_exam_rater_id"
@@ -219,6 +229,7 @@ ActiveRecord::Schema.define(:version => 20110714062816) do
     t.string   "active_code"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "school"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

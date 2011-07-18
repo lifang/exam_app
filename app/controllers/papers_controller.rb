@@ -95,12 +95,11 @@ class PapersController < ApplicationController
     session[:title] = params[:title] if !params[:title].nil? and params[:title] != ""
     session[:category] = params[:category] if !params[:category].nil? and params[:category] != ""
     redirect_to search_list_papers_path
-    
   end
 
   def search_list
     @papers = Paper.search_mothod(cookies[:user_id].to_i, session[:mintime], session[:maxtime],
-      session[:title], session[:category].to_i, 10, params[:page])
+      session[:title], session[:category], 10, params[:page])
     render 'index'
   end
   

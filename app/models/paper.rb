@@ -85,6 +85,7 @@ class Paper < ActiveRecord::Base
       sql += " and #{key} #{value} "
     end unless options.empty?
     sql += " order by created_at desc"
+    puts sql
     return Paper.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end
 

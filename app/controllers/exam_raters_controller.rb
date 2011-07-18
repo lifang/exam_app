@@ -13,6 +13,8 @@ class ExamRatersController < ApplicationController
     end
     @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
       :per_page => 10, :page => params[:page])
+    @exam_all={}
+    @exam_raters.collect() { |exam_rater| @exam_all["#{exam_rater.id}"]=[[],exam_rater] }
     render :partial => "/examinations/exam_rater"
   end
 
@@ -21,6 +23,8 @@ class ExamRatersController < ApplicationController
     ExamRater.delete(params[:id].to_i)
     @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@exmination_id}",
       :per_page => 10, :page => params[:page])
+    @exam_all={}
+    @exam_raters.collect() { |exam_rater| @exam_all["#{exam_rater.id}"]=[[],exam_rater] }
     @examination=Examination.find(@exmination_id)
     render :partial=>"/examinations/exam_rater"
   end
