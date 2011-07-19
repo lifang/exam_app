@@ -71,11 +71,15 @@ class ExamRatersController < ApplicationController
   end
 
   def accept_score
-    @rater_relations=RaterUserRelation.find_all_by_exam_rater_id(params[:id])
+    @rater_relations=RaterUserRelation.find_by_sql("select * from rater_user_relations r where r.exam_rater_id=#{params[:id]} and r.is_authed !=1")
+    unless @rater_relations.blank?
     @rater_relations.each do |rater_relation|
-      rater_relation.toggle!(:is_authed)
+        rater_relation.toggle!(:is_authed)
     end
-    flash[:success]="成绩认可成功"
+     flash[:success]="成绩认可成功"
+    else
+      flash[:notice]="没有需要认可"
+    end
     redirect_to request.referer
   end
   def cancel_score
@@ -89,12 +93,12 @@ class ExamRatersController < ApplicationController
     flash[:error]="未认可的已作废"
     redirect_to request.referer
   end
+
   def random_paper
     @rater=ExamRater.find(params[:id])
     @examination=Examination.find(@rater.examination_id)
     @exam_users=ExamUser.find_by_sql("select eu.* from exam_users eu inner join rater_user_relations r on r.exam_user_id = eu.id
       where eu.examination_id = #{@examination.id} and r.is_authed=1 and r.is_checked=0 order by rand() limit 1")
-
     unless @exam_users.blank?
       @exam_user=@exam_users[0]
       RaterUserRelation.find_by_exam_user_id(@exam_user.id).update_attributes(:is_checked=>true)
@@ -103,7 +107,7 @@ class ExamRatersController < ApplicationController
       @xml=ExamUser.answer_questions(xml,doc)
     else
       flash[:notice] = "没有能查看的试卷"
-      redirect_to request.referer
+      redirect_to examination_path(@examination)
     end
   end
 end
