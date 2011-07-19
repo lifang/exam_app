@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110715071330) do
+ActiveRecord::Schema.define(:version => 20110718040943) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -86,6 +86,9 @@ ActiveRecord::Schema.define(:version => 20110715071330) do
     t.datetime "updated_at"
     t.boolean  "user_affirm"
     t.integer  "status"
+    t.integer  "price"
+    t.datetime "get_free_end_at"
+    t.datetime "exam_free_end_at"
   end
 
   add_index "examinations", ["creater_id"], :name => "index_examinations_on_creater_id"
@@ -185,7 +188,6 @@ ActiveRecord::Schema.define(:version => 20110715071330) do
     t.datetime "started_at"
     t.integer  "rate_time"
     t.boolean  "is_checked",    :default => false
-
   end
 
   add_index "rater_user_relations", ["exam_rater_id"], :name => "index_rater_user_relations_on_exam_rater_id"

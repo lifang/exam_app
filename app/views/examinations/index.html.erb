@@ -49,15 +49,18 @@
             <%
             class_name = "now"
             state_name = "考试中"
+             examination.status = Examination::STATUS[:EXAMING]
             if examination.start_at_time.nil?
+               examination.status = Examination::STATUS[:GOING]
               class_name = "now"
               state_name = "进行中"
             elsif examination.start_at_time > Time.now
+               examination.status = Examination::STATUS[:LOCK]
               class_name = "never"
               state_name = "未开始"
             elsif (examination.exam_time.nil? and examination.exam_time !=0 and
                   (examination.start_at_time + (examination.exam_time.nil? ? 0 :examination.exam_time.minutes) < Time.now))or
-                examination.status == Examination::STATUS[:CLOSED]
+                examination.status = Examination::STATUS[:CLOSED]
               class_name = "ever"
               state_name = "已结束"
             end
