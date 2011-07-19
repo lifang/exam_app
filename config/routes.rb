@@ -1,15 +1,7 @@
 ExamApp::Application.routes.draw do
 
   match '/signout'=> 'sessions#destroy'
-  resources :payments do
-    member do
-      get :payoff
-    end
-    collection do
-       get :packed_payoff,"agency_recharge"
-       post "search_account"
-    end
-  end
+
   namespace :user do
     resources :examinations do
       member do

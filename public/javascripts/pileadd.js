@@ -22,16 +22,10 @@ function sltall_price(checkstatus,checkbox){
             }
         }     
     }
-     if(price==0){
-        $("exam_getvalue").innerHTML="没有考试";
-        $("over").disabled=true;
-        $("packed").checked=false;
-    }else{
     if (checked_ids ==parseInt(price)){
         $("exam_getvalue").innerHTML=$("favourable").value+"(打包优惠价)";
     }else{
         $("exam_getvalue").innerHTML = checked_ids;
-    }
     }
 }
 function create_exam(checkbox){
@@ -49,6 +43,7 @@ function get_price(checkbox){
     var sles=document.getElementsByName(checkbox);
     var checked_ids =0;
     var price=$("price").value;
+    var number=$("number").value;
     for (var i=0;i<sles.length;i++) {
         if (sles[i].checked) {
             checked_ids += parseInt(sles[i].value);
@@ -58,16 +53,16 @@ function get_price(checkbox){
             $("packed").checked=false;
         }
     }
-     if(price==0){
+    if(number==0){
         $("exam_getvalue").innerHTML="没有考试";
         $("over").disabled=true;
         $("packed").checked=false;
     }else{
-    if (checked_ids ==parseInt(price)){
-        $("exam_getvalue").innerHTML=$("favourable").value+"(打包优惠价)";
-    }else{
-        $("exam_getvalue").innerHTML = checked_ids;
-    }
+        if (checked_ids ==parseInt(price)){
+            $("exam_getvalue").innerHTML=$("favourable").value+"(打包优惠价)";
+        }else{
+            $("exam_getvalue").innerHTML = checked_ids;
+        }
     }
 }
 function time_limit(name){
@@ -452,15 +447,17 @@ function cast_account(){
     var price=$("price").value;
     var  favourable=$("favourable").value;
     var agency_cost=$("agency_cost").value;
+    var number=$("number").value;
     for (var i=0;i<sles.length;i++) {
         if (sles[i].checked) {
+
             checked_ids += parseInt(sles[i].value);
         }
         if (sles[i].disabled==true){
             $("packed").checked=false;
         }
     }
-    if(price==0){
+    if(number==0){
         $("exam_getvalue").innerHTML="没有考试";
         $("over").disabled=true;
         $("packed").checked=false;
@@ -489,6 +486,7 @@ function pay_price(checkstatus,checkbox){
     var checked_ids =0;
     var  favourable=$("favourable").value;
     var agency_cost=$("agency_cost").value;
+    var number=$("number").value;
     for(var i=0; i<d.length; i++){
         if (d[i].disabled ==false){
             d[i].checked=checkstatus;
@@ -497,23 +495,23 @@ function pay_price(checkstatus,checkbox){
             }
         }
     }
-     if(price==0){
+    if(number==0){
         $("exam_getvalue").innerHTML="没有考试";
         $("over").disabled=true;
         $("packed").checked=false;
     }else{
-    if (checked_ids ==parseInt(price)){
-        $("exam_getvalue").innerHTML=favourable+"(打包优惠价)";
-        $("fact_value").innerHTML=parseInt(favourable)-parseInt(agency_cost);
-    }else{
-        $("exam_getvalue").innerHTML = checked_ids;
-        $("exam_getvalue").innerHTML = checked_ids;
-        if (checked_ids==0){
-            $("fact_value").innerHTML=0;
+        if (checked_ids ==parseInt(price)){
+            $("exam_getvalue").innerHTML=favourable+"(打包优惠价)";
+            $("fact_value").innerHTML=parseInt(favourable)-parseInt(agency_cost);
         }else{
-            $("fact_value").innerHTML=checked_ids-parseInt(agency_cost);
+            $("exam_getvalue").innerHTML = checked_ids;
+            $("exam_getvalue").innerHTML = checked_ids;
+            if (checked_ids==0){
+                $("fact_value").innerHTML=0;
+            }else{
+                $("fact_value").innerHTML=checked_ids-parseInt(agency_cost);
+            }
         }
-    }
     }
 }
 
