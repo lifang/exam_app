@@ -1,5 +1,5 @@
 
-  <br/> <p><font color="blue"><b>更改名称</b></font>（<%= edit_role.name %>）</p><hr/>
+  <br/> <p><font color="blue"><b>更改名称</b></font></p><hr/>
   <%= form_for :role ,:url=>"/users/edit_role",:html=>{:onsubmit=>"return validate_role_name();"} do |f|%>
   <%= f.hidden_field :role_id ,:value=>edit_role.id %>
   <input type="text" value="<%= edit_role.name %>" id="role_name_test" name="role_name_test"></input>

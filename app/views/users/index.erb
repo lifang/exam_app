@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <% if @users.size==0 %>
+        <% if @users.blank? %>
         <p style="text-align:center;"> SORRY,你搜索的用户不存在。</p>
         <% end %>
         <% @users.each do |user| %>
