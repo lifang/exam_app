@@ -40,11 +40,11 @@ module UserRoleHelper
   end
   
   def permission?(role)
-    model = role[0]
-    i = Constant::ROLES[RIGHTS][model]
+    i = Constant::RIGHTS[role]
     role_flag = nil
     if cookies[:user_id]
       session_role(cookies[:user_id]) unless cookies[:model_role]
+      puts cookies[:model_role]
       if cookies[:model_role]
         model_roles = cookies[:model_role].split(",")
         for j in (0..model_roles.length)
@@ -55,8 +55,6 @@ module UserRoleHelper
         end
       end
     end
-    puts "-----------------------------------------------"
-    puts role_flag
     role_flag.to_i&i[1] == i[1]
   end
 
