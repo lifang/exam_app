@@ -22,7 +22,7 @@ function sltall_price(checkstatus,checkbox){
             }
         }     
     }
-     if(price==""){
+     if(price==0){
         $("exam_getvalue").innerHTML="没有考试";
         $("over").disabled=true;
         $("packed").checked=false;
@@ -52,12 +52,13 @@ function get_price(checkbox){
     for (var i=0;i<sles.length;i++) {
         if (sles[i].checked) {
             checked_ids += parseInt(sles[i].value);
+
         }
         if (sles[i].disabled==true){
             $("packed").checked=false;
         }
     }
-     if(price==""){
+     if(price==0){
         $("exam_getvalue").innerHTML="没有考试";
         $("over").disabled=true;
         $("packed").checked=false;
@@ -459,7 +460,7 @@ function cast_account(){
             $("packed").checked=false;
         }
     }
-    if(price==""){
+    if(price==0){
         $("exam_getvalue").innerHTML="没有考试";
         $("over").disabled=true;
         $("packed").checked=false;
@@ -496,7 +497,7 @@ function pay_price(checkstatus,checkbox){
             }
         }
     }
-     if(price==""){
+     if(price==0){
         $("exam_getvalue").innerHTML="没有考试";
         $("over").disabled=true;
         $("packed").checked=false;
