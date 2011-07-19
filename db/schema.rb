@@ -13,8 +13,8 @@
 ActiveRecord::Schema.define(:version => 20110718040943) do
 
   create_table "categories", :force => true do |t|
-    t.string  "name"
-    t.integer "parent_id"
+    t.string  "name",                     :null => false
+    t.integer "parent_id", :default => 0, :null => false
   end
 
   add_index "categories", ["name"], :name => "index_categories_on_name"
@@ -35,14 +35,14 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
     t.string   "mobilephone"
     t.string   "email"
     t.string   "author_code"
-    t.integer  "examination_id"
+    t.integer  "examination_id", :null => false
   end
 
   add_index "exam_raters", ["author_code"], :name => "index_exam_raters_on_author_code"
   add_index "exam_raters", ["examination_id"], :name => "index_exam_raters_on_examination_id"
 
   create_table "exam_users", :force => true do |t|
-    t.integer  "examination_id"
+    t.integer  "examination_id",                       :null => false
     t.integer  "user_id"
     t.string   "password"
     t.datetime "created_at"
@@ -50,11 +50,11 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
     t.datetime "started_at"
     t.datetime "submited_at"
     t.datetime "ended_at"
-    t.boolean  "is_submited"
-    t.boolean  "open_to_user"
+    t.boolean  "is_submited",       :default => false
+    t.boolean  "open_to_user",      :default => false
     t.string   "answer_sheet_url"
-    t.boolean  "is_user_affiremed"
-    t.integer  "total_score"
+    t.boolean  "is_user_affiremed", :default => false
+    t.integer  "total_score",       :default => 0
     t.boolean  "is_auto_rate",      :default => false
   end
 
@@ -72,19 +72,19 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
 
   create_table "examinations", :force => true do |t|
     t.string   "title"
-    t.integer  "creater_id"
+    t.integer  "creater_id",                        :null => false
     t.string   "description"
-    t.boolean  "is_score_open"
-    t.boolean  "is_paper_open"
+    t.boolean  "is_score_open",  :default => false
+    t.boolean  "is_paper_open",  :default => false
     t.string   "exam_password1"
     t.string   "exam_password2"
     t.datetime "start_at_time"
     t.datetime "start_end_time"
     t.integer  "exam_time"
-    t.boolean  "is_published"
+    t.boolean  "is_published",   :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "user_affirm"
+    t.boolean  "user_affirm",    :default => false
     t.integer  "status"
     t.integer  "price"
     t.datetime "get_free_end_at"
@@ -108,7 +108,7 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
   end
 
   create_table "paper_blocks", :force => true do |t|
-    t.integer  "paper_id"
+    t.integer  "paper_id",    :null => false
     t.string   "title"
     t.string   "description"
     t.datetime "created_at"
@@ -118,13 +118,13 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
   add_index "paper_blocks", ["paper_id"], :name => "index_paper_blocks_on_paper_id"
 
   create_table "papers", :force => true do |t|
-    t.integer  "category_id"
+    t.integer  "category_id",                           :null => false
     t.string   "title"
-    t.integer  "creater_id"
+    t.integer  "creater_id",                            :null => false
     t.string   "description"
-    t.integer  "total_score"
-    t.integer  "total_question_num"
-    t.boolean  "is_used"
+    t.integer  "total_score",        :default => 0
+    t.integer  "total_question_num", :default => 0
+    t.boolean  "is_used",            :default => false
     t.string   "paper_url"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -134,24 +134,24 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
 
   create_table "problem_tag_relations", :force => true do |t|
-    t.integer "tag_id"
-    t.integer "problem_id"
+    t.integer "tag_id",     :null => false
+    t.integer "problem_id", :null => false
   end
 
   add_index "problem_tag_relations", ["problem_id"], :name => "index_problem_tag_relations_on_problem_id"
   add_index "problem_tag_relations", ["tag_id"], :name => "index_problem_tag_relations_on_tag_id"
 
   create_table "problem_tags", :force => true do |t|
-    t.integer "problem_id"
-    t.integer "total_num"
+    t.integer "problem_id",                :null => false
+    t.integer "total_num",  :default => 1
   end
 
   add_index "problem_tags", ["problem_id"], :name => "index_problem_tags_on_problem_id"
 
   create_table "problems", :force => true do |t|
-    t.integer  "category_id"
+    t.integer  "category_id",                   :null => false
     t.text     "title"
-    t.integer  "types"
+    t.integer  "types",          :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "complete_title"
@@ -161,18 +161,18 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
   add_index "problems", ["types"], :name => "index_problems_on_types"
 
   create_table "question_tag_relations", :force => true do |t|
-    t.integer "tag_id"
-    t.integer "question_id"
+    t.integer "tag_id",      :null => false
+    t.integer "question_id", :null => false
   end
 
   add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|
-    t.integer "problem_id"
+    t.integer "problem_id",                    :null => false
     t.string  "description"
     t.string  "answer"
-    t.integer "correct_type"
+    t.integer "correct_type",   :default => 0
     t.text    "analysis"
     t.string  "question_attrs"
   end
@@ -181,9 +181,9 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
   add_index "questions", ["problem_id"], :name => "index_questions_on_problem_id"
 
   create_table "rater_user_relations", :force => true do |t|
-    t.integer  "exam_user_id"
-    t.integer  "exam_rater_id"
-    t.boolean  "is_marked"
+    t.integer  "exam_user_id",                     :null => false
+    t.integer  "exam_rater_id",                    :null => false
+    t.boolean  "is_marked",     :default => false
     t.boolean  "is_authed",     :default => false
     t.datetime "started_at"
     t.integer  "rate_time"
@@ -199,7 +199,7 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
   end
 
   create_table "score_levels", :force => true do |t|
-    t.integer "examination_id"
+    t.integer "examination_id", :null => false
     t.string  "key"
     t.string  "value"
   end
@@ -213,8 +213,8 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
   end
 
   create_table "user_role_relations", :force => true do |t|
-    t.integer "role_id"
-    t.integer "user_id"
+    t.integer "role_id", :null => false
+    t.integer "user_id", :null => false
   end
 
   add_index "user_role_relations", ["role_id"], :name => "index_user_role_relations_on_role_id"
@@ -228,7 +228,7 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
     t.string   "address"
     t.string   "salt"
     t.string   "encrypted_password"
-    t.integer  "status"
+    t.integer  "status",             :default => 0
     t.string   "active_code"
     t.datetime "created_at"
     t.datetime "updated_at"

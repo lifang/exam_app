@@ -1,6 +1,6 @@
 class AddTotalScoreToExamUsers < ActiveRecord::Migration
   def self.up
-    add_column :exam_users, :total_score, :integer, :default => 0
+    add_column :exam_users, :total_score, :integer
   end
 
   def self.down

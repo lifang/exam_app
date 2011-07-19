@@ -9,8 +9,15 @@ class UsersController < ApplicationController
       redirect_to request.referer
     else
       flash[:error]="您输入的密码不正确"
-      render "edit"
+      redirect_to "/users/#{params[:id]}"
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+
+    #paginate 排序无效
+    @examinations = Examination.find_by_sql("select * from users us inner join exam_users eu on eu.user_id=us.id inner join examinations ex on ex.id=eu.examination_id  where user_id=#{@user.id}").paginate(:page=>params[:page],:per_page=>10,:order=>"status asc")
   end
 
   def index
@@ -38,7 +45,7 @@ class UsersController < ApplicationController
       def update_info #更新用户信息
         @user_info = User.find(params[:id])
         @user_info.update_attributes(params[:user_info])
-        redirect_to request.referer
+        redirect_to "/users/#{params[:id]}"
       end
   
       def new #新建用户页面
@@ -97,12 +104,7 @@ class UsersController < ApplicationController
           end
         end
       end
-
-      def show  #
-        @user=User.find(params[:id])
-      end
-
-
+      
       def get_proof_code
         session[:proof_code] = proof_code(4)
         render :inline => session[:proof_code]
@@ -195,6 +197,7 @@ class UsersController < ApplicationController
         end
         redirect_to request.referer
       end
+
 
     end
 
