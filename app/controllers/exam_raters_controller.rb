@@ -93,6 +93,7 @@ class ExamRatersController < ApplicationController
     flash[:error]="未认可的已作废"
     redirect_to request.referer
   end
+
   def random_paper
     @rater=ExamRater.find(params[:id])
     @examination=Examination.find(@rater.examination_id)
@@ -106,7 +107,7 @@ class ExamRatersController < ApplicationController
       @xml=ExamUser.answer_questions(xml,doc)
     else
       flash[:notice] = "没有能查看的试卷"
-      redirect_to request.referer
+      redirect_to examination_path(@examination)
     end
   end
 end

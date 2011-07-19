@@ -3,7 +3,7 @@
     <table>
       <thead>
         <tr>
-          <th><input type="checkbox" onclick=pay_price(this.checked,"all_price") id="packed" checked="true" />打包</th>
+          <th><input type="checkbox" onclick=pay_price(this.checked,"all_price") <% if @examination.blank? %> disabled="true" <% end %>id="packed" checked="true" />打包</th>
           <th>考试名称</th>
           <th>出卷人</th>
           <th>价格</th>
@@ -14,14 +14,14 @@
       <tbody>
         <%  price=0 %>
         <% @examination.each do |examination| %>
-          <% price +=examination.price.to_i %>
+          <% price += examination.price.to_i %>
           <tr>
             <td><input type="checkbox" name="all_price"  <% if !examination.start_end_time.nil? %>
                          <% if examination.start_end_time<Time.now  %> disabled="true" <% else %>checked="true"<%end%>
-                       <% else %>checked="true"<%end%> value="<%= examination.price %>"  onclick="javascript:cast_account()" /></td>
+                       <% else %>checked="true"<%end%> value="<%= examination.price.nil? ? 0 : examination.price %>"  onclick="javascript:cast_account()" /></td>
             <td><%= examination.title %></td>
             <td><%= User.find(examination.creater_id).name %></td>
-            <td>¥<%= examination.price %></td>
+            <td>¥<%= examination.price.nil? ? 0 : examination.price %></td>
             <td><%= 0 %></td>
             <td><%= 1%></td>
           </tr>
@@ -45,11 +45,14 @@
     <input value="<%= Constant::FAVOURABLE %>" id="favourable" type="hidden"/>
     <input value="<%= Constant::AGENCY_COST %>" id="agency_cost" type="hidden" />
     <input value="<%= price %>" type="hidden" id="price" name="price" />
+    <input value="<%= @examination.size  %>" id="number" type="hidden"/>
+    <%  unless @examination.blank? %>
     <span id="total_price">
       金额总计：
       <font color="red">¥<label  id="exam_getvalue" ></label><br/></font>
       实际收费金额：<font color="red"><strong>¥</strong><label  id="fact_value" ></label></font><br/>
     </span>
+    <% end %>
     <input type="button" value="结算" id="over"/>
   </div>
   <script type="text/javascript">cast_account()</script>
