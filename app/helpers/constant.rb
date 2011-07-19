@@ -43,5 +43,6 @@ module Constant
     :english_fourth_level=>["英语四级权限",1],
     :english_sixth_level=>["英语六级权限",2]
   }
-
+  FAVOURABLE=50
+  AGENCY_COST=2
 end

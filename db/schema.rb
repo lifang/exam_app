@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110715071330) do
+ActiveRecord::Schema.define(:version => 20110718040943) do
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -85,7 +85,10 @@ ActiveRecord::Schema.define(:version => 20110715071330) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "user_affirm",    :default => false
-    t.integer  "status",         :default => 0
+    t.integer  "status"
+    t.integer  "price"
+    t.datetime "get_free_end_at"
+    t.datetime "exam_free_end_at"
   end
 
   add_index "examinations", ["creater_id"], :name => "index_examinations_on_creater_id"

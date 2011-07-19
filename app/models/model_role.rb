@@ -1,5 +1,5 @@
 class ModelRole < ActiveRecord::Base
-  belongs_to :roles
+  belongs_to :role
 
 end
 

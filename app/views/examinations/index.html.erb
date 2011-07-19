@@ -47,6 +47,7 @@
         <% @examinations.each do |examination| %>
           <tbody>
             <% if examination.status==0||examination.status==2 ;class_name="now";else;if examination.status==1;class_name="never";else class_name="ever";end;end %>
+
             <tr class="<%= class_name %>">
               <td><%= examination.title %></td>
               <td><%= examination.start_at_time.nil? ? "任何时候" : examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
