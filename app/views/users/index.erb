@@ -1,6 +1,6 @@
 <div class="main_box_back">
   <%= form_for :user,:url=>"/users/index_search" do |f|  %>
-  <p style="text-align:center;">帐号(邮箱)：<input type="text" name="user_email"/>&nbsp;&nbsp;&nbsp;用户名：<input type="text" name="user_name"></input>&nbsp;<%= f.submit "查询"%></p>
+  <p style="text-align:center;">帐号(邮箱)：<input type="text" name="user_email"/>&nbsp;&nbsp;&nbsp;姓名：<input type="text" name="user_name"></input>&nbsp;<%= f.submit "查询"%></p>
   <% end %>
   <div class="in">
     <table>
@@ -22,6 +22,9 @@
             <td><a href="javascript:void(0);" onclick="javascript:load_set_role(<%= user.id %>)">设置角色</a></td>
           </tr>
         <%end%>
+     <div class="pagination_box">
+      <%=will_paginate @users ,:prev_label=>"«", :next_label=>"»", :inner_window => 1 %>
+    </div>
       </tbody>
     </table>
     <br/>
