@@ -92,10 +92,12 @@ class ExamRatersController < ApplicationController
   def random_paper
     @rater=ExamRater.find(params[:id])
     @examination=Examination.find(@rater.examination_id)
-    @exam_users=ExamUser.find_by_sql("select * from exam_users eu inner join rater_user_relations r on r.exam_user_id = eu.id
-      where eu.examination_id = #{@examination.id} and r.is_authed=1 order by rand() limit 1")
+    @exam_users=ExamUser.find_by_sql("select eu.* from exam_users eu inner join rater_user_relations r on r.exam_user_id = eu.id
+      where eu.examination_id = #{@examination.id} and r.is_authed=1 and r.is_checked=0 order by rand() limit 1")
+
     unless @exam_users.blank?
       @exam_user=@exam_users[0]
+      RaterUserRelation.find_by_exam_user_id(@exam_user.id).update_attributes(:is_checked=>true)
       doc=ExamRater.open_file(@exam_user.answer_sheet_url)
       xml=ExamRater.open_file("/papers/#{doc.elements[1].attributes["id"]}.xml")
       @xml=ExamUser.answer_questions(xml,doc)
