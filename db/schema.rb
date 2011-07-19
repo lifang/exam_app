@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
     t.boolean  "open_to_user",      :default => false
     t.string   "answer_sheet_url"
     t.boolean  "is_user_affiremed", :default => false
-    t.integer  "total_score",       :default => 0
+    t.integer  "total_score"
     t.boolean  "is_auto_rate",      :default => false
   end
 
@@ -72,20 +72,20 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
 
   create_table "examinations", :force => true do |t|
     t.string   "title"
-    t.integer  "creater_id",                        :null => false
+    t.integer  "creater_id",                          :null => false
     t.string   "description"
-    t.boolean  "is_score_open",  :default => false
-    t.boolean  "is_paper_open",  :default => false
+    t.boolean  "is_score_open",    :default => false
+    t.boolean  "is_paper_open",    :default => false
     t.string   "exam_password1"
     t.string   "exam_password2"
     t.datetime "start_at_time"
     t.datetime "start_end_time"
     t.integer  "exam_time"
-    t.boolean  "is_published",   :default => false
+    t.boolean  "is_published",     :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "user_affirm",    :default => false
-    t.integer  "status"
+    t.boolean  "user_affirm",      :default => false
+    t.integer  "status",           :default => 0
     t.integer  "price"
     t.datetime "get_free_end_at"
     t.datetime "exam_free_end_at"
