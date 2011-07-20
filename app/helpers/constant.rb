@@ -40,9 +40,11 @@ module Constant
   COLLECTION_PATH = "/collections"
 
   RIGHTS = {
-    :english_fourth_level=>["英语四级权限",1],
-    :english_sixth_level=>["英语六级权限",2]
+    :english_fourth_level => ["英语四级权限",1],
+    :english_sixth_level => ["英语六级权限",2]
   }
+  #优惠价格
   FAVOURABLE=50
+  #代理支付
   AGENCY_COST=2
 end
