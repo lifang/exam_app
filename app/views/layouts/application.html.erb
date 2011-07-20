@@ -15,7 +15,7 @@
   <body>
     <div id="container">
       <div id="hd">
-        <div class="right">
+        <div class="right"><%= permission?(:english_fourth_level) %>
           <% if cookies[:user_id].nil? %>
             <a href="/">登录</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/users/new">免费注册</a>
