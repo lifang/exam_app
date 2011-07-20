@@ -14,7 +14,8 @@ class ExamRatersController < ApplicationController
     @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
       :per_page => 10, :page => params[:page])
     @exam_all={}
-    @exam_raters.collect() { |exam_rater| @exam_all["#{exam_rater.id}"]=[[],exam_rater] }
+    @relations=RaterUserRelation.find_by_sql("select sum(rate_time) long_time, count(id) sum,exam_rater_id rater_id from rater_user_relations group by exam_rater_id")
+    @relations.collect() { |exam_rater| @exam_all["#{exam_rater.rater_id}"]=exam_rater }
     render :partial => "/examinations/exam_rater"
   end
 
@@ -24,7 +25,8 @@ class ExamRatersController < ApplicationController
     @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@exmination_id}",
       :per_page => 10, :page => params[:page])
     @exam_all={}
-    @exam_raters.collect() { |exam_rater| @exam_all["#{exam_rater.id}"]=[[],exam_rater] }
+    @relations=RaterUserRelation.find_by_sql("select sum(rate_time) long_time, count(id) sum,exam_rater_id rater_id from rater_user_relations group by exam_rater_id")
+    @relations.collect() { |exam_rater| @exam_all["#{exam_rater.rater_id}"]=exam_rater }
     @examination=Examination.find(@exmination_id)
     render :partial=>"/examinations/exam_rater"
   end
@@ -45,7 +47,8 @@ class ExamRatersController < ApplicationController
       end
     else
       @exam_rater.update_attributes(:name=>params[:name],:email=>params[:email],:mobilephone=>params[:mobilephone])
-    end  
+    end
+#    redirect_to "examinations/#{@exam_rater.examination_id}"
     render :partial=>"/examinations/back_exam_rater"
   end
   
@@ -73,10 +76,15 @@ class ExamRatersController < ApplicationController
   def accept_score
     @rater_relations=RaterUserRelation.find_by_sql("select * from rater_user_relations r where r.exam_rater_id=#{params[:id]} and r.is_authed = 0")
     unless @rater_relations.blank?
-    @rater_relations.each do |rater_relation|
+      @rater_relations.each do |rater_relation|
         rater_relation.toggle!(:is_authed)
+<<<<<<< HEAD
+      end
+      flash[:success]="成绩认可成功"
+=======
     end
      flash[:success]="当前老师批改的成绩认可成功。"
+>>>>>>> debe651475a471c841d19f74af688537faedbe16
     else
       flash[:warn]="当前老师没有新批改试卷。"
     end
@@ -98,7 +106,7 @@ class ExamRatersController < ApplicationController
     @rater=ExamRater.find(params[:id])
     @examination=Examination.find(@rater.examination_id)
     @exam_users=ExamUser.find_by_sql("select eu.* from exam_users eu inner join rater_user_relations r on r.exam_user_id = eu.id
-      where eu.examination_id = #{@examination.id} and r.is_authed=1 and r.is_checked=0 order by rand() limit 1")
+      where eu.examination_id = #{@examination.id} and r.is_authed=0 and r.is_checked=0 order by rand() limit 1")
     unless @exam_users.blank?
       @exam_user=@exam_users[0]
       RaterUserRelation.find_by_exam_user_id(@exam_user.id).update_attributes(:is_checked=>true)
