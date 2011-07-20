@@ -1,6 +1,6 @@
 <div class="main_box_back">
   <%= form_for :user,:url=>"/users/index_search" do |f|  %>
-  <p style="text-align:center;">帐号(邮箱)：<input type="text" name="user_email"/>&nbsp;&nbsp;&nbsp;姓名：<input type="text" name="user_name"></input>&nbsp;<%= f.submit "查询"%></p>
+    <p style="text-align:center;">帐号(邮箱)：<input type="text" name="user_email"/>&nbsp;&nbsp;&nbsp;姓名：<input type="text" name="user_name"></input>&nbsp;<%= f.submit "查询"%></p>
   <% end %>
   <div class="in">
     <table>
@@ -14,19 +14,19 @@
       <tbody>
         <% if @users.size==0 %>
         <p style="text-align:center;"> SORRY,你搜索的用户不存在。</p>
-        <% end %>
-        <% @users.each do |user| %>
-          <tr>
-            <td><%= user.email %></td>
-            <td><%= user.name %> </td>
-            <td><a href="javascript:void(0);" onclick="javascript:load_set_role(<%= user.id %>)">设置角色</a></td>
-          </tr>
-        <%end%>
-     <div class="pagination_box">
-      <%=will_paginate @users ,:prev_label=>"«", :next_label=>"»", :inner_window => 1 %>
-    </div>
+      <% end %>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.email %></td>
+          <td><%= user.name %> </td>
+          <td><a href="javascript:void(0);" onclick="javascript:load_set_role(<%= user.id %>)">设置角色</a></td>
+        </tr>
+      <%end%>
       </tbody>
     </table>
+    <div class="pagination_box">
+    <%=will_paginate @users ,:prev_label=>"«", :next_label=>"»", :inner_window => 1 %>
+    </div>
     <br/>
     <div id="set_role_div"></div>
   </div>

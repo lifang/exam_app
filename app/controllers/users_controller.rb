@@ -6,7 +6,8 @@ class UsersController < ApplicationController
       @user.update_attributes(:password=>params[:user][:password])
       @user.encrypt_password
       @user.save
-      redirect_to request.referer
+      flash[:notice]="密码修改成功"
+      redirect_to "/users/#{params[:id]}"
     else
       flash[:error]="您输入的密码不正确"
       redirect_to "/users/#{params[:id]}"
@@ -15,13 +16,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-
-    #paginate 排序无效
-    @examinations = Examination.find_by_sql("select * from users us inner join exam_users eu on eu.user_id=us.id inner join examinations ex on ex.id=eu.examination_id  where user_id=#{@user.id}").paginate(:page=>params[:page],:per_page=>10,:order=>"status asc")
+    @examinations = Examination.find_by_sql("select * from users us inner join exam_users eu on eu.user_id=us.id inner join examinations ex on ex.id=eu.examination_id  where user_id=#{@user.id} order by start_at_time desc").paginate(:page=>params[:page],:per_page=>10)
   end
 
   def index
-    @users = User.paginate(:per_page=>10,:page=>params[:page])
+    @users = User.paginate(:per_page=>3,:page=>params[:page])
     @roles = Role.all
   end
 
@@ -38,6 +37,7 @@ class UsersController < ApplicationController
   def update_info #更新用户信息
     @user_info = User.find(params[:id])
     @user_info.update_attributes(params[:user_info])
+    flash[:notice]="用户信息修改成功"
     redirect_to "/users/#{params[:id]}"
   end
   

@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
           else
             cookies[:user_id]=@user.id
             cookies[:user_name]=@user.name
-            update_examination_status
+            #            update_examination_status     # 不需要登录时更改状态，取消。
             redirect_to "/papers"
           end
         end
@@ -33,21 +33,21 @@ class SessionsController < ApplicationController
   end
 
   #更新考试状态
-  def update_examination_status
-    @examinations = Examination.all
-    @examinations.each do |examination|
-      if examination.start_at_time.nil?
-        examination.update_attributes(:status=>2)
-      elsif examination.start_at_time > Time.now
-        examination.update_attributes(:status=>1)
-      elsif (examination.exam_time.nil? and examination.exam_time !=0 and
-            (examination.start_at_time + (examination.exam_time.nil? ? 0 :examination.exam_time.minutes) < Time.now))or
-          examination.update_attributes(:status=>3)
-      else
-        examination.update_attributes(:status=>0)
-      end
-    end
-  end
+  #  def update_examination_status
+  #    @examinations = Examination.all
+  #    @examinations.each do |examination|
+  #      if examination.start_at_time.nil?
+  #        examination.update_attributes(:status=>2)
+  #      elsif examination.start_at_time > Time.now
+  #        examination.update_attributes(:status=>1)
+  #      elsif (examination.exam_time.nil? and examination.exam_time !=0 and
+  #            (examination.start_at_time + (examination.exam_time.nil? ? 0 :examination.exam_time.minutes) < Time.now))or
+  #          examination.update_attributes(:status=>3)
+  #      else
+  #        examination.update_attributes(:status=>0)
+  #      end
+  #    end
+  #  end
 
   #退出登录
   def destroy
