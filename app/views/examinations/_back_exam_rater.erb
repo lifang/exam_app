@@ -10,4 +10,3 @@
     :update => "tr_exam_rater_#{@exam_rater.id}" %>&nbsp;|&nbsp;
   <%= link_to_remote "删除", :url => "/exam_raters/#{@exam_rater.id}", :method => :delete,
     :confirm => "您确定要删除当前考生么？", :update => "exam_rater_list" %></td>
-
