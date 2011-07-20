@@ -40,8 +40,8 @@ module Constant
   COLLECTION_PATH = "/collections"
 
   RIGHTS = {
-    :english_fourth_level => ["英语四级权限",1],
-    :english_sixth_level => ["英语六级权限",2]
+    :english_fourth_level => ["英语四级",1],
+    :english_sixth_level => ["英语六级",2]
   }
  
 end
