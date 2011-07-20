@@ -72,6 +72,20 @@
           考试码：<%= @examination.exam_password1 %>&nbsp;&nbsp;&nbsp;&nbsp;<%= @examination.exam_password2 %>
         <% end %>
       </div>
+      <div class="add_details">
+        免费名额领取截止时间：<input type="text" class="input_style" id="get_free_end_at" name="get_free_end_at"
+               value="<%= @examination.get_free_end_at.strftime("%Y-%m-%d") if @examination.get_free_end_at %>"
+               size="20" onClick="WdatePicker();" readonly/>
+      </div>
+      <div class="add_details">
+        免费名额考试截止时间：<input type="text" class="input_style" id="exam_free_end_at" name="exam_free_end_at"
+               value="<%= @examination.exam_free_end_at.strftime("%Y-%m-%d") if @examination.exam_free_end_at %>"
+               size="20" onClick="WdatePicker();" readonly/>
+      </div>
+      <div class="add_details">
+        本场考试单价：<input type="text" class="input_style" id="price" name="price"
+               value="<%= (@examination.price.nil? or @examination.price == 0) ? 20 : @examination.price %>"  size="20"/>
+      </div>
       <div class="clear"></div>
     </div>
     <div class="in">
@@ -119,7 +133,7 @@
         <span>&nbsp;</span>
       </div>
       <div class="add_details">
-        考试时长：<input type="text" class="input_style" name="timeout" id="timeout"
+        考试时长：<input type="text" class="validate-digits input_style" name="timeout" id="timeout"
                     value="<%= @examination.exam_time %>" size="20" />分钟
         <span>&nbsp;</span>
       </div>

@@ -90,6 +90,7 @@ function time_limit(name){
 
 //    var sles=document.getElementById(name).options[document.getElementById(name).selectedIndex].text;
 function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
+    var submit_flag = true;
     var sles=document.getElementsByName(timelimit);
     var checked_ids = new Array();
     var time=$(time).value;
@@ -99,7 +100,7 @@ function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
     var timeout=$("timeout").value;
     if (parseInt(accesstime) >parseInt( timeout)){
         $("notice").innerHTML="<font color = 'red'>入场结束时间超过考试时长!</font>";
-        return false;
+        submit_flag = false;
     }
     for (var i=0;i<sles.length;i++) {
         if (sles[i].checked){
@@ -107,20 +108,29 @@ function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
             if (checked_ids==1){
                 if (time==""||time.length==0){
                     $("notice").innerHTML="<font color = 'red'>时间不能为空</font>";
-                    return false;
+                    submit_flag = false;
                 }
                 if (hour< 0){
                     $("notice").innerHTML="<font color = 'red'>请选择正确的时间!</font>";
-                    return false;
+                    submit_flag = false;
                 }
                 if (minute< 0){
                     $("notice").innerHTML="<font color = 'red'>请选择正确的分钟!</font>";
-                    return false;
+                    submit_flag = false;
                 }
             }
         }
     }
-    sumbit_form("exam_form", "create", "spinner_for_submit");
+    if (isNaN($("price").value)) {
+        $("notice").innerHTML="<font color = 'red'>请填入正确的价格!</font>";
+        submit_flag = false;
+    }
+    if (submit_flag){
+        sumbit_form("exam_form", "create", "spinner_for_submit");
+    } else {
+        return false;
+    }
+    
 }
 //    js提供了parseInt()和parseFloat()两个转换函数
 
