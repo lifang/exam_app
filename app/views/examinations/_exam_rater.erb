@@ -1,12 +1,11 @@
 <table>
   <colgroup>
-    <col width="60"/>
-    <col width="80" />
-    <col width="80" />
+    <col width="80"/>
+    <col width="90" />
+    <col width="100" />
     <col width="60" />
     <col width="40" />
-    <col  width="150"/>
-
+    <col width="100"/>
   </colgroup>
   <thead>
     <tr>
@@ -57,21 +56,21 @@
           <input type="hidden" id="rater_table_rows" name="rater_table_rows" value="2" />
           <input type="hidden" id="textarea" name="textarea" />
           <%= link_to "追加","javascript:void(0);",
-            :onclick=>"javascript:add_item('rater_table', '/exam_raters/create_exam_rater', 'exam_rater_list', '#{@examination.id}','exam_rater')" %>
+            :onclick=>"javascript:add_item('rater_table', '/exam_raters/create_exam_rater', 'exam_rater_list', '#{@examination.id}','exam_rater', 6)" %>
         </td>
       </tr>
     <% else %>
       <% @exam_raters.each do |exam_rater| %>
         <tr id="tr_exam_rater_<%= exam_rater.id %>">
-          <% exam_rater_for= @exam_all["#{exam_rater.id}"][1]%>
-          <td><%=exam_rater_for .name %></td>
-          <td><%= exam_rater_for.mobilephone %></td>
-          <td><%=  exam_rater_for.email %></td>
-          <% exam_rater_info=@exam_all["#{exam_rater.id}"][0][0] %>
+<<<<<<< HEAD
+          <td><%=exam_rater.name %></td>
+          <td><%=exam_rater.mobilephone %></td>
+          <td><%=exam_rater.email %></td>
+          <% exam_rater_info=@exam_all["#{exam_rater.id}"] %>
           <td align="center"><%=exam_rater_info.nil? ? "未统计":(exam_rater_info.long_time.to_i/exam_rater_info.sum).to_s+"分钟/张" %></td>
           <td align="center" ><%=exam_rater_info.nil? ? "未阅卷":exam_rater_info.sum.to_s+"份" %></td>
           <td><%= link_to "抽查","/exam_raters/#{exam_rater.id}/random_paper"   %>&nbsp;|&nbsp;<%= link_to "认可成绩","/exam_raters/#{exam_rater.id}/accept_score" %>&nbsp;|&nbsp;
-     <%= link_to"作废成绩","/exam_raters/#{exam_rater.id}/cancel_score",:confirm => "您确定要作废该老师的阅卷吗？", %>&nbsp;|&nbsp;
+            <%= link_to"作废成绩","/exam_raters/#{exam_rater.id}/cancel_score",:confirm => "您确定要作废该老师的阅卷吗？", %>&nbsp;|&nbsp;
             <%= link_to_remote "编辑", :url => "/exam_raters/#{exam_rater.id}/edit", :method => :get,
               :update => "tr_exam_rater_#{exam_rater.id}" %>&nbsp;|&nbsp;
             <%= link_to_remote "删除", :url => "/exam_raters/#{exam_rater.id}", :method => :delete,
@@ -83,11 +82,11 @@
           <input type="hidden" id="rater_table_rows" name="rater_table_rows" value="2" />
           <input type="hidden" id="textarea" name="textarea" />
           <%= link_to "追加","javascript:void(0);",
-            :onclick=>"javascript:add_item('rater_table', '/exam_raters/create_exam_rater', 'exam_rater_list', '#{@examination.id}','exam_rater')" %>
+            :onclick=>"javascript:add_item('rater_table', '/exam_raters/create_exam_rater', 'exam_rater_list', '#{@examination.id}','exam_rater', 6)" %>
         </td>
       </tr>
       <tr>
-        <td colspan="9">
+        <td colspan="6">
           <div class="pagination_box">
             <%=will_paginate_remote(@exam_raters , "kind=exam_rater" , {:update => 'exam_rater_list', :url => "/examinations/#{@examination.id}"})%>
           </div>

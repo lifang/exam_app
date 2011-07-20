@@ -54,7 +54,7 @@
           <input type="hidden" id="add_rows" name="add_rows" value="2" />
           <input type="hidden" id="textarea" name="textarea" />
           <%= link_to "追加","javascript:void(0);",
-            :onclick=>"javascript:add_item('add', '/exam_users/create_exam_user', 'exam_user_list', '#{@examination.id}','exam_user')" %>
+            :onclick=>"javascript:add_item('add', '/exam_users/create_exam_user', 'exam_user_list', '#{@examination.id}','exam_user', 4)" %>
         </td>
       </tr>
     <% else %>
@@ -64,7 +64,7 @@
           <input type="hidden" id="add_rows" name="add_rows" value="2" />
           <input type="hidden" id="textarea" name="textarea" />
           <%= link_to "追加","javascript:void(0);",
-            :onclick=>"javascript:add_item('add', '/exam_users/create_exam_user', 'exam_user_list', '#{@examination.id}','exam_user')" %>
+            :onclick=>"javascript:add_item('add', '/exam_users/create_exam_user', 'exam_user_list', '#{@examination.id}','exam_user', 4)" %>
         </td>
       </tr>
       <tr>

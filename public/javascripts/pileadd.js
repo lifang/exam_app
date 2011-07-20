@@ -140,11 +140,11 @@ function test_exam(table_rows,type_name){
     var email = $(type_name+"_infoemail"+table_rows).value;
     return test_exam_edit(n,mobile,email) 
 }
-function add_item(table_id, url, update_div, examination_id,type_name){
+function add_item(table_id, url, update_div, examination_id,type_name, col_num){
     var table_rows = $("" + table_id).rows.length ;
     var otr = document.getElementById("" + table_id).insertRow(table_rows-2);
     otr.id = table_rows;
-    var str = "<td colspan='6'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate' ";
+    var str = "<td colspan='"+ col_num +"'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate' ";
     str += "method='get' onsubmit='if (test_exam("+ otr.id +", \""+ type_name +"\")) { button_fail(\"rater_button"+ otr.id +"\", \"spinner_rate"+ otr.id +"\");new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)});}; return false;'>";
     str += "<div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='&#x2713;' />";
     str += "<input name='authenticity_token' type='hidden' value='UEvwUF56teT4A4h8yc2xE9kbGreWJEGaDJZgItFC3fw=' />";
@@ -304,14 +304,14 @@ function compare_value(id,compare_id){
                 var reason=$("reason_for_"+arry[i]).value;
                 if (parseInt(fact_value) < parseInt(input_value)||parseInt(input_value)<0||input_value==""){
                     $("if_submited_"+arry[i]).value =0;
-                    $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>您输入的数据与原数值不符</font>";
+                    $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>请您输入合理的分值。</font>";
                     return false;
                 }
                 else{
                     if (check_mobile.test(input_value)){
                         $("flash_part_"+arry[i]).innerHTML="";
                         if(reason==""||reason.length==0){
-                            $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>请输入评分理由</font>";
+                            $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>请输入评分理由。</font>";
 
                         }else{
                             $("if_submited_"+arry[i]).value =1;
@@ -323,7 +323,7 @@ function compare_value(id,compare_id){
                         }
                     }
                     else{
-                        $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>您输入的只能是数值</font>";
+                        $("flash_part_"+arry[i]).innerHTML="<font color = 'red'>得分只能是数值。</font>";
                     }
                 }
             }
