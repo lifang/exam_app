@@ -51,7 +51,8 @@ class ExaminationsController < ApplicationController
     min = (params[:minute] != "-2") ? params[:minute].to_i : 0
     hash1 = {:title => params[:title].strip, :description => params[:description].strip,
       :is_paper_open => params[:opened], :exam_time => params[:timeout], :is_score_open => params[:open_result],
-      :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING]}
+      :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING], :price => params[:price],
+      :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at]}
     hash1[:generate_exam_pwd] = params[:generate_exam_pwd] == "1" ? true : false
     if params[:timelimit] == "1"
       @time=params[:time].to_date + min.to_i.minutes + hour.to_i.hours
@@ -150,7 +151,8 @@ class ExaminationsController < ApplicationController
     @examination = Examination.find(params[:id].to_i)
     hash1 = {:title => params[:title].strip, :description => params[:description].strip,
       :is_paper_open => params[:opened], :exam_time => params[:timeout], :is_score_open => params[:open_result],
-      :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING]}
+      :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING], :price => params[:price],
+      :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at]}
     hash1[:generate_exam_pwd] = params[:generate_exam_pwd] == "1" ? true : false
     if params[:timelimit] == "1"
       hour = (params[:hour] != "-1") ? params[:hour].to_i : 0

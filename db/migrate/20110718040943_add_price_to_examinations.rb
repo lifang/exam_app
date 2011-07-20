@@ -1,6 +1,6 @@
 class AddPriceToExaminations < ActiveRecord::Migration
  def self.up
-    add_column :examinations, :price, :integer, :default => 0
+    add_column :examinations, :price, :integer, :defalut => 0
     add_column :examinations, :get_free_end_at , :datetime
     add_column :examinations, :exam_free_end_at , :datetime
   end
