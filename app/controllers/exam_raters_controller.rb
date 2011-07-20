@@ -48,7 +48,6 @@ class ExamRatersController < ApplicationController
     else
       @exam_rater.update_attributes(:name=>params[:name],:email=>params[:email],:mobilephone=>params[:mobilephone])
     end
-#    redirect_to "examinations/#{@exam_rater.examination_id}"
     render :partial=>"/examinations/back_exam_rater"
   end
   
@@ -78,13 +77,9 @@ class ExamRatersController < ApplicationController
     unless @rater_relations.blank?
       @rater_relations.each do |rater_relation|
         rater_relation.toggle!(:is_authed)
-<<<<<<< HEAD
-      end
-      flash[:success]="成绩认可成功"
-=======
+
     end
      flash[:success]="当前老师批改的成绩认可成功。"
->>>>>>> debe651475a471c841d19f74af688537faedbe16
     else
       flash[:warn]="当前老师没有新批改试卷。"
     end
