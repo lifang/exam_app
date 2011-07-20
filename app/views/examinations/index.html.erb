@@ -46,7 +46,23 @@
         </thead>
         <% @examinations.each do |examination| %>
           <tbody>
-            <% if examination.status==0||examination.status==2 ;class_name="now";else;if examination.status==1;class_name="never";else class_name="ever";end;end %>
+            <%
+            class_name = "now"
+            state_name = "考试中"
+            if examination.start_at_time.nil?
+              class_name = "now"
+              state_name = "进行中"
+            elsif examination.start_at_time > Time.now
+              class_name = "never"
+              state_name = "未开始"
+            elsif (examination.exam_time.nil? and examination.exam_time !=0 and
+                  (examination.start_at_time + (examination.exam_time.nil? ? 0 :examination.exam_time.minutes) < Time.now))or
+                examination.status == Examination::STATUS[:CLOSED]
+              class_name = "ever"
+              state_name = "已结束"
+            end
+          %>
+
 
             <tr class="<%= class_name %>">
               <td><%= examination.title %></td>
@@ -55,7 +71,7 @@
               <td><%= examination.is_score_open == true ? "是":"否" %></td>
               <td><%= examination.is_paper_open == true ? "是":"否" %></td>
               <td><%= examination.is_published == true ? "是":"否" %></td>
-              <td><%= examination.status %></td>
+              <td><%= state_name %></td>
               <td>
                 <a href="/examinations/<%= examination.id %>">详情</a>
                 <%if !examination.is_published %>

@@ -74,14 +74,19 @@ class ExamRatersController < ApplicationController
   end
 
   def accept_score
-    @rater_relations=RaterUserRelation.find_by_sql("select * from rater_user_relations r where r.exam_rater_id=#{params[:id]} and r.is_authed !=1")
+    @rater_relations=RaterUserRelation.find_by_sql("select * from rater_user_relations r where r.exam_rater_id=#{params[:id]} and r.is_authed = 0")
     unless @rater_relations.blank?
       @rater_relations.each do |rater_relation|
         rater_relation.toggle!(:is_authed)
+<<<<<<< HEAD
       end
       flash[:success]="成绩认可成功"
+=======
+    end
+     flash[:success]="当前老师批改的成绩认可成功。"
+>>>>>>> debe651475a471c841d19f74af688537faedbe16
     else
-      flash[:notice]="没有需要认可"
+      flash[:warn]="当前老师没有新批改试卷。"
     end
     redirect_to request.referer
   end
@@ -93,7 +98,7 @@ class ExamRatersController < ApplicationController
         rater_relation.destroy
       end
     end
-    flash[:error]="未认可的已作废"
+    flash[:notice]="当前老师批改的成绩已经作废。"
     redirect_to request.referer
   end
 
@@ -109,7 +114,7 @@ class ExamRatersController < ApplicationController
       xml=ExamRater.open_file("/papers/#{doc.elements[1].attributes["id"]}.xml")
       @xml=ExamUser.answer_questions(xml,doc)
     else
-      flash[:notice] = "没有能查看的试卷"
+      flash[:warn] = "当前老师没有新批改试卷。"
       redirect_to examination_path(@examination)
     end
   end

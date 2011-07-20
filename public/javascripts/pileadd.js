@@ -90,6 +90,7 @@ function time_limit(name){
 
 //    var sles=document.getElementById(name).options[document.getElementById(name).selectedIndex].text;
 function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
+    var submit_flag = true;
     var sles=document.getElementsByName(timelimit);
     var checked_ids = new Array();
     var time=$(time).value;
@@ -99,7 +100,7 @@ function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
     var timeout=$("timeout").value;
     if (parseInt(accesstime) >parseInt( timeout)){
         $("notice").innerHTML="<font color = 'red'>入场结束时间超过考试时长!</font>";
-        return false;
+        submit_flag = false;
     }
     for (var i=0;i<sles.length;i++) {
         if (sles[i].checked){
@@ -107,20 +108,29 @@ function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
             if (checked_ids==1){
                 if (time==""||time.length==0){
                     $("notice").innerHTML="<font color = 'red'>时间不能为空</font>";
-                    return false;
+                    submit_flag = false;
                 }
                 if (hour< 0){
                     $("notice").innerHTML="<font color = 'red'>请选择正确的时间!</font>";
-                    return false;
+                    submit_flag = false;
                 }
                 if (minute< 0){
                     $("notice").innerHTML="<font color = 'red'>请选择正确的分钟!</font>";
-                    return false;
+                    submit_flag = false;
                 }
             }
         }
     }
-    sumbit_form("exam_form", "create", "spinner_for_submit");
+    if (isNaN($("price").value)) {
+        $("notice").innerHTML="<font color = 'red'>请填入正确的价格!</font>";
+        submit_flag = false;
+    }
+    if (submit_flag){
+        sumbit_form("exam_form", "create", "spinner_for_submit");
+    } else {
+        return false;
+    }
+    
 }
 //    js提供了parseInt()和parseFloat()两个转换函数
 
@@ -130,11 +140,11 @@ function test_exam(table_rows,type_name){
     var email = $(type_name+"_infoemail"+table_rows).value;
     return test_exam_edit(n,mobile,email) 
 }
-function add_item(table_id, url, update_div, examination_id,type_name){
+function add_item(table_id, url, update_div, examination_id,type_name, col_num){
     var table_rows = $("" + table_id).rows.length ;
     var otr = document.getElementById("" + table_id).insertRow(table_rows-2);
     otr.id = table_rows;
-    var str = "<td colspan='6'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate' ";
+    var str = "<td colspan='"+ col_num +"'><form accept-charset='UTF-8' action='"+ url +"' class='required-validate' ";
     str += "method='get' onsubmit='if (test_exam("+ otr.id +", \""+ type_name +"\")) { button_fail(\"rater_button"+ otr.id +"\", \"spinner_rate"+ otr.id +"\");new Ajax.Updater(\""+ update_div +"\", \""+ url +"\", {asynchronous:true, evalScripts:true, method:\"get\", parameters:Form.serialize(this)});}; return false;'>";
     str += "<div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='&#x2713;' />";
     str += "<input name='authenticity_token' type='hidden' value='UEvwUF56teT4A4h8yc2xE9kbGreWJEGaDJZgItFC3fw=' />";

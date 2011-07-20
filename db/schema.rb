@@ -10,7 +10,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110719040943) do
+
+ActiveRecord::Schema.define(:version => 20110720022503) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20110719040943) do
     t.boolean  "is_user_affiremed"
     t.integer  "total_score"
     t.boolean  "is_auto_rate",      :default => false
+    t.boolean  "is_free"
   end
 
   add_index "exam_users", ["examination_id"], :name => "index_exam_users_on_examination_id"
@@ -86,7 +88,9 @@ ActiveRecord::Schema.define(:version => 20110719040943) do
     t.datetime "updated_at"
     t.boolean  "user_affirm"
     t.integer  "status"
-    t.integer  "price"
+
+    t.integer  "price",            :default => 0
+
     t.datetime "get_free_end_at"
     t.datetime "exam_free_end_at"
     t.integer  "category_id"
@@ -107,6 +111,8 @@ ActiveRecord::Schema.define(:version => 20110719040943) do
     t.integer "total_price"
     t.string  "remark"
   end
+
+  add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
 
   create_table "paper_blocks", :force => true do |t|
     t.integer  "paper_id"
@@ -166,7 +172,7 @@ ActiveRecord::Schema.define(:version => 20110719040943) do
     t.integer "question_id"
   end
 
-  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
+  add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_point_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|
@@ -193,6 +199,7 @@ ActiveRecord::Schema.define(:version => 20110719040943) do
 
   add_index "rater_user_relations", ["exam_rater_id"], :name => "index_rater_user_relations_on_exam_rater_id"
   add_index "rater_user_relations", ["exam_user_id"], :name => "index_rater_user_relations_on_exam_user_id"
+  add_index "rater_user_relations", ["is_checked"], :name => "index_rater_user_relations_on_is_checked"
   add_index "rater_user_relations", ["is_marked"], :name => "index_rater_user_relations_on_is_marked"
 
   create_table "roles", :force => true do |t|
