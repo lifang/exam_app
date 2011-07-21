@@ -4,9 +4,10 @@
 <% exam_rater_info=@exam_all["#{@exam_rater.id}"][0] %>
 <td align="center"><%=exam_rater_info.nil? ? "未统计":(exam_rater_info.long_time.to_i/exam_rater_info.sum).to_s+"分钟/张" %></td>
 <td align="center" ><%=exam_rater_info.nil? ? "未阅卷":exam_rater_info.sum.to_s+"份" %></td>
-<td><%= link_to "抽查","/exam_raters/#{@exam_rater.id}/random_paper"   %>&nbsp;|&nbsp;<%= link_to "认可成绩","/exam_raters/#{exam_rater.id}/accept_score" %>&nbsp;|&nbsp;
+<td><%= link_to "抽查","/exam_raters/#{@exam_rater.id}/random_paper"   %>&nbsp;|&nbsp;<%= link_to "认可成绩","/exam_raters/#{@exam_rater.id}/accept_score" %>&nbsp;|&nbsp;
   <%= link_to"作废成绩","/exam_raters/#{@exam_rater.id}/cancel_score",:confirm => "您确定要作废该老师的阅卷吗？", %>&nbsp;|&nbsp;
-<td> <%= link_to_remote "编辑", :url => "/exam_raters/#{@exam_rater.id}/edit", :method => :get,
+  <%= link_to_remote "编辑", :url => "/exam_raters/#{@exam_rater.id}/edit", :method => :get,
     :update => "tr_exam_rater_#{@exam_rater.id}" %>&nbsp;|&nbsp;
   <%= link_to_remote "删除", :url => "/exam_raters/#{@exam_rater.id}", :method => :delete,
     :confirm => "您确定要删除当前考生么？", :update => "exam_rater_list" %></td>
+
