@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(:version => 20110718040943) do
     t.datetime "updated_at"
     t.boolean  "user_affirm",      :default => false
     t.integer  "status",           :default => 0
-    t.integer  "price"
+    t.integer  "price",            :default => 0
     t.datetime "get_free_end_at"
     t.datetime "exam_free_end_at"
   end
