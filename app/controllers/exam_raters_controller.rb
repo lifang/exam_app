@@ -48,6 +48,10 @@ class ExamRatersController < ApplicationController
     else
       @exam_rater.update_attributes(:name=>params[:name],:email=>params[:email],:mobilephone=>params[:mobilephone])
     end
+    @exam_all={}
+    @relations=RaterUserRelation.find_by_sql("select sum(rate_time) long_time, count(id) sum,exam_rater_id rater_id from rater_user_relations group by exam_rater_id")
+    @exam_all["#{@exam_rater.id}"]=@relations
+    puts @exam_all
     render :partial=>"/examinations/back_exam_rater"
   end
   
@@ -78,8 +82,8 @@ class ExamRatersController < ApplicationController
       @rater_relations.each do |rater_relation|
         rater_relation.toggle!(:is_authed)
 
-    end
-     flash[:success]="当前老师批改的成绩认可成功。"
+      end
+      flash[:success]="当前老师批改的成绩认可成功。"
     else
       flash[:warn]="当前老师没有新批改试卷。"
     end
