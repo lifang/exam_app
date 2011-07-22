@@ -1,5 +1,5 @@
 module Constant
-    #邮箱地址
+#    #邮箱地址
   EMAILS = {
     :e126 => ['http://www.126.com','网易126'],
     :eqq => ['http://mail.qq.com','QQ'],
@@ -38,10 +38,12 @@ module Constant
   UNAFFIRM_PATH = "/excels"
   #收藏文件路径
   COLLECTION_PATH = "/collections"
-
-  RIGHTS = {
-    :english_fourth_level => ["英语四级",1],
-    :english_sixth_level => ["英语六级",2]
-  }
+  #txt文件路径
+  TXTS_PATH = SERVER_PATH + "/txts"
+#
+#  RIGHTS = {
+#    :english_fourth_level => ["英语四级",1],
+#    :english_sixth_level => ["英语六级",2]
+#  }
  
 end
