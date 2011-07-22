@@ -51,7 +51,8 @@ class ExaminationsController < ApplicationController
     min = (params[:minute] != "-2") ? params[:minute].to_i : 0
     hash1 = {:title => params[:title].strip, :description => params[:description].strip,
       :is_paper_open => params[:opened], :exam_time => params[:timeout], :is_score_open => params[:open_result],
-      :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING]}
+      :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING], :price => params[:price],
+      :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at]}
     hash1[:generate_exam_pwd] = params[:generate_exam_pwd] == "1" ? true : false
     if params[:timelimit] == "1"
       @time=params[:time].to_date + min.to_i.minutes + hour.to_i.hours
@@ -94,8 +95,8 @@ class ExaminationsController < ApplicationController
     @exam_raters = Examination.paginate_by_sql("select * from exam_raters r where r.examination_id = #{@examination.id}",
       :per_page => 10, :page => params[:page])
     @exam_all={}
-    @exam_raters.collect() { |exam_rater| @exam_all["#{exam_rater.id}"]=[RaterUserRelation.find_by_sql("select sum(rate_time)
-    long_time, count(id) sum from rater_user_relations where exam_rater_id=#{exam_rater.id} group by exam_rater_id"),exam_rater] }
+    @relations=RaterUserRelation.find_by_sql("select sum(rate_time) long_time, count(id) sum,exam_rater_id rater_id from rater_user_relations group by exam_rater_id")
+    @relations.collect() { |exam_rater| @exam_all["#{exam_rater.rater_id}"]=exam_rater }
     @score_levels=@examination.score_levels
     render :partial => "exam_user_for_now" if request.xml_http_request? and params[:kind] == 'exam_user'
     render :partial => "exam_rater" if request.xml_http_request? and params[:kind] == 'exam_rater'
@@ -150,7 +151,8 @@ class ExaminationsController < ApplicationController
     @examination = Examination.find(params[:id].to_i)
     hash1 = {:title => params[:title].strip, :description => params[:description].strip,
       :is_paper_open => params[:opened], :exam_time => params[:timeout], :is_score_open => params[:open_result],
-      :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING]}
+      :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING], :price => params[:price],
+      :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at]}
     hash1[:generate_exam_pwd] = params[:generate_exam_pwd] == "1" ? true : false
     if params[:timelimit] == "1"
       hour = (params[:hour] != "-1") ? params[:hour].to_i : 0

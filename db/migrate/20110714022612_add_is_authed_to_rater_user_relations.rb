@@ -3,6 +3,7 @@ class AddIsAuthedToRaterUserRelations < ActiveRecord::Migration
     add_column :rater_user_relations, :is_authed, :boolean, :default => 0
     add_column :rater_user_relations, :started_at, :datetime
     add_column :rater_user_relations, :rate_time, :integer
+    add_index :rater_user_relations, :is_authed
   end
 
   def self.down
