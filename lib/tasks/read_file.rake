@@ -20,11 +20,11 @@ class File
       end
       query.ext.to_a.each{ |e|
         e[/\A\./] ? e = e[1..e.length-1] : e = e
-        #        query.filename.to_a.each { |f|
-        query.path[/\\\z/] ? query.path = query.path[0..query.path.length - 2] : query.path = query.path
-        filelist = filelist + Dir[ File.join(query.path.split(/\\/), "**", "#{query.filename}.#{e}") ]
-        #        }
-      }
+#        query.filename.to_a.each{ |f|
+          query.path[/\\\z/] ? query.path = query.path[0..query.path.length - 2] : query.path = query.path
+          filelist = filelist + Dir[ File.join(query.path.split(/\\/), "**", "#{query.filename}.#{e}") ]
+        }
+#      }
       filelist
     end
   end
