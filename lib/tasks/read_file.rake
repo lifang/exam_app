@@ -2,7 +2,6 @@ class File
   class << self
     def find(*args)
       require 'ostruct'
-
       input_query, filelist = {}, []
       if args.length == 1 && args[0].class == Hash
         input_query = args[0]
@@ -17,7 +16,7 @@ class File
 
       query = OpenStruct.new({:path => nil, :ext => "*", :filename => "*"}.merge(input_query))
       if query.path == nil
-          raise("Argument 'path' not given")
+        raise("Argument 'path' not given")
       end
       query.ext.to_a.each{ |e|
         e[/\A\./] ? e = e[1..e.length-1] : e = e
@@ -31,5 +30,18 @@ class File
   end
 end
 
-
-pic_files = File.find(:path => Audits::ROOT_AJLY_RECYCLE[k], :ext => [".gif", ".jpg", ".jpeg", ".png", ".bmp"])
+namespace :files do
+  task(:read_file => :environment) do
+    txt_files = File.find(:path => Constant::TXTS_PATH, :ext => [".txt"])
+    txt_files.each do |file|
+      f= File.open(file,"rb")
+      str = ""
+      str = f.readlines
+      str.each do |str1|
+        puts str1
+      end
+      f.close
+      puts "reade#{file}over,and read next"
+    end
+  end
+end
