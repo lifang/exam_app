@@ -20,24 +20,24 @@ class File
       end
       query.ext.to_a.each{ |e|
         e[/\A\./] ? e = e[1..e.length-1] : e = e
-#        query.filename.to_a.each{ |f|
-          query.path[/\\\z/] ? query.path = query.path[0..query.path.length - 2] : query.path = query.path
-          filelist = filelist + Dir[ File.join(query.path.split(/\\/), "**", "#{query.filename}.#{e}") ]
-        }
-#      }
+        #        query.filename.to_a.each{ |f|
+        query.path[/\\\z/] ? query.path = query.path[0..query.path.length - 2] : query.path = query.path
+        filelist = filelist + Dir[ File.join(query.path.split(/\\/), "**", "#{query.filename}.#{e}") ]
+      }
+      #      }
       filelist
     end
   end
 end
 
 namespace :files do
-  task(:read_file => :environment) do
-    txt_files = File.find(:path =>"f:/exam_app/public/txts", :ext => [".txt"])
+  task :read_file do
+    txt_files = File.find(:path =>"e:/exam_app/public/txts", :ext => [".txt"])
+    match_file = File.open("e:/exam_app/public/matching.txt","rb")
+    match_contents=""
+    match_contents=match_file.readlines
     txt_files.each do |file|
-      puts "begin to read"
-      match_file=File.open("f:/exam_app/public/matching.txt","rb")
-      match_contents=""
-      match_contents=match_file.readlines
+      puts "begin to read"  
       ordinary_file=File.open(file,"rb")
       contents = ""
       contents =ordinary_file.readlines
@@ -48,11 +48,12 @@ namespace :files do
           n +=1
         end
       end
-      if n>10
-        FileUtils.cp file, "f:/exam_app/public/matches/#{file.split("/").reverse[0]}"
+      if n>3
+        FileUtils.cp file, "e:/exam_app/public/matches/#{file.split("/").reverse[0]}"
       end
       ordinary_file.close
       puts "reade  over,and read next"
     end
+    match_file.close
   end
 end

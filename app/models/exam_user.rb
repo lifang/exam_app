@@ -324,45 +324,45 @@ class ExamUser < ActiveRecord::Base
   end
 
   #导出当前考试未确认的考生名单
-  def self.export_user_unaffirm(url, examination_id)
-    Spreadsheet.client_encoding = "UTF-8"
-    book = Spreadsheet::Workbook.new
-    sheet = book.create_worksheet
-    sheet.row(0).concat %w{姓名 手机号 邮箱}
-    exam_users = ExamUser.find_by_sql("select u.name, u.mobilephone, u.email from exam_users e
-        inner join users u on e.user_id = u.id where examination_id=#{examination_id} and is_user_affiremed != 1")
-    exam_users.each_with_index do |exam_user, index|
-      sheet.row(index+1).concat ["#{exam_user.name}", "#{exam_user.mobilephone}", "#{exam_user.email}"]
-    end
-    book.write url
-  end
+#  def self.export_user_unaffirm(url, examination_id)
+#    Spreadsheet.client_encoding = "UTF-8"
+#    book = Spreadsheet::Workbook.new
+#    sheet = book.create_worksheet
+#    sheet.row(0).concat %w{姓名 手机号 邮箱}
+#    exam_users = ExamUser.find_by_sql("select u.name, u.mobilephone, u.email from exam_users e
+#        inner join users u on e.user_id = u.id where examination_id=#{examination_id} and is_user_affiremed != 1")
+#    exam_users.each_with_index do |exam_user, index|
+#      sheet.row(index+1).concat ["#{exam_user.name}", "#{exam_user.mobilephone}", "#{exam_user.email}"]
+#    end
+#    book.write url
+#  end
 
   #检验当前当前考生是否能考本场考试
-  def self.can_answer(user_id, examination_id)
-    str = ""
-    examination = Examination.return_examinations(user_id, examination_id)
-    if examination.any?
-      if !examination[0].is_submited.nil? and examination[0].is_submited == 1
-        str = "您已经交卷。"
-      else
-        if examination[0].exam_user_id.nil? and examination[0].status == Examination::STATUS[:GOING]
-          examination[0].new_exam_user(User.find(user_id))
-        else
-          if examination[0].start_at_time > Time.now
-            str = "本场考试开始时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")},请您做好准备。"
-          elsif (!examination[0].start_at_time.nil? and !examination[0].exam_time.nil? and examination[0].exam_time !=0 and
-                (examination[0].start_at_time + examination[0].exam_time.minutes) < Time.now) or
-              examination[0].status == Examination::STATUS[:CLOSED]
-            str = "本场考试已经结束。"
-          elsif examination[0].start_end_time  < Time.now
-            str = "您不能入场，本场考试入场时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")}
-              -#{examination[0].start_end_time.strftime("%Y-%m-%d %H:%M:%S")}。"
-          end if examination[0].start_at_time
-        end
-      end
-    else
-      str = "本场考试已经取消，或者您没有资格参加本场考试。"
-    end
-    return [str, examination]
-  end
+#  def self.can_answer(user_id, examination_id)
+#    str = ""
+#    examination = Examination.return_examinations(user_id, examination_id)
+#    if examination.any?
+#      if !examination[0].is_submited.nil? and examination[0].is_submited == 1
+#        str = "您已经交卷。"
+#      else
+#        if examination[0].exam_user_id.nil? and examination[0].status == Examination::STATUS[:GOING]
+#          examination[0].new_exam_user(User.find(user_id))
+#        else
+#          if examination[0].start_at_time > Time.now
+#            str = "本场考试开始时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")},请您做好准备。"
+#          elsif (!examination[0].start_at_time.nil? and !examination[0].exam_time.nil? and examination[0].exam_time !=0 and
+#                (examination[0].start_at_time + examination[0].exam_time.minutes) < Time.now) or
+#              examination[0].status == Examination::STATUS[:CLOSED]
+#            str = "本场考试已经结束。"
+#          elsif examination[0].start_end_time  < Time.now
+#            str = "您不能入场，本场考试入场时间为#{examination[0].start_at_time.strftime("%Y-%m-%d %H:%M:%S")}
+#              -#{examination[0].start_end_time.strftime("%Y-%m-%d %H:%M:%S")}。"
+#          end if examination[0].start_at_time
+#        end
+#      end
+#    else
+#      str = "本场考试已经取消，或者您没有资格参加本场考试。"
+#    end
+#    return [str, examination]
+#  end
 end
