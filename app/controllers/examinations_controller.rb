@@ -25,9 +25,7 @@ class ExaminationsController < ApplicationController
   def new
     @examination=Examination.new()
   end
-  #=====================
-  #create by qianjun -- 2011-05-09
-  #=====================
+
   def create  #创建考试按钮，获取试卷id
     @paperid=params[:exam][:getvalue]
     if @paperid==""
@@ -175,14 +173,8 @@ class ExaminationsController < ApplicationController
       hash1[:start_at_time]=""
       hash1[:start_end_time] = @overtime
     end
-    puts hash1
-    puts params[:category] ==""
-    if params[:category] ==""
-      @examination.update_examination(hash1)
-    else
-      hash1[:category_id] =params[:category]
-      @examination.update_examination(hash1)
-    end
+    hash1[:category_id] =params [:category] unless params[:category].nil? or params[:category] ==""
+    @examination.update_examination(hash1)
     if !params[:grade].nil? and params[:grade] != ""
       @grade_class=get_text(params[:grade])
       @examination.update_score_level(@grade_class)
