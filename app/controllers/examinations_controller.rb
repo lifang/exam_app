@@ -52,7 +52,8 @@ class ExaminationsController < ApplicationController
     hash1 = {:title => params[:title].strip, :description => params[:description].strip,
       :is_paper_open => params[:opened], :exam_time => params[:timeout], :is_score_open => params[:open_result],
       :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING], :price => params[:price],
-      :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at]}
+      :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at],
+      :category_id => params[:category]}
     hash1[:generate_exam_pwd] = params[:generate_exam_pwd] == "1" ? true : false
     if params[:timelimit] == "1"
       @time = params[:time].to_date + min.to_i.minutes + hour.to_i.hours
@@ -65,7 +66,7 @@ class ExaminationsController < ApplicationController
         hash1[:exam_free_end_at] = params[:time].to_date if params[:exam_free_end_at].nil? or params[:exam_free_end_at] == ""
       end
     end
-    @examination.update_examination(hash1)
+    @examination.update_examination(hash1) unless params[:category].nil?
     if !params[:grade].nil? and params[:grade] != ""
       @grade_class=get_text(params[:grade])
       @examination.update_score_level(@grade_class)
@@ -174,12 +175,19 @@ class ExaminationsController < ApplicationController
       hash1[:start_at_time]=""
       hash1[:start_end_time] = @overtime
     end
-    @examination.update_examination(hash1)
+    puts hash1
+    puts params[:category] ==""
+    if params[:category] ==""
+      @examination.update_examination(hash1)
+    else
+      hash1[:category_id] =params[:category]
+      @examination.update_examination(hash1)
+    end
     if !params[:grade].nil? and params[:grade] != ""
       @grade_class=get_text(params[:grade])
       @examination.update_score_level(@grade_class)
     end
-    render :partial => "exam_base_info" 
+    render :partial => "exam_base_info"
   end
   
   def exam_result
