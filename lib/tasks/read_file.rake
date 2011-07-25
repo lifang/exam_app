@@ -30,8 +30,8 @@ class File
   end
 end
 
-namespace :files do
-  task(:read_file => :environment) do
+namespace :file do
+  task(:read => :environment) do
     txt_files = File.find(:path =>"f:/exam_app/public/txts", :ext => [".txt"])
     txt_files.each do |file|
       puts "begin to read"
@@ -43,11 +43,23 @@ namespace :files do
       contents =ordinary_file.readlines
       content1= (contents.to_s.split(" ")-(contents.to_s.split(" ")-match_contents.to_s.split(" ")))
       n=0
-      match_contents.each do |match_content|
-        if (content1-match_content.split) !=content1
-          n +=1
-        end
-      end
+       match_content1=match_contents
+  puts content1.join(",")
+  match_contents.each do |match_content|
+    puts match_content
+    if (content1-match_content.split) !=content1
+      n +=1
+      puts "dddddddddd"
+      print content1-(content1-match_content.split)
+      puts n
+      match_content1=(match_content1.to_s.split-content1-(content1-match_content.split)).join(" ")
+    end
+  end
+  puts "ssssssssss"
+  puts match_content1
+  match_content1.split(",").each do |ss|
+    file1.puts(ss)
+  end
       if n>10
         FileUtils.cp file, "f:/exam_app/public/matches/#{file.split("/").reverse[0]}"
       end

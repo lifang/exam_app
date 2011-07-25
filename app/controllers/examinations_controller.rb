@@ -167,8 +167,6 @@ class ExaminationsController < ApplicationController
       hash1[:start_at_time]=""
       hash1[:start_end_time] = @overtime
     end
-    puts hash1
-    puts params[:category] ==""
     if params[:category] ==""
       @examination.update_examination(hash1)
     else
