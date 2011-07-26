@@ -31,9 +31,9 @@ class File
 end
 
 namespace :file do
-  task(:read => :environment) do
-    txt_files = File.find(:path =>"e:/exam_app/public/txts", :ext => [".txt"])
-    match_file = File.open("e:/exam_app/public/matching.txt","rb")
+  task :read do
+    txt_files = File.find(:path =>"f:/exam_app/public/txts", :ext => [".txt"])
+    match_file = File.open("f:/exam_app/public/matching.txt","rb")
     match_contents=""
     match_contents=match_file.readlines
     txt_files.each do |file|
@@ -43,22 +43,12 @@ namespace :file do
       contents =ordinary_file.readlines
       content1= (contents.to_s.split(" ")-(contents.to_s.split(" ")-match_contents.to_s.split(" ")))
       n=0
-      match_content1=match_contents
-      puts content1.join(",")
       match_contents.each do |match_content|
         puts match_content
         if (content1-match_content.split) !=content1
           n +=1
-          puts "dddddddddd"
-          print content1-(content1-match_content.split)
           puts n
-          match_content1=(match_content1.to_s.split-content1-(content1-match_content.split)).join(" ")
         end
-      end
-      puts "ssssssssss"
-      puts match_content1
-      match_content1.split(",").each do |ss|
-        file1.puts(ss)
       end
       if n>10
         FileUtils.cp file, "f:/exam_app/public/matches/#{file.split("/").reverse[0]}"
@@ -67,5 +57,25 @@ namespace :file do
       puts "reade  over,and read next"
     end
     match_file.close
+  end
+
+  task :delete_words do
+    txt_files = File.find(:path =>"f:/exam_app/public/txts", :ext => [".txt"])
+    txt_files.each do |file|
+      puts "begin to read"
+      match_file=File.open("f:/exam_app/public/matching.txt","rb")
+      match_contents=""
+      match_contents=match_file.readlines
+      ordinary_file=File.open(file,"rb")
+      contents = ""
+      contents =ordinary_file.readlines
+      content1= (contents.to_s.split(" ")-(contents.to_s.split(" ")-match_contents.join(" ").split(" ")))
+      leave_content=match_contents.join(" ").split(" ")-content1
+      match_file.close
+      leave_file=File.open("f:/exam_app/public/matching.txt","w+")
+      leave_file.puts("#{leave_content.join(" ")}")
+      leave_file.close
+      puts "reade  over,and read next"
+    end
   end
 end

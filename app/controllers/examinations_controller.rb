@@ -173,17 +173,12 @@ class ExaminationsController < ApplicationController
       hash1[:start_at_time]=""
       hash1[:start_end_time] = @overtime
     end
-<<<<<<< HEAD
     if params[:category] ==""
       @examination.update_examination(hash1)
     else
       hash1[:category_id] =params[:category]
       @examination.update_examination(hash1)
     end
-=======
-    hash1[:category_id] =params [:category] unless params[:category].nil? or params[:category] ==""
-    @examination.update_examination(hash1)
->>>>>>> d1dcbd4f7755d6610847e1b8160b946b03566d26
     if !params[:grade].nil? and params[:grade] != ""
       @grade_class=get_text(params[:grade])
       @examination.update_score_level(@grade_class)
