@@ -69,7 +69,7 @@ namespace :file do
       ordinary_file=File.open(file,"rb")
       contents = ""
       contents =ordinary_file.readlines
-      content1= (contents.to_s.split(" ")-(contents.to_s.split(" ")-match_contents.join(" ").split(" ")))
+      content1= contents.to_s.split(" ")-(contents.to_s.split(" ")-match_contents.join(" ").split(" "))
       leave_content=match_contents.join(" ").split(" ")-content1
       match_file.close
       leave_file=File.open("f:/exam_app/public/matching.txt","w+")
