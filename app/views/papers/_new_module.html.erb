@@ -20,7 +20,7 @@
           <div class="clear"></div>
           <%= f.submit "提交" ,:class=>"submit_btn" %>
           <%= image_tag "ajax-loader.gif", :id => "spinner_new_module", :style => "display:none" %>
-          <input type="button" value="取消" class="submit_btn" onClick="javascript:close_new_module()"/>
+          <input type="button" value="取消" class="submit_btn" onclick="javascript:new_module();"/>
         </li>    
       </ul>
     <% end %>
