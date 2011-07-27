@@ -5,13 +5,14 @@ class ApplicationController < ActionController::Base
   include Constant
   include UserRoleHelper
   include UsersHelper
-
+  
   def access?
     deny_access unless signed_in?
   end
 
   def write_xml(url,doc)
     file = File.new(url, "w+")
+
     file.write(doc)
     file.close
   end

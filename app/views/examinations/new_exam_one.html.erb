@@ -8,7 +8,7 @@
     <div class="add_details">
       考试试卷：<a href="/papers/<%=  @paperids.id %>"><%= @paperids.title  %></a>
       <a href="javascript:void(0);" onclick="javascript:change_paper();">[重选试卷]</a>
-      <div class="clear"></div>
+<%#*<div class="clear"></div>%>
       <div id="change_papers_div" style="display: none;">
         <%= render :partial => "change_papers", :object => @examination %>
       </div>
@@ -17,6 +17,10 @@
       :method=>:post, :html => {:class => "required-validate", :name => "exam_form", :id => "exam_form"} do |f|%>
       <input type="hidden" value="<%= @paperid %>" id="post_value" name="post_value" />
       <div class="add_details">
+       试卷分类：<%= render :partial => "/common/categories" %>
+      </div>
+      <div class="add_details">
+        <div class="clear"></div>
         <font color="red">*</font>
         考试标题：<input type="text" class="required input_style" name="title" value="<%= @examination.title %>" size="65"/>
         <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
@@ -75,7 +79,7 @@
           <input type="radio" name="timelimit" id="timelimit" value="0" checked="true" onclick="javascript:time_limit('timelimit')"  />否
           <span>&nbsp;&nbsp;&nbsp;</span>
         </div>
-        <div  class="add_details"  >
+        <div  class="add_details">
           开始开始于：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" disabled="disabled" class="input_style" id="time" name="time" value="/ 年/ 月/ 日"
                                                size="20" onClick="WdatePicker();" readonly/>
           <select name="hour" disabled="disabled" id="hour">

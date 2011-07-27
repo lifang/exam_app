@@ -19,6 +19,7 @@ namespace :paper do
       total_score = answer_xml.root.elements["paper"].attributes["score"].nil? ? 0
       : answer_xml.root.elements["paper"].attributes["score"].to_i
       eu.set_auto_rater(total_score)
+      puts ex.id.to_s + "update success"
     end unless exam_users.blank?
   end
 end

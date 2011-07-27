@@ -25,9 +25,7 @@ class ExaminationsController < ApplicationController
   def new
     @examination=Examination.new()
   end
-  #=====================
-  #create by qianjun -- 2011-05-09
-  #=====================
+
   def create  #创建考试按钮，获取试卷id
     @paperid=params[:exam][:getvalue]
     if @paperid==""
@@ -52,16 +50,21 @@ class ExaminationsController < ApplicationController
     hash1 = {:title => params[:title].strip, :description => params[:description].strip,
       :is_paper_open => params[:opened], :exam_time => params[:timeout], :is_score_open => params[:open_result],
       :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING], :price => params[:price],
-      :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at]}
+      :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at],
+      :category_id => params[:category]}
     hash1[:generate_exam_pwd] = params[:generate_exam_pwd] == "1" ? true : false
     if params[:timelimit] == "1"
-      @time=params[:time].to_date + min.to_i.minutes + hour.to_i.hours
-      @overtime=@time + params[:accesstime].to_i.minutes
+      @time = params[:time].to_date + min.to_i.minutes + hour.to_i.hours
+      @overtime = @time + params[:accesstime].to_i.minutes
       hash1[:start_at_time] = @time
       hash1[:start_end_time] = @overtime
       hash1[:status] = Examination::STATUS[:LOCK]
+      if !params[:time].nil? and params[:time] != ""  
+        hash1[:get_free_end_at] = params[:time].to_date if params[:get_free_end_at].nil? or params[:get_free_end_at] == ""
+        hash1[:exam_free_end_at] = params[:time].to_date if params[:exam_free_end_at].nil? or params[:exam_free_end_at] == ""
+      end
     end
-    @examination.update_examination(hash1)
+    @examination.update_examination(hash1) unless params[:category].nil?
     if !params[:grade].nil? and params[:grade] != ""
       @grade_class=get_text(params[:grade])
       @examination.update_score_level(@grade_class)
@@ -157,21 +160,30 @@ class ExaminationsController < ApplicationController
     if params[:timelimit] == "1"
       hour = (params[:hour] != "-1") ? params[:hour].to_i : 0
       min = (params[:minute] != "-2") ? params[:minute].to_i : 0
-      @time=params[:time].to_date + hour.hours + min.minutes
+      @time = params[:time].to_date + hour.hours + min.minutes
       @overtime=@time + params[:accesstime].to_i.minutes
       hash1[:start_at_time] = @time
       hash1[:start_end_time] = @overtime
       hash1[:status] = Examination::STATUS[:LOCK]
+      if !params[:time].nil? and params[:time] != ""
+        hash1[:get_free_end_at] = params[:time].to_date if params[:get_free_end_at].nil? or params[:get_free_end_at] == ""
+        hash1[:exam_free_end_at] = params[:time].to_date if params[:exam_free_end_at].nil? or params[:exam_free_end_at] == ""
+      end
     else
       hash1[:start_at_time]=""
       hash1[:start_end_time] = @overtime
     end
-    @examination.update_examination(hash1)
+    if params[:category] ==""
+      @examination.update_examination(hash1)
+    else
+      hash1[:category_id] =params[:category]
+      @examination.update_examination(hash1)
+    end
     if !params[:grade].nil? and params[:grade] != ""
       @grade_class=get_text(params[:grade])
       @examination.update_score_level(@grade_class)
     end
-    render :partial => "exam_base_info" 
+    render :partial => "exam_base_info"
   end
   
   def exam_result
