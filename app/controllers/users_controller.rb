@@ -14,11 +14,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
-    @user = User.find(params[:id])
-    @examinations = Examination.find_by_sql("select eu.is_submited,eu.total_score,p.total_question_num,ex.*,eu.answer_sheet_url,eu.id from exam_users eu inner join examinations ex on ex.id=eu.examination_id inner join papers p on p.id=eu.paper_id where user_id=#{@user.id} order by exam_free_end_at desc").paginate(:page=>params[:page],:per_page=>10)
-  end
-
   def index
     @users = User.paginate(:per_page=>3,:page=>params[:page])
     @roles = Role.all
