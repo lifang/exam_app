@@ -40,10 +40,10 @@ module Constant
   COLLECTION_PATH = "/collections"
   #txt文件路径
   TXTS_PATH = SERVER_PATH + "/txts"
-#
-#  RIGHTS = {
-#    :english_fourth_level => ["英语四级",1],
-#    :english_sixth_level => ["英语六级",2]
-#  }
+
+  RIGHTS = {
+    :english_fourth_level => ["英语四级",1],
+    :english_sixth_level => ["英语六级",2]
+  }
  
 end
