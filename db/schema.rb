@@ -10,12 +10,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20110720022503) do
 
-=======
 ActiveRecord::Schema.define(:version => 20110725022503) do
->>>>>>> cb57cd65ff93f0c97c946ecccee60d750b8a8c4b
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
     t.integer "parent_id", :default => 0, :null => false

@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 
-<?xml version='1.0' encoding='UTF-8'?>      <paper id='1' total_num='1' total_score='3'>
-=======
 <?xml version='1.0' encoding='UTF-8'?>      <paper id='1' total_num='6' total_score='40'>
->>>>>>> cb57cd65ff93f0c97c946ecccee60d750b8a8c4b
         <base_info>
           <title>ruby test</title>
           <category>1</category>
