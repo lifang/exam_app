@@ -118,9 +118,9 @@ class Problem < ActiveRecord::Base
 
   #更新标签查询表
   def update_search_table
-    total_num = 1
+    total_num = 0
     self.tags.each do |t|
-      total_num = total_num*t.num
+      total_num = total_num + t.num
     end
     problem_tag = ProblemTag.find_or_create_by_problem_id(self.id)
     problem_tag.total_num = total_num
