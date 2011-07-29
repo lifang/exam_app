@@ -136,19 +136,13 @@ class Problem < ActiveRecord::Base
     end
     return old_score.merge(score_arr)
   end
-  def Problem.search_mothod(start_at, end_at, title, category, per_page, page, options={})
-    sql = "select * from problems where"
-    condition=0
-    condition +=1 unless start_at.nil?
-    sql += " created_at > '#{start_at}'" unless start_at.nil?
-    sql += " and" unless condition=0
-    condition +=1 unless end_at.nil?
-    sql += " created_at < '#{end_at}'" unless end_at.nil?
-    sql += " and" unless condition=0
-    condition +=1 unless title.nil?
-    sql += " title like '%#{title}%'" unless title.nil?
-    sql += " and" unless condition=0
-    sql += " category_id = #{category}" unless category.nil?
+  def Problem.search_mothod(start_at, end_at,category,type, per_page, page, options={})
+    sql = "select * from problems p inner join problem_tags pt on p.id=pt.problem_id where 1=1"
+    sql += " and created_at > '#{start_at}'" unless start_at.nil?
+    sql += " and created_at < '#{end_at}'" unless end_at.nil?
+    sql += " and category_id = #{category}" unless category.nil?
+    sql += " and types = #{type}" unless type.nil?
+    #sql += " and tags = #{category}" unless category.nil?
     options.each do |key, value|
       sql += " and #{key} #{value} "  
     end unless options.empty?
