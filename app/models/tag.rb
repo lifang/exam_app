@@ -31,6 +31,7 @@ class Tag < ActiveRecord::Base
 
   #为tag生成有序数列 2 4 8 16 32...
   def self.create_tag_num
+    tag_num = 2
     max_num = Tag.maximum("num")
     puts max_num
     tag_num = max_num * 2 if !max_num.nil? and max_num > 0
