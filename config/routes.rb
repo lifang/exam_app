@@ -2,6 +2,13 @@ ExamApp::Application.routes.draw do
 
   match '/signout'=> 'sessions#destroy'
 
+ resources :item_pools do
+   collection do
+     get :paper_item
+   end
+
+ end
+
   namespace :user do
     resources :examinations do
       member do
