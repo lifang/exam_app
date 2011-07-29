@@ -36,7 +36,7 @@
               <%= link_to "[成绩查询]", "user/exam_users/ #{cookies[:user_id]}/my_results" %>
             <% end %>
             <a href="#">[我的收藏]</a>
-            <a href="/users/<%=user.id%>/edit">[个人设置]</a>
+            <a href="/users/<%=user.id%>">[个人信息]</a>
             <a href="/signout">[退出]</a>
           <%end%>
         </p>

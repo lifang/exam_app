@@ -42,6 +42,12 @@
     </requirement>
     <requirement>
       <requirement>
+        <dependency name="rake" version="0.8.7" bound="EQUAL" git="false" path="false" doRequire="true" />
+      </requirement>
+      <source from="Gemfile" />
+    </requirement>
+    <requirement>
+      <requirement>
         <dependency name="rspec" version="2.0.0" bound="EQUAL" git="false" path="false" doRequire="true" />
       </requirement>
       <source from="Gemfile" />
@@ -119,6 +125,9 @@
     <orderEntry type="library" scope="PROVIDED" name="[gem] rspec-expectations (v2.0.0, C:/Ruby192/lib/ruby/gems/1.9.1/gems/rspec-expectations-2.0.0)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] rspec-mocks (v2.0.0, C:/Ruby192/lib/ruby/gems/1.9.1/gems/rspec-mocks-2.0.0)" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] rspec (v2.0.0, C:/Ruby192/lib/ruby/gems/1.9.1/gems/rspec-2.0.0)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rake (v0.8.7, C:/Ruby192/lib/ruby/gems/1.9.1/gems/rake-0.8.7)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] spreadsheet (v0.6.5.5, C:/Ruby192/lib/ruby/gems/1.9.1/gems/spreadsheet-0.6.5.5)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rake (v0.8.7, C:/Ruby192/lib/ruby/gems/1.9.1/gems/rake-0.8.7)" level="application" />
   </component>
 </module>
 

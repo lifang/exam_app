@@ -10,8 +10,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20110720022503) do
 
+=======
+ActiveRecord::Schema.define(:version => 20110725022503) do
+>>>>>>> cb57cd65ff93f0c97c946ecccee60d750b8a8c4b
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
     t.integer "parent_id", :default => 0, :null => false
@@ -110,8 +114,6 @@ ActiveRecord::Schema.define(:version => 20110720022503) do
     t.integer "total_price"
     t.string  "remark"
   end
-
-  add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
 
   create_table "paper_blocks", :force => true do |t|
     t.integer  "paper_id",    :null => false
@@ -241,6 +243,8 @@ ActiveRecord::Schema.define(:version => 20110720022503) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
+    t.integer  "code_id"
+    t.string   "code_type"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
