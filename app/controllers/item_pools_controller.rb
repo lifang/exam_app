@@ -1,0 +1,3 @@
+class ItemPoolsController < ApplicationController
+
+end

@@ -202,8 +202,8 @@ function edit_exam(div,controller,exam_id,action){
 
 function test_exam_edit(n,mobile,email){
     var myReg =new RegExp(/^\w+([-+.])*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
-//    var check_value = new RegExp(/[a-zA-Z0-9\_\u4e00-\u9fa5]/);
-     var check_value = new RegExp(/^[a-zA-Z0-9\u4e00-\u9fa5_]+$/);
+    //    var check_value = new RegExp(/[a-zA-Z0-9\_\u4e00-\u9fa5]/);
+    var check_value = new RegExp(/^[a-zA-Z0-9\u4e00-\u9fa5_]+$/);
     var check_mobile = new RegExp(/^[0-9]{11,11}$/);
     if (n == null || n.length ==0||n.length>10){
         document.getElementById("nameErr").innerHTML="<font color = 'red'>用户名不能为空，长度不能超过10位字符</font>";
@@ -331,6 +331,7 @@ function compare_value(id,compare_id){
         }
     }
     document.getElementById("question_info_"+id).style.display="block";
+    changeSize("question_info_"+id);
     close_question_info_id = id;
     active_button();
 }
