@@ -1,0 +1,42 @@
+<table>
+  <colgroup>
+    <col width="20"/>
+    <col width="60" />
+    <col width="160" />
+    <col width="60" />
+    <col width="80" />
+    <col width="50" />
+    <col width="50" />
+    <col width="220" />
+    <col width="" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th></th>
+      <th>题目描述</th>
+      <th>所属分类</th>
+      <th>创建日期</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @problems.each do |problem| %>
+      <tr>
+        <td>
+          <input type="checkbox" name="check_b" value="<%= paper.id %>"
+                 onclick="javascript:create_exam('check_b')" <% unless paper.paper_js_url %>disabled<% end %> />
+        </td>
+        <td><%= problem.title  %></td>
+        <td>  <%= problem.category.name  %></td>
+        <td> <%= paper.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+        <td><a><%= link_to " 查看" ,"#"%>
+            &nbsp;|&nbsp; <%= link_to "删除 ", problem,:method=>:delete %></a></td>
+      </tr>
+    <% end  %>
+    <tr>
+      <td class="allselect_box" colspan="9">
+        <input type="checkbox" name="check_box" onclick=sltall(this.checked,"check_b") />&nbsp;&nbsp;全选
+      </td>
+    </tr>
+  </tbody>
+</table>

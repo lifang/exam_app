@@ -1,97 +1,29 @@
 <script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
 <div class="main_box_back">
-  <h2><span>题库列表</span></h2>
+  <h2><span>题库列表</span>
+    <div class="right">
+      <div>
+        <%= link_to "新建题目","#" %>|&nbsp;&nbsp;&nbsp;
+      </div>
+      <div>
+        <%= form_for :exam, :html=> {:id => :exam_form, :name => :exam_form}, :url => "/examinations" do |f|%>
+          <%= f.hidden_field :getvalue, :value =>""  %>
+          <%= link_to "组卷","javascript:void(0);", :onclick => "javascript:document.getElementById('exam_form').submit();" %>
+        <% end %>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </h2>
   <div class="in">
-    
     <div class="paper_search">
-      <%= form_for :examinations,  :url => "/examinations/search", :method => 'post' do %>
-        创建时间：
-        从&nbsp;<input class="input_style" type="text" name="start_at" value="<%= session[:start_at] %>" id="start_at" onClick="WdatePicker();" readonly/>&nbsp;
-        到&nbsp;<input class="input_style" type="text" name="end_at" value="<%= session[:end_at] %>" id="end_at" onClick="WdatePicker();" readonly/>
-        <div class="clear"></div>
-        考试标题：<input class="input_style" type="text" name="title" id="title" value="<%= session[:title] %>" size="60" />&nbsp;&nbsp;
-        <button type="submit">查询</button>
+      <%= form_for :found,  :url => "/papers/search", :method => 'post' do %>
+        <%= render :partial => "problem_search" %>
       <% end %>
     </div>
     <div class="clear"></div>
-    <table>
-      <colgroup>
-        <col width="160" />
-        <col width="80" />
-        <col width="130" />
-        <col width="80" />
-        <col width="80" />
-        <col width="60" />
-        <col width="70" />
-        <col width="" />
-      </colgroup>
-      <% if @examinations.blank? %>
-        <tbody>
-          <tr>
-            <td align="center" colspan="8">目前您还没有安排考试，您可以去试卷管理 <a href="/papers">安排考试</a></td>
-          </tr>
-        </tbody>
-      <% else %>
-        <thead>
-          <tr>
-            <th>考试名称</th>
-            <th>考试开始时间</th>
-            <th>创建日期</th>
-            <th>考试是否开放</th>
-            <th>答卷是否公开</th>
-            <th>是否发布</th>
-            <th>状态</th>
-            <th></th>
-          </tr>
-        </thead>
-        <% @examinations.each do |examination| %>
-          <tbody>
-            <%
-            class_name = "now"
-            state_name = "考试中"
-            if examination.start_at_time.nil?
-              class_name = "now"
-              state_name = "进行中"
-            elsif examination.start_at_time > Time.now
-              class_name = "never"
-              state_name = "未开始"
-            elsif (!examination.exam_time.nil? and examination.exam_time !=0 and
-                  (examination.start_at_time + (examination.exam_time.nil? ? 0 : examination.exam_time.minutes) < Time.now))or
-                examination.status == Examination::STATUS[:CLOSED]
-              class_name = "ever"
-              state_name = "已结束"
-            end
-          %>
-
-
-            <tr class="<%= class_name %>">
-              <td><%= examination.title %></td>
-              <td><%= examination.start_at_time.nil? ? "任何时候" : examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
-              <td><%= examination.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-              <td><%= examination.is_score_open == true ? "是":"否" %></td>
-              <td><%= examination.is_paper_open == true ? "是":"否" %></td>
-              <td><%= examination.is_published == true ? "是":"否" %></td>
-              <td><%= state_name %></td>
-              <td>
-                <a href="/examinations/<%= examination.id %>">详情</a>
-                <%if !examination.is_published %>
-                  &nbsp;|&nbsp;<a href="/examinations/<%= examination.id %>/published">发布</a>
-                <% end %>
-                <% if examination.status == Examination::STATUS[:LOCK] %>
-                  &nbsp;|&nbsp;<%= link_to '取消考试', "/examinations/#{examination.id}",
-                    :confirm => '确认要取消考试么？', :method => :delete %>
-                <% end %>
-                <% if examination.status == Examination::STATUS[:GOING] %>
-                  &nbsp;|&nbsp;<%= link_to '关闭考试', "/examinations/#{examination.id}/close", :confirm => "确认要关闭考试么？" %>
-                <% end %>
-              </td>
-            </tr>
-          </tbody>
-        <% end %>
-      <% end %>
-    </table>
+    <%= render :partial => "problem_list" %>
     <div class="pagination_box">
-      <%#=will_paginate @examinations ,:prev_label=>"«", :next_label=>"»", :inner_window => 1 %>
+      <%=will_paginate @problems ,:previous_label=>"«", :next_label=>"»", :inner_window => 1 %>
     </div>
   </div>
 </div>

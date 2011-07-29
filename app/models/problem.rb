@@ -136,7 +136,25 @@ class Problem < ActiveRecord::Base
     end
     return old_score.merge(score_arr)
   end
-
+  def Problem.search_mothod(start_at, end_at, title, category, per_page, page, options={})
+    sql = "select * from problems where"
+    condition=0
+    condition +=1 unless start_at.nil?
+    sql += " created_at > '#{start_at}'" unless start_at.nil?
+    sql += " and" unless condition=0
+    condition +=1 unless end_at.nil?
+    sql += " created_at < '#{end_at}'" unless end_at.nil?
+    sql += " and" unless condition=0
+    condition +=1 unless title.nil?
+    sql += " title like '%#{title}%'" unless title.nil?
+    sql += " and" unless condition=0
+    sql += " category_id = #{category}" unless category.nil?
+    options.each do |key, value|
+      sql += " and #{key} #{value} "  
+    end unless options.empty?
+    sql += " order by created_at desc"
+    return Problem.paginate_by_sql(sql, :per_page =>per_page, :page => page)
+  end
 
   
 end
