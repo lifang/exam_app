@@ -35,11 +35,11 @@ class ItemPoolsController < ApplicationController
   end
 
   def index
-    @problems = Problem.search_mothod( nil, nil, nil, nil, 10, params[:page])
+    @problems = Problem.search_mothod(nil,nil,nil,nil,20, params[:page])
   end
 
   def index_search
-    #@problems = Problem.search_mothod( nil, nil, nil, nil, 10, params[:page])
+    @problems = Problem.search_mothod(params[:mintime],params[:maxtime],params[:category],params[:type], 20, params[:page])
     render 'index'
   end
 
