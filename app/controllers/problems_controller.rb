@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ProblemsController < ApplicationController
   before_filter :access?
   

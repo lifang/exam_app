@@ -1,3 +1,4 @@
+# encoding: utf-8
 class UploadsController < ApplicationController
   
   def upload_images

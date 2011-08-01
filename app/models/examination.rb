@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Examination < ActiveRecord::Base
   has_many :examination_paper_relations,:dependent => :destroy
   has_many :papers,:through=>:examination_paper_relations, :source => :paper

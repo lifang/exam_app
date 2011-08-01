@@ -1,3 +1,4 @@
+# encoding: utf-8
 class QuestionsController < ApplicationController
 
   require 'rexml/document'
