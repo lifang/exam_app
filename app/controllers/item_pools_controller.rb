@@ -1,5 +1,5 @@
 class ItemPoolsController < ApplicationController
- require 'rexml/document'
+  require 'rexml/document'
   include REXML
   before_filter :access?
 
@@ -21,18 +21,25 @@ class ItemPoolsController < ApplicationController
       redirect_to papers_path
     end
   end
- def new_module
+
+  def new_module
     @block = PaperBlock.create(:paper_id => params[:module][:paper_id],
       :title => params[:module][:title],:description => params[:module][:description])
     @block.create_block_xml("#{Rails.root}/public" + @block.paper.paper_url)
     redirect_to request.referrer
   end
+
+  def items_search
+     
+    render :partial=>"add_item"
+  end
+
   def index
-    @problems = Problem.search_mothod( nil, nil, nil, nil, 10, params[:page])
+    @problems = Problem.search_mothod(nil,nil,nil,nil,20, params[:page])
   end
 
   def index_search
-    #@problems = Problem.search_mothod( nil, nil, nil, nil, 10, params[:page])
+    @problems = Problem.search_mothod(params[:mintime],params[:maxtime],params[:category],params[:type], 20, params[:page])
     render 'index'
   end
 

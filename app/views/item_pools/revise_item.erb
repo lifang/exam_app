@@ -13,7 +13,7 @@
   <div id="create_question_<%= block.attributes["id"].to_i %>"></div>
   <%= render :partial=>"/papers/edit_block" ,:object=>block %>
   <div id="mavin_question_<%= block.attributes["id"].to_i %>"></div>
-  <div class="biz_art_list_box">
+  <div class="biz_art_list_box" id="all_problem">
     <%= block.elements["base_info"].elements["description"].text %>
     <ul>
       <% block.elements['problems'].each_element do |problem| %>
@@ -35,8 +35,20 @@
           <div class="clear"></div>
         <% end %>
       <% end %>
-    </ul>
-  </div>
+      <li><a onclick="javascript:search_item('<%= block.attributes["id"].to_i %>')">添加题目</a>
+ 
+        <div style="display:none" id="<%= block.attributes["id"].to_i %>">
+          题目类型：
+          <%= render :partial=>"/common/categories", :object=>block.attributes["id"].to_i %>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题目分类：<select id="select_<%=  block.attributes["id"].to_i   %>">
+            <option value=>--请选择--</option>
+          </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题目标签：<input id="tag<%=  block.attributes["id"].to_i %>"/>
+          <input type="submit" value="查询" onclick="javascript:add_select(<%=  block.attributes["id"].to_i %>)" />
+        </div>
+        <div id="selector"></div>
+    </li>
+  </ul>
+</div>
 <% end %>
 <div class="clear"></div>
 <%= render :partial=>"/papers/new_module" %>
