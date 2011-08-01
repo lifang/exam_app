@@ -1,3 +1,4 @@
+# encoding: utf-8
 class SessionsController < ApplicationController
   def new
     session[:signin_code] = proof_code(4)

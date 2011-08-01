@@ -1,3 +1,4 @@
+# encoding: utf-8
 class User::ExaminationsController < ApplicationController
   layout "paper", :only => [:do_exam, :save_result]
   before_filter :access?

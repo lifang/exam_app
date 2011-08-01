@@ -1,3 +1,4 @@
+# encoding: utf-8
 class PaperBlock < ActiveRecord::Base
   require 'rexml/document'
   include REXML

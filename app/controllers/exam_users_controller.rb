@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ExamUsersController < ApplicationController
   before_filter :access?
   #单个添加考生

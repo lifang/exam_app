@@ -1,3 +1,4 @@
+# encoding: utf-8
 module Constant
 #    #邮箱地址
   EMAILS = {
