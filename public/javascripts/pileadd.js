@@ -447,7 +447,7 @@ function button_fail(button_id, pic_id) {
     $(""+button_id).hide();
 }
 function input_value(){
-    var value=$(agency_account).value;
+    var value=$("agency_account").value;
     if (value=="账号/邮箱"){
         $("notice").innerHTML="请输入账户名称";
         return false;
@@ -526,4 +526,27 @@ function pay_price(checkstatus,checkbox){
         }
     }
 }
-
+function search_item(id){
+    var item=$(id);
+    if (item.style.display=="none"){
+        item.style.display="block";
+    }else{
+        item.style.display="none";
+    }
+}
+function add_select(id){
+    var item_style=$("category"+id).value;
+    var item_sort=$("select_"+id).value;
+    var item_tag=$("tag"+id).value;
+    alert(item_style);
+    alert(item_sort);
+    alert(item_tag);
+    new Ajax.Updater("selector", "/item_pools/items_search",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:'post',
+        parameters:'item_style='+item_style +'&item_sort='+item_sort +'&item_tag='+item_tag +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+    });
+    return false;
+}
