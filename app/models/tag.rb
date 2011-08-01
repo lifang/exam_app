@@ -24,9 +24,18 @@ class Tag < ActiveRecord::Base
       existed_name << t.name
     end
     (name - existed_name).each do  |n|
-      new_tags << Tag.create(:name => n, :num => (Tag.tag_num)[-1])
+      new_tags << Tag.create(:name => n, :num => Tag.create_tag_num)
     end unless (name - existed_name).blank?
     return new_tags
+  end
+
+  #为tag生成有序数列 2 4 8 16 32...
+  def self.create_tag_num
+    tag_num = 2
+    max_num = Tag.maximum("num")
+    puts max_num
+    tag_num = max_num * 2 if !max_num.nil? and max_num > 0
+    return tag_num
   end
 
   #生成素数标识每个标签
