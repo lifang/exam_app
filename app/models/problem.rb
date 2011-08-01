@@ -136,17 +136,20 @@ class Problem < ActiveRecord::Base
     end
     return old_score.merge(score_arr)
   end
-  def Problem.search_mothod(start_at, end_at,category,type,tags,per_page, page)
-    sql = "select p.*,pt.total_num from problems p left join problem_tags pt on p.id=pt.problem_id where 1=1"
+  def Problem.search_mothod(start_at, end_at,category,type,per_page, page)
+    sql = "select p.*,pt.total_num from problems p inner join problem_tags pt on p.id=pt.problem_id where 1=1"
     sql += " and created_at > '#{start_at}'" unless start_at.nil?||start_at==""
     sql += " and created_at < '#{end_at}'" unless end_at.nil?||end_at==""
     sql += " and category_id = #{category}" unless category.nil?||category==""
     sql += " and types = #{type}" unless type.nil?||type==""
-    unless tags.nil?||tags==""
-     tag=tags.split(" ").map(",")
-     puts tag
-     sql += " and tag in #{tag}"
-    end
+#    unless tags.nil?||tags==""
+#      condition = tags.split(" ").map(",")
+#      tags_enum = Tags.select_by_sql("select * from tags where name in (#{condition})")
+#      tags_num=[]
+#      tags_enum.each do |tag|
+#      tags_num << tag.num
+#      end
+#    end
     sql += " order by created_at desc"
     return Problem.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end
