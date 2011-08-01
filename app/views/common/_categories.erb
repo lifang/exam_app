@@ -3,7 +3,7 @@
   <% Category.category_tree.each do |category| %>
     <option value="<%= category.id %>">
       <% (0..Category.level(category)).each do |level| %>&nbsp;<% end %><%= category.name %>   
-    </option>
+    </option>ww
      
   <% end if Category.category_tree.any? %>
 </select>

@@ -4,7 +4,7 @@ ExamApp::Application.routes.draw do
 
  resources :item_pools do
    collection do
-     get :paper_item
+     post 'index_search'
    end
 
  end
