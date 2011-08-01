@@ -1,3 +1,4 @@
+# encoding: utf-8
 module UserRoleHelper
   
   def is_student?
