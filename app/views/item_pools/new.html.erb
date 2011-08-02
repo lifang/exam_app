@@ -1,0 +1,49 @@
+<div style="margin-left: 200px;">
+  <div class="title">题目类型：</div>
+  <div style="float: left;padding-right: 20px;">
+    <input type="radio" name="type_radio_"
+          value="<%= Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>" id="radio1" checked />单选题
+  </div>
+  <div style="float: left;padding-right: 20px;">
+    <input type="radio" name="type_radio_"
+          value="<%= Problem::QUESTION_TYPE[:MORE_CHOSE] %>" id="radio2" />多选题
+  </div>
+  <div style="float: left;padding-right: 20px;">
+    <input type="radio" name="type_radio_"
+          value="<%= Problem::QUESTION_TYPE[:JUDGE] %>" id="radio3" />判断题
+  </div>
+  <div style="float: left;padding-right: 20px;">
+    <input type="radio" name="type_radio_"
+          value="<%= Problem::QUESTION_TYPE[:SINGLE_CALK] %>" id="radio4" />填空题
+  </div>
+  <div style="float: left;padding-right: 20px;">
+    <input type="radio" name="type_radio_"
+          value="<%= Problem::QUESTION_TYPE[:COLLIGATION] %>" id="radio5" />综合题
+  </div>
+  <div style="float: left;padding-right: 20px;">
+    <input type="radio" name="type_radio_"
+          value="<%= Problem::QUESTION_TYPE[:CHARACTER] %>" id="radio6" />简答题
+  </div>
+  <div class="clear"></div>
+  <input type="button" value="确定" class="submit_btn"
+         onClick="javascript:create_question()"/>
+  <input type="button" value="取消" class="submit_btn"
+         onClick="javascript:cancel_choose_que_type()"/>
+</div>
+<br/><div class="clear" />
+  <div class="question_pic_box" style="top:0px;margin-left:270px;margin-top:250px;">
+    <div class="in">
+      <%= form_for :problem ,:url => "/problems", :method => "post",
+        :html => {:onsubmit=>"return new_problem_validate();", :class => "required-validate"} do |f| %>
+        <input type="hidden" value="" name="real_type" id="real_type"/>
+        <div class="title">题面：</div>
+        <input type="button" name="button" value="富文本" class="submit_btn"
+               onclick="javascript:add_area('problem_title', this);" />
+        <%= f.text_area :title ,:cols=>"45",:rows=>"8",
+          :id=> "problem_title", :class=>"required textarea_style" %>
+        <div id="new_problem">
+        </div>
+        <%= f.submit "提交" ,:class=>"submit_btn" %>
+      <% end %>
+    </div>
+  </div>

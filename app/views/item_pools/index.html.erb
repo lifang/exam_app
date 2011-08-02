@@ -3,7 +3,7 @@
   <h2><span>题库列表</span>
     <div class="right">
       <div>
-        <%= link_to "新建题目","#" %>|&nbsp;&nbsp;&nbsp;
+        <%= link_to "新建题目","/item_pools/new" %>|&nbsp;&nbsp;&nbsp;
       </div>
       <div>
         <%= form_for :exam, :html=> {:id => :exam_form, :name => :exam_form}, :url => "/examinations" do |f|%>

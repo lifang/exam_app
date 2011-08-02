@@ -36,11 +36,11 @@ class ItemPoolsController < ApplicationController
   end
 
   def index
-    @problems = Problem.search_mothod(nil,nil,nil,nil,20, params[:page])
+    @problems = Problem.search_mothod(nil,nil,nil,nil,10, params[:page])
   end
 
   def index_search
-    @problems = Problem.search_mothod(params[:mintime],params[:maxtime],params[:category],params[:type],20, params[:page])
+    @problems = Problem.search_mothod(params[:mintime],params[:maxtime],params[:category],params[:type],10, params[:page])
     unless params[:tags].nil?||params[:tags]==""
       tags = params[:tags].split(" ")
       in_condition = ""
@@ -53,30 +53,22 @@ class ItemPoolsController < ApplicationController
         num += 1
       end
       tags = Tag.where("name in (#{in_condition})")
-      tag_ids = []
+      tag_sum = 0
       tags.each do |tag|
-        tag_ids << tag.id
-      end                           #取得标签的ID数组  
+        tag_sum += tag.num
+      end                           #取得标签的总和
       problem_array=[]
       @problems.each do |problem|
         if problem.total_num!=nil
           total_num=problem.total_num
-          check_id = 0
-          get_ids = []
-          while (2**check_id<=problem.total_num)
-            if (total_num%2 == 1)
-              get_ids << check_id         #取得题目标签的ID数组（因tags表里存在数据结构，2**id=num）
-            end
-            check_id += 1
-            total_num = total_num/2
-          end
-          if tag_ids-get_ids==[]         #判断tag_ids-get_ids,如果结果为空数组[],则说明符合标签要求
+          if tag_sum&total_num==tag_sum  
             problem_array << problem
           end
         end
       end
-      @problems=problem_array.paginate(:page=>params[:page],:per_page=>20)
+      @problems=problem_array.paginate(:page=>params[:page],:per_page=>10)
     end
     render 'index'
   end
+  
 end
