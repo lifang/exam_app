@@ -479,7 +479,7 @@ function load_mavin_problem(block_id, paper_id) {
 }
 
 //载入新建题目面板
-function load_create_problem(block_id,paper_id, create_type){
+function load_create_problem(block_id,paper_id, create_type) {
     new Ajax.Updater(create_type + "_question_" + block_id, "/paper_blocks/load_create_problem",
     {
         asynchronous:true,
