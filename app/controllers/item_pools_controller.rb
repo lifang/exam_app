@@ -70,5 +70,7 @@ class ItemPoolsController < ApplicationController
     end
     render 'index'
   end
+
   
+
 end
