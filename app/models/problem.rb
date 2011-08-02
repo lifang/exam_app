@@ -137,7 +137,7 @@ class Problem < ActiveRecord::Base
     end
     return old_score.merge(score_arr)
   end
-  
+
   def Problem.search_mothod(start_at, end_at,category,type,per_page, page)
     sql = "select p.*,pt.total_num from problems p left join problem_tags pt on p.id=pt.problem_id where 1=1"
     sql += " and created_at > '#{start_at}'" unless start_at.nil?||start_at==""
