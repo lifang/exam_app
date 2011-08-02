@@ -79,4 +79,9 @@ class ItemPoolsController < ApplicationController
     end
     render 'index'
   end
+
+
+   def new_page
+     
+   end
 end

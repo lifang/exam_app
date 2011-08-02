@@ -2789,3 +2789,7 @@ a:hover{
     color:blue;
     margin-left: 90px;
 }
+
+.item_pools_style_box, .item_question_style_box {
+    width: 390px;
+}
