@@ -43,11 +43,11 @@
           <div class="title">题面：</div>
           <input type="button" name="button" value="富文本" class="submit_btn"
                  onclick="javascript:add_area('problem_title', this);" />
-                 <%= f.text_area :title ,:cols=>"45",:rows=>"8",
+                 <%= f.text_area :title ,:cols=>"95",:rows=>"8",
                    :id=> "problem_title", :class=>"required textarea_style" %>
           <div id="new_problem">
               小题描述：
-              <textarea cols="45" rows="3" id="problem_description" name="problem[description]"></textarea>
+              <textarea cols="95" rows="3" id="problem_description" name="problem[description]"></textarea>
 
             <div class="title">选项：</div>
             <div class="clear"></div>
