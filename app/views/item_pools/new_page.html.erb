@@ -1,52 +1,88 @@
-<div>
-  <div class="title">题目类型：</div>
-  <div style="float: left;padding-right: 20px;">
-    <input type="radio" name="type_radio"
-          value="<%= Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>" id="radio1" checked />单选题
+<div class="main_box_back">
+  <h2><span>创建题目</span></h2>
+  <div class="item_box">
+    <div class="title">题目类型：</div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>" id="radio1" checked />单选题
+    </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio %>"
+             value="<%= Problem::QUESTION_TYPE[:MORE_CHOSE] %>" id="radio2" />多选题
+    </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:JUDGE] %>" id="radio3" />判断题
+    </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:SINGLE_CALK] %>" id="radio4" />填空题
+    </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:COLLIGATION] %>" id="radio5" />综合题
+    </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:CHARACTER] %>" id="radio6" />简答题
+    </div>
+    <div class="clear"></div>
+    <input type="button" value="确定" class="submit_btn"
+           onClick="javascript:create_question()"/>
+    <input type="button" value="取消" class="submit_btn"
+           onClick="javascript:cancel_choose_que_type()"/>
   </div>
-  <div style="float: left;padding-right: 20px;">
-    <input type="radio" name="type_radio %>"
-          value="<%= Problem::QUESTION_TYPE[:MORE_CHOSE] %>" id="radio2" />多选题
-  </div>
-  <div style="float: left;padding-right: 20px;">
-    <input type="radio" name="type_radio"
-          value="<%= Problem::QUESTION_TYPE[:JUDGE] %>" id="radio3" />判断题
-  </div>
-  <div style="float: left;padding-right: 20px;">
-    <input type="radio" name="type_radio"
-          value="<%= Problem::QUESTION_TYPE[:SINGLE_CALK] %>" id="radio4" />填空题
-  </div>
-  <div style="float: left;padding-right: 20px;">
-    <input type="radio" name="type_radio"
-          value="<%= Problem::QUESTION_TYPE[:COLLIGATION] %>" id="radio5" />综合题
-  </div>
-  <div style="float: left;padding-right: 20px;">
-    <input type="radio" name="type_radio"
-          value="<%= Problem::QUESTION_TYPE[:CHARACTER] %>" id="radio6" />简答题
-  </div>
-  <div class="clear"></div>
-  <input type="button" value="确定" class="submit_btn"
-         onClick="javascript:create_question()"/>
-  <input type="button" value="取消" class="submit_btn"
-         onClick="javascript:cancel_choose_que_type()"/>
-</div>
-<div class="item_pools_style_box">
-  <div class="arrow" style="top:35px;"></div>
-  <div class=".item_question_style_box" style="top:0px;">
-    <div class="in">
-      <%= form_for :problem ,:url => "/problems", :method => "post",
-        :html => {:onsubmit=>"return new_problem_validate();", :class => "required-validate"} do |f| %>
-                
-        <input type="hidden" value="" name="real_type" id="real_type"/>
-        <div class="title">题面：</div>
-        <input type="button" name="button" value="富文本" class="submit_btn"
-               onclick="javascript:add_area('problem_title', this);" />
-        <%= f.text_area :title ,:cols=>"45",:rows=>"8",
-          :id=> "problem_title", :class=>"required textarea_style" %>
-        <div id="new_problem">
-        </div>
-        <%= f.submit "提交" ,:class=>"submit_btn" %>
-      <% end %>
+  <div class="item_pools_style_box">
+    <div class="arrow" style="top:35px;"></div>
+    <div class=".item_question_style_box" style="top:0px;">
+      <div class="in">
+        <%= form_for :problem ,:url => "/problems", :method => "post",
+          :html => {:onsubmit=>"return new_problem_validate();", :class => "required-validate"} do |f| %>
+
+          <input type="hidden" value="" name="real_type" id="real_type"/>
+          <div class="title">题面：</div>
+          <input type="button" name="button" value="富文本" class="submit_btn"
+                 onclick="javascript:add_area('problem_title', this);" />
+                 <%= f.text_area :title ,:cols=>"95",:rows=>"8",
+                   :id=> "problem_title", :class=>"required textarea_style" %>
+          <div id="new_problem">
+              小题描述：
+              <textarea cols="95" rows="3" id="problem_description" name="problem[description]"></textarea>
+
+            <div class="title">选项：</div>
+            <div class="clear"></div>
+            <div class="question">
+              <% attr_default_sum = 4 %>
+              <input type="hidden" name="problem[correct_type]" id="problem_correct_type" value="<%= @question_type %>" />
+              <input type="hidden" name="problem[attr_sum]" id="problem_attr_sum" value="<%= attr_default_sum %>" />
+              <div id="attrs">
+                <% (1..attr_default_sum).each do |i| %>
+                  <div class="attr" id="attr_<%= i %>">
+                    <input type="radio" id="problem_attr_key_<%= i %>" name="attr_key" value="<%= i %>"/>
+                    <input type="text" name="attr<%= i %>_value" id="problem_attr<%= i %>_value" class="input_style" size="15" value="" />
+                    <a href="javascript:void(0);" onclick="javascript:delete_attr(<%= i %>);">删除</a>
+                  </div>
+                <% end %>
+              </div>
+              <div style="text-align: left;"><a href="javascript:void(0);" onClick="javascript:void(0);"> <%= link_to "+增加选项","javascript:void(0);",
+                    :onclick=>"javascript:new_attr('single_choose');" %></a></div>
+            </div>
+            <div class="answer">
+              分值：<input type="text" name="problem[score]" id="problem_score" class="input_style" />
+            </div>
+            <div class="title">解析：</div>
+            <textarea cols="45" rows="3" id="problem_analysis" name="problem[analysis]"></textarea>
+            <div class="tag">知识点标签：
+              <span class="tag_input"><input type="text" name="tag" id="tag" class="input_style" value="" size="35"/></span>
+              <span class="tag_input">多个标签，以“<font color="red">空格</font>”隔开</span>
+            </div>
+              <input type="button" class="submit_btn" onclick="javascript:new_question()" value="添加小题"/>
+              <input type="button" class="submit_btn" onclick="javascript:cancel_question();" value="放弃"/>
+              <div class="clear"></div>
+          </div>
+          <%= f.submit "提交" ,:class=>"submit_btn" %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
