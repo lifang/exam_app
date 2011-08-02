@@ -25,7 +25,7 @@ class Tag < ActiveRecord::Base
       existed_name << t.name
     end
     (name - existed_name).each do  |n|
-      new_tags << Tag.create(:name => n, :num => Tag.create_tag_num)
+      new_tags << Tag.create(:name => n, :num => Tag.tag_num)
     end unless (name - existed_name).blank?
     return new_tags
   end
