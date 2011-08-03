@@ -10,6 +10,7 @@ ExamApp::Application.routes.draw do
     end
     member do
       get :revise_item
+      post :items_search,:add_problems
     end
   end
 

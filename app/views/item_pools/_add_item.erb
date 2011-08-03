@@ -1,6 +1,13 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
+  <%= form_for :problem_info,:html=>{:onsubmit=>"return item_num(#{@id}) "},:url=>"/item_pools/#{@paper_id}/add_problems" do %>
+符合条件的题目数共<%= @problems[0].nil? ? 0:@problems[0].item_num %>条，
+<% if @problems[0].item_num==0  %>
+  没有题目可供选择
+<% else %>
+  <input type="hidden" value="<%= @problems[0].item_num %>" id="problem_num<%= @id %>"/>
+  您需要选<input id="question_num<%= @id %>" name="question_num<%= @id %>" />题，每题<input id="question_score<%= @id %>" name="question_score<%= @id %>"/>分
+  <input type="hidden" value="<%= @condition%>" id="condition<%= @id %>" name="condition<%= @id %>" />
+  <input type="hidden" value="<%= @id %>" id="block_id" name="block_id" />
+  <input type="submit" value="确定" />
+  <% end %>
+<% end %>
 
-<%= "_add_item" %>
