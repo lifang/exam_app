@@ -6,10 +6,7 @@
         <%= link_to "新建题目","#" %>|&nbsp;&nbsp;&nbsp;
       </div>
       <div>
-        <%= form_for :exam, :html=> {:id => :exam_form, :name => :exam_form}, :url => "/examinations" do |f|%>
-          <%= f.hidden_field :getvalue, :value =>""  %>
-          <%= link_to "组卷","javascript:void(0);", :onclick => "javascript:document.getElementById('exam_form').submit();" %>
-        <% end %>
+          <%= link_to "组卷","/item_pools/paper_item" %>
       </div>
       <div class="clear"></div>
     </div>

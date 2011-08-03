@@ -19,6 +19,6 @@
     <%= f.submit "完成", :class=>"submit_btn" %>
     <%= image_tag "ajax-loader.gif", :id => "spinner_for_submit", :style => "display:none" %>
     <input type="button" value="取消" class="submit_btn"
-           onclick="javascript:window.location.href='/papers/<%= @xml.attributes['id'] %>/new_step_two'"/>
+           onclick="javascript:show_name('paper_show_info','paper_edit_info')"/>
   </div>
 <% end %>

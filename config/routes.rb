@@ -6,11 +6,12 @@ ExamApp::Application.routes.draw do
     collection do
       post :index_search
       get :paper_item
-      post :create_paper,:items_search
+      post :create_paper
 
     end
     member do
       get :revise_item
+      post :items_search,:add_problems
     end
   end
 
