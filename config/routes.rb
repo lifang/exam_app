@@ -4,8 +4,8 @@ ExamApp::Application.routes.draw do
 
   resources :item_pools do
     collection do
-      post :index_search
-      get :paper_item, :new_page
+      post :search_condition,:choose_type,:colligation_choose_type
+      get :paper_item, :new_page,:index_search
       post :create_paper,:items_search
     end
     member do
