@@ -5,8 +5,8 @@ ExamApp::Application.routes.draw do
   resources :item_pools do
     collection do
       post :index_search
-      get :paper_item
-      post :create_paper
+      get :paper_item, :new_page
+      post :create_paper,:items_search
 
     end
     member do

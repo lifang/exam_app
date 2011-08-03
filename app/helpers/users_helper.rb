@@ -1,3 +1,4 @@
+# encoding: utf-8
 module UsersHelper
 
   #取得用户对应类型的权限.如果对应值为1，则返回true；如果对应值为0，则返回false。

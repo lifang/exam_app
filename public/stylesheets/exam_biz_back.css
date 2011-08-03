@@ -2189,6 +2189,7 @@ a:hover{
     background:url(/images/login_page_bg.gif) no-repeat;
     background-position:-140px 0px;
     margin-right:20px;
+    
 }
 .login_pop_box h2 {
     font-size:14px;
@@ -2787,4 +2788,13 @@ a:hover{
     margin-right: 8px;
     color:blue;
     margin-left: 90px;
+}
+
+.item_pools_style_box, .item_question_style_box {
+    width: 390px;
+}
+
+.item_box {
+    margin-left: 15px;
+    margin-top: 10px;
 }

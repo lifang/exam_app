@@ -1,3 +1,4 @@
+# encoding: utf-8
 class PapersController < ApplicationController
 
   require 'rexml/document'
