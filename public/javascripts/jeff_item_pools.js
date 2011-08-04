@@ -1,5 +1,4 @@
 
-
 function item_pools_create_question(){
     var types = document.getElementsByName("type_radio");
     for (var i=0; i<types.length; i++) {
@@ -215,7 +214,6 @@ function item_pools_new_problem_validate(){
             }
         }
     } //如果check_chose大于0，则说明是一道选择题。即存在id如problem_attr1_value的表单元素。
-
     if(check_chose!=0){
         var answer_array=new Array;
         for(var i=1;i<=parseInt(document.getElementById("problem_attr_sum").value);i++){     //验证 选项不能为空
@@ -235,6 +233,7 @@ function item_pools_new_problem_validate(){
                 return false;
             }
         }
+
     }
     if(document.getElementById("problem_answer")!=null){           //验证答案不能为空
         var problem_answer = document.getElementById("problem_answer").value;
@@ -248,8 +247,10 @@ function item_pools_new_problem_validate(){
         var checked_num = 0;
         for(i=0;i<parseInt(document.getElementById("problem_attr_sum").value);i++){
             var index=i+1;
-            if(document.getElementById("problem_attr_key_"+index).checked){
-                checked_num++;
+            if(document.getElementById("problem_attr_key_"+index)!=null){
+                if(document.getElementById("problem_attr_key_"+index).checked){
+                    checked_num++;
+                }
             }
         }
         if (checked_num==0){
@@ -283,7 +284,7 @@ function ajax_item_pools_edit_problem(id){
 
 //编辑综合题的题点
 function ajax_item_pools_edit_question(question_id) {
-    
+    $("make_edit_" + question_id).value = "1";
     new Ajax.Updater("remote_question_" + question_id, "/item_pools/ajax_item_pools_edit_question",
     {
         asynchronous:true,
@@ -293,5 +294,187 @@ function ajax_item_pools_edit_question(question_id) {
         + encodeURIComponent('Q3CnqJgIgZEqWnlCyD902sexHwkF7phBA8hPYM1Tqxc=')
     });
     return false;
+}
+
+//修改综合题小题
+function item_pools_generate_edit_questions(problem_id, problem_type) {
+    
+    if(item_pools_edit_problem_validate(problem_id)==false){
+        return false;
+    }
+    if (parseFloat(problem_type) == 4) {
+        var hash_str = "";
+        var ids_str = $("all_question_ids_" + problem_id).value;
+        alert("ids_str = "+ ids_str);
+        var question_ids = ids_str.replace("[", "").replace("]", "").replace(/ /g , "").split(",");
+        for (var i=0; i<question_ids.length; i++) {
+            var attr_value = "";
+            var attr_answer ="";
+            var question_div = $("remote_question_" + question_ids[i]);
+            if (question_div != null && $("make_edit_" + question_ids[i]).value == "1") {
+                var inputs = question_div.getElementsByTagName("input");
+                hash_str += "{1=>1,|,question_id=>" + question_ids[i];
+                if (inputs != null && inputs[0] != null) {
+                    var attr = parseFloat(inputs[1].value);
+                    if (parseFloat(inputs[0].value) == 0) {
+                        var attr_array = [];
+                        for (var k=2; k<inputs.length; k++) {
+                            if (attr > 0) {
+                                for (var m=1; m<=attr; m++) {
+                                    if (inputs[k].id == "problem_attr_key_" + m) {
+                                        if(inputs[k+1].value==""){
+                                            alert("选项不能为空！");
+                                            return false;
+                                        }
+                                        attr_array.push(inputs[k+1].value);
+                                        attr_value += inputs[k+1].value + ";|;";
+                                        if (inputs[k].checked == true) {
+                                            attr_answer = inputs[k+1].value;
+                                        }
+                                    }
+                                }
+                            }
+                            if (inputs[k].name == "problem[score]") {
+                                hash_str += ",|,score=>"+  inputs[k].value +"";
+                            }
+                        }
+                        var attr_array_sort=attr_array.sort();
+                    //                        for(var q=0;q<attr_array.length;q++){
+                    //                            if (attr_array_sort[q]==attr_array_sort[q+1]){
+                    //                                alert("选项内容重复："+attr_array_sort[q]);
+                    //                                return false;
+                    //                            }
+                    //                        }
+                    } else if (parseFloat(inputs[0].value) == 1) {
+                        var attr_array = [];
+                        var answer_sum = 0;
+                        for (var l=2; l<inputs.length; l++) {
+                            if (attr > 0) {
+                                for (var n=1; n<=attr; n++) {
+                                    if (inputs[l].id == "problem_attr_key_" + n) {
+                                        if(inputs[l+1].value==""){
+                                            alert("选项不能为空！");
+                                            return false;
+                                        }
+                                        attr_array.push(inputs[l+1].value);
+                                        attr_value += inputs[l+1].value + ";|;";
+                                        if (inputs[l].checked == true) {
+                                            if (attr_answer == "") {
+                                                attr_answer =  inputs[l+1].value;
+                                            } else {
+                                                attr_answer =  attr_answer + ";|;" + inputs[l+1].value;
+                                            }
+                                            answer_sum++;
+                                        }
+                                    }
+                                }
+                            }
+                            if (inputs[l].name == "problem[score]") {
+                                hash_str += ",|,score=>"+  inputs[l].value +"";
+                            }
+                        }
+                        var attr_array_sort=attr_array.sort();
+                        //                        for(var q=0;q<attr_array.length;q++){
+                        //                            if (attr_array_sort[q]==attr_array_sort[q+1]){
+                        //                                alert("选项内容重复："+attr_array_sort[q]);
+                        //                                return false;
+                        //                            }
+                        //                        }
+                        if(answer_sum==0){
+                            alert("请设置正确答案。");
+                            return false;
+                        }
+                    } else if (parseFloat(inputs[0].value) == 2) {
+                        if (inputs[2].id == "problem_attr_key" && inputs[2].checked == true) {
+                            attr_answer = inputs[2].value;
+                        } else if (inputs[3].id == "problem_attr_key" && inputs[3].checked == true) {
+                            attr_answer = inputs[3].value;
+                        }
+                        if (inputs[4].name == "problem[score]") {
+                            hash_str += ",|,score=>"+  inputs[4].value +"";
+                        }
+                    } else {
+                        if (inputs[2].name == "problem[score]") {
+                            hash_str += ",|,score=>"+  inputs[2].value +"";
+                        }
+                    }
+                    if (attr_answer != "") {
+                        hash_str += ",|,answer=>" +  attr_answer + "";
+                    }
+                    hash_str += ",|,attr_value=>"+ attr_value +"";
+                    var textarea = question_div.getElementsByTagName("textarea");
+                    if (textarea != null) {
+                        for (var j=0; j<textarea.length; j++) {
+                            if (textarea[j].name == "problem[description]" && textarea[j].value==""){
+                                alert("题目描述不能为空。");
+                                return false;
+                            }
+                            if (textarea[j].id == "problem_answer" && textarea[j].value==""){
+                                alert("答案不能为空。");
+                                return false;
+                            }
+
+                            if (textarea[j].name == "problem[description]" && textarea[j].value != "") {
+                                hash_str += ",|,diescription=>"+  textarea[j].value + "";
+                            } else if (textarea[j].id == "problem_answer" && textarea[j].value != "") {
+                                hash_str += ",|,answer=>" +  textarea[j].value + "";
+                            } else if (textarea[j].name == "problem[analysis]" && textarea[j].value != "") {
+                                hash_str += ",|,analysis=>" +  textarea[j].value + "";
+                            }
+                        }
+                    }
+                    hash_str += "}||";
+                }
+            }
+        }
+        $("edit_coll_question_" + problem_id).value = hash_str;
+    }
+    $("edit_form_" + problem_id).submit();
+}
+
+//验证 编辑题目
+function item_pools_edit_problem_validate(problem_id){
+
+    if($("edit_title_"+problem_id).value!=null){
+        var problem_title = $("edit_title_"+problem_id).value.replace(/<br \/>/g,"");
+        var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
+        if(problem_title=="" || checkspace(text_source)){
+            alert("题面不能为空。");
+            return false;
+        }
+    }
+
+    var answer_array=[];
+    if (document.getElementById("problem_attr_sum").value!=null){
+        for(var i=1;i<=parseInt(document.getElementById("problem_attr_sum").value);i++){     //验证 选项不能为空
+            if(document.getElementById("problem_attr"+i+"_value")!=null){
+                var attr_value = document.getElementById("problem_attr"+i+"_value").value;
+                answer_array.push(attr_value);
+                if (attr_value==""){
+                    alert("选项不能为空。");
+                    return false;
+                }
+            }
+        }
+    }
+    if(document.getElementById("problem_answer")!=null){           //验证答案不能为空
+        var problem_answer = document.getElementById("problem_answer").value;
+        if (problem_answer==""){
+            alert("答案不能为空。");
+            return false;
+        }
+    }
+    if(document.getElementById("problem_attr_key_1")!=null){
+        var checked_num = 0;                               //验证是否选择正确答案,单选,多选都可用
+        for(i=0;i<parseInt(document.getElementById("problem_attr_sum").value);i++){
+            if(document.getElementById("problem_attr_key_"+(i+1))!=null && document.getElementById("problem_attr_key_"+(i+1)).checked){
+                checked_num++;
+            }
+        }
+        if (checked_num==0){
+            alert("请设置正确选项。");
+            return false;
+        }
+    }
 }
 

@@ -245,9 +245,10 @@ function question_validate(){
 
 //修改综合题小题
 function generate_edit_questions(problem_id, problem_type) {
+
     if(edit_problem_validate(problem_id)==false){
         return false;
-    } 
+    }
     if (parseFloat(problem_type) == 4) {
         var hash_str = "";
         var ids_str = $("all_question_ids_" + problem_id).value;

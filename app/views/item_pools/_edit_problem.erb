@@ -4,7 +4,7 @@
     <div class="in">
       <%= form_for :problem , :url => "/item_pools/update_problem",
         :id=>"edit_form_#{edit_problem.id}",
-        :html => {:onsubmit => "return generate_edit_questions('#{edit_problem.id}', '#{edit_problem.types}')"} do |f| %>
+        :html => {:onsubmit => "return item_pools_generate_edit_questions('#{edit_problem.id}', '#{edit_problem.types}')"} do |f| %>
         <%= f.hidden_field :problem_id,:value=>"#{edit_problem.id}" %>
         <div class="title">题面： <a href="javascript:void(0);" style="float:right;" onclick="javascript:$('edit_div').innerHTML='';" >关闭&nbsp;&nbsp;</a></div>
         <input type="button" name="button" value="富文本" class="submit_btn"
