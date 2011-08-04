@@ -144,15 +144,7 @@ class Problem < ActiveRecord::Base
     sql += " and created_at < '#{end_at}'" unless end_at.nil?||end_at==""
     sql += " and category_id = #{category}" unless category.nil?||category==""
     sql += " and types = #{type}" unless type.nil?||type==""
-    sql += " and pt.total_num%#{search_tags(tags)} = 0 "
-    #    unless tags.nil?||tags==""
-    #      condition = tags.split(" ").map(",")
-    #      tags_enum = Tags.select_by_sql("select * from tags where name in (#{condition})")
-    #      tags_num=[]
-    #      tags_enum.each do |tag|
-    #      tags_num << tag.num
-    #      end
-    #    end
+    sql += " and pt.total_num%#{self.search_tags(tags.to_s)} = 0 "
     sql += " order by created_at desc"
     return Problem.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end
