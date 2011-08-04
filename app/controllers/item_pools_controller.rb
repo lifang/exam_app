@@ -130,16 +130,16 @@ class ItemPoolsController < ApplicationController
     session[:category] = nil
     session[:type] = nil
     session[:tags] = nil
-    session[:mintime] = params[:mintime] if !params[:mintime].nil? and params[:mintime] != ""
-    session[:maxtime] = params[:maxtime] if !params[:maxtime].nil? and params[:maxtime] != ""
-    session[:category] = params[:category] if !params[:category].nil? and params[:category]!=""
-    session[:type] = params[:type] if !params[:type].nil? and params[:type] != ""
-    session[:tags] = params[:tags] if !params[:tags].nil? and params[:tags] != ""
+    session[:mintime] = params[:mintime]
+    session[:maxtime] = params[:maxtime]
+    session[:category] = params[:category]
+    session[:type] = params[:type]
+    session[:tags] = params[:tags] 
     redirect_to index_search_item_pools_path
   end
 
   def index_search
-    @problems = Problem.search_mothod(session[:mintime],session[:maxtime],session[:category],session[:type],20, params[:page])
+    @problems = Problem.search_mothod(session[:mintime],session[:maxtime],session[:category],session[:type], session[:tags], 20, params[:page])
     unless session[:tags].nil?||session[:tags]==""
       tags = session[:tags].split(" ")
       in_condition = tags.to_s.gsub("[","").gsub("]","")
