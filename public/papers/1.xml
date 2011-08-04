@@ -1,13 +1,12 @@
-
-<?xml version='1.0' encoding='UTF-8'?>      <paper id='1' total_num='6' total_score='40'>
+<?xml version='1.0' encoding='UTF-8'?>      <paper id='1' total_num='1' total_score='5'>
         <base_info>
-          <title>ruby test</title>
+          <title>2011 English examination</title>
           <category>1</category>
           <creater>1</creater>
-          <created_at>2011-07-22 10:15</created_at>
-          <updated_at>2011-07-22 10:17</updated_at>
-          <description>ruby</description>
-<category_name>english_fourth_level</category_name>      </base_info>
+          <created_at>2011-08-03 09:47</created_at>
+          <updated_at>2011-08-03 14:42</updated_at>
+          <description>good good study, day day up!</description>
+<category_name>English</category_name>      </base_info>
       <blocks>
-      <block id='1' total_num='6' total_score='40'><base_info><title>ruby</title><description>ruby</description></base_info><problems><problem id='1' score='5' types='0'><title>ruby</title><category>1</category><questions><question correct_type='0' id='1' score='5'><answer>ruby3</answer><analysis/><questionattrs>ruby1;-;ruby2;-;ruby3;-;ruby4</questionattrs><tags/></question></questions></problem><problem id='2' score='7' types='1'><title>ruby</title><category>1</category><questions><question correct_type='1' id='2' score='7'><answer>ruby2;|;ruby3</answer><analysis/><questionattrs>ruby1;-;ruby2;-;ruby3;-;ruby4</questionattrs><tags/></question></questions></problem><problem id='3' score='3' types='3'><title>ruby</title><category>1</category><questions><question correct_type='3' id='3' score='3'><answer>ruby</answer><analysis/><questionattrs/><tags/></question></questions></problem><problem id='4' score='3' types='5'><title>ruby</title><category>1</category><questions><question correct_type='5' id='4' score='3'><answer>ruby</answer><analysis/><questionattrs/><tags/></question></questions></problem><problem id='5' score='19' types='4'><title>vruby</title><category>1</category><questions><question correct_type='0' id='5' score='5'><description>ruby</description><answer>ruby3</answer><questionattrs>ruby1;-;ruby2;-;ruby3;-;ruby4</questionattrs><tags/></question><question correct_type='1' id='6' score='8'><description>ruby</description><answer>ruby2;|;ruby3</answer><questionattrs>ruby1;-;ruby2;-;ruby3;-;ruby4</questionattrs><tags/></question><question correct_type='2' id='7' score='0'><description>ruby</description><answer>1</answer><analysis>ruby</analysis><questionattrs/><tags/></question><question correct_type='3' id='8' score='3'><description>ruby</description><answer>ruby</answer><questionattrs/><tags/></question><question correct_type='5' id='9' score='3'><description>ruby</description><answer>ruby</answer><questionattrs/><tags/></question></questions></problem><problem id='6' score='3' types='5'><title>ruby</title><category>1</category><questions><question correct_type='5' id='10' score='3'><answer>ruby</answer><analysis></analysis><questionattrs/><tags/></question></questions></problem></problems></block></blocks>
+      <block id='3' total_num='1' total_score='5'><base_info><title>测试题</title><description>阿萨德归还借款</description></base_info><problems><problem id='3' score='5' types='5'><title>阿斯达岁的</title><category>1</category><questions><question correct_type='5' id='3' score='5'><answer>大蒜的萨芬地方发动</answer><analysis>皇太后</analysis><questionattrs/><tags/></question></questions></problem></problems></block></blocks>
       </paper>
