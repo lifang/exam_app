@@ -258,3 +258,15 @@ function item_pools_new_problem_validate(){
         }
     }
 }
+
+function ajax_item_pools_problem_info(id){
+    new Ajax.Updater("show_div" , "/item_pools/ajax_item_pools_problem_info",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters:'id='+ id +'&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs='        )
+    });
+    return false;
+}
+

@@ -14,9 +14,12 @@ class ItemPoolsController < ApplicationController
       answer_question_attr=item_pool_answer_text(params[:problem][:real_type].to_i, params[:problem][:attr_sum].to_i, params[:problem][:answer])
       @question = Question.create_question(@problem,{:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis].strip,
           :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
-      puts "answer_question_attr[0]= #{answer_question_attr[0]}"
-      puts "answer_question_attr[1]= #{answer_question_attr[1]}"
+      if params[:tags]!=nil||params[:tags]!=''
+        tag_name = params[:tag].strip.split(" ")
+        @question.question_tags(Tag.create_tag(tag_name))
+      end
     end
+    @problem.update_problem_tags
     redirect_to "/item_pools"
   end
 
@@ -65,7 +68,7 @@ class ItemPoolsController < ApplicationController
     @paper.create_paper_url(@paper.xml_content({"category_name" => category.name}), "papers", "xml") unless category.nil?
     redirect_to "/item_pools/#{@paper.id}/revise_item"
   end
-j
+  j
   def revise_item
     @paper = Paper.find(params[:id].to_i)
     begin
@@ -136,34 +139,35 @@ j
   end
 
   def index_search
-      @problems = Problem.search_mothod(session[:mintime],session[:maxtime],session[:category],session[:type],20, params[:page])
-      unless session[:tags].nil?||session[:tags]==""
-        tags = session[:tags].split(" ")
-        in_condition = ""
-        num=0
-        tags.each do |tag|
-          in_condition +="," if num!=0
-          in_condition += "'"
-          in_condition += tag.to_s
-          in_condition += "'"
-          num += 1
-        end
-        tags = Tag.where("name in (#{in_condition})")
-        tag_sum = 0
-        tags.each do |tag|
-          tag_sum += tag.num
-        end                           #取得标签的总和
-        problem_array=[]
-        @problems.each do |problem|
-          if problem.total_num!=nil
-            total_num=problem.total_num
-            if tag_sum&total_num==tag_sum
-              problem_array << problem
-            end
+    @problems = Problem.search_mothod(session[:mintime],session[:maxtime],session[:category],session[:type],20, params[:page])
+    unless session[:tags].nil?||session[:tags]==""
+      tags = session[:tags].split(" ")
+      in_condition = tags.to_s.gsub("[","").gsub("]","")
+      tags = Tag.where("name in (#{in_condition})")
+      
+      false_sum = 0         
+      problem_array=[]
+      if tags.count!=0
+      @problems.each do |problem|
+        if problem.total_num!=nil
+          tags.each do |tag|
+            if problem.total_num%tag.num!=0
+              false_sum += 1
+            end          
+          end
+          if false_sum == 0
+            problem_array << problem
           end
         end
-        @problems=problem_array.paginate(:page=>params[:page],:per_page=>20)
+        false_sum=0
       end
+        @problems=problem_array.paginate(:page=>params[:page],:per_page=>20)
+      else
+        @problems=[].paginate(:page=>params[:page],:per_page=>20)
+      end
+
+    end
+      
     render 'index'
   end
 
@@ -199,6 +203,11 @@ j
     elsif @question_type==Problem::QUESTION_TYPE[:CHARACTER]
       render :partial=>"/item_pools/fill_blank"
     end
+  end
+
+  def ajax_item_pools_problem_info
+    @problem=Problem.find(params[:id])
+    render :partial=>"/item_pools/item_pools_show",:object=>@problem
   end
   
 end
