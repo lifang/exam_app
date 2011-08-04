@@ -11,20 +11,23 @@
     <tr>
       <th></th>
       <th>题目描述</th>
-      <th>所属分类</th>
+      <th>类型</th>
       <th>创建日期</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <% @problems.each do |problem| %>
+    <div>
       <tr>
-        <td><input type="checkbox" name="check_b" value="<%= problem.id %>"/></td>
-        <td><%= problem.title  %></td>
-        <td>  <%= problem.category.name  %></td>
+        <td><input type="checkbox" name="check_box" value="<%= problem.id %>"/></td>
+        <td><%= link_to "#{problem.title}","javascript:void(0);" ,:onclick=>"javascript:ajax_item_pools_problem_info(#{problem.id});" %></td>
+        <td><% if problem.types == 0 %>单选题<%end%><% if problem.types == 1 %>多选题<%end%><% if problem.types == 2 %>判断题<%end%><% if problem.types == 3 %>填空题<%end%><% if problem.types == 4 %>综合题<%end%><% if problem.types == 5 %>简答题<%end%></td>
         <td> <%= problem.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
         <td><a><%= link_to " 编辑" ,"#"%>&nbsp;|&nbsp; <%= link_to "删除 ", problem,:method=>:delete %></a></td>
       </tr>
+    </div>
+    <div id="show_div"></div>
     <% end  %>
   </tbody>
 </table>

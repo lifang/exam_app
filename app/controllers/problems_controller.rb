@@ -161,6 +161,10 @@ class ProblemsController < ApplicationController
       {:score => score_arr})
     Problem.write_xml(url, doc)
   end
-  
+
+    def destroy
+    Problem.find(params[:id]).destroy
+    redirect_to "/item_pools/index_search"
+  end
 
 end
