@@ -121,7 +121,7 @@ class ItemPoolsController < ApplicationController
   end
 
   def index
-    @problems = Problem.search_mothod(nil,nil,nil,nil,20, params[:page])
+    @problems = Problem.search_mothod(nil,nil,nil,nil,nil,20, params[:page])
   end
 
   def search_condition
@@ -140,34 +140,6 @@ class ItemPoolsController < ApplicationController
 
   def index_search
     @problems = Problem.search_mothod(session[:mintime],session[:maxtime],session[:category],session[:type], session[:tags], 20, params[:page])
-    unless session[:tags].nil?||session[:tags]==""
-      tags = session[:tags].split(" ")
-      in_condition = tags.to_s.gsub("[","").gsub("]","")
-      tags = Tag.where("name in (#{in_condition})")
-      
-      false_sum = 0         
-      problem_array=[]
-      if tags.count!=0
-      @problems.each do |problem|
-        if problem.total_num!=nil
-          tags.each do |tag|
-            if problem.total_num%tag.num!=0
-              false_sum += 1
-            end          
-          end
-          if false_sum == 0
-            problem_array << problem
-          end
-        end
-        false_sum=0
-      end
-        @problems=problem_array.paginate(:page=>params[:page],:per_page=>20)
-      else
-        @problems=[].paginate(:page=>params[:page],:per_page=>20)
-      end
-
-    end
-      
     render 'index'
   end
 
