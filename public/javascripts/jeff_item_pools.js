@@ -270,3 +270,28 @@ function ajax_item_pools_problem_info(id){
     return false;
 }
 
+function ajax_item_pools_edit_problem(id){
+    new Ajax.Updater("edit_div" , "/item_pools/ajax_item_pools_edit_problem",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters:'id='+ id +'&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs='        )
+    });
+    return false;
+}
+
+//编辑综合题的题点
+function ajax_item_pools_edit_question(question_id) {
+    
+    new Ajax.Updater("remote_question_" + question_id, "/item_pools/ajax_item_pools_edit_question",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters: 'question_id='+question_id+'&authenticity_token='
+        + encodeURIComponent('Q3CnqJgIgZEqWnlCyD902sexHwkF7phBA8hPYM1Tqxc=')
+    });
+    return false;
+}
+

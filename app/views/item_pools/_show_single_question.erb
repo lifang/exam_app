@@ -33,9 +33,11 @@
 <div class="title">解析：<br/>
   <% analysis = show_single_question.analysis  %>
   &nbsp;&nbsp;&nbsp;&nbsp;<%= if analysis and !analysis.nil?
-    analysis.text
+    analysis
   end %>
 </div>
 <div class="tag">知识点标签：
-  <%= show_single_question.elements["tags"].text %>
+  <% show_single_question.tags.each do |tag| %>
+  &nbsp;<%=tag.name %>&nbsp;
+  <% end %>
 </div>
