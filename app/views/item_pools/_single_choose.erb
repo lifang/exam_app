@@ -1,8 +1,7 @@
 <% if @problem_type != @question_type %>
   小题描述：
   <textarea cols="45" rows="3" id="problem_description" name="problem[description]"></textarea>
-<% end %>
-
+<% end %><br/>
 <div class="title">选项：</div>
 <div class="clear"></div>
 <div class="question">
@@ -32,7 +31,7 @@
   <span class="tag_input">多个标签，以“<font color="red">空格</font>”隔开</span>
 </div>
 <% if @problem_type != @question_type %>
-  <input type="button" class="submit_btn" onclick="javascript:item_pools_colligation_new_question();" value="添加小题"/>
+  <input type="button" class="submit_btn" onclick="javascript:item_pools_colligation_new_question()" value="添加小题"/>
   <input type="button" class="submit_btn" onclick="javascript:item_pools_colligation_cancel_question();" value="放弃"/>
   <div class="clear"></div>
 <% end %>

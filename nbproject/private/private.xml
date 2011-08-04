@@ -2,8 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
         <file>
+<<<<<<< HEAD
             <url>app/views/papers/_paper_blocks.html.erb</url>
             <line>35</line>
+=======
+            <url>app/helpers/constant.rb</url>
+            <line>29</line>
+>>>>>>> af26a39b2a275561b90a3654e6132e235bd1a147
         </file>
     </editor-bookmarks>
 </project-private>
