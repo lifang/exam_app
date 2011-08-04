@@ -156,10 +156,10 @@ class Problem < ActiveRecord::Base
     return Problem.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end
 
-  def Problem.search_items_num(tag,category,type,ids)
+def Problem.search_items_num(tag,category,type,ids)
     sql = "select count(p.id) item_num from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1"
     sql += search_sql(tag,category,type,ids)
-    if  sql == "select count(p.id) item_num from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1" 
+    if  sql == "select count(p.id) item_num from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1"
     else
       return Problem.find_by_sql(sql)
     end
@@ -169,7 +169,8 @@ class Problem < ActiveRecord::Base
     sql=""
     sql += " and p.id not in (#{problem_ids})" unless problem_ids.nil?
     unless (tag.length==0 || tag.nil?)
-      name=tag.split(" ").to_s.gsub("[", "(").gsub("]", ")")
+      tag_names=tag.split(" ").to_s.gsub("[", "(")
+      name=tag_names.to_s.gsub("]", ")")
       @tag=Tag.find_by_sql("select * from tags where name in #{name}")
       ids=@tag.map(&:id).join(",")
       if !@tag.blank?
@@ -197,6 +198,7 @@ class Problem < ActiveRecord::Base
       return Problem.find_by_sql(sql)
     end
   end
+
 end
 
 
