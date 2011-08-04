@@ -169,8 +169,7 @@ class Problem < ActiveRecord::Base
     sql=""
     sql += " and p.id not in (#{problem_ids})" unless problem_ids.nil?
     unless (tag.length==0 || tag.nil?)
-      tag_names=tag.split(" ").to_s.gsub("[", "(")
-      name=tag_names.to_s.gsub("]", ")")
+      name=tag.split(" ").to_s.gsub("[", "(").gsub("]", ")")
       @tag=Tag.find_by_sql("select * from tags where name in #{name}")
       ids=@tag.map(&:id).join(",")
       if !@tag.blank?
