@@ -30,6 +30,7 @@ function edit_problem_validate(problem_id){
         }
     }
 
+
     var answer_array=[];
     for(var i=1;i<=parseInt(document.getElementById("problem_attr_sum").value);i++){     //验证 选项不能为空
         if(document.getElementById("problem_attr"+i+"_value")!=null){
@@ -120,7 +121,16 @@ function new_problem_validate(block_id){
     }
 
 
-    if(document.getElementById("problem_attr1_value")!=null){
+    var check_chose=0;
+    if($("problem_attr_sum")!=null){
+        for(var i=1;i<=parseInt($("problem_attr_sum").value);i++){
+            if($("problem_attr"+i+"_value")!=null){
+                check_chose++;
+            }
+        }
+    } //如果check_single_chose大于0，则说明是一道选择题。即存在id如problem_attr1_value的表单元素。
+
+    if(check_chose!=0){
         var answer_array=new Array;
         for(var i=1;i<=parseInt(document.getElementById("problem_attr_sum").value);i++){     //验证 选项不能为空
             if(document.getElementById("problem_attr"+i+"_value")!=null){
@@ -150,7 +160,7 @@ function new_problem_validate(block_id){
     }
 
     //验证是否选择正确答案,单选,多选都可用
-    if(document.getElementById("problem_attr_key_1")!=null){
+    if(check_chose!=0){
         var checked_num = 0;
         for(i=0;i<parseInt(document.getElementById("problem_attr_sum").value);i++){
             var index=i+1;

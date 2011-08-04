@@ -31,7 +31,7 @@ class PapersController < ApplicationController
     @paper.update_attributes(:title=>params[:info][:title],
       :description=>params[:info][:description], :category_id => params[:category])  
     @paper.update_base_info("#{Rails.root}/public"+@paper.paper_url, {"category"=>params[:category].to_i})
-    redirect_to "/papers/#{@paper.id}/new_step_two"
+    redirect_to request.referrer
   end
 
   def show

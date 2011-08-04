@@ -184,8 +184,7 @@ function update_base_info(url) {
 }
 
 function edit_exam(div,controller,exam_id,action){
-   
-    var n = $("name_"+exam_id).value;
+       var n = $("name_"+exam_id).value;
     var mobile = $("miblephone_"+exam_id).value;
     var email = $("email_"+exam_id).value;
     if (test_exam_edit(n,mobile,email)){
@@ -534,19 +533,66 @@ function search_item(id){
         item.style.display="none";
     }
 }
-function add_select(id){
+function add_select(id,paper_id){
     var item_style=$("category"+id).value;
     var item_sort=$("select_"+id).value;
     var item_tag=$("tag"+id).value;
-    alert(item_style);
-    alert(item_sort);
-    alert(item_tag);
-    new Ajax.Updater("selector", "/item_pools/items_search",
+    new Ajax.Updater("selector"+id, "/item_pools/"+id+"/items_search",
     {
         asynchronous:true,
         evalScripts:true,
         method:'post',
-        parameters:'item_style='+item_style +'&item_sort='+item_sort +'&item_tag='+item_tag +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+        parameters:'item_style='+item_style +'&item_sort='+item_sort +'&item_tag='+item_tag +'&paper_id='+paper_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
     });
     return false;
 }
+
+function item_num(id){
+    var check_mobile = new RegExp(/^[0-9]{1,2}$/);
+    var score=$("question_score"+id).value;
+    var num=$("question_num"+id).value;
+    var fact_num=$("problem_num"+id).value;
+    if(parseInt(num)>parseInt(fact_num)||num==""||!check_mobile.test(score)){
+        alert("输入的数值有误");
+        return false;}
+}
+
+var mh = 42;//最小高度
+var step = 10;//每次变化的px量
+var ms = 10;//每隔多久循环一次
+function new_toggle(o){
+    alert(o.offsetHeight);
+        if (!o.tid)o.tid = "_" + Math.random() * 1000;
+        if (!window.toggler)window.toggler = {};
+        if (!window.toggler[o.tid]){
+          window.toggler[o.tid]={
+            obj:o,
+            maxHeight:1000,
+            minHeight:o.offsetHeight,
+            timer:null,
+            action:-1
+          };
+        }
+        o.style.height = o.offsetHeight + "px";
+        if (window.toggler[o.tid].timer)clearTimeout(window.toggler[o.tid].timer);
+        window.toggler[o.tid].action *= -1;
+        window.toggler[o.tid].timer = setTimeout("anim('"+o.tid+"')",ms );
+      }
+      function anim(id){
+        var t = window.toggler[id];
+        var o = window.toggler[id].obj;
+        if (t.action < 0){
+          if (o.offsetHeight <= t.minHeight){
+            clearTimeout(t.timer);
+            return;
+          }
+        }
+        else{
+          if (o.offsetHeight >= t.maxHeight){
+            clearTimeout(t.timer);
+            return;
+          }
+        }
+        o.style.height = (parseInt(o.style.height, 10) + t.action * step) + "px";
+        window.toggler[id].timer = setTimeout("anim('"+id+"')",ms );
+      }

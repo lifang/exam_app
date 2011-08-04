@@ -34,8 +34,8 @@
         <td>  <%= paper.title  %></td>
         <td>  <%= paper.category.name  %></td>
         <td> <%= paper.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-        <td> <%= paper.total_score %></td>
         <td> <%= paper.total_question_num %></td>
+        <td> <%= paper.total_score %></td>
         <td> <%= paper.description  %></td>
         <td><a><%= link_to " 查看" ,paper %>
             &nbsp;|&nbsp; <%= link_to "删除 ", paper,:method=>:delete %></a></td>

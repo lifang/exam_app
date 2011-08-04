@@ -10,8 +10,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
 ActiveRecord::Schema.define(:version => 20110725022503) do
+
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
     t.integer "parent_id", :default => 0, :null => false
@@ -56,10 +56,11 @@ ActiveRecord::Schema.define(:version => 20110725022503) do
     t.boolean  "is_user_affiremed", :default => false
     t.integer  "total_score"
     t.boolean  "is_auto_rate",      :default => false
-    t.boolean  "is_free"
+    t.boolean  "is_free",           :default => false
   end
 
   add_index "exam_users", ["examination_id"], :name => "index_exam_users_on_examination_id"
+  add_index "exam_users", ["is_free"], :name => "index_exam_users_on_is_free"
   add_index "exam_users", ["paper_id"], :name => "index_exam_users_on_paper_id"
   add_index "exam_users", ["user_id"], :name => "index_exam_users_on_user_id"
 
@@ -93,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20110725022503) do
     t.integer  "category_id"
   end
 
+  add_index "examinations", ["category_id"], :name => "index_examinations_on_category_id"
   add_index "examinations", ["creater_id"], :name => "index_examinations_on_creater_id"
   add_index "examinations", ["is_paper_open"], :name => "index_examinations_on_is_paper_open"
   add_index "examinations", ["is_score_open"], :name => "index_examinations_on_is_score_open"
@@ -110,6 +112,8 @@ ActiveRecord::Schema.define(:version => 20110725022503) do
     t.integer "total_price"
     t.string  "remark"
   end
+
+  add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
 
   create_table "paper_blocks", :force => true do |t|
     t.integer  "paper_id",    :null => false
@@ -243,6 +247,8 @@ ActiveRecord::Schema.define(:version => 20110725022503) do
     t.string   "code_type"
   end
 
+  add_index "users", ["code_id"], :name => "index_users_on_code_id"
+  add_index "users", ["code_type"], :name => "index_users_on_code_type"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"

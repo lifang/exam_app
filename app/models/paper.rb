@@ -66,6 +66,7 @@ class Paper < ActiveRecord::Base
       </base_info>
       <blocks>
       </blocks>
+       <problem_ids></problem_ids>
       </paper>
     XML
     return content

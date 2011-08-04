@@ -144,11 +144,59 @@ class Problem < ActiveRecord::Base
     sql += " and created_at < '#{end_at}'" unless end_at.nil?||end_at==""
     sql += " and category_id = #{category}" unless category.nil?||category==""
     sql += " and types = #{type}" unless type.nil?||type==""
+    #    unless tags.nil?||tags==""
+    #      condition = tags.split(" ").map(",")
+    #      tags_enum = Tags.select_by_sql("select * from tags where name in (#{condition})")
+    #      tags_num=[]
+    #      tags_enum.each do |tag|
+    #      tags_num << tag.num
+    #      end
+    #    end
     sql += " order by created_at desc"
     return Problem.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end
 
-  
+  def Problem.search_items_num(tag,category,type,ids)
+    sql = "select count(p.id) item_num from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1"
+    sql += search_sql(tag,category,type,ids)
+    if  sql == "select count(p.id) item_num from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1" 
+    else
+      return Problem.find_by_sql(sql)
+    end
+  end
+
+  def self.search_sql(tag,category,type,problem_ids)
+    sql=""
+    sql += " and p.id not in (#{problem_ids})" unless problem_ids.nil?
+    unless (tag.length==0 || tag.nil?)
+      name=tag.split(" ").to_s.gsub("[", "(").gsub("]", ")")
+      @tag=Tag.find_by_sql("select * from tags where name in #{name}")
+      ids=@tag.map(&:id).join(",")
+      if !@tag.blank?
+        sql += " and r.tag_id in (#{ids})"
+        sql += " and category_id = #{category}" unless category.nil?||category==""
+        sql += " and types = #{type}" unless type.nil?||type==""
+      end
+    else
+      sql += " and category_id = #{category}" unless category.nil?||category==""
+      sql += " and types = #{type}" unless type.nil?||type==""
+    end
+    return sql
+  end
+
+  def Problem.search_items(tag,category,type,num,ids)
+    sql = "select p.* from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1"
+    unless ids.nil?
+      sql += " and p.id not in (#{ids})"
+    end
+    sql += search_sql(tag,category,type,ids)
+    if  sql == "select p.* from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1"
+      return []
+    else
+      sql += " order by rand() limit #{num}"
+      return Problem.find_by_sql(sql)
+    end
+  end
 end
 
 
