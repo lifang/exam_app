@@ -121,7 +121,7 @@ class ItemPoolsController < ApplicationController
   end
 
   def index
-    @problems = Problem.search_mothod(nil,nil,nil,nil,20, params[:page])
+    @problems = Problem.search_mothod(nil,nil,nil,nil,nil,15, params[:page])
   end
 
   def search_condition
@@ -130,44 +130,16 @@ class ItemPoolsController < ApplicationController
     session[:category] = nil
     session[:type] = nil
     session[:tags] = nil
-    session[:mintime] = params[:mintime] if !params[:mintime].nil? and params[:mintime] != ""
-    session[:maxtime] = params[:maxtime] if !params[:maxtime].nil? and params[:maxtime] != ""
-    session[:category] = params[:category] if !params[:category].nil? and params[:category]!=""
-    session[:type] = params[:type] if !params[:type].nil? and params[:type] != ""
-    session[:tags] = params[:tags] if !params[:tags].nil? and params[:tags] != ""
+    session[:mintime] = params[:mintime]
+    session[:maxtime] = params[:maxtime]
+    session[:category] = params[:category]
+    session[:type] = params[:type]
+    session[:tags] = params[:tags] 
     redirect_to index_search_item_pools_path
   end
 
   def index_search
-    @problems = Problem.search_mothod(session[:mintime],session[:maxtime],session[:category],session[:type],20, params[:page])
-    unless session[:tags].nil?||session[:tags]==""
-      tags = session[:tags].split(" ")
-      in_condition = tags.to_s.gsub("[","").gsub("]","")
-      tags = Tag.where("name in (#{in_condition})")
-      
-      false_sum = 0         
-      problem_array=[]
-      if tags.count!=0
-      @problems.each do |problem|
-        if problem.total_num!=nil
-          tags.each do |tag|
-            if problem.total_num%tag.num!=0
-              false_sum += 1
-            end          
-          end
-          if false_sum == 0
-            problem_array << problem
-          end
-        end
-        false_sum=0
-      end
-        @problems=problem_array.paginate(:page=>params[:page],:per_page=>20)
-      else
-        @problems=[].paginate(:page=>params[:page],:per_page=>20)
-      end
-
-    end
-      
+    @problems = Problem.search_mothod(session[:mintime],session[:maxtime],session[:category],session[:type], session[:tags], 15, params[:page])
     render 'index'
   end
 
@@ -209,5 +181,40 @@ class ItemPoolsController < ApplicationController
     @problem=Problem.find(params[:id])
     render :partial=>"/item_pools/item_pools_show",:object=>@problem
   end
-  
+
+  def ajax_item_pools_edit_problem
+    @problem=Problem.find(params[:id])
+    render :partial=>"/item_pools/edit_problem",:object=>@problem
+  end
+
+  def update_problem
+    @problem = Problem.find(params[:problem][:problem_id].to_i)
+    #更新题面
+    @problem.update_attributes(:title=>params[:problem][:title].strip, :updated_at=>Time.now)
+    #更新提点
+    score_arr = {}
+    if @problem.types == Problem::QUESTION_TYPE[:COLLIGATION]
+      score_arr = Question.update_colligation_questions(@problem,
+        Question.colligation_questions(params["edit_coll_question_" + params[:problem][:problem_id]]), "update")
+    else
+      answer_question_attr = answer_text(@problem.types,
+        params[:problem][:attr_sum].to_i, params[:problem][:answer],params[:problem][:question_id])
+      @question = Question.update_question(params[:problem][:question_id],
+        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis].strip,
+          :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
+      if !params[:tag].nil? and params[:tag].strip != ""
+        tag_name = params[:tag].strip.split(" ")
+        @question.question_tags(Tag.create_tag(tag_name))
+      end
+      score_arr[@question.id] = params[:problem][:score].to_i
+    end
+    @problem.update_problem_tags
+    redirect_to "/item_pools"
+  end
+
+    def ajax_item_pools_edit_question
+    @question = Question.find(params[:question_id])
+    render :partial => "/item_pools/edit_other_question", :object => @question
+  end
+
 end

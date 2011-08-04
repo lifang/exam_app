@@ -1,5 +1,5 @@
   <%= form_for :problem_info,:html=>{:onsubmit=>"return item_num(#{@id}) "},:url=>"/item_pools/#{@paper_id}/add_problems" do %>
-符合条件的题目数共<%= @problems[0].nil? ? 0:@problems[0].item_num %>条，
+符合条件的题目数共<%= @problems[0].item_num %>条，
 <% if @problems[0].item_num==0  %>
   没有题目可供选择
 <% else %>

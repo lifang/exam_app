@@ -4,9 +4,9 @@ ExamApp::Application.routes.draw do
 
   resources :item_pools do
     collection do
-      post :search_condition,:choose_type,:colligation_choose_type
+      post :search_condition,:choose_type,:colligation_choose_type,:update_problem
       get :paper_item, :new_page,:index_search
-      post :create_paper,:items_search,:ajax_item_pools_problem_info
+      post :create_paper,:items_search,:ajax_item_pools_problem_info,:ajax_item_pools_edit_problem,:ajax_item_pools_edit_question
     end
     member do
       get :revise_item
