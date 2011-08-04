@@ -1,5 +1,5 @@
-<div id="item_pools_show" style="position:absolute;z-index:999;padding:10px;float:left;left:650px;background-color:#A9E4E9;">
-  <span style="float:left;font-size:large;color: #D01214;font: bold;"><%= item_pools_show.title %>title</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="javascript:void(0);" onclick="javascript:$('show_div').innerHTML='';" style="float:right;">关闭</a>&nbsp;&nbsp;<br/><br/>
+<div id="item_pools_show" style="position:absolute;z-index:999;padding:10px;float:left;left:650px;background-color:paleturquoise;">
+  <span style="float:left;font-size:large;color: #D01214;font: bold;"><%= item_pools_show.title %></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="javascript:void(0);" onclick="javascript:$('show_div').innerHTML='';" style="float:right;">关闭</a>&nbsp;&nbsp;<br/><br/>
   <p>类型：<% if item_pools_show.types == 0 %>单选题<%end%><% if item_pools_show.types == 1 %>多选题<%end%><% if item_pools_show.types == 2 %>判断题<%end%><% if item_pools_show.types == 3 %>填空题<%end%><% if item_pools_show.types == 4 %>综合题<%end%><% if item_pools_show.types == 5 %>简答题<%end%>&nbsp;&nbsp;&nbsp;&nbsp;分类：<%= item_pools_show.category.name %>&nbsp;&nbsp;</p>
   <% item_pools_show.questions.each do |question| %>
 <hr/>
