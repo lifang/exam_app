@@ -100,7 +100,7 @@ ExamApp::Application.routes.draw do
   end
   resources :problems do
     collection do
-      post "mavin_problem"
+      post "mavin_problem",:des
     end
     member do
       post "update_problem"
