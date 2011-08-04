@@ -138,12 +138,13 @@ class Problem < ActiveRecord::Base
     return old_score.merge(score_arr)
   end
 
-  def Problem.search_mothod(start_at, end_at,category,type,per_page, page)
+  def Problem.search_mothod(start_at, end_at, category, type, tags, per_page, page)
     sql = "select p.*,pt.total_num from problems p left join problem_tags pt on p.id=pt.problem_id where 1=1"
     sql += " and created_at > '#{start_at}'" unless start_at.nil?||start_at==""
     sql += " and created_at < '#{end_at}'" unless end_at.nil?||end_at==""
     sql += " and category_id = #{category}" unless category.nil?||category==""
     sql += " and types = #{type}" unless type.nil?||type==""
+    sql += " and pt.total_num%#{search_tags(tags)} = 0 "
     #    unless tags.nil?||tags==""
     #      condition = tags.split(" ").map(",")
     #      tags_enum = Tags.select_by_sql("select * from tags where name in (#{condition})")
@@ -156,42 +157,38 @@ class Problem < ActiveRecord::Base
     return Problem.paginate_by_sql(sql, :per_page =>per_page, :page => page)
   end
 
-def Problem.search_items_num(tag,category,type,ids)
-    sql = "select count(p.id) item_num from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1"
-    sql += search_sql(tag,category,type,ids)
-    if  sql == "select count(p.id) item_num from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1"
+  def self.search_tags(tag)
+    tag_num = 1
+    unless tag.nil? or tag == ""
+      tags = tag.split(" ")
+      in_condition = tags.to_s.gsub("[","").gsub("]","")
+      all_tags = Tag.where("name in (#{in_condition})")
+      all_tags.collect { |t| tag_num = tag_num * t.num  }
+    end
+    return tag_num
+  end
+
+  def Problem.search_items_num(tag,category,type,ids)
+    sql = "select count(p.id) item_num,r.total_num from problems p left join problem_tags r on p.id=r.problem_id where 1=1"
+    sql += " and category_id = #{category}" unless category.nil?||category==""
+    sql += " and types = #{type}" unless type.nil?||type==""
+    sql += " and r.total_num%#{search_tags(tag)} = 0 "
+    sql += " and p.id not in (#{ids})" unless ids.nil?
+    if  sql == "select count(p.id) item_num,r.total_num from problems p left join problem_tags r on p.id=r.problem_id where 1=1"
+      return []
     else
       return Problem.find_by_sql(sql)
     end
   end
 
-  def self.search_sql(tag,category,type,problem_ids)
-    sql=""
-    sql += " and p.id not in (#{problem_ids})" unless problem_ids.nil?
-    unless (tag.length==0 || tag.nil?)
-      tag_names=tag.split(" ").to_s.gsub("[", "(")
-      name=tag_names.to_s.gsub("]", ")")
-      @tag=Tag.find_by_sql("select * from tags where name in #{name}")
-      ids=@tag.map(&:id).join(",")
-      if !@tag.blank?
-        sql += " and r.tag_id in (#{ids})"
-        sql += " and category_id = #{category}" unless category.nil?||category==""
-        sql += " and types = #{type}" unless type.nil?||type==""
-      end
-    else
-      sql += " and category_id = #{category}" unless category.nil?||category==""
-      sql += " and types = #{type}" unless type.nil?||type==""
-    end
-    return sql
-  end
 
   def Problem.search_items(tag,category,type,num,ids)
-    sql = "select p.* from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1"
-    unless ids.nil?
-      sql += " and p.id not in (#{ids})"
-    end
-    sql += search_sql(tag,category,type,ids)
-    if  sql == "select p.* from problems p inner join problem_tag_relations r on p.id=r.problem_id  where 1=1"
+    sql = "select p.* from problems p left join problem_tags r on p.id=r.problem_id  where 1=1"
+    sql += " and category_id = #{category}" unless category.nil?||category==""
+    sql += " and types = #{type}" unless type.nil?||type==""
+    sql += " and r.total_num%#{search_tags(tag)} = 0 "
+    sql += " and p.id not in (#{ids})" unless ids.nil?
+    if  sql == "select p.* from problems p left join problem_tags r on p.id=r.problem_id  where 1=1"
       return []
     else
       sql += " order by rand() limit #{num}"
