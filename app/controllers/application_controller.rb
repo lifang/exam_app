@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   include Constant
   include UserRoleHelper
   include UsersHelper
+  include ProblemsHelper
   
   def access?
     deny_access unless signed_in?
