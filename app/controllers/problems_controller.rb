@@ -142,7 +142,12 @@ class ProblemsController < ApplicationController
   def des
     @problem=Problem.find_by_sql("select * from problems where id in (#{params[:exam_getvalue]})")
     @problem.each do |problem|
-      problem.destroy
+      if problem.status==1
+        flash[:error]="未使用的的题已删除，已被使用的题无法删除！"
+      else
+        problem.destroy
+        flash[:notice]="删除成功！"
+      end
     end
     redirect_to request.referrer
   end
