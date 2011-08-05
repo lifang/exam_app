@@ -10,26 +10,6 @@ function sltall(checkstatus,checkbox){
     }
     document.getElementById("exam_getvalue").value = checked_ids;
 }
-function stall(checkstatus,checkb){
-    var d=document.getElementsByName(checkb);
-    var checked_ids = new Array();
-    for(var i=0; i<d.length; i++){
-        if (d[i].disabled == false) {
-            d[i].checked=checkstatus;
-
-        }
-        if (d[i].checked) {
-            checked_ids.push(d[i].value);
-        }
-    }
-
-    if (checked_ids==""){
-        $("exam_g").disabled=true;
-    }else{
-        $("exam_g").disabled =false;
-    }
-    document.getElementById("exam_getvalue").value = checked_ids;
-}
 
 
 function sltall_price(checkstatus,checkbox){
