@@ -21,7 +21,8 @@ function edit_block_info(id){
 
 //验证 编辑题目
 function edit_problem_validate(problem_id){
-    if($("edit_title_"+problem_id).value.replace(/<br \/>/g,"")!=null){
+    
+    if($("edit_title_"+problem_id).value!=null){
         var problem_title = $("edit_title_"+problem_id).value.replace(/<br \/>/g,"");
         var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
         if(problem_title=="" || checkspace(text_source)){
@@ -30,28 +31,19 @@ function edit_problem_validate(problem_id){
         }
     }
 
-
     var answer_array=[];
-    for(var i=1;i<=parseInt(document.getElementById("problem_attr_sum").value);i++){     //验证 选项不能为空
-        if(document.getElementById("problem_attr"+i+"_value")!=null){
-            var attr_value = document.getElementById("problem_attr"+i+"_value").value;
-            answer_array.push(attr_value);
-            if (attr_value==""){
-                alert("选项不能为空。");
-                return false;
+    if (document.getElementById("problem_attr_sum").value!=null){
+        for(var i=1;i<=parseInt(document.getElementById("problem_attr_sum").value);i++){     //验证 选项不能为空
+            if(document.getElementById("problem_attr"+i+"_value")!=null){
+                var attr_value = document.getElementById("problem_attr"+i+"_value").value;
+                answer_array.push(attr_value);
+                if (attr_value==""){
+                    alert("选项不能为空。");
+                    return false;
+                }
             }
         }
     }
-
-//    var answer_array_sort=answer_array.sort();
-//    for(var i=0;i<answer_array.length;i++){
-//        if (answer_array_sort[i]==answer_array_sort[i+1]){
-//            alert("选项内容重复："+answer_array_sort[i]);
-//            return false;
-//        }
-//    }
-
-
     if(document.getElementById("problem_answer")!=null){           //验证答案不能为空
         var problem_answer = document.getElementById("problem_answer").value;
         if (problem_answer==""){
@@ -59,7 +51,6 @@ function edit_problem_validate(problem_id){
             return false;
         }
     }
-
     if(document.getElementById("problem_attr_key_1")!=null){
         var checked_num = 0;                               //验证是否选择正确答案,单选,多选都可用
         for(i=0;i<parseInt(document.getElementById("problem_attr_sum").value);i++){
@@ -104,7 +95,6 @@ function edit_colligation_validate(){
 
 //验证 新建试题
 function new_problem_validate(block_id){
- 
     var problem_title = $("problem_title_"+block_id).value.replace(/<br \/>/g,"");
     var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
     if(problem_title == null  || problem_title.length == 0 || checkspace(text_source)){
