@@ -5,7 +5,7 @@ class ProblemsController < ApplicationController
   def create
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     #创建题目
-    @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title].strip, :types => params[:real_type].to_i})
+    @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title].strip, :types => params[:real_type].to_i,:status=>1})
     #创建题点
     score_arr = {}
     if params[:real_type].to_i == Problem::QUESTION_TYPE[:COLLIGATION]
@@ -99,7 +99,7 @@ class ProblemsController < ApplicationController
       analysis = Question.generate_score_or_analysis(content, "}]", "[{")
       score_arr = {}
       @problem = Problem.create_problem(@paper, 
-        {:title => problem_title, :types => problem_correct_type, :complete_title => content})
+        {:title => problem_title, :types => problem_correct_type, :complete_title => content,:status=>1})
       (0..questions.length-1).each do |i|
         questions[i][:analysis] = analysis[i].nil? ? "" : analysis[i]
         @question = Question.create_question(@problem,
@@ -128,20 +128,22 @@ class ProblemsController < ApplicationController
   end
 
   def destroy
-    Problem.find(params[:id]).destroy
-<<<<<<< HEAD
-    redirect_to request.referrer
+    @problem = Problem.find(params[:id])
+    if @problem.status==1
+      flash[:error]="无法删除，该题已经被使用！"
+    else
+      @problem.destroy
+      flash[:notice]="删除成功！"
+    end
+    redirect_to request.referer
   end
+
+  
   def des
     @problem=Problem.find_by_sql("select * from problems where id in (#{params[:exam_getvalue]})")
     @problem.each do |problem|
       problem.destroy
     end
     redirect_to request.referrer
-=======
-    flash[:notice]="删除成功！"
-    redirect_to "/item_pools/index_search"
->>>>>>> ba9534fc782a6441c7285ee01f218a9e06745ff3
   end
-
 end

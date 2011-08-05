@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110725022503) do
+ActiveRecord::Schema.define(:version => 20110804031312) do
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -163,6 +163,7 @@ ActiveRecord::Schema.define(:version => 20110725022503) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "complete_title"
+    t.integer  "status"
   end
 
   add_index "problems", ["category_id"], :name => "index_problems_on_category_id"
