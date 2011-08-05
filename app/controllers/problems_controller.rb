@@ -129,7 +129,6 @@ class ProblemsController < ApplicationController
 
   def destroy
     Problem.find(params[:id]).destroy
-<<<<<<< HEAD
     redirect_to request.referrer
   end
   def des
@@ -138,10 +137,6 @@ class ProblemsController < ApplicationController
       problem.destroy
     end
     redirect_to request.referrer
-=======
-    flash[:notice]="删除成功！"
-    redirect_to "/item_pools/index_search"
->>>>>>> ba9534fc782a6441c7285ee01f218a9e06745ff3
   end
 
 end
