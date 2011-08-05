@@ -106,7 +106,8 @@ function item_pools_colligation_new_question() {
                 attr_answer =  judge_attr_key[l].value;
             }
         }
-    } else {
+    }
+    else {
         attr_answer = $("problem_answer").value;
     }
     hash_str += ",|,answer=>" +  attr_answer + "";
@@ -305,7 +306,6 @@ function item_pools_generate_edit_questions(problem_id, problem_type) {
     if (parseFloat(problem_type) == 4) {
         var hash_str = "";
         var ids_str = $("all_question_ids_" + problem_id).value;
-        alert("ids_str = "+ ids_str);
         var question_ids = ids_str.replace("[", "").replace("]", "").replace(/ /g , "").split(",");
         for (var i=0; i<question_ids.length; i++) {
             var attr_value = "";
@@ -336,15 +336,10 @@ function item_pools_generate_edit_questions(problem_id, problem_type) {
                             }
                             if (inputs[k].name == "problem[score]") {
                                 hash_str += ",|,score=>"+  inputs[k].value +"";
+                            }else if (inputs[k].name == "tag" && inputs[k].value != "") {
+                                hash_str += ",|,tag=>" +  inputs[k].value + "";
                             }
                         }
-                        var attr_array_sort=attr_array.sort();
-                    //                        for(var q=0;q<attr_array.length;q++){
-                    //                            if (attr_array_sort[q]==attr_array_sort[q+1]){
-                    //                                alert("选项内容重复："+attr_array_sort[q]);
-                    //                                return false;
-                    //                            }
-                    //                        }
                     } else if (parseFloat(inputs[0].value) == 1) {
                         var attr_array = [];
                         var answer_sum = 0;
@@ -371,15 +366,17 @@ function item_pools_generate_edit_questions(problem_id, problem_type) {
                             }
                             if (inputs[l].name == "problem[score]") {
                                 hash_str += ",|,score=>"+  inputs[l].value +"";
+                            }else if (inputs[l].name == "tag" && inputs[l].value != "") {
+                                hash_str += ",|,tag=>" +  inputs[l].value + "";
                             }
                         }
-                        var attr_array_sort=attr_array.sort();
-                        //                        for(var q=0;q<attr_array.length;q++){
-                        //                            if (attr_array_sort[q]==attr_array_sort[q+1]){
-                        //                                alert("选项内容重复："+attr_array_sort[q]);
-                        //                                return false;
-                        //                            }
-                        //                        }
+                        attr_array_sort=attr_array.sort();
+                        for(var q=0;q<attr_array.length;q++){
+                            if (attr_array_sort[q]==attr_array_sort[q+1]){
+                                alert("选项内容重复："+attr_array_sort[q]);
+                                return false;
+                            }
+                        }
                         if(answer_sum==0){
                             alert("请设置正确答案。");
                             return false;
@@ -390,12 +387,12 @@ function item_pools_generate_edit_questions(problem_id, problem_type) {
                         } else if (inputs[3].id == "problem_attr_key" && inputs[3].checked == true) {
                             attr_answer = inputs[3].value;
                         }
-                        if (inputs[4].name == "problem[score]") {
-                            hash_str += ",|,score=>"+  inputs[4].value +"";
+                        if (inputs[4].name == "tag" && inputs[4].value != "") {
+                            hash_str += ",|,tag=>" +  inputs[4].value + "";
                         }
                     } else {
-                        if (inputs[2].name == "problem[score]") {
-                            hash_str += ",|,score=>"+  inputs[2].value +"";
+                        if (inputs[2].name == "tag" && inputs[2].value != "") {
+                            hash_str += ",|,tag=>" +  inputs[2].value + "";
                         }
                     }
                     if (attr_answer != "") {
