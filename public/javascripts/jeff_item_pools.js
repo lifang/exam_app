@@ -11,6 +11,20 @@ function item_pools_create_question(){
     item_pools_get_question_type(problem_type);
 }
 
+
+function item_pools_mavin_question(){
+    $("choose_type").style.display = "none";
+     new Ajax.Updater("mavin_question","/item_pools/ajax_item_pools_mavin_problem",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters:'authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+    });
+    return false;
+}
+
+
 function item_pools_show_choose_coll_que() {
     $("choose_coll_que").style.display = "block";
     $("choose_coll_que_link").style.display = "none";
