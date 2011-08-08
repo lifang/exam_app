@@ -295,7 +295,7 @@ function compare_value(id,compare_id){
         if (parseInt(compare_id)==0){
             document.getElementById("question_info_"+close_question_info_id).style.display="none";
             close_question_info_id = 0;
-        }else{ 
+        }else{
             var arry=id.split("_");
             var i;
             for(i=1;i<arry.length;i++){
@@ -330,8 +330,8 @@ function compare_value(id,compare_id){
         }
     }
     document.getElementById("question_info_"+id).style.display="block";
-    changeSize("question_info_"+id);
     close_question_info_id = id;
+    alert(close_question_info_id);
     active_button();
 }
 function active_button(){
