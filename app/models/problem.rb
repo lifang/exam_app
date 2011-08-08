@@ -13,6 +13,10 @@ class Problem < ActiveRecord::Base
     :COLLIGATION => 4, :CHARACTER => 5 }
   #0 单选题； 1 多选题；2 判断题；3 填空题； 4 综合题； 5 简答题
 
+  PROBLEM_STATUS = {:USED=>1}
+  #1 代表题目已经被试卷使用
+
+  
   #创建problem
   def Problem.create_problem(paper, options = {})
     options[:category_id] = paper.category_id
