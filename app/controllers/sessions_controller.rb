@@ -25,30 +25,17 @@ class SessionsController < ApplicationController
           else
             cookies[:user_id]=@user.id
             cookies[:user_name]=@user.name
-            #            update_examination_status     # 不需要登录时更改状态，取消。
-            redirect_to "/papers"
+            if is_paper_creater?
+              redirect_to "/papers"
+            else
+              redirect_to "/user/examinations"
+            end
           end
         end
       end
     end
   end
 
-  #更新考试状态
-  #  def update_examination_status
-  #    @examinations = Examination.all
-  #    @examinations.each do |examination|
-  #      if examination.start_at_time.nil?
-  #        examination.update_attributes(:status=>2)
-  #      elsif examination.start_at_time > Time.now
-  #        examination.update_attributes(:status=>1)
-  #      elsif (examination.exam_time.nil? and examination.exam_time !=0 and
-  #            (examination.start_at_time + (examination.exam_time.nil? ? 0 :examination.exam_time.minutes) < Time.now))or
-  #          examination.update_attributes(:status=>3)
-  #      else
-  #        examination.update_attributes(:status=>0)
-  #      end
-  #    end
-  #  end
 
   #退出登录
   def destroy
@@ -60,10 +47,9 @@ class SessionsController < ApplicationController
 
   #获取更改密码的邮件
   def user_code
-    user=User.find_by_email(params[:anonymous])
-    if user
-      UserMailer.update_code(user).deliver
-      redirect_to "/sessions/#{user.id}/active"
+    @user=User.find_by_email(params[:anonymous])
+    if @user
+      UserMailer.update_code(@user).deliver
     else
       flash[:error]="密码有误，请重新输入"
       render "/sessions/get_code"

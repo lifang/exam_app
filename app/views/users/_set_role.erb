@@ -1,5 +1,6 @@
 <br/>
-<p><font color="blue"><b>&nbsp;&nbsp;设置角色：</b></font> <%=set_role.name %></p>
+<p><font color="blue"><b>&nbsp;&nbsp;设置角色</b></font> （<%=set_role.name %>）</p>
+<hr></hr>
 <div>
   <% @user_role_relations = set_role.user_role_relations %>
   <%= form_for :role,:url=>"/users/set_role" do |f| %>

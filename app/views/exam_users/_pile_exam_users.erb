@@ -1,7 +1,5 @@
-<div class="main_box_back">
-  <h2><span>添加考生</span></h2>
-  <%= form_remote_tag :url => "/exam_users/#{@examination.id}/login" , :method => "post",
-            :html => {:class => "required-validate" } ,:before => "button_fail('user_button', 'spinner_user')",:complete=>"button_fail('spinner_user','user_button')" do -%>
+<%= form_remote_tag :url => "/exam_users/#{@examination.id}/login" , :method => "post",
+  :html => {:class => "required-validate" } ,:before => "button_fail('user_button', 'spinner_user')",:complete=>"button_fail('spinner_user','user_button')" do -%>
   <div class="in" id="leadin_div" name="leadin_div">
     <div class="paper_base_info">导入考生信息</div>
     <div class="add_details">
@@ -13,15 +11,14 @@
       <div class="detail">&nbsp;&nbsp;&nbsp;&nbsp;</div>
       <div class="detail">
         <textarea id="user_info" name="user_info"cols="50" rows="6" class="textarea_style">
-             张三  zhangsan@hotmail.com  13234567898
-              李四  lisi@126.com  13445678908
-              王五  wangwu@gmail.com  18912345654</textarea>
+               张三  zhangsan@hotmail.com  13234567898
+                李四  lisi@126.com  13445678908
+                王五  wangwu@gmail.com  18912345654</textarea>
       </div>
     </div>
     <div class="clear"></div>
     <input type="submit" value="确定" id="user_button" />
-      <%= image_tag "ajax-loader.gif", :id => "spinner_user", :style => "display:none" %>
+    <%= image_tag "ajax-loader.gif", :id => "spinner_user", :style => "display:none" %>
   </div>
-  <% end %>
-  <span id="add_failed" ></span>
-</div>
+<% end %>
+<span id="add_failed" ></span>

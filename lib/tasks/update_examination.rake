@@ -1,3 +1,4 @@
+# encoding: utf-8
 namespace :examinations do
   desc "update examination status"
   task(:update => :environment) do

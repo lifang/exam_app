@@ -1,9 +1,30 @@
+<style>
+  .ul li{
+    float: left;
+    margin-left:10px;
+    font-size:14px;
+    font-weight:bold;
+    color:#8a8a8a;
+    padding:5px;
+    float:left;
+    cursor:pointer;
+}
+.ul .actived {
+  background:#B2BBD0;
+}
+.ul .none {
+ 
+}
+</style>
 <div class="main_box_back">
   <h2><span>个人信息设置</span></h2>
-  <ul>
-    <li ><a id="li_tab1" onclick="javascript:show_name('div_tab1','div_tab2');"> 修改基本信息</a></li>
-    <li>  <a id="li_tab2" onclick="javascript:show_name('div_tab2','div_tab1');"> 修改个人密码</a></li>
+  <div>
+    <ul class="ul">
+    <li ><a id="li_tab1" class="actived" onclick="javascript:show_name('tab1','tab2');"> 修改基本信息</a></li>
+    <li>  <a id="li_tab2" class="none" onclick="javascript:show_name('tab2','tab1');"> 修改个人密码</a></li>
   </ul>
+  </div>
+  
   <div id="div_tab1">        
     <table>
       <%= form_for :user_info,:url=>"/users/#{@user.id}/update_info", :html =>{:onsubmit => 'return checkinfo()', :class => "required-validate"} do |f| %>
@@ -17,7 +38,7 @@
         </tr>
         <tr>
           <td></td>
-          <td><%= f.submit"更新", :class =>"submit_btn" , :id=> "submit_button", :title => "编辑个人信息" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="submit_btn" value="取消" onclick="javascript:window.location.href='/users/<%=  @user.id %>'"/></td>
+          <td><%= f.submit"更新", :class =>"submit_btn" , :id=> "submit_button", :title => "编辑个人信息" %></td>
         </tr>
       <% end  %>
     </table>
@@ -42,7 +63,7 @@
         </tr>
         <tr>
           <td></td>
-          <td><%= f.submit"更新", :class =>"submit_btn" , :id=> "submit_button", :title => "编辑个人密码" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="submit_btn" value="取消" onclick="javascript:window.location.href='/users/<%=  @user.id %>'"/></td>
+          <td><%= f.submit"更新", :class =>"submit_btn" , :id=> "submit_button", :title => "编辑个人密码" %></td>
         </tr>
       </table>
     <% end %>

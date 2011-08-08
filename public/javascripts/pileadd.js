@@ -249,8 +249,10 @@ function test_exam_edit(n,mobile,email){
     } 
 }
 function show_name(first,second) {
-    $(first).style.display ="block";
-    $(second).style.display ="none";
+    $("div_" + first).style.display ="block";
+    $("li_" + first).className = "actived";
+    $("div_" + second).style.display ="none";
+    $("li_" + second).className = "none";
 }
 function change_paper() {
     var change_papers_div = $("change_papers_div").style;

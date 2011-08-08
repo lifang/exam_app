@@ -43,9 +43,6 @@ class Question < ActiveRecord::Base
             question_attr = question_hash["attr_value"].split(";|;")
           end
           question_hash["question_attr"] = question_attr
-          #question_hash["tags"]=
-          puts "================================================"
-          puts question_hash
           all_question << question_hash
         end
       end

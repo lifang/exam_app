@@ -21,7 +21,7 @@
   <%= form_remote_tag :url=>"/examinations/#{@examination.id}/update_base_info", :update => "base_info_div",
     :method=>:post, :html => {:class => "required-validate"} do -%>
     <div class="add_details">
-      &nbsp;&nbsp;试卷分类：<%= render :partial => "/common/categories" %>
+      &nbsp;&nbsp;&nbsp;<font color="red">*</font>&nbsp;试卷分类：<%= render :partial => "/common/categories" %>
     </div>
     <div class="in">
       <div class="add_details">
@@ -88,7 +88,7 @@
         </div>
         <div class="add_details">
           本场考试单价：<input type="text" class="input_style" id="price" name="price"
-                        value="<%= (@examination.price.nil? or @examination.price == 0) ? 20 : @examination.price %>"  size="20"/>
+                        value="<%= (@examination.price.nil? or @examination.price == 0) ? 0 : @examination.price %>"  size="20"/>
         </div>
         <div class="clear"></div>
       </div>
