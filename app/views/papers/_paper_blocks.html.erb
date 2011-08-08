@@ -33,7 +33,7 @@
       <% end %>
       <li>
         <input type="button" value="新建试题" class="submit_btn"  onClick="javascript:choose_question_type(<%= block.attributes['id'] %>);"/>
-        <input type="button" value="新建专家试题" class="submit_btn" 
+        <input type="button" value="新建专家试题" class="submit_btn"
                onclick="javascript:load_mavin_problem(<%= block.attributes['id'] %>, <%= @xml.attributes['id'] %>);"/>
         <div style="display: none;" id="choose_que_type_div_<%= block.attributes['id'] %>">
           <%= render :partial => "choose_question_type", :object => block %>
@@ -45,7 +45,7 @@
 <div class="clear"></div>
 
 <%= render :partial=>"/papers/new_module" %>
-<h1 class="biz_art_title" id="block_show">
+<div class="biz_art_list_box" id="block_show">
   <input type="button" value="增加试卷模块" class="submit_btn" onclick="javascript:new_module()"/>
-</h1>
+</div>
 

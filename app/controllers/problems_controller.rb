@@ -5,7 +5,7 @@ class ProblemsController < ApplicationController
   def create
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     #创建题目
-    @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title].strip, :types => params[:real_type].to_i})
+    @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title].strip, :types => params[:real_type].to_i,:status=>1})
     #创建题点
     score_arr = {}
     if params[:real_type].to_i == Problem::QUESTION_TYPE[:COLLIGATION]
@@ -29,42 +29,7 @@ class ProblemsController < ApplicationController
     redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
   end
 
-  #组装答案和选项
-  def answer_text(problem_type, attr_num, answer,question_id="")
-    answer_question_attr = []
-    attrs_array = []
-    if problem_type == Problem::QUESTION_TYPE[:SINGLE_CHOSE]
-      answer_index = params["attr_key#{question_id}"].to_i
-      answer_question_attr << params["attr#{answer_index}_value#{question_id}"]
-      (1..attr_num).each do |i|
-        if !params["attr#{i}_value#{question_id}"].nil? && params["attr#{i}_value#{question_id}"] != ""
-          attrs_array << params["attr#{i}_value#{question_id}"]
-        end
-      end
-      answer_question_attr << attrs_array
-    elsif problem_type == Problem::QUESTION_TYPE[:MORE_CHOSE]
-      answer_index = []
-      (1..attr_num).each do |i|    
-        if !params["attr#{i}_key#{question_id}"].nil? and params["attr#{i}_key#{question_id}"] != ""
-          attr_key = params["attr#{i}_key#{question_id}"].to_i
-          answer_index << params["attr#{attr_key}_value#{question_id}"]
-        end
-        if !params["attr#{i}_value#{question_id}"].nil? && params["attr#{i}_value#{question_id}"] != ""
-          attrs_array << params["attr#{i}_value#{question_id}"]
-        end
-      end
-      answer_question_attr << answer_index.join(";|;")
-      answer_question_attr << attrs_array
-    elsif problem_type == Problem::QUESTION_TYPE[:JUDGE]
-      answer_question_attr << params["attr_key#{question_id}"].to_i
-      answer_question_attr << []
-    elsif problem_type == Problem::QUESTION_TYPE[:SINGLE_CALK] or problem_type == Problem::QUESTION_TYPE[:CHARACTER]
-      answer_question_attr << answer
-      answer_question_attr << []
-    end
-    return answer_question_attr
-  end
-
+  
   def update_problem
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     @problem = Problem.find(params[:problem][:problem_id].to_i)
@@ -134,7 +99,7 @@ class ProblemsController < ApplicationController
       analysis = Question.generate_score_or_analysis(content, "}]", "[{")
       score_arr = {}
       @problem = Problem.create_problem(@paper, 
-        {:title => problem_title, :types => problem_correct_type, :complete_title => content})
+        {:title => problem_title, :types => problem_correct_type, :complete_title => content,:status=>1})
       (0..questions.length-1).each do |i|
         questions[i][:analysis] = analysis[i].nil? ? "" : analysis[i]
         @question = Question.create_question(@problem,
@@ -162,9 +127,27 @@ class ProblemsController < ApplicationController
     Problem.write_xml(url, doc)
   end
 
-    def destroy
-    Problem.find(params[:id]).destroy
+  def destroy
+    @problem = Problem.find(params[:id])
+    if @problem.status==1
+      flash[:error]="无法删除，该题已经被使用！"
+    else
+      @problem.destroy
+      flash[:notice]="删除成功！"
+    end
+    redirect_to request.referer
+  end
+  
+  def des
+    @problem=Problem.find_by_sql("select * from problems where id in (#{params[:exam_getvalue]})")
+    @problem.each do |problem|
+      if problem.status==1
+        flash[:error]="未使用的的题已删除，已被使用的题无法删除！"
+      else
+        problem.destroy
+        flash[:notice]="删除成功！"
+      end
+    end
     redirect_to "/item_pools/index_search"
   end
-
 end

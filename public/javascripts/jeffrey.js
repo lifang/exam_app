@@ -245,9 +245,10 @@ function question_validate(){
 
 //修改综合题小题
 function generate_edit_questions(problem_id, problem_type) {
+
     if(edit_problem_validate(problem_id)==false){
         return false;
-    } 
+    }
     if (parseFloat(problem_type) == 4) {
         var hash_str = "";
         var ids_str = $("all_question_ids_" + problem_id).value;
@@ -281,15 +282,10 @@ function generate_edit_questions(problem_id, problem_type) {
                             }
                             if (inputs[k].name == "problem[score]") {
                                 hash_str += ",|,score=>"+  inputs[k].value +"";
+                            }else if (inputs[k].name == "tag" && inputs[k].value != "") {
+                                hash_str += ",|,tag=>" +  inputs[k].value + "";
                             }
-                        }
-                        var attr_array_sort=attr_array.sort();
-                    //                        for(var q=0;q<attr_array.length;q++){
-                    //                            if (attr_array_sort[q]==attr_array_sort[q+1]){
-                    //                                alert("选项内容重复："+attr_array_sort[q]);
-                    //                                return false;
-                    //                            }
-                    //                        }
+                        } 
                     } else if (parseFloat(inputs[0].value) == 1) {
                         var attr_array = [];
                         var answer_sum = 0;
@@ -316,15 +312,17 @@ function generate_edit_questions(problem_id, problem_type) {
                             }
                             if (inputs[l].name == "problem[score]") {
                                 hash_str += ",|,score=>"+  inputs[l].value +"";
+                            } else if (inputs[l].name == "tag" && inputs[l].value != "") {
+                                hash_str += ",|,tag=>" +  inputs[l].value + "";
                             }
                         }
                         var attr_array_sort=attr_array.sort();
-                        //                        for(var q=0;q<attr_array.length;q++){
-                        //                            if (attr_array_sort[q]==attr_array_sort[q+1]){
-                        //                                alert("选项内容重复："+attr_array_sort[q]);
-                        //                                return false;
-                        //                            }
-                        //                        }
+                        for(var q=0;q<attr_array.length;q++){
+                            if (attr_array_sort[q]==attr_array_sort[q+1]){
+                                alert("选项内容重复："+attr_array_sort[q]);
+                                return false;
+                            }
+                        }
                         if(answer_sum==0){
                             alert("请设置正确答案。");
                             return false;
@@ -338,14 +336,21 @@ function generate_edit_questions(problem_id, problem_type) {
                         if (inputs[4].name == "problem[score]") {
                             hash_str += ",|,score=>"+  inputs[4].value +"";
                         }
+                        if (inputs[5].name == "tag" && inputs[5].value != "") {
+                            hash_str += ",|,tag=>" +  inputs[5].value + "";
+                        }
                     } else {
                         if (inputs[2].name == "problem[score]") {
                             hash_str += ",|,score=>"+  inputs[2].value +"";
+                        }
+                        if (inputs[3].name == "tag" && inputs[3].value != "") {
+                            hash_str += ",|,tag=>" +  inputs[3].value + "";
                         }
                     }
                     if (attr_answer != "") {
                         hash_str += ",|,answer=>" +  attr_answer + "";
                     }
+
                     hash_str += ",|,attr_value=>"+ attr_value +"";
                     var textarea = question_div.getElementsByTagName("textarea");
                     if (textarea != null) {
@@ -365,7 +370,7 @@ function generate_edit_questions(problem_id, problem_type) {
                                 hash_str += ",|,answer=>" +  textarea[j].value + "";
                             } else if (textarea[j].name == "problem[analysis]" && textarea[j].value != "") {
                                 hash_str += ",|,analysis=>" +  textarea[j].value + "";
-                            }
+                            } 
                         }
                     }
                     hash_str += "}||";

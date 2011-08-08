@@ -155,7 +155,7 @@ class ItemPoolsController < ApplicationController
   
   end
   def index
-    @problems = Problem.search_mothod(nil,nil,nil,nil,nil,20, params[:page])
+    @problems = Problem.search_mothod(nil,nil,nil,nil,nil,15, params[:page])
   end
 
   def search_condition
@@ -173,7 +173,7 @@ class ItemPoolsController < ApplicationController
   end
 
   def index_search
-    @problems = Problem.search_mothod(session[:mintime],session[:maxtime],session[:category],session[:type], session[:tags], 20, params[:page])
+    @problems = Problem.search_mothod(session[:mintime],session[:maxtime],session[:category],session[:type], session[:tags], 15, params[:page])
     render 'index'
   end
 
@@ -215,5 +215,40 @@ class ItemPoolsController < ApplicationController
     @problem=Problem.find(params[:id])
     render :partial=>"/item_pools/item_pools_show",:object=>@problem
   end
-  
+
+  def ajax_item_pools_edit_problem
+    @problem=Problem.find(params[:id])
+    render :partial=>"/item_pools/edit_problem",:object=>@problem
+  end
+
+  def update_problem
+    @problem = Problem.find(params[:problem][:problem_id].to_i)
+    #更新题面
+    @problem.update_attributes(:title=>params[:problem][:title].strip, :updated_at=>Time.now)
+    #更新提点
+    score_arr = {}
+    if @problem.types == Problem::QUESTION_TYPE[:COLLIGATION]
+      score_arr = Question.update_colligation_questions(@problem,
+        Question.colligation_questions(params["edit_coll_question_" + params[:problem][:problem_id]]), "update")
+    else
+      answer_question_attr = answer_text(@problem.types,
+        params[:problem][:attr_sum].to_i, params[:problem][:answer],params[:problem][:question_id])
+      @question = Question.update_question(params[:problem][:question_id],
+        {:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis].strip,
+          :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
+      if !params[:tag].nil? and params[:tag].strip != ""
+        tag_name = params[:tag].strip.split(" ")
+        @question.question_tags(Tag.create_tag(tag_name))
+      end
+      score_arr[@question.id] = params[:problem][:score].to_i
+    end
+    @problem.update_problem_tags
+    redirect_to "/item_pools"
+  end
+
+    def ajax_item_pools_edit_question
+    @question = Question.find(params[:question_id])
+    render :partial => "/item_pools/edit_other_question", :object => @question
+  end
+
 end

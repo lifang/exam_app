@@ -101,7 +101,7 @@ a:hover{
     float :left;
 }
 /*背景加载*/
-#logo, .nav_1, .nav_2, .nav_3, .nav li span, .top_soso ul li .sel, .soso_input, .soso_input button, .ppzt .in, .more, .ppzt h2, .tfjj .in, .tfjj h2, .assort_all h2, .wz, .gn, .fg, .cl, .jw, .assort_small{
+.nav_1, .nav_2, .nav_3, .nav li span, .top_soso ul li .sel, .soso_input, .soso_input button, .ppzt .in, .more, .ppzt h2, .tfjj .in, .tfjj h2, .assort_all h2, .wz, .gn, .fg, .cl, .jw, .assort_small{
     background:url(/images/bg.png) no-repeat;
     overflow:hidden;
 }
@@ -154,7 +154,7 @@ a:hover{
 }
 #logo{
     display:block;
-    width:131px;
+    width:405px;
     height:60px;
     background-position:0 -2px;
     margin-top:5px;

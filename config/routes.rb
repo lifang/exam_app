@@ -4,9 +4,9 @@ ExamApp::Application.routes.draw do
 
   resources :item_pools do
     collection do
-      post :search_condition,:choose_type,:colligation_choose_type
       get :paper_item, :new_page,:index_search,:upload_file,:zipfile
-      post :create_paper,:items_search,:ajax_item_pools_problem_info
+      post :search_condition,:choose_type,:colligation_choose_type,:update_problem
+      post :create_paper,:items_search,:ajax_item_pools_problem_info,:ajax_item_pools_edit_problem,:ajax_item_pools_edit_question
     end
     member do
       get :revise_item
@@ -100,7 +100,7 @@ ExamApp::Application.routes.draw do
   end
   resources :problems do
     collection do
-      post "mavin_problem"
+      post "mavin_problem",:des
     end
     member do
       post "update_problem"
