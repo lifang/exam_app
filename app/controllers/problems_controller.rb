@@ -5,7 +5,7 @@ class ProblemsController < ApplicationController
   def create
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     #创建题目
-    @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title].strip, :types => params[:real_type].to_i,:status=>1})
+    @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title].strip, :types => params[:real_type].to_i,:status=>Problem::PROBLEM_STATUS[:USED]})
     #创建题点
     score_arr = {}
     if params[:real_type].to_i == Problem::QUESTION_TYPE[:COLLIGATION]
@@ -99,7 +99,7 @@ class ProblemsController < ApplicationController
       analysis = Question.generate_score_or_analysis(content, "}]", "[{")
       score_arr = {}
       @problem = Problem.create_problem(@paper, 
-        {:title => problem_title, :types => problem_correct_type, :complete_title => content,:status=>1})
+        {:title => problem_title, :types => problem_correct_type, :complete_title => content,:status=>Problem::PROBLEM_STATUS[:USED]})
       (0..questions.length-1).each do |i|
         questions[i][:analysis] = analysis[i].nil? ? "" : analysis[i]
         @question = Question.create_question(@problem,

@@ -187,6 +187,58 @@ class ItemPoolsController < ApplicationController
     render :partial=>"/item_pools/edit_problem",:object=>@problem
   end
 
+  def ajax_item_pools_mavin_problem
+    render :partial=>"/item_pools/mavin_question"
+  end
+
+    def item_pools_mavin_problem
+    content = params[:problem][:title].gsub("<br />", "")
+    #切割字符串,简答题以“{{}}”标志，其他题目都以“[[]]”标志,“||”后面为标签，“||”前为答案，
+    #“|”用来区分选择题正误，前面为正确答案，后面为错误答案，“；”用来标识多个选项
+    unless content.nil? or content == ""
+      problem_correct_type = 0
+      question_tmp = {} #用来记录初步分离的提点
+      questions = [] #用来记录所有的提点
+      problem_title = content.gsub(/\[\[(.|\n)+?\]\]/, "______").gsub(/\{\{(.|\n)+?\}\}/, "______")
+      .gsub(/\[\{(.|\n)+?\}\]/, "").gsub(/\[\((.|\n)+?\)\]/, "")
+      #非简答题以外的题
+      if content.include? "[["
+        question_tmp = Question.generate_question_hash(question_tmp, "]]", "[[", content)
+        character_question = Question.generate_question_hash(question_tmp, "}}", "{{", content)
+        question_tmp = question_tmp.merge(character_question)
+        questions = Question.generate_question_for_database(question_tmp)
+        if question_tmp.length == 1     #非综合题以外的题
+          problem_correct_type = questions[0][:correct_type]
+        else
+          problem_correct_type = Problem::QUESTION_TYPE[:COLLIGATION]
+        end
+      elsif content.include? "{{"
+        question_tmp = Question.generate_question_hash(question_tmp, "}}", "{{", content)
+        questions = Question.generate_question_for_database(question_tmp)
+        problem_correct_type = Problem::QUESTION_TYPE[:CHARACTER]
+      end
+      #保存题目和提点，并返回所有提点的分值
+      scores = Question.generate_score_or_analysis(content, ")]", "[(")
+      analysis = Question.generate_score_or_analysis(content, "}]", "[{")
+      score_arr = {}
+      @problem = Problem.create(:category_id=>params[:category].to_i,:title => problem_title, :types => problem_correct_type, :complete_title => content,:status=>Problem::PROBLEM_STATUS[:USED])
+      (0..questions.length-1).each do |i|
+        questions[i][:analysis] = analysis[i].nil? ? "" : analysis[i]
+        @question = Question.create_question(@problem,
+          {:answer => questions[i][:answer], :analysis => questions[i][:analysis],
+            :correct_type => questions[i][:correct_type].to_i}, questions[i][:question_attr])
+        score_arr[@question.id] = scores[i].nil? ? 0 : scores[i]
+        #创建标签
+        if !questions[i][:tag].nil? and questions[i][:tag] != ""
+          tag_name = questions[i][:tag].split(" ")
+          @question.question_tags(Tag.create_tag(tag_name))
+        end
+      end
+      @problem.update_problem_tags
+    end
+    redirect_to  "/item_pools"
+  end
+
   def update_problem
     @problem = Problem.find(params[:problem][:problem_id].to_i)
     #更新题面

@@ -1,4 +1,4 @@
-
+<script type="text/javascript" charset="utf-8" src="/javascripts/nicEdit/nicEdit.js"></script>
 
 <div class="main_box_back">
   <h2><span>创建题目</span></h2>
@@ -32,9 +32,12 @@
            onClick="javascript:item_pools_create_question();"/>
     <input type="button" value="取消" class="submit_btn"
            onClick="javascript:window.location.href='/item_pools';"/>
+    <input type="button" value="新建专家试题" class="submit_btn"
+           onClick="javascript:item_pools_mavin_question();"/>
   </div>
 
   <br/><div class="clear" />
+  <div id="mavin_question"></div>
   <div id="create_question" style="display:none;">
     <div class="question_pic_box" style="top:0px;margin-left:270px;margin-top:250px;">
       <div class="in">
@@ -46,7 +49,7 @@
                  onclick="javascript:add_area('problem_title', this);" />
                  <%= f.text_area :title ,:cols=>"45",:rows=>"8",
                    :id=> "problem_title", :class=>"required textarea_style" %>
-            <br/> 题目种类：<%= render :partial=>"/item_pools/categories" %>
+          <br/> 题目种类：<%= render :partial=>"/item_pools/categories" %><br/>
           <div id="new_question">
           </div>
           <%= f.submit "提交" ,:class=>"submit_btn" %>
