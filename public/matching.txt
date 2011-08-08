@@ -5,7 +5,9 @@ smile smiling smiles
 cry big cry shout shouting
 has have had 
 say said says
-He'll stay all night," he said to his colleague. "I'm sleepy now. I never get into bed before three o'clock. He should have killed himself last week." 
-The waiter took the brandy bottle and another saucer from the counter inside the cafe and marched out to the old man's table. He put down the saucer and poured the glass full of brandy. 
-"You should have killed yourself last week," he said to the deaf man. The old man motioned with his finger. "A little more," he said. The waiter poured on into the glass so that the brandy slopped over and ran down the stem into the top saucer of the pile. "Thank you," the old man said. The waiter took the bottle back inside the cafe. He sat down at the table with his colleague again.
-"He's drunk now," he said. 
+to  readlines
+three o'clock. He should have killed himself last week." 
+and match
+of file read
+hello Hello
+his finger

@@ -2,6 +2,7 @@ class File
   class << self
     def find(*args)
       require 'ostruct'
+      require "fileutils"
       input_query, filelist = {}, []
       if args.length == 1 && args[0].class == Hash
         input_query = args[0]

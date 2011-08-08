@@ -1,6 +1,8 @@
 # encoding: utf-8
 class ItemPoolsController < ApplicationController
   require 'rexml/document'
+  require "fileutils"
+  require 'zip/zip'
   include REXML
   before_filter :access?
 
@@ -120,6 +122,38 @@ class ItemPoolsController < ApplicationController
     redirect_to "/item_pools/#{@paper.id}/revise_item"
   end
 
+  def fileposted
+    url=Rails.root
+    filename=params[:file][:upload].original_filename.split(".").reverse
+    @filename=Time.now.strftime("%Y%m%d%H%M%S")+"."+ filename[0]
+    File.open("#{url}/public/#{@filename}", "wb") do |f|
+      f.write(params[:file][:upload].read)
+    end
+    redirect_to '/users'
+  end
+
+  def zipfile
+    Zip::ZipOutputStream.open("D:/a.zip")  do |zos|
+      zos.put_next_entry("the first little entry")
+      zos.puts "Hello hello hello hello hello hello hello hello hello"
+      zos.put_next_entry("the second little entry")
+      zos.puts "Hello again"
+    end
+    unzip_dir="D:/aaa"
+    Zip::ZipFile::open("D:/a.zip") do |zf|
+      zf.file.open("entry.txt", "w") { |os| os.write "second file1.txt" }
+      zf.each do  |e|
+        fpath = File.join(unzip_dir, e.name)
+        puts fpath
+         e.puts "Hello hello hello hello hello hello hello hello hello"
+        FileUtils.mkdir_p(File.dirname(fpath)) unless File.directory?(unzip_dir)
+        zf.extract(e, fpath) unless File.directory?(fpath)
+        
+      end
+      zf.get_output_stream("D:/exam_app.sql")
+    end
+  
+  end
   def index
     @problems = Problem.search_mothod(nil,nil,nil,nil,nil,15, params[:page])
   end
@@ -134,7 +168,7 @@ class ItemPoolsController < ApplicationController
     session[:maxtime] = params[:maxtime]
     session[:category] = params[:category]
     session[:type] = params[:type]
-    session[:tags] = params[:tags] 
+    session[:tags] = params[:tags]
     redirect_to index_search_item_pools_path
   end
 

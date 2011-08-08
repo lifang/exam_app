@@ -64,8 +64,10 @@ class User::ExamUsersController < ApplicationController
   end
   
   def index
-    @user=User.find(cookies[:exam_user_id])
-    @exam_users=ExamUser.find_by_sql("select * from exam_users e where e.user_id=#{@user.id}")
+    @exam_user=ExamUser.find_by_user_id(cookies[:exam_user_id])
+    sql = ExamUser.generate_result_sql
+    sql += " and us.id=#{cookies[:exam_user_id]} "
+    @results=Examination.paginate_by_sql(sql,:per_page =>10, :page => params[:page])
   end
   
   #考生确认

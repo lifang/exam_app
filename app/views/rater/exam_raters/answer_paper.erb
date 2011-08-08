@@ -21,8 +21,8 @@
         <% if !block.elements['problems'].nil? %>
           <% block.elements['problems'].each_element do |problem| %>
             <% if !problem.elements['title'].nil? %>
-              <li>
-                <%= render :partial=>"/rater/exam_raters/single_question",:object=>problem %>
+             <li>
+               <%= render :partial=>"/rater/exam_raters/single_question",:object=>problem %>
                 <h2><a href="javascript:void(0)" onclick="javascript:compare_value(<%= problem.attributes["id"].to_i %>,0)"><%= problem.elements['title'].text %></a></h2>
               </li>
               <div class="links">
