@@ -128,6 +128,7 @@ class ExaminationsController < ApplicationController
   end
 
   def search_papers
+    
     examination = Examination.find(params[:id].to_i)
     paper_ids = []
     options = {}

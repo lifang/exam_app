@@ -6,7 +6,7 @@
   <% @papers.each do |paper| %>
     <div class="attr">
       <div style="float: left;width: 20%;">
-        <input type="checkbox" name="check_b" value="<%= paper.id %>"  onclick="javascript:create_exam()"/>
+        <input type="checkbox" name="check_b" value="<%= paper.id %>"  onclick="javascript:create_exam('check_b')"/>
       </div>
       <div style="float:left;width: 79%;">
         <div style="float:left;width: 49%;"><%= paper.title  %></div>
