@@ -4,9 +4,10 @@ function sltall(checkstatus,checkbox){
     for(var i=0; i<d.length; i++){
         if (d[i].disabled == false) {
             d[i].checked=checkstatus;
-
         }
+         if (d[i].checked == true) {
         checked_ids.push(d[i].value);
+    }
     }
     document.getElementById("exam_getvalue").value = checked_ids;
 }
@@ -37,13 +38,7 @@ function create_exam(checkbox){
         if (sles[i].checked) {
             checked_ids.push(sles[i].value);
         }
-        if (checked_ids==""){
-            $("exam_g").disabled=true;
-        }else{
-            $("exam_g").disabled =false;
-        }
     }
-
     document.getElementById("exam_getvalue").value = checked_ids;
 }
 function get_price(checkbox){ 
@@ -264,7 +259,6 @@ function change_paper() {
 }
 function checkinfo(){
     var check_value = new RegExp(/[a-zA-Z0-9\_\u4e00-\u9fa5]/);
-    ;
     var name=$("user_name").value;
     if (name== null || name.length ==0||name.length>10){
         document.getElementById("nameErr").innerHTML="用户名不能为空或长度不能超过10位字符";

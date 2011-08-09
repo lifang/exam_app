@@ -94,3 +94,19 @@ function stall(checkstatus,checkb){
     }
     document.getElementById("exam_getvalue").value = checked_ids;
 }
+function create_ex(checkbox){
+    var sles=document.getElementsByName(checkbox);
+    var checked_ids = new Array();
+    for (var i=0;i<sles.length;i++) {
+        if (sles[i].checked) {
+            checked_ids.push(sles[i].value);
+        }
+        if (checked_ids==""){
+            $("exam_g").disabled=true;
+        }else{
+            $("exam_g").disabled =false;
+        }
+    }
+
+    document.getElementById("exam_getvalue").value = checked_ids;
+}
