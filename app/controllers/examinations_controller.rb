@@ -142,13 +142,14 @@ class ExaminationsController < ApplicationController
 
   def choose_papers
     examination = Examination.find(params[:id].to_i)
+    puts params[:exam_getvalue]
     if !params[:exam_getvalue].nil? and params[:exam_getvalue] != ""
       paper_ids = []
       params[:exam_getvalue].split(",").each { |i| paper_ids << i.to_i }
       papers = Paper.find(paper_ids)
       examination.papers += papers
-      render :partial => "/examinations/paper_already_in_exam", :object => examination
     end
+    render :partial => "/examinations/paper_already_in_exam", :object => examination
   end
 
   def update_base_info

@@ -340,7 +340,6 @@ function compare_value(id,compare_id){
     }
     document.getElementById("question_info_"+id).style.display="block";
     close_question_info_id = id;
-    alert(close_question_info_id);
     active_button();
 }
 function active_button(){
@@ -571,7 +570,6 @@ var mh = 42;//最小高度
 var step = 10;//每次变化的px量
 var ms = 10;//每隔多久循环一次
 function new_toggle(o){
-    alert(o.offsetHeight);
     if (!o.tid)o.tid = "_" + Math.random() * 1000;
     if (!window.toggler)window.toggler = {};
     if (!window.toggler[o.tid]){
