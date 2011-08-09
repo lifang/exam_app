@@ -21,7 +21,7 @@
     <% @problems.each do |problem| %>
     <div>
       <tr>
-        <td><input type="checkbox" name="check_b" value="<%= problem.id %>"onclick="javascript:create_exam('check_b')" /></td>
+        <td><input type="checkbox" name="check_b" value="<%= problem.id %>"onclick="javascript:create_ex('check_b')" /></td>
         <td><%= link_to "#{problem.title}","javascript:void(0);" ,:onclick=>"javascript:ajax_item_pools_problem_info(#{problem.id});" %></td>
         <td><% if problem.types == 0 %>单选题<%end%><% if problem.types == 1 %>多选题<%end%><% if problem.types == 2 %>判断题<%end%><% if problem.types == 3 %>填空题<%end%><% if problem.types == 4 %>综合题<%end%><% if problem.types == 5 %>简答题<%end%></td>
         <td> <%= problem.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
