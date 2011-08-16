@@ -11,16 +11,19 @@
       <tbody>
         <% @roles.find_all.each do |role| %>
           <tr>
-            <td><%= role.name %>   </td>
-            <td><a href="javascript:void(0);" onclick="javascript:load_edit_role(<%= role.id %>)">更改名称</a> | <a href="javascript:void(0);" onclick="javascript:load_set_right(<%= role.id %>)">设置权限</a> </td>
+            <td><%= role.name %></td>
+            <td>
+              <a href="javascript:void(0);" onclick="javascript:load_edit_role(<%= role.id %>)">更改名称</a>
+              <!--| <a href="javascript:void(0);" onclick="javascript:load_set_right(<%#= role.id %>)">设置权限</a> -->
+            </td>
           </tr>
         </tbody>
       <% end %>
     </table>
     <div id="add_role_div">
-      <%=  form_for :role ,:url=>"/users/add_role",:html=>{:onsubmit=>"return validate_new_role_name();"} do |f| %>
+      <%=  form_for :role ,:url=>"/users/add_role",:html=>{:onsubmit=>"return validate_new_role_name();", :class => "required-validate",} do |f| %>
         &nbsp;&nbsp;&nbsp;&nbsp;输入新角色名： &nbsp;&nbsp;
-        <font color="red">*</font> <%= f.text_field:name ,:id=>"new_role_name"%>&nbsp;&nbsp;
+        <font color="red">*</font> <%= f.text_field:name ,:id=>"new_role_name", :class => "max-length-50" %>&nbsp;&nbsp;
         <%= f.submit "确认" %>
       <% end %>
     </div>

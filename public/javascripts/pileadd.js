@@ -5,9 +5,9 @@ function sltall(checkstatus,checkbox){
         if (d[i].disabled == false) {
             d[i].checked=checkstatus;
         }
-         if (d[i].checked == true) {
-        checked_ids.push(d[i].value);
-    }
+        if (d[i].checked == true) {
+            checked_ids.push(d[i].value);
+        }
     }
     document.getElementById("exam_getvalue").value = checked_ids;
 }
@@ -260,10 +260,15 @@ function change_paper() {
 function checkinfo(){
     var check_value = new RegExp(/[a-zA-Z0-9\_\u4e00-\u9fa5]/);
     var name=$("user_name").value;
+    var address = $("user_address").value;
     if (name== null || name.length ==0||name.length>10){
         document.getElementById("nameErr").innerHTML="用户名不能为空或长度不能超过10位字符";
         return false;
     }else{
+        if (address == null || address.length ==0 || address.length > 100) {
+            document.getElementById("addressErr").innerHTML="工作单位不能为空或长度不能超过100位字符";
+            return false;
+        }
         if (check_value.test(name)) {
             document.getElementById("nameErr").innerHTML="";
             return true;
@@ -272,7 +277,9 @@ function checkinfo(){
             document.getElementById("nameErr").innerHTML="用户名不能包含非法字符";
             return false;
         }
+        
     }
+    
 }
 function check_password() {
     var password=$("user_password").value;

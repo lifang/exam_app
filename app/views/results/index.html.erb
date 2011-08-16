@@ -49,7 +49,7 @@
               <td><%= result.u_total_score ? result.u_total_score : "暂无成绩" %></td>
               <td>
                 <% if result.u_total_score %>
-                  <%= link_to "详情", href="/user/exam_users/#{result.e_id}?user_id=#{result.user_id}&result=1" %>
+                  <%= link_to "详情", href="/user/exam_users/#{result.e_id}?user_id=#{result.user_id}&result=1", :target => "_blank" %>
                 <% elsif result.started_at %>
                   阅卷中...
                 <% end %>

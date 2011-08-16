@@ -46,7 +46,7 @@ class ExamRater < ActiveRecord::Base
     end
   end
   
-  def self.rater(doc,id)
+  def self.rater(doc,id, score)
     unless doc.elements[1].elements["auto_score"].nil?
       auto_score=doc.elements[1].elements["auto_score"].text
       if auto_score.to_i !=0
