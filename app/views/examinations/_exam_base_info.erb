@@ -51,18 +51,19 @@
       <div><% unless @examination.exam_time.nil? or @examination.exam_time == "" %>
           考试时长：<%= @examination.exam_time %>分钟<% end %>
       </div>
-      <div><% unless @examination.get_free_end_at.nil? or @examination.get_free_end_at == "" %>
-          免费名额领取截止时间：<%= @examination.get_free_end_at.strftime("%Y-%m-%d %H:%M:%S") %>
-        <% end %>
+      <div>是否需要阅卷老师批卷：<%= @examination.is_should_rate == true ? "是":"否" %></div>
+      <!--<div><%# unless @examination.get_free_end_at.nil? or @examination.get_free_end_at == "" %>
+          免费名额领取截止时间：<%#= @examination.get_free_end_at.strftime("%Y-%m-%d %H:%M:%S") %>
+        <%# end %>
       </div>
-      <div><% unless @examination.exam_free_end_at.nil? or @examination.exam_free_end_at == "" %>
-          免费名额领取截止时间：<%= @examination.exam_free_end_at.strftime("%Y-%m-%d %H:%M:%S") %>
-        <% end %>
+      <div><%# unless @examination.exam_free_end_at.nil? or @examination.exam_free_end_at == "" %>
+          免费名额领取截止时间：<%#= @examination.exam_free_end_at.strftime("%Y-%m-%d %H:%M:%S") %>
+        <%# end %>
       </div>
-      <div><% unless @examination.price.nil? or @examination.price == 0 %>
-          本场考试单价：<%= @examination.price %>
-        <% end %>
-      </div>
+      <div><%# unless @examination.price.nil? or @examination.price == 0 %>
+          本场考试单价：<%#= @examination.price %>
+        <%# end %>
+      </div>-->
     </div>
   </div>
   <div class="in">

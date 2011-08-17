@@ -1,13 +1,22 @@
-<?xml version='1.0' encoding='UTF-8'?>      <paper id='1' total_num='2' total_score='10'>
+<?xml version='1.0' encoding='UTF-8'?>      <paper id='1' total_num='3' total_score='30'>
         <base_info>
           <title>2010年6月(CET-4)真题</title>
           <category>2</category>
           <creater>1</creater>
           <created_at>2011-08-05 10:53</created_at>
-          <updated_at>2011-08-05 13:15</updated_at>
+          <updated_at>2011-08-08 11:17</updated_at>
           <description>本套题为2010年6月的大学英语CET-4的真题，本张试卷由六道大题组成，没道大题有若干道小题。</description>
 <category_name>英语四级</category_name>      </base_info>
       <blocks>
-      <block id='2' total_num='2' total_score='10'><base_info><title>Part I Writing (30 minutes)</title><description>Directions: For this part, you are allowed 30 minutes to write a short essay on the topic of Due Attention Should Be Given To Spelling. You should write at least 120 words following the outline given below:</description></base_info><problems><problem id='1' score='5' types='0'><title>Until then, his family ________ from him for six months.</title><category>2</category><questions><question correct_type='0' id='1' score='5'><answer>D   hadn’t heard</answer><analysis>直到刚才，表明从“刚才”以后我有他的消息了，表示过去我没有他的消息，所以用 “hadn&apos;t heard”</analysis><questionattrs>A   didn’t hear;-;B   hasn’t been hearing;-;C   hasn’t heard;-;D   hadn’t heard</questionattrs><tags>过去时</tags></question></questions></problem><problem id='2' score='5' types='0'><title>Students or teachers can participate in excursions to lovely beaches around the island at regular______</title><category>2</category><complete_title>Students or teachers can participate in excursions to lovely beaches around the island at regular[[gaps|rate;length;intervals||名词]][{名词}][(5)]</complete_title><questions><question correct_type='0' id='2' score='5'><answer>gaps</answer><analysis>名词</analysis><questionattrs>gaps;-;rate;-;length;-;intervals</questionattrs><tags>名词</tags></question></questions></problem></problems></block></blocks>
+      <block id='2' total_num='3' total_score='30'><base_info><title>Part I Writing (30 minutes)</title><description>Directions: For this part, you are allowed 30 minutes to write a short essay on the topic of Due Attention Should Be Given To Spelling. You should write at least 120 words following the outline given below:</description></base_info><problems><problem id='1' score='5' types='0'><title>Until then, his family ________ from him for six months.</title><category>2</category><questions><question correct_type='0' id='1' score='5'><answer>D   hadn’t heard</answer><analysis>直到刚才，表明从“刚才”以后我有他的消息了，表示过去我没有他的消息，所以用 “hadn&apos;t heard”</analysis><questionattrs>A   didn’t hear;-;B   hasn’t been hearing;-;C   hasn’t heard;-;D   hadn’t heard</questionattrs><tags>过去时</tags></question></questions></problem><problem id='2' score='5' types='0'><title>Students or teachers can participate in excursions to lovely beaches around the island at regular______</title><category>2</category><complete_title>Students or teachers can participate in excursions to lovely beaches around the island at regular[[gaps|rate;length;intervals||名词]][{名词}][(5)]</complete_title><questions><question correct_type='0' id='2' score='5'><answer>gaps</answer><analysis>名词</analysis><questionattrs>gaps;-;rate;-;length;-;intervals</questionattrs><tags>名词</tags></question></questions></problem><problem id='4' score='20' types='5'><title>In police work, you can never predict the next crime or problem. No working day is identical to any other, so there is no “(S1) ________” day for a police officer. Some days are (S2) ________ slow, and the job is (S3) ________; other days are so busy that there is no time to eat. I think I can (S4) ________ police work in one word: (S5) ________. Sometimes it’s dangerous. One day, for example, I was working undercover; that is, I was on the job, but I was wearing (S6) ________ clothes, not my police (S7) ________. I was trying to catch some robbers who were stealing money from people as they walked down the street. Suddenly, (S8) ________. Another policeman arrived, and together, we arrested three of the men; but the other four ran away. Another day, I helped a woman who was going to have a baby. (S9) ________. I put her in my police car to get her there faster. I thought she was going to have the baby right there in my car. But fortunately, (S10) ________.</title><category>2</category><questions><question correct_type='5' id='3' score='20'><answer>S1.   typical
+S2.   relatively
+S3.   boring
+S4.   describe
+S5.   variety
+S6.   normal
+S7.   uniform
+S8.   seven bad men jumped out, one man had a knife and we got into a fight.
+S9.   She was trying to get to the hospital, but there was a bad traffic jam.
+S10. the baby waited to “arrive” until we got to the hospital.</answer><analysis>完型填空</analysis><questionattrs/><tags>完型填空</tags></question></questions></problem></problems></block></blocks>
        <problem_ids/>
       </paper>

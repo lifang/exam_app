@@ -27,23 +27,25 @@
         <a id="logo" href="/"><img src="/images/logo_new.png" border="0"/></a>
         <div class="clear"></div>
         <p class="title_link">
-          <%  if (cookies[:user_id]!=nil) %>
+          <%  unless cookies[:user_id].nil? %>
             <% if is_paper_creater? %>
               <a href="/papers">试卷</a>
               &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/item_pools">题库</a>
               &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/examinations">考试</a>
               &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/results">成绩</a>
+            <% end  %>
+            <% if is_admin? %>
               &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/users/roles_manage">权限</a>
               &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/users">用户</a>
-            <% end  %>
+            <% end %>
           </p>
           <p class="back_welcome">
-            <%= cookies[:user_name] if current_user %> 欢迎您！
+            <%= current_user.name if current_user %> 欢迎您！
             <% if is_student? %>
               <%= link_to "[考试列表]", "/user/examinations" %>
-              <%= link_to "[成绩查询]", "/user/exam_users/#{cookies[:user_id]}/my_results" %>
+              <%= link_to "[我的成绩]", "/user/exam_users/#{cookies[:user_id]}/my_results" %>
+              <a href="/user/collections">[我的收藏]</a>
             <% end %>
-            <a href="/user/collections">[我的收藏]</a>
             <a href="/users/<%= cookies[:user_id] %>/edit">[个人信息]</a>
             <a href="/signout">[退出]</a>
           <%end%>
@@ -57,7 +59,7 @@
         <div  id="tishikuang" style="display:block"></div>
       </div>
       <div id="ft">
-        <p>Copyright &copy; 2009-2010 考试系统, All Rights Reserved&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <p>Copyright &copy; 2009-2010 考试系统, All Rights Reserved &nbsp;&nbsp;&nbsp;苏州协创软件技术有限公司&nbsp;&nbsp;&nbsp;</p>
         <ul>
           <li></li>
         </ul>

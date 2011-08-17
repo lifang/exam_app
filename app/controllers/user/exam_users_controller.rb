@@ -40,8 +40,8 @@ class User::ExamUsersController < ApplicationController
     @exam_user=ExamUser.find_by_user_id(cookies[:user_id])
     sql = ExamUser.generate_result_sql
     sql += " and us.id=#{cookies[:user_id]}"
-    sql += " and e.start_at_time >= '#{session[:start_at]}'" unless session[:start_at].nil?
-    sql += " and e.start_at_time <= '#{session[:end_at]}'" unless session[:end_at].nil?
+    sql += " and u.started_at >= '#{session[:start_at]}'" unless session[:start_at].nil?
+    sql += " and u.started_at <= '#{session[:end_at]}'" unless session[:end_at].nil?
     sql += " and e.title like '%#{session[:title]}%'" unless session[:title].nil?
     @results = Examination.paginate_by_sql(sql, :pre_page => 10, :page => params[:page])
     render "my_results"
@@ -58,7 +58,7 @@ class User::ExamUsersController < ApplicationController
         redirect_to '/user/exam_users/session_new'
       else
         cookies[:exam_user_id]=@user.id
-        redirect_to "/user/exam_users/"
+        redirect_to "/user/exam_users"
       end
     end
   end
@@ -77,7 +77,7 @@ class User::ExamUsersController < ApplicationController
       @user=User.find(params[:user_id])
       if @exam_user
         @examination=Examination.find(@exam_user.examination_id)
-        flash[:title]=",恭喜您参加 #{@examination.title} 的考试,请确认！"
+        flash[:title]=",感谢您参加 #{@examination.title} 的考试,请确认！"
         render "/user/exam_users/affiremed_success"
       else
         redirect_to "/user/exam_users/affiremed_false"
@@ -86,13 +86,12 @@ class User::ExamUsersController < ApplicationController
   end
 
   def edit_name #考生确认时修改考生姓名
-    @examination=Examination.find(params[:examination])
-    @exam_user=ExamUser.find(params[:exam_user])
+    @examination=Examination.find(params[:examination].to_i)
+    @exam_user=ExamUser.find(params[:exam_user].to_i)
     @user=User.find(params[:id])
     @exam_user.user_affiremed
-    @user.name=params[:name]
-    flash[:success]="恭喜您成功确认"
-    @exam_user.save
+    @user.name = params[:name]
+    flash[:success]="您已经成功确认。"
     @user.save
     render "/user/exam_users/affiremed_success"
   end

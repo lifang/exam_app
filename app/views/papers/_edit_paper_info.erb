@@ -7,14 +7,14 @@
   <div class="soso">
     <div>试卷编号：<%= @xml.attributes['id'] %></div>
     <div>标题：<%= f.text_field :title,:value=>@xml.elements['base_info'].elements['title'].text ,
-        :id=>"edit_paper_title", :class => "required input_style" %>
+        :id=>"edit_paper_title", :class => "required input_style max-length-50" %>
     </div>
     <div>
       <%= render :partial => "/common/modify_categories", :object => @xml.elements['base_info'].elements['category'].text %>
     </div>
     <div>
       备注：<%= f.text_area :description, :value=>@xml.elements['base_info'].elements['description'].text ,
-        :size=>40, :cols=>"55", :rows=>"2", :class=>"textarea_style" %>
+        :size=>40, :cols=>"55", :rows=>"2", :class=>"textarea_style max-length-100" %>
     </div>
     <%= f.submit "完成", :class=>"submit_btn" %>
     <%= image_tag "ajax-loader.gif", :id => "spinner_for_submit", :style => "display:none" %>

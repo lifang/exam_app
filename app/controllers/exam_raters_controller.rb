@@ -93,13 +93,17 @@ class ExamRatersController < ApplicationController
   
   def cancel_score
     @rater_relations=RaterUserRelation.find_all_by_exam_rater_id(params[:id])
-    @rater_relations.each do |rater_relation|
-      unless rater_relation.is_authed ==true
-        ExamUser.find(rater_relation.exam_user_id).update_attributes(:total_score=>0)
-        rater_relation.destroy
+    unless @rater_relations.blank?
+      @rater_relations.each do |rater_relation|
+        unless rater_relation.is_authed ==true
+          ExamUser.find(rater_relation.exam_user_id).update_attributes(:total_score=>0)
+          rater_relation.destroy
+        end
       end
+      flash[:notice]="当前老师批改的成绩已经作废。"
+    else
+      flash[:warn]="当前老师没有新批改试卷。"
     end
-    flash[:notice]="当前老师批改的成绩已经作废。"
     redirect_to request.referer
   end
 

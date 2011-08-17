@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <% if @users.blank? %>
-        <p style="text-align:center;"> SORRY,你搜索的用户不存在。</p>
+        <p style="text-align:center;"> 你搜索的用户不存在，请重新输入您的查询条件。</p>
       <% end %>
       <% @users.each do |user| %>
         <tr>

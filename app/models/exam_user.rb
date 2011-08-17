@@ -198,10 +198,11 @@ class ExamUser < ActiveRecord::Base
     end
     answer_doc.root.elements["paper"].elements["auto_score"].text = auto_score
     rate_score = answer_doc.root.elements["paper"].elements["rate_score"]
+    total_score = auto_score
     unless rate_score.text.nil? or rate_score.text == ""
-      total_score = auto_score + answer_doc.root.elements["paper"].elements["rate_score"].text.to_i
-      answer_doc.root.elements["paper"].add_attribute("score", "#{total_score}")
+      total_score += answer_doc.root.elements["paper"].elements["rate_score"].text.to_i
     end
+    answer_doc.root.elements["paper"].add_attribute("score", "#{total_score}")
     return answer_doc
   end
 
@@ -239,15 +240,15 @@ class ExamUser < ActiveRecord::Base
   end
 
   #筛选题目
-  def self.answer_questions(xml,doc)
-    str="-1"
+  def self.answer_questions(xml, doc)
+    str = "-1"
     xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
         if (problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:CHARACTER] and
               problem.attributes["types"].to_i !=Problem::QUESTION_TYPE[:COLLIGATIONR])
           block.delete_element(problem.xpath)
         else
-          score=0
+          score = 0
           problem.elements["questions"].each_element do |question|
             doc.elements["paper"].elements["questions"].each_element do |element|
               if element.attributes["id"]==question.attributes["id"]
@@ -274,7 +275,7 @@ class ExamUser < ActiveRecord::Base
 
   #批量验证考生
   def self.judge(info,id)
-    str=""
+    str = ""
     hash =get_email(info)
     users =User.find_by_sql(["select u.*,e.examination_id e_id from users u left join exam_users e on u.id=e.user_id
                              where u.email in(?) ", hash.keys])
