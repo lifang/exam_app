@@ -6,13 +6,15 @@ class ItemPoolsController < ApplicationController
 
   def create
     @type = params[:problem][:real_type].to_i
-    @problem = Problem.create(:category_id=>params[:category].to_i,:title=>params[:problem][:title].strip, :types =>@type )
+    @problem = Problem.create(:category_id=>params[:category].to_i,:title=>params[:problem][:title].strip, :types =>@type)
     if params[:problem][:real_type].to_i==Problem::QUESTION_TYPE[:COLLIGATION]
       score_arr = Question.update_colligation_questions(@problem,
         Question.colligation_questions(params["single_question"]), "create")
     else
-      answer_question_attr=item_pool_answer_text(params[:problem][:real_type].to_i, params[:problem][:attr_sum].to_i, params[:problem][:answer])
-      @question = Question.create_question(@problem,{:answer=>answer_question_attr[0], :analysis => params[:problem][:analysis].strip,
+      answer_question_attr=item_pool_answer_text(params[:problem][:real_type].to_i,
+        params[:problem][:attr_sum].to_i, params[:problem][:answer])
+      @question = Question.create_question(@problem,{:answer=>answer_question_attr[0],
+          :analysis => params[:problem][:analysis].strip,
           :correct_type => params[:problem][:correct_type].to_i}, answer_question_attr[1])
       if params[:tags]!=nil||params[:tags]!=''
         tag_name = params[:tag].strip.split(" ")
@@ -24,8 +26,6 @@ class ItemPoolsController < ApplicationController
   end
 
   def item_pool_answer_text(problem_type, attr_num, answer, question_id="")
-    puts problem_type
-    puts attr_num
     answer_question_attr = []
     attrs_array = []
     if problem_type == Problem::QUESTION_TYPE[:SINGLE_CHOSE]
@@ -68,7 +68,7 @@ class ItemPoolsController < ApplicationController
     @paper.create_paper_url(@paper.xml_content({"category_name" => category.name}), "papers", "xml") unless category.nil?
     redirect_to "/item_pools/#{@paper.id}/revise_item"
   end
-  j
+  
   def revise_item
     @paper = Paper.find(params[:id].to_i)
     begin
@@ -93,7 +93,8 @@ class ItemPoolsController < ApplicationController
     file = File.open(url)
     doc=Document.new(file).root
     @id=params[:id]
-    @problems=Problem.search_items_num(params[:item_tag],params[:item_style],params[:item_sort],doc.elements["problem_ids"].text)
+    @problems=Problem.search_items_num(params[:item_tag], params[:item_style], params[:item_sort],
+      doc.elements["problem_ids"].text)
     @condition="#{params[:item_tag]};#{params[:item_style]};#{params[:item_sort]}"
     render :partial=>"add_item"
   end
@@ -104,7 +105,8 @@ class ItemPoolsController < ApplicationController
     url="#{Constant::PUBLIC_PATH}#{@paper.paper_url}"
     file = File.open(url)
     doc=Document.new(file)
-    @problems=Problem.search_items(condition[0],condition[1],condition[2],params["question_num#{params[:block_id]}"].to_i,doc.root.elements["problem_ids"].text)
+    @problems=Problem.search_items(condition[0], condition[1], condition[2],
+      params["question_num#{params[:block_id]}"].to_i, doc.root.elements["problem_ids"].text)
     score_arr={}
     str=""
     @problems.each do |problem|
@@ -122,7 +124,7 @@ class ItemPoolsController < ApplicationController
 
   
   def index
-    @problems = Problem.search_mothod(nil,nil,nil,nil,nil,15, params[:page])
+    @problems = Problem.search_mothod(nil,nil,nil,nil,nil,10, params[:page])
   end
 
   def search_condition
@@ -140,7 +142,8 @@ class ItemPoolsController < ApplicationController
   end
 
   def index_search
-    @problems = Problem.search_mothod(session[:mintime],session[:maxtime],session[:category],session[:type], session[:tags], 15, params[:page])
+    @problems = Problem.search_mothod(session[:mintime], session[:maxtime], session[:category],
+      session[:type], session[:tags], 10, params[:page])
     render 'index'
   end
 
@@ -222,7 +225,8 @@ class ItemPoolsController < ApplicationController
       scores = Question.generate_score_or_analysis(content, ")]", "[(")
       analysis = Question.generate_score_or_analysis(content, "}]", "[{")
       score_arr = {}
-      @problem = Problem.create(:category_id=>params[:category].to_i,:title => problem_title, :types => problem_correct_type, :complete_title => content,:status=>Problem::PROBLEM_STATUS[:USED])
+      @problem = Problem.create(:category_id=>params[:category].to_i,:title => problem_title,
+        :types => problem_correct_type, :complete_title => content,:status=>Problem::PROBLEM_STATUS[:USED])
       (0..questions.length-1).each do |i|
         questions[i][:analysis] = analysis[i].nil? ? "" : analysis[i]
         @question = Question.create_question(@problem,

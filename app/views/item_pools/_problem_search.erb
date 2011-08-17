@@ -1,9 +1,11 @@
 题目分类：<%= render :partial => "/common/categories" %>
 &nbsp;&nbsp;&nbsp;&nbsp;创建时间：
-从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly name="mintime" id="mintime" value="" />&nbsp;
-到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly name ="maxtime" id ="maxtime" value=""  />
+从&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly
+              name="mintime" id="mintime" value="<%= session[:mintime] %>" />&nbsp;
+到&nbsp;<input class="input_style" type="text" onClick="WdatePicker();" readonly
+              name ="maxtime" id ="maxtime" value="<%= session[:maxtime] %>"  />
 <div class="clear"></div>
-
-题目类型：<select name="type"><option value="">-请选择-</option><option value=0>单选题</option><option value=1>多选题</option><option value=2>判断题</option><option value=3>填空题</option><option value=4>综合题</option><option value=5>简答题</option></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题目标签&nbsp;&nbsp; &nbsp;&nbsp;<input class="input_style" name="tags" id="tags" value="" size="40"/>
+<%= render :partial => "/common/problem_types", :object => nil %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+题目标签&nbsp;&nbsp; &nbsp;&nbsp;<input class="input_style" name="tags" id="tags" value="<%= session[:tags] %>" size="40"/>
 &nbsp;&nbsp;&nbsp;&nbsp;<%= submit_tag "查询",:title=>nil %>
 

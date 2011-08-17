@@ -39,17 +39,11 @@
 
         <li><a onclick="javascript:search_item('<%= block.attributes["id"].to_i %>')">添加题目</a>
           <div style="display:none" id="<%= block.attributes["id"].to_i %>">
-            题目类型：
+            题目分类：
             <%= render :partial=>"/common/categories", :object=>block.attributes["id"].to_i %>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题目分类：<select id="select_<%=  block.attributes["id"].to_i   %>">
-              <option value=>--请选择--</option>
-              <option value="0">--单选题--</option>
-              <option value="1">--多选题--</option>
-              <option value="2">--判断题--</option>
-              <option value="3">--填空题--</option>
-              <option value="4">--综合题--</option>
-              <option value="5">--简答题--</option>
-            </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题目标签：<input id="tag<%=  block.attributes["id"].to_i %>"/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <%= render :partial => "/common/problem_types", :object => block.attributes["id"].to_i %>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题目标签：<input id="tag<%=  block.attributes["id"].to_i %>"/>
             <input type="submit" value="查询" onclick="javascript:add_select(<%=  block.attributes["id"].to_i %>,<%= @paper.id %>)" />
           </div>
           <div id="selector<%=  block.attributes["id"].to_i %>"></div>
@@ -57,9 +51,9 @@
       </ul>
     </div>
 <% end %>
-
 <div class="clear"></div>
 <%= render :partial=>"/papers/new_module" %>
-<h1 class="biz_art_title" id="block_show">
+
+<div class="biz_art_list_box" id="block_show">
   <input type="button" value="增加试卷模块" class="submit_btn" onclick="javascript:new_module()"/>
-</h1>
+</div>
