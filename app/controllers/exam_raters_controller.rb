@@ -90,6 +90,7 @@ class ExamRatersController < ApplicationController
     end
     redirect_to request.referer
   end
+  
   def cancel_score
     @rater_relations=RaterUserRelation.find_all_by_exam_rater_id(params[:id])
     @rater_relations.each do |rater_relation|

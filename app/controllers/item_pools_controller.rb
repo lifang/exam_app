@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 class ItemPoolsController < ApplicationController
   require 'rexml/document'
   require "fileutils"
