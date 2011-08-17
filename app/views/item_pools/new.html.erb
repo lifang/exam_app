@@ -39,14 +39,14 @@
   <br/><div class="clear" />
   <div id="mavin_question"></div>
   <div id="create_question" style="display:none;">
-    <div class="question_pic_box" style="top:0px;margin-left:270px;margin-top:250px;">
-      <div class="in">
+    <div style="padding-left:10px;">
+      <div>
         <%= form_for :problem ,:url => "/item_pools", :method => "post",
           :html => {:onsubmit=>"return item_pools_new_problem_validate();", :class => "required-validate"} do |f| %>
           <input type="hidden" value="" name="real_type" id="real_type"/>
-          <div class="title">题面：</div>
-          <input type="button" name="button" value="富文本" class="submit_btn"
-                 onclick="javascript:add_area('problem_title', this);" />
+          <div>题面：</div>
+          <div><input type="button" name="button" value="富文本" class="submit_btn"
+                 onclick="javascript:add_area('problem_title', this);" /></div>
                  <%= f.text_area :title ,:cols=>"45",:rows=>"8",
                    :id=> "problem_title", :class=>"required textarea_style" %>
           <br/> 题目种类：<%= render :partial=>"/item_pools/categories" %><br/>

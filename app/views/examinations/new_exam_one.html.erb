@@ -17,17 +17,17 @@
       :method=>:post, :html => {:class => "required-validate", :name => "exam_form", :id => "exam_form"} do |f|%>
       <input type="hidden" value="<%= @paperid %>" id="post_value" name="post_value" />
       <div class="add_details">
-       试卷分类：<%= render :partial => "/common/categories" %>
+       <font color="red">*</font>试卷分类：<%= render :partial => "/common/categories" %>
       </div>
       <div class="add_details">
-        <div class="clear"></div>
+        <div class="clear"></div> 
         <font color="red">*</font>
-        考试标题：<input type="text" class="required input_style" name="title" value="<%= @examination.title %>" size="65"/>
+        考试标题：<input type="text" class="required input_style max-length-50" name="title" value="<%= @examination.title %>" size="65"/>
         <span>&nbsp;您可以设置考试的标题，长度为1~30个字</span>
       </div>
       <div class="add_details">
         <div class="detail">&nbsp;&nbsp;&nbsp;描述：</div>
-        <div class="detail"><textarea cols="69" rows="4" class="textarea_style" name="description" title="description"></textarea></div>
+        <div class="detail"><textarea cols="69" rows="4" class="textarea_style max-length-100" name="description" title="description"></textarea></div>
         <div class="detail">&nbsp;&nbsp;请填写对考试必要的一些文字描述</div>
         <div class="clear"></div>
       </div>
@@ -59,6 +59,10 @@
           <span>&nbsp;&nbsp;&nbsp;（考试码只提供给监考老师，当考生来参加考试的时候，监考老师要输入考试码，考生才能考试）</span>
         </div>
         <div class="add_details">
+          选择是否需要阅卷老师批卷：<input type="radio" id="is_should_rate" name="is_should_rate" value="1" checked="true" />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="is_should_rate" value="0" name="is_should_rate"/>否
+        </div>
+        <!--<div class="add_details">
           免费名额领取截止时间：<input type="text" class="input_style" id="get_free_end_at" name="get_free_end_at"
                             size="20" onClick="WdatePicker();" readonly/>
         </div>
@@ -68,8 +72,8 @@
         </div>
         <div class="add_details">
           本场考试单价：<input type="text" class="input_style" id="price" name="price"
-                        value="20"  size="20"/>
-        </div>
+                        value="0"  size="20"/>
+        </div>-->
         <div class="clear"></div>
       </div>
       <div class="in">

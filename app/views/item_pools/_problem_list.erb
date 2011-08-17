@@ -18,26 +18,39 @@
   </thead>
   <tbody>
     <%=form_for :commodity,:url=>"/problems/des" do %>
-    <% @problems.each do |problem| %>
-    <div>
-      <tr>
-        <td><input type="checkbox" name="check_b" value="<%= problem.id %>"onclick="javascript:create_ex('check_b')" /></td>
-        <td><%= link_to "#{problem.title}","javascript:void(0);" ,:onclick=>"javascript:ajax_item_pools_problem_info(#{problem.id});" %></td>
-        <td><% if problem.types == 0 %>单选题<%end%><% if problem.types == 1 %>多选题<%end%><% if problem.types == 2 %>判断题<%end%><% if problem.types == 3 %>填空题<%end%><% if problem.types == 4 %>综合题<%end%><% if problem.types == 5 %>简答题<%end%></td>
-        <td> <%= problem.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-        <td><a><%= link_to " 编辑" ,"javascript:void(0);" ,:onclick=>"javascript:ajax_item_pools_edit_problem(#{problem.id});" %>&nbsp;|&nbsp; <%= link_to "删除 ", problem,:confirm=>"确认删除么？",:method=>:delete %></a></td>
-      </tr>
-    </div>
+      <% @problems.each do |problem| %>
+      <div>
+        <tr>
+          <td><input type="checkbox" name="check_b" value="<%= problem.id %>"onclick="javascript:create_ex('check_b')" /></td>
+          <td>
+            <%= link_to "#{truncate_u(problem.title.to_s.html_safe, 27)}","javascript:void(0);" ,
+              :onclick=>"javascript:ajax_item_pools_problem_info(#{problem.id});" %>
+          </td>
+          <td>
+            <% if problem.types == Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>单选题
+            <% elsif problem.types == Problem::QUESTION_TYPE[:MORE_CHOSE] %>多选题
+            <% elsif problem.types == Problem::QUESTION_TYPE[:JUDGE] %>判断题
+            <% elsif problem.types == Problem::QUESTION_TYPE[:SINGLE_CALK] %>填空题
+            <% elsif problem.types == Problem::QUESTION_TYPE[:COLLIGATION] %>综合题
+            <% elsif problem.types == Problem::QUESTION_TYPE[:CHARACTER] %>简答题
+            <% end%>
+          </td>
+          <td> <%= problem.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+          <td>
+            <%= link_to " 编辑" ,"javascript:void(0);" ,:onclick=>"javascript:ajax_item_pools_edit_problem(#{problem.id});" %>&nbsp;|&nbsp;
+            <%= link_to "删除 ", problem,:confirm=>"确认删除么？",:method=>:delete %></td>
+        </tr>
+      </div>
+    <% end  %>
     <div id="show_div"></div>
     <div id="edit_div"></div>
-    <% end  %>
     <tr>
       <td class="allselect_box" colspan="9">
         <input type="checkbox" name="check_bb" onclick=stall(this.checked,"check_b") />&nbsp;&nbsp;全选
         <input type="submit" id="exam_g" disabled="true" value="批量删除" onclick="return confirm('确定删除么?')"  />
       </td>
     </tr>
-    <input id="exam_getvalue" name="exam_getvalue" type="hidden" value=""/> 
-     <% end  %>
-  </tbody>
+    <input id="exam_getvalue" name="exam_getvalue" type="hidden" value=""/>
+  <% end  %>
+</tbody>
 </table>

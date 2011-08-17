@@ -12,7 +12,7 @@
       <% if @examination.user_affirm == true %>
         <a href="/examinations/<%= @examination.id %>/export_user_unaffirm" target="_blank">[导出未确认的考生名单]</a>
       <% end %>
-      <a href="/examinations/<%= @examination.id %>/exam_result">[查看成绩]</a>
+      <a href="/examinations/<%= @examination.id %>/exam_result" target="_blank">[查看成绩]</a>
     </div>
   </h2>
   <div class="in" id="exam_user_list" style="display:block" >

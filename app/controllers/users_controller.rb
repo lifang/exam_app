@@ -8,10 +8,10 @@ class UsersController < ApplicationController
       @user.encrypt_password
       @user.save
       flash[:notice]="密码修改成功"
-      redirect_to "/users/#{params[:id]}"
+      redirect_to "/users/#{params[:id]}/edit"
     else
       flash[:error]="您输入的密码不正确"
-      redirect_to "/users/#{params[:id]}"
+      redirect_to "/users/#{params[:id]}/edit"
     end
   end
 
@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     @user_info = User.find(params[:id])
     @user_info.update_attributes(params[:user_info])
     flash[:notice]="用户信息修改成功"
-    redirect_to "/users/#{params[:id]}"
+    redirect_to "/users/#{params[:id]}/edit"
   end
   
   def new #新建用户页面
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
       @user.username=params[:user][:name]
       @user.status = User::STATUS[:LOCK]
       @user.active_code = proof_code(6)
-      @user.set_role(Role.find(Role::TYPES[:TEACHER]))
+      @user.set_role(Role.find(Role::TYPES[:STUDENT]))
       @user.encrypt_password
       if @user.save!
         UserMailer.welcome_email(@user).deliver

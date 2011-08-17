@@ -5,9 +5,9 @@ function sltall(checkstatus,checkbox){
         if (d[i].disabled == false) {
             d[i].checked=checkstatus;
         }
-         if (d[i].checked == true) {
-        checked_ids.push(d[i].value);
-    }
+        if (d[i].checked == true) {
+            checked_ids.push(d[i].value);
+        }
     }
     document.getElementById("exam_getvalue").value = checked_ids;
 }
@@ -244,8 +244,10 @@ function test_exam_edit(n,mobile,email){
     } 
 }
 function show_name(first,second) {
-    $(first).style.display ="block";
-    $(second).style.display ="none";
+    $("div_" + first).style.display ="block";
+    $("li_" + first).className = "actived";
+    $("div_" + second).style.display ="none";
+    $("li_" + second).className = "none";
 }
 function change_paper() {
     var change_papers_div = $("change_papers_div").style;
@@ -257,12 +259,16 @@ function change_paper() {
 }
 function checkinfo(){
     var check_value = new RegExp(/[a-zA-Z0-9\_\u4e00-\u9fa5]/);
-    ;
     var name=$("user_name").value;
+    var address = $("user_address").value;
     if (name== null || name.length ==0||name.length>10){
         document.getElementById("nameErr").innerHTML="用户名不能为空或长度不能超过10位字符";
         return false;
     }else{
+        if (address == null || address.length ==0 || address.length > 100) {
+            document.getElementById("addressErr").innerHTML="工作单位不能为空或长度不能超过100位字符";
+            return false;
+        }
         if (check_value.test(name)) {
             document.getElementById("nameErr").innerHTML="";
             return true;
@@ -271,7 +277,9 @@ function checkinfo(){
             document.getElementById("nameErr").innerHTML="用户名不能包含非法字符";
             return false;
         }
+        
     }
+    
 }
 function check_password() {
     var password=$("user_password").value;
@@ -333,7 +341,6 @@ function compare_value(id,compare_id){
     }
     document.getElementById("question_info_"+id).style.display="block";
     close_question_info_id = id;
-    alert(close_question_info_id);
     active_button();
 }
 function active_button(){
@@ -564,7 +571,6 @@ var mh = 42;//最小高度
 var step = 10;//每次变化的px量
 var ms = 10;//每隔多久循环一次
 function new_toggle(o){
-    alert(o.offsetHeight);
     if (!o.tid)o.tid = "_" + Math.random() * 1000;
     if (!window.toggler)window.toggler = {};
     if (!window.toggler[o.tid]){

@@ -1,5 +1,5 @@
 <ul class="new_biz">
-  <li><%= @examination.title %> 测 试</li>
+  <li><%= @examination.title %></li>
 </ul>
 <div class="main_box_back">
   <h2><span>成绩列表</span><div class="right"></div></h2>
@@ -7,9 +7,17 @@
     <div class="exam_result_div">
       <div class="paper_base_info">考试基本信息</div>
       <div>考试标题：<%= @examination.title %></div>
-      <div>考试开始于：<%= @examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") if @examination.start_at_time %></div>
-      <div>考试时长：<%= @examination.exam_time %>分钟</div>
-      <div>描述：<%= @examination.description %></div>
+      <div>
+        考试开始于：<% unless @examination.start_at_time.nil? %>
+          <%= @examination.start_at_time.strftime("%Y-%m-%d %H:%M:%S") %>
+        <% else %>
+          任何时候
+        <% end %>
+      </div>
+      <div>考试时长：<% unless @examination.exam_time.nil? %><%= @examination.exam_time %>分钟<% else %>不限制<% end %></div>
+      <% unless @examination.description.nil? or @examination.description.strip == "" %>
+        <div>描述：<%= @examination.description %></div>
+      <% end %>
     </div>
     <div class="add_details">
       <div class="detail">考生人数：<%= @exam_users.size %>人</div>

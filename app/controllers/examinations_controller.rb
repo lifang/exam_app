@@ -52,7 +52,7 @@ class ExaminationsController < ApplicationController
       :is_paper_open => params[:opened], :exam_time => params[:timeout], :is_score_open => params[:open_result],
       :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING], :price => params[:price],
       :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at],
-      :category_id => params[:category]}
+      :category_id => params[:category], :is_should_rate => params[:is_should_rate]}
     hash1[:generate_exam_pwd] = params[:generate_exam_pwd] == "1" ? true : false
     if params[:timelimit] == "1"
       @time = params[:time].to_date + min.to_i.minutes + hour.to_i.hours
@@ -127,8 +127,7 @@ class ExaminationsController < ApplicationController
     render :inline => ""
   end
 
-  def search_papers
-    
+  def search_papers    
     examination = Examination.find(params[:id].to_i)
     paper_ids = []
     options = {}
@@ -143,13 +142,14 @@ class ExaminationsController < ApplicationController
 
   def choose_papers
     examination = Examination.find(params[:id].to_i)
+    puts params[:exam_getvalue]
     if !params[:exam_getvalue].nil? and params[:exam_getvalue] != ""
       paper_ids = []
       params[:exam_getvalue].split(",").each { |i| paper_ids << i.to_i }
       papers = Paper.find(paper_ids)
       examination.papers += papers
-      render :partial => "/examinations/paper_already_in_exam", :object => examination
     end
+    render :partial => "/examinations/paper_already_in_exam", :object => examination
   end
 
   def update_base_info
@@ -157,7 +157,8 @@ class ExaminationsController < ApplicationController
     hash1 = {:title => params[:title].strip, :description => params[:description].strip,
       :is_paper_open => params[:opened], :exam_time => params[:timeout], :is_score_open => params[:open_result],
       :user_affirm => params[:user_affirm], :status => Examination::STATUS[:GOING], :price => params[:price],
-      :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at]}
+      :get_free_end_at => params[:get_free_end_at], :exam_free_end_at => params[:exam_free_end_at],
+      :is_should_rate => params[:is_should_rate]}
     hash1[:generate_exam_pwd] = params[:generate_exam_pwd] == "1" ? true : false
     if params[:timelimit] == "1"
       hour = (params[:hour] != "-1") ? params[:hour].to_i : 0
@@ -204,7 +205,7 @@ class ExaminationsController < ApplicationController
     @examination = Examination.find(params[:id].to_i)
     sql = ExamUser.generate_sql(@examination.id)
     sql += " and (u.email like '%#{session[:search_text]}%' or u.name like '#{session[:search_text]}%') "
-    @exam_users = ExamUser.paginate_by_sql(sql, :per_page =>1, :page => params[:page])
+    @exam_users = ExamUser.paginate_by_sql(sql, :per_page =>10, :page => params[:page])
     @exam_user_hash = ExamUser.score_level_result(@examination, @exam_users)
     render "exam_result"
   end

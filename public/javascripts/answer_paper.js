@@ -92,7 +92,12 @@ function create_problem(ul, problem) {
     parent_div.appendChild(is_answer_input);
     parent_div.innerHTML += "<input type='button' name='problem_submit' class='submit_btn' id='problem_submit' onclick='javascript:generate_problem_answer(\""+ problem.id +"\");' value='保存'/>";
     //追加problem的标题
-    var problem_str = "<h2><a href='javascript:void(0)' onclick='javascript:question_info("+ problem.id +");'>"+ problem.title +"</a></h2>";
+    var problem_str = "";
+    if (problem.title.length <= 80) {
+        problem_str = "<h2><a href='javascript:void(0)' onclick='javascript:question_info("+ problem.id +");'>"+ problem.title.substring(0, 80) +"</a></h2>";;
+    } else {
+        problem_str = "<h2><a href='javascript:void(0)' onclick='javascript:question_info("+ problem.id +");'>"+ problem.title.substring(0, 80) +"......</a></h2>";;
+    }
     problem_li.innerHTML += problem_str;
     $("problem_ids").value += "" + problem.id + ",";
     if (answer_hash != null) {
