@@ -8,7 +8,7 @@
     <div class="add_details">
       考试试卷：<a href="/papers/<%=  @paperids.id %>"><%= @paperids.title  %></a>
       <a href="javascript:void(0);" onclick="javascript:change_paper();">[重选试卷]</a>
-<%#*<div class="clear"></div>%>
+      <div class="clear"></div>
       <div id="change_papers_div" style="display: none;">
         <%= render :partial => "change_papers", :object => @examination %>
       </div>
@@ -18,6 +18,9 @@
       <input type="hidden" value="<%= @paperid %>" id="post_value" name="post_value" />
       <div class="add_details">
        <font color="red">*</font>试卷分类：<%= render :partial => "/common/categories" %>
+      </div>
+      <div class="add_details">
+       <font color="red">*</font><%= render :partial => "/common/examination_types" %>
       </div>
       <div class="add_details">
         <div class="clear"></div> 

@@ -1,13 +1,9 @@
-class AddCodeIdToUsers < ActiveRecord::Migration
+class AddScorePercentToQuestions < ActiveRecord::Migration
   def self.up
-    add_column :users, :code_id, :integer
-    add_column :users, :code_type,:string
-    add_index :users, :code_id
-    add_index :users, :code_type
+    add_column :questions, :score_percent, :integer
   end
 
   def self.down
-    remove_column :users, :code_id
-     remove_column :users, :code_type
+    remove_column :questions, :score_percent
   end
 end

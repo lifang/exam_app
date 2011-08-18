@@ -16,6 +16,19 @@ function edit_block_info(id){
         alert("模块标题不能为空。");
         return false;
     }
+    var fixup = document.getElementsByName("fixup_time");
+    var fix_flag = false;
+    if (fixup != null) {
+        for (var i=0; i<fixup.length; i++) {
+            if (fixup[i].checked == true && fixup[i].value == "1") {
+                fix_flag = true;
+            }
+        }
+    }
+    if (fix_flag && $("fix_time").value == "") {
+        alert("请填写单独固定时间答完当前模块的时间");
+        return false;
+    }
     return true;
 }
 
@@ -170,6 +183,19 @@ function new_problem_validate(block_id){
 function new_module_validate(){
     var new_module_title = document.getElementById("new_module_title").value;
     if ( new_module_title == null || new_module_title==""||checkspace(new_module_title) ){
+        return false;
+    }
+    var fixup = document.getElementsByName("fixup_time");
+    var fix_flag = false;
+    if (fixup != null) {
+        for (var i=0; i<fixup.length; i++) {
+            if (fixup[i].checked == true && fixup[i].value == "1") {
+                fix_flag = true;
+            }
+        }
+    }
+    if (fix_flag && ($("fix_time_0").value == "" || $("fix_time_0").value == "0")) {
+        alert("请填写单独固定时间答完当前模块的时间，并且数值要大于0");
         return false;
     }
     sumbit_form("module_form", "module_submit", "spinner_new_module");
