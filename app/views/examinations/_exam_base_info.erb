@@ -32,6 +32,13 @@
       <div id="change_papers_div" style="display: none;">
         <%= render :partial => "change_papers", :object => @examination %>
       </div>
+      <div class="detail">考试类型：
+        <% Examination::TYPES.each do |key, value|
+          if @examination.types.to_i == value %>
+            <%= Examination::TYPE_NAMES[key][1] %>
+          <% end
+        end %>
+      </div>
     </div>
     <div class="add_details">
       <div>
@@ -54,15 +61,15 @@
       <div>是否需要阅卷老师批卷：<%= @examination.is_should_rate == true ? "是":"否" %></div>
       <!--<div><%# unless @examination.get_free_end_at.nil? or @examination.get_free_end_at == "" %>
           免费名额领取截止时间：<%#= @examination.get_free_end_at.strftime("%Y-%m-%d %H:%M:%S") %>
-        <%# end %>
+<%# end %>
       </div>
       <div><%# unless @examination.exam_free_end_at.nil? or @examination.exam_free_end_at == "" %>
           免费名额领取截止时间：<%#= @examination.exam_free_end_at.strftime("%Y-%m-%d %H:%M:%S") %>
-        <%# end %>
+<%# end %>
       </div>
       <div><%# unless @examination.price.nil? or @examination.price == 0 %>
           本场考试单价：<%#= @examination.price %>
-        <%# end %>
+<%# end %>
       </div>-->
     </div>
   </div>

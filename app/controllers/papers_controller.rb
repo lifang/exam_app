@@ -64,8 +64,9 @@ class PapersController < ApplicationController
   end
 
   def create_step_two
+    
     @block = PaperBlock.create(:paper_id => params[:module][:paper_id],
-      :title => params[:module][:title],:description => params[:module][:description])
+      :title => params[:module][:title],:description => params[:module][:description], :time => params[:fix_time_0])
     @block.create_block_xml("#{Rails.root}/public" + @block.paper.paper_url)
     redirect_to request.referrer
   end
@@ -80,7 +81,8 @@ class PapersController < ApplicationController
   
   def edit_block
     @block=PaperBlock.find(params[:block][:block_id])
-    @block.update_attributes(:title=>params[:block][:title],:description=>params[:block][:description])
+    @block.update_attributes(:title=>params[:block][:title],
+      :description=>params[:block][:description], :time => params["fix_time_#{params[:block][:block_id]}"])
     xpath=params[:block][:block_xpath]
     @block.update_block_xml(xpath)
     redirect_to request.referrer

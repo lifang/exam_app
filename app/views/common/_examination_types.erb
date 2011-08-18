@@ -1,0 +1,6 @@
+考试类型：<select name="types" id="types" class="required">
+  <option value="">--请选择--</option>
+  <% Examination::TYPE_NAMES.values.each do |t| %>
+  <option value="<%= t[0] %>"><%= t[1] %></option>
+  <% end %>
+</select>

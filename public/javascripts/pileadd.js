@@ -567,6 +567,15 @@ function item_num(id){
     }
 }
 
+function show_fixup_time(num, block_id) {
+    if (num == 0) {
+        $("fixup_time_div_" + block_id).style.display = "none";
+        $("fix_time_" + block_id).value = "";
+    } else {
+        $("fixup_time_div_" + block_id).style.display = "block";
+    }
+}
+
 var mh = 42;//最小高度
 var step = 10;//每次变化的px量
 var ms = 10;//每隔多久循环一次

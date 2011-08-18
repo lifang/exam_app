@@ -13,6 +13,7 @@ class PaperBlock < ActiveRecord::Base
     block.add_attribute("id","#{self.id}")
     block.add_attribute("total_score","0")
     block.add_attribute("total_num","0")
+    block.add_attribute("time", "#{self.time}")
     base_info=block.add_element("base_info")
     title = base_info.add_element("title")
     title.add_text("#{self.title}")
@@ -26,6 +27,7 @@ class PaperBlock < ActiveRecord::Base
     doc = Document.new(File.open("#{Rails.root}/public"+self.paper.paper_url))
     doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y-%m-%d %H:%M")
     block=doc.elements[xpath]
+    block.add_attribute("time", "#{self.time}")
     block.elements["base_info"].elements["title"].text=self.title
     block.elements["base_info"].elements["description"].text=self.description
     self.write_xml("#{Rails.root}/public"+self.paper.paper_url,doc)
