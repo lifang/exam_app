@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110805022503) do
+ActiveRecord::Schema.define(:version => 20110817024713) do
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(:version => 20110805022503) do
     t.datetime "get_free_end_at"
     t.datetime "exam_free_end_at"
     t.integer  "category_id"
+    t.boolean  "is_should_rate"
   end
 
   add_index "examinations", ["category_id"], :name => "index_examinations_on_category_id"
@@ -107,10 +108,13 @@ ActiveRecord::Schema.define(:version => 20110805022503) do
   add_index "model_roles", ["role_id"], :name => "index_model_roles_on_role_id"
 
   create_table "orders", :force => true do |t|
-    t.integer "user_id"
-    t.integer "types"
-    t.integer "total_price"
-    t.string  "remark"
+    t.integer  "user_id"
+    t.integer  "types"
+    t.integer  "total_price"
+    t.string   "remark"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.boolean  "status"
   end
 
   add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
@@ -180,7 +184,7 @@ ActiveRecord::Schema.define(:version => 20110805022503) do
   create_table "questions", :force => true do |t|
     t.integer "problem_id",                    :null => false
     t.string  "description"
-    t.string  "answer"
+    t.text    "answer"
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
     t.string  "question_attrs"
