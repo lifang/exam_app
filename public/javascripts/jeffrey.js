@@ -553,7 +553,6 @@ function validate_role_name(){
         }
     }
 }
-s
 
 function validate_new_role_name(){
     var role_name2 = document.getElementById("new_role_name");
