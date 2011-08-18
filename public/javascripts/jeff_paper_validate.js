@@ -16,7 +16,7 @@ function edit_block_info(id){
         alert("模块标题不能为空。");
         return false;
     }
-    var fixup = document.getElementsByName("fixup_time");
+    var fixup = document.getElementsByName("fixup_time_" + id);
     var fix_flag = false;
     if (fixup != null) {
         for (var i=0; i<fixup.length; i++) {
@@ -25,7 +25,7 @@ function edit_block_info(id){
             }
         }
     }
-    if (fix_flag && $("fix_time").value == "") {
+    if (fix_flag && $("fix_time_" + id).value == "") {
         alert("请填写单独固定时间答完当前模块的时间");
         return false;
     }
@@ -185,7 +185,7 @@ function new_module_validate(){
     if ( new_module_title == null || new_module_title==""||checkspace(new_module_title) ){
         return false;
     }
-    var fixup = document.getElementsByName("fixup_time");
+    var fixup = document.getElementsByName("fixup_time_0");
     var fix_flag = false;
     if (fixup != null) {
         for (var i=0; i<fixup.length; i++) {
