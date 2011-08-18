@@ -11,7 +11,6 @@
 # It's strongly recommended to check this file into your version control system.
 
 ActiveRecord::Schema.define(:version => 20110817024713) do
-
   create_table "categories", :force => true do |t|
     t.string  "name"
     t.integer "parent_id"
@@ -98,6 +97,17 @@ ActiveRecord::Schema.define(:version => 20110817024713) do
   add_index "examinations", ["is_paper_open"], :name => "index_examinations_on_is_paper_open"
   add_index "examinations", ["is_score_open"], :name => "index_examinations_on_is_score_open"
 
+  create_table "feedbacks", :force => true do |t|
+    t.integer  "user_id"
+    t.boolean  "status"
+    t.text     "description"
+    t.string   "answer"
+    t.datetime "created_at"
+  end
+
+  add_index "feedbacks", ["status"], :name => "index_feedbacks_on_status"
+  add_index "feedbacks", ["user_id"], :name => "index_feedbacks_on_user_id"
+
   create_table "model_roles", :force => true do |t|
     t.integer "role_id"
     t.integer "right_sum"
@@ -119,6 +129,7 @@ ActiveRecord::Schema.define(:version => 20110817024713) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "time"
   end
 
   add_index "paper_blocks", ["paper_id"], :name => "index_paper_blocks_on_paper_id"
@@ -178,10 +189,11 @@ ActiveRecord::Schema.define(:version => 20110817024713) do
   create_table "questions", :force => true do |t|
     t.integer "problem_id"
     t.string  "description"
-    t.string  "answer"
-    t.integer "correct_type"
+    t.text    "answer"
+    t.integer "correct_type",   :default => 0
     t.text    "analysis"
     t.string  "question_attrs"
+    t.integer "score_percent"
   end
 
   add_index "questions", ["correct_type"], :name => "index_questions_on_correct_type"
@@ -242,6 +254,7 @@ ActiveRecord::Schema.define(:version => 20110817024713) do
     t.string   "school"
     t.integer  "code_id"
     t.string   "code_type"
+    t.integer  "belief"
   end
 
   add_index "users", ["code_id"], :name => "index_users_on_code_id"
