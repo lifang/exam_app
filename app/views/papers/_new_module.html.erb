@@ -5,12 +5,20 @@
     <%= form_for :module ,:url=>"/papers/create_step_two" ,
       :html=>{:onsubmit=>"return new_module_validate()", :class => "required-validate",
       :name => "module_form", :id => "module_form"} do |f|%>
-    <ul>
-    <%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
+      <ul>
+        <%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
         <li>
           <div class="add_details">
             模块标题：<%= f.text_field :title ,:class=>"required input_style max-length-50",:size=>"70",:id=>"new_module_title" %>
             <div style="padding-left:60px;">请输入模块的标题，长度为1~30个字</div>
+          </div>
+          <div class="add_details">
+            模块是否需要单独固定时间答完：
+            <input type="radio" id="fixup_time" name="fixup_time_0" value="1" onclick="javascript:show_fixup_time(1, 0);" />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" id="fixup_time" value="0" name="fixup_time_0" checked="true" onclick="javascript:show_fixup_time(0, 0);"/>否
+          </div>
+          <div class="add_details" id="fixup_time_div_0" style="display:none;">
+            请填写时间：<input type="input" name="fix_time_0" id="fix_time_0" class="input_style validate-number" value=""/>分钟&nbsp;&nbsp;&nbsp;&nbsp;如：30分钟
           </div>
           <div class="add_details">
             <div class="detail">描述：</div>
@@ -21,8 +29,8 @@
           <%= f.submit "提交" ,:class=>"submit_btn" %>
           <%= image_tag "ajax-loader.gif", :id => "spinner_new_module", :style => "display:none" %>
           <input type="button" value="取消" class="submit_btn" onclick="javascript:new_module();"/>
-        </li>    
+        </li>
       </ul>
     <% end %>
   </div>
-  </div>
+</div>
