@@ -25,8 +25,8 @@ function edit_block_info(id){
             }
         }
     }
-    if (fix_flag && $("fix_time_" + id).value == "") {
-        alert("请填写单独固定时间答完当前模块的时间");
+    if (fix_flag && ($("fix_time_" + id).value == "" || $("fix_time_" + id).value == "0")) {
+        alert("请填写单独固定时间答完当前模块的时间，且数值大于0");
         return false;
     }
     return true;
