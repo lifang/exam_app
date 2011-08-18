@@ -2,7 +2,7 @@
 class ExaminationsController < ApplicationController
   before_filter :access?
   
-  def index #考试安排列表
+  def index  #考试安排列表
     @examinations = Examination.search_method(cookies[:user_id].to_i, nil, nil, nil, 10, params[:page])
   end
 
