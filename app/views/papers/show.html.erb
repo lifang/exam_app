@@ -21,7 +21,10 @@
     <%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
   </h1>
   <div class="biz_art_list_box">
-    <%= block.elements["base_info"].elements["description"].text %>
+    <%= block.elements["base_info"].elements["description"].text %>&nbsp;&nbsp;
+    <font color="red">
+    <% if block.attributes["time"] != "" and block.attributes["time"] != "0" %>当前模块需要在<%= block.attributes["time"] %>分钟内完成<% end %>
+    </font>
     <ul>
       <% if !block.elements['problems'].nil? %>
         <% block.elements['problems'].each_element do |problem| %>
