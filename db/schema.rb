@@ -10,7 +10,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110817024713) do
+ActiveRecord::Schema.define(:version => 20110819073103) do
+
   create_table "categories", :force => true do |t|
     t.string  "name"
     t.integer "parent_id"
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20110817024713) do
     t.integer  "total_score"
     t.boolean  "is_auto_rate",      :default => false
     t.boolean  "is_free"
+    t.integer  "correct_percent"
   end
 
   add_index "exam_users", ["examination_id"], :name => "index_exam_users_on_examination_id"
@@ -91,6 +93,7 @@ ActiveRecord::Schema.define(:version => 20110817024713) do
     t.datetime "exam_free_end_at"
     t.integer  "category_id"
     t.boolean  "is_should_rate"
+    t.integer  "types"
   end
 
   add_index "examinations", ["creater_id"], :name => "index_examinations_on_creater_id"
@@ -189,11 +192,10 @@ ActiveRecord::Schema.define(:version => 20110817024713) do
   create_table "questions", :force => true do |t|
     t.integer "problem_id"
     t.string  "description"
-    t.text    "answer"
-    t.integer "correct_type",   :default => 0
+    t.string  "answer"
+    t.integer "correct_type"
     t.text    "analysis"
     t.string  "question_attrs"
-    t.integer "score_percent"
   end
 
   add_index "questions", ["correct_type"], :name => "index_questions_on_correct_type"
