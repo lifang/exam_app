@@ -10,8 +10,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+ActiveRecord::Schema.define(:version => 20110822014445) do
 
-ActiveRecord::Schema.define(:version => 20110817065242) do
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
     t.integer "parent_id", :default => 0, :null => false
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(:version => 20110817065242) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "time"
+    t.datetime "start_time"
   end
 
   add_index "paper_blocks", ["paper_id"], :name => "index_paper_blocks_on_paper_id"
@@ -154,9 +155,11 @@ ActiveRecord::Schema.define(:version => 20110817065242) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "paper_js_url"
+    t.integer  "types"
   end
 
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
+  add_index "papers", ["types"], :name => "index_papers_on_types"
 
   create_table "problem_tag_relations", :force => true do |t|
     t.integer "tag_id",     :null => false
