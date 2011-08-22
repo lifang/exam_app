@@ -369,7 +369,8 @@ var nicEditor = bkClass.extend({
         e = this.checkReplace($BK(e));
         if( e.contentEditable || !!window.opera ) {
             var newInstance = new nicEditorInstance(e,o,this);
-        } else {
+        }
+        else {
             var newInstance = new nicEditorIFrameInstance(e,o,this);
         }
         this.nicInstances.push(newInstance);
@@ -1564,13 +1565,20 @@ var nicMediaButton = nicEditorAdvancedButton.extend({
         this.removePane();
 
         if(!this.media) {
-            var div = document.createElement("div");  //新div
-            this.form.appendChild(div);
-            var obj = document.createElement("object");
-            div.appendChild(obj);
-            obj.innerHTML = "<embed src='"+ this.inputs['src'].value +"' wmode='opaque'></embed>";
-            this.ne.nicCommand("insertHtml",div.innerHTML);
-            this.media = obj;
+            if(src.substring(src.length-3,src.length)=="swf") {
+                var div = document.createElement("div");  //新div
+                this.form.appendChild(div);
+                var obj = document.createElement("object");
+                div.appendChild(obj);
+                obj.innerHTML = "<embed src='"+ this.inputs['src'].value +"' wmode='opaque'></embed>";
+                this.ne.nicCommand("insertHtml",div.innerHTML);
+                this.media = obj;
+            }
+            else {
+                var value=$("problem_title").value;
+                value =value+" <audio src="+src+" controls='controls'></audio>";
+                this.ne.nicCommand("insertHtml",value);
+            }
         }
         if(this.media) {
             this.media.innerHTML = "<embed src='"+ this.inputs['src'].value +"' wmode='opaque'></embed>";

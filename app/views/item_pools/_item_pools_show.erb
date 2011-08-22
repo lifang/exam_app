@@ -16,8 +16,9 @@
       <% elsif item_pools_show.types == Problem::QUESTION_TYPE[:COLLIGATION] %>综合题
       <% elsif item_pools_show.types == Problem::QUESTION_TYPE[:CHARACTER] %>简答题
       <% end%>
+      &nbsp;&nbsp;&nbsp;[<%= item_pools_show.category.name %>]
     </div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;<%= item_pools_show.title %>&nbsp;&nbsp;[<%= item_pools_show.category.name %>]</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;<%= item_pools_show.title.html_safe %></div>
   </div>
   <br/>
   <div style="padding-left: 10px;width: 80%;">

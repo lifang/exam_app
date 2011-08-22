@@ -489,3 +489,22 @@ function item_pools_edit_problem_validate(problem_id){
     }
 }
 
+//显示富文本编辑器
+function item_pools_add_area(content_id, button) {
+    var area = new nicEditor({
+        fullPanel : true
+    }).panelInstance(content_id);
+    button.value = "普通文本";
+    button.onclick = function onclick(event) {
+        javascript:remove_area(area, content_id, button);
+    };
+}
+
+//取消富文本编辑器
+function item_pools_remove_area(area,content_id, button) {
+    area.removeInstance(content_id);
+    button.value = "富文本";
+    button.onclick = function onclick(event) {
+        javascript:add_area(content_id, button);
+    };
+}

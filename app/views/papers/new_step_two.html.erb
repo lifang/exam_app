@@ -2,23 +2,6 @@
 <script type="text/javascript" charset="utf-8" src="/javascripts/nicEdit/nicEdit.js"></script>
 
 
-<script type="text/javascript">
-  function abc(){
-    $("#jeffrey").jPlayer({
-      ready: function () {
-        $(this).jPlayer("setMedia", {
-          mp3: "D:/exam_app/public/My_Happy_Ending.mp3"
-        });
-      },
-      swfPath: "D:/exam_app/public/javascripts/jplayer",
-      supplied: "mp3"
-    });
-    alert("finish!");
-  };
-</script>
-
-<body onload="javascript:abc();">
-
   <%= javascript_include_tag 'jeff_paper_validate' %>
   <%= render :partial=>"/common/paper_items_info" %>
   <div id="paper_edit_info" style="display:none;">
@@ -26,13 +9,3 @@
   </div>
   <%= render :partial=>"/papers/paper_blocks" %>
 
-  <div class="clear"></div>
-  <br/>
-  <div id="jeffrey"></div>
-  <div id="jp_interface">
-    <a href="javascript:void(0);" class="jp-play">Play</a>
-    <a href="javascript:void(0);" class="jp-pause">Pause</a>
-  </div>
-
-
-</body>

@@ -1,3 +1,4 @@
+<script type="text/javascript" charset="utf-8" src="/javascripts/nicEdit/nicEdit.js"></script>
 <table>
   <colgroup>
     <col width="40"/>
@@ -23,8 +24,8 @@
         <tr>
           <td><input type="checkbox" name="check_b" value="<%= problem.id %>"onclick="javascript:create_ex('check_b')" /></td>
           <td>
-            <%= link_to "#{truncate_u(problem.title.to_s.html_safe, 27)}","javascript:void(0);" ,
-              :onclick=>"javascript:ajax_item_pools_problem_info(#{problem.id});" %>
+            <a href="javascript:void(0)" onclick="javascript:ajax_item_pools_problem_info(<%=  problem.id %>);">
+              <%= problem.title.to_s.html_safe.gsub(/<[^{><}]*>/, "")  %>
           </td>
           <td>
             <% if problem.types == Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>单选题
@@ -38,7 +39,8 @@
           <td> <%= problem.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
           <td>
             <%= link_to " 编辑" ,"javascript:void(0);" ,:onclick=>"javascript:ajax_item_pools_edit_problem(#{problem.id});" %>&nbsp;|&nbsp;
-            <%= link_to "删除 ", problem,:confirm=>"确认删除么？",:method=>:delete %></td>
+            <%= link_to "删除 ", problem,:confirm=>"确认删除么？",:method=>:delete %>
+          </td>
         </tr>
       </div>
     <% end  %>
