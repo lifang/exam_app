@@ -4,8 +4,9 @@
       <a href="javascript:void(0);" onclick="javascript:$('show_div').innerHTML='';" style="float:right;"><font color="blue">&nbsp;关闭&nbsp;</font></a>
       <a href="javascript:void(0);" onclick="javascript:ajax_item_pools_edit_problem(<%=  item_pools_show.id %>);" style="float:right;"><font color="blue">&nbsp;编辑&nbsp;</font></a>
     </div>
-    <div class="clear"></div>
+
   </div>
+  <div class="clear"></div>
   <div>
     <div style="padding-left:10px;">
       <% if item_pools_show.types == Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>单选题
