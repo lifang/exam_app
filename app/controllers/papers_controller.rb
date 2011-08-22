@@ -29,7 +29,7 @@ class PapersController < ApplicationController
   def change_info
     @paper=Paper.find(params[:id].to_i)
     @paper.update_attributes(:title=>params[:info][:title],
-      :description=>params[:info][:description], :category_id => params[:category])  
+      :description=>params[:info][:description], :category_id => params[:category], :types => params[:types])
     @paper.update_base_info("#{Rails.root}/public"+@paper.paper_url, {"category"=>params[:category].to_i})
     redirect_to request.referrer
   end
@@ -57,14 +57,13 @@ class PapersController < ApplicationController
 
   def create_step_one
     @paper=Paper.create(:creater_id=>cookies[:user_id],:title=>params[:title].strip,
-      :description=>params[:description].strip, :category_id => params[:category])
+      :description=>params[:description].strip, :category_id => params[:category], :types => params[:types])
     category = Category.find(params[:category].to_i)
     @paper.create_paper_url(@paper.xml_content({"category_name" => category.name}), "papers", "xml") unless category.nil?
     redirect_to "/papers/#{@paper.id}/new_step_two"
   end
 
   def create_step_two
-    
     @block = PaperBlock.create(:paper_id => params[:module][:paper_id],
       :title => params[:module][:title],:description => params[:module][:description], :time => params[:fix_time_0])
     @block.create_block_xml("#{Rails.root}/public" + @block.paper.paper_url)

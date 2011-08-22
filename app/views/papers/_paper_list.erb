@@ -3,11 +3,11 @@
     <col width="20"/>
     <col width="60" />
     <col width="160" />
-    <col width="60" />
     <col width="80" />
+    <col width="80" />
+    <col width="130" />
     <col width="50" />
-    <col width="50" />
-    <col width="220" />
+    <col width="120" />
     <col width="" />
   </colgroup>
   <thead>
@@ -16,10 +16,10 @@
       <th>试卷编号</th>
       <th>标题</th>
       <th>所属分类</th>
+      <th>类型</th>
       <th>创建日期</th>
       <th>试题数</th>
       <th>总分</th>
-      <th>备注</th>
       <th></th>
     </tr>
   </thead>
@@ -33,10 +33,12 @@
         <td><%= paper.id  %></td>
         <td>  <%= paper.title  %></td>
         <td>  <%= paper.category.name  %></td>
+        <td><% Examination::TYPE_NAMES.values.each do |t| %>
+          <%= t[1] if t[0] == paper.types %>
+          <% end %></td>
         <td> <%= paper.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
         <td> <%= paper.total_question_num %></td>
         <td> <%= paper.total_score %></td>
-        <td> <%= paper.description  %></td>
         <td><a><%= link_to " 查看" ,paper %>
             &nbsp;|&nbsp; <%= link_to "删除 ", paper,:method=>:delete %></a></td>
       </tr>

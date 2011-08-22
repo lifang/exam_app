@@ -58,8 +58,8 @@ class Problem < ActiveRecord::Base
     block.attributes["total_score"] = block.attributes["total_score"].to_i + problem_score             #更新模块总分
     doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i + problem_score       #更新试卷总分
     #更新试卷模块、试卷题目数
-    block.attributes["total_num"] = block.attributes["total_num"].to_i + 1                         #更新模块总题数 +1
-    doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i + 1                   #更新试卷总题数 +1
+    block.attributes["total_num"] = block.attributes["total_num"].to_i + questions.size                #更新模块总题数
+    doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i + questions.size          #更新试卷总题数
     doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y-%m-%d %H:%M")      #试卷更新时间
     
     return doc
@@ -71,8 +71,10 @@ class Problem < ActiveRecord::Base
     unless problem.nil?
       block = problem.parent.parent
       #更新块和试卷的总分
-      doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - 1
-      block.attributes["total_num"] = block.attributes["total_num"].to_i - 1
+      question_num = 0
+      problem.elements['questions'].each_element {|q| question_num += 1 }
+      doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - question_num
+      block.attributes["total_num"] = block.attributes["total_num"].to_i - question_num
       block.attributes["total_score"] = block.attributes["total_score"].to_i - problem.attributes["score"].to_i
       doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i - problem.attributes["score"].to_i
       doc.delete_element(problem_path)

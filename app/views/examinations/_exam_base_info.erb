@@ -32,13 +32,13 @@
       <div id="change_papers_div" style="display: none;">
         <%= render :partial => "change_papers", :object => @examination %>
       </div>
-      <div class="detail">考试类型：
-        <% Examination::TYPES.each do |key, value|
-          if @examination.types.to_i == value %>
-            <%= Examination::TYPE_NAMES[key][1] %>
-          <% end
-        end %>
-      </div>
+    </div>
+    <div class="add_detail">考试类型：
+      <% Examination::TYPES.each do |key, value|
+        if @examination.types.to_i == value %>
+          <%= Examination::TYPE_NAMES[key][1] %>
+        <% end
+      end %>
     </div>
     <div class="add_details">
       <div>

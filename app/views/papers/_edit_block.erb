@@ -12,10 +12,10 @@
         </div>
         <div class="add_details">
             模块是否需要单独固定时间答完：
-            <input type="radio" id="fixup_time" name="fixup_time" value="1"
+            <input type="radio" id="fixup_time_<%= edit_block.attributes["id"] %>" name="fixup_time_<%= edit_block.attributes["id"] %>" value="1"
                    <% unless edit_block.attributes["time"].nil? or edit_block.attributes["time"] == "" %>checked="true"<% end %>
                    onclick="javascript:show_fixup_time(1, <%= edit_block.attributes["id"] %>);" />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" id="fixup_time" value="0" name="fixup_time"
+            <input type="radio" id="fixup_time_<%= edit_block.attributes["id"] %>" value="0" name="fixup_time_<%= edit_block.attributes["id"] %>"
                    <% if edit_block.attributes["time"].nil? or edit_block.attributes["time"] == "" %>checked="true"<% end %>
                    onclick="javascript:show_fixup_time(0, <%= edit_block.attributes["id"] %>);"/>否
           </div>
