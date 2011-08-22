@@ -10,8 +10,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
 ActiveRecord::Schema.define(:version => 20110817065242) do
+
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
     t.integer "parent_id", :default => 0, :null => false
@@ -201,7 +201,6 @@ ActiveRecord::Schema.define(:version => 20110817065242) do
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
     t.string  "question_attrs"
-    t.integer "score_percent"
   end
 
   add_index "questions", ["correct_type"], :name => "index_questions_on_correct_type"
