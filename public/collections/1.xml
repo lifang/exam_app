@@ -1,3 +1,5 @@
+
 <?xml version='1.0' encoding='UTF-8'?>      <collection id='1'>
-        <problems><problem id='1' score='5' types='0'><title>Until then, his family ________ from him for six months.</title><category>2</category><questions><question correct_type='0' id='1' score='5' user_answer='A   didn’t hear' user_score='0'><answer>D   hadn’t heard</answer><analysis>直到刚才，表明从“刚才”以后我有他的消息了，表示过去我没有他的消息，所以用 “hadn&apos;t heard”</analysis><questionattrs>A   didn’t hear;-;B   hasn’t been hearing;-;C   hasn’t heard;-;D   hadn’t heard</questionattrs><tags>过去时</tags></question></questions></problem><problem id='2' score='5' types='0'><title>Students or teachers can participate in excursions to lovely beaches around the island at regular______</title><category>2</category><complete_title>Students or teachers can participate in excursions to lovely beaches around the island at regular[[gaps|rate;length;intervals||名词]][{名词}][(5)]</complete_title><questions><question correct_type='0' id='2' score='5' user_answer='gaps' user_score='5'><answer>gaps</answer><analysis>名词</analysis><questionattrs>gaps;-;rate;-;length;-;intervals</questionattrs><tags>名词</tags></question></questions></problem></problems>
+        <problems></problems>
       </collection>
+
