@@ -12,6 +12,9 @@
     <div>
       <%= render :partial => "/common/modify_categories", :object => @xml.elements['base_info'].elements['category'].text %>
     </div>
+    <div class="add_details">
+      <font color="red">*</font><%= render :partial => "/common/examination_types" %>
+    </div>
     <div>
       备注：<%= f.text_area :description, :value=>@xml.elements['base_info'].elements['description'].text ,
         :size=>40, :cols=>"55", :rows=>"2", :class=>"textarea_style max-length-100" %>

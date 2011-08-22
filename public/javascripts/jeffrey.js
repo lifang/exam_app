@@ -355,22 +355,17 @@ function generate_edit_questions(problem_id, problem_type) {
                     var textarea = question_div.getElementsByTagName("textarea");
                     if (textarea != null) {
                         for (var j=0; j<textarea.length; j++) {
-                            if (textarea[j].name == "problem[description]" && textarea[j].value==""){
-                                alert("题目描述不能为空。");
-                                return false;
-                            }
                             if (textarea[j].id == "problem_answer" && textarea[j].value==""){
                                 alert("答案不能为空。");
                                 return false;
                             }
-
                             if (textarea[j].name == "problem[description]" && textarea[j].value != "") {
                                 hash_str += ",|,diescription=>"+  textarea[j].value + "";
                             } else if (textarea[j].id == "problem_answer" && textarea[j].value != "") {
                                 hash_str += ",|,answer=>" +  textarea[j].value + "";
                             } else if (textarea[j].name == "problem[analysis]" && textarea[j].value != "") {
                                 hash_str += ",|,analysis=>" +  textarea[j].value + "";
-                            } 
+                            }
                         }
                     }
                     hash_str += "}||";
@@ -553,7 +548,6 @@ function validate_role_name(){
         }
     }
 }
-s
 
 function validate_new_role_name(){
     var role_name2 = document.getElementById("new_role_name");
@@ -689,6 +683,10 @@ function new_attr_edit(type,question_id){
 function delete_attr_edit(attr_id,question_id){
     var attrs = document.getElementById("attr_"+attr_id+"_"+question_id);
     attrs.innerHTML="";
+}
+
+function delete_question(question_id) {
+    $("question_list_" + question_id).innerHTML = "";
 }
     
 
