@@ -10,9 +10,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+ActiveRecord::Schema.define(:version => 20110823030632) do
 
-
-ActiveRecord::Schema.define(:version => 20110819073103) do
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
     t.integer "parent_id", :default => 0, :null => false
@@ -120,6 +119,15 @@ ActiveRecord::Schema.define(:version => 20110819073103) do
   end
 
   add_index "model_roles", ["role_id"], :name => "index_model_roles_on_role_id"
+
+  create_table "notes", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.string   "note_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "notes", ["user_id"], :name => "index_notes_on_user_id"
 
   create_table "orders", :force => true do |t|
     t.integer  "user_id"
@@ -246,15 +254,6 @@ ActiveRecord::Schema.define(:version => 20110819073103) do
     t.integer "num",  :default => 0
   end
 
-  create_table "troubles", :force => true do |t|
-    t.integer  "exam_user_id"
-    t.integer  "problem_id"
-    t.string   "content"
-    t.string   "answer"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "user_role_relations", :force => true do |t|
     t.integer "role_id", :null => false
     t.integer "user_id", :null => false
@@ -276,9 +275,13 @@ ActiveRecord::Schema.define(:version => 20110819073103) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
+    t.integer  "code_id"
+    t.string   "code_type"
     t.integer  "belief"
   end
 
+  add_index "users", ["code_id"], :name => "index_users_on_code_id"
+  add_index "users", ["code_type"], :name => "index_users_on_code_type"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"
