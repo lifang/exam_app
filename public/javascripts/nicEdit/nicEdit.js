@@ -1575,9 +1575,26 @@ var nicMediaButton = nicEditorAdvancedButton.extend({
                 this.media = obj;
             }
             else {
-                var value=$("problem_title").value;
-                value =value+" <audio src="+src+" controls='controls'></audio>";
-                this.ne.nicCommand("insertHtml",value);
+                if($("problem_title")!=null){
+                    var value=$("problem_title").value;
+                    value =value+" <audio src="+src+" controls='controls'></audio>";
+                    this.ne.nicCommand("insertHtml",value);
+                }
+                else {
+
+                    var get=0;
+                    var num=1;
+                    while(get==0){
+                        if($("problem_title_"+num)==null){
+                            num+=1;
+                            continue;
+                        }
+                        var value=$("problem_title_"+num).value;
+                        value =value+" <audio src="+src+" controls='controls'></audio>";
+                        this.ne.nicCommand("insertHtml",value);
+                        get=1;
+                    }
+                }
             }
         }
         if(this.media) {
