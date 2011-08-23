@@ -1,0 +1,52 @@
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
+<div class="main_box_back">
+  <h2><span>错题提问列表</span></h2>
+  <div class="in">
+    <table>
+      <colgroup>
+        <col width="160" />
+        <col width="80" />
+        <col width="130" />
+        <col width="80" />
+        <col width="80" />
+        <col width="60" />
+        <col width="70" />
+        <col width="" />
+      </colgroup>
+      <% if @troubles.blank? %>
+        <tbody>
+          <tr>
+            <td align="center" colspan="8">目前还没有考生提出问题。</td>
+          </tr>
+        </tbody>
+      <% else %>
+        <thead>
+          <tr>
+            <th>问题描述/th>
+            <th>用户</th>
+            <th>提问时间</th>
+            <th>处理状态</th>
+            <th></th>
+          </tr>
+        </thead>
+        <% @troubless.each do |trouble| %>
+          <tbody>
+            <tr>
+              <td><%= trouble.content %></td>
+              <td><%= trouble.exam_user.name %></td>
+              <td><%= trouble.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+              <td>
+              </td>
+            </tr>
+          </tbody>
+        <% end %>
+      <% end %>
+    </table>
+  </div>
+</div>
+<script type="text/javascript">
+  function open_exam(examination_id) {
+    window.open("/user/examinations/" + examination_id, '赶考',
+    'fullscreen=1,menubar=0,toolbar=0,directories=0,location=0,status=0,scrollbars=1');
+  }
+</script>
