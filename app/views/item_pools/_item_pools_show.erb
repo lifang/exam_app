@@ -4,8 +4,9 @@
       <a href="javascript:void(0);" onclick="javascript:$('show_div').innerHTML='';" style="float:right;"><font color="blue">&nbsp;关闭&nbsp;</font></a>
       <a href="javascript:void(0);" onclick="javascript:ajax_item_pools_edit_problem(<%=  item_pools_show.id %>);" style="float:right;"><font color="blue">&nbsp;编辑&nbsp;</font></a>
     </div>
-    <div class="clear"></div>
+
   </div>
+  <div class="clear"></div>
   <div>
     <div style="padding-left:10px;">
       <% if item_pools_show.types == Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>单选题
@@ -15,8 +16,9 @@
       <% elsif item_pools_show.types == Problem::QUESTION_TYPE[:COLLIGATION] %>综合题
       <% elsif item_pools_show.types == Problem::QUESTION_TYPE[:CHARACTER] %>简答题
       <% end%>
+      &nbsp;&nbsp;&nbsp;[<%= item_pools_show.category.name %>]
     </div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;<%= item_pools_show.title %>&nbsp;&nbsp;[<%= item_pools_show.category.name %>]</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;<%= item_pools_show.title.html_safe %></div>
   </div>
   <br/>
   <div style="padding-left: 10px;width: 80%;">
