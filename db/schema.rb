@@ -245,6 +245,15 @@ ActiveRecord::Schema.define(:version => 20110822014445) do
     t.integer "num",  :default => 0
   end
 
+  create_table "troubles", :force => true do |t|
+    t.integer  "exam_user_id"
+    t.integer  "problem_id"
+    t.string   "content"
+    t.string   "answer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "user_role_relations", :force => true do |t|
     t.integer "role_id", :null => false
     t.integer "user_id", :null => false
