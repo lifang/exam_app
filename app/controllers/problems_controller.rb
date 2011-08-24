@@ -6,6 +6,7 @@ class ProblemsController < ApplicationController
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     #创建题目
     @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title].strip, :types => params[:real_type].to_i,:status=>Problem::PROBLEM_STATUS[:USED]})
+    @problem.update_attributes(:title=>@problem.title.gsub("audio_play('x')","audio_play(#{@problem.id})").gsub("id=\"audio_x\"","id='audio_#{@problem.id}'").gsub("id=\"audio_control_x\"","id='audio_control_#{@problem.id}'"))
     #创建题点
     score_arr = {}
     if params[:real_type].to_i == Problem::QUESTION_TYPE[:COLLIGATION]

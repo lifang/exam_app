@@ -1575,26 +1575,10 @@ var nicMediaButton = nicEditorAdvancedButton.extend({
                 this.media = obj;
             }
             else {
-                if($("problem_title")!=null){
-                    var value=$("problem_title").value;
-                    value =value+" <audio src="+src+" controls='controls'></audio>";
-                    this.ne.nicCommand("insertHtml",value);
-                }
-                else {
-
-                    var get=0;
-                    var num=1;
-                    while(get==0){
-                        if($("problem_title_"+num)==null){
-                            num+=1;
-                            continue;
-                        }
-                        var value=$("problem_title_"+num).value;
-                        value =value+" <audio src="+src+" controls='controls'></audio>";
-                        this.ne.nicCommand("insertHtml",value);
-                        get=1;
-                    }
-                }
+                var div = document.createElement("div");  //新div
+                this.form.appendChild(div);
+                div.innerHTML = "<input type='button' value='播放' id='audio_control_x' onclick=\"javascript:audio_play('x');\"></input> <audio src="+src+" id='audio_x'></audio>";
+                this.ne.nicCommand("insertHtml",div.innerHTML);
             }
         }
         if(this.media) {

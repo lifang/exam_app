@@ -285,7 +285,7 @@ function generate_edit_questions(problem_id, problem_type) {
                             }else if (inputs[k].name == "tag" && inputs[k].value != "") {
                                 hash_str += ",|,tag=>" +  inputs[k].value + "";
                             }
-                        } 
+                        }
                     } else if (parseFloat(inputs[0].value) == 1) {
                         var attr_array = [];
                         var answer_sum = 0;
@@ -688,5 +688,28 @@ function delete_attr_edit(attr_id,question_id){
 function delete_question(question_id) {
     $("question_list_" + question_id).innerHTML = "";
 }
+
+//默认每个音频可以播放3次
+function audio_play(id){
+    if(getCookie("audio_"+id)==null){
+        setCookie(("audio_"+id),0)
+    }
     
+    if(getCookie("audio_"+id)<3){
+        if($("audio_"+id).paused){
+            $("audio_"+id).play();
+            if(id!="x"){
+                setCookie(("audio_"+id),parseInt(getCookie("audio_"+id))+1)
+                $("audio_control_"+id).disabled=true
+            }
+        }
+        else{
+            $("audio_"+id).pause();
+        }
+    }
+    else{
+        $("audio_"+id).pause();
+        alert("该录音已经播放了3次！不能再播放！");
+    }
+}
 
