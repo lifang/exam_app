@@ -1575,9 +1575,10 @@ var nicMediaButton = nicEditorAdvancedButton.extend({
                 this.media = obj;
             }
             else {
-                var value=$("problem_title").value;
-                value =value+" <audio src="+src+" controls='controls'></audio>";
-                this.ne.nicCommand("insertHtml",value);
+                var div = document.createElement("div");  //新div
+                this.form.appendChild(div);
+                div.innerHTML = "<input type='button' value='播放' id='audio_control_x' onclick=\"javascript:audio_play('x');\"></input> <audio src="+src+" id='audio_x'></audio>";
+                this.ne.nicCommand("insertHtml",div.innerHTML);
             }
         }
         if(this.media) {

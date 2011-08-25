@@ -25,7 +25,7 @@
           <td><input type="checkbox" name="check_b" value="<%= problem.id %>"onclick="javascript:create_ex('check_b')" /></td>
           <td>
             <a href="javascript:void(0)" onclick="javascript:ajax_item_pools_problem_info(<%=  problem.id %>);">
-              <%= problem.title.to_s.html_safe.gsub(/<[^{><}]*>/, "")  %>
+              <%= problem.title.to_s.html_safe.gsub(/<[^{><}]*>/, "")  %></a>
           </td>
           <td>
             <% if problem.types == Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>单选题
