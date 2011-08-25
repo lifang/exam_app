@@ -5,11 +5,11 @@ class User::CollectionsController < ApplicationController
   def index
     session[:tag] = nil
     @collection = Collection.find_by_user_id(cookies[:user_id])
-      begin
-        @doc = @collection.open_xml
-      rescue
-        flash[:warn] = "您暂无收藏数据。"
-      end
+    begin
+      @doc = @collection.open_xml
+    rescue
+      flash[:warn] = "您暂无收藏数据。"
+    end
   end
 
   def create
@@ -17,11 +17,13 @@ class User::CollectionsController < ApplicationController
     exam_user = ExamUser.is_exam_user_in(params[:paper_id].to_i, params[:examination_id].to_i, cookies[:user_id].to_i)
     if exam_user
       collection = Collection.find_or_create_by_user_id(exam_user.user_id)
-      collection.set_collection_url
+      path = Constant::PUBLIC_PATH
+      url = COLLECTION_PATH + "/#{collection.id}.xml"
+      collection.set_collection_url(path, url)
       unless problem.nil? or problem == ""
         doc = collection.delete_problem(params[:problem_id].to_i, collection.open_xml)
         doc = collection.add_problem(doc, problem)
-        collection.generate_collection_url(doc.to_s)
+        collection.generate_collection_url(doc.to_s, path, url)
       end     
     end
     flash[:notice] = "收藏成功."
