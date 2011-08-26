@@ -10,7 +10,7 @@ namespace :paper do
         left join rater_user_relations rur on rur.exam_user_id = e.id
         inner join examinations exm on exm.id = e.examination_id
         where e.is_submited = 1 and e.answer_sheet_url is not null 
-        and e.is_auto_rate = 0 ") #and exm.types = #{Examination::TYPES[:SIMULATION]}
+        and e.is_auto_rate = 0 and exm.types = #{Examination::TYPES[:SIMULATION]} ")
     dir = Constant::FRONT_PUBLIC_PATH
     paper_dir = "#{Rails.root}/public"
     exam_users.each do |exam_user|

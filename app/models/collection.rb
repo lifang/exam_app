@@ -121,7 +121,7 @@ class Collection < ActiveRecord::Base
   end
 
   #如果当前题目没有做过笔记，则将题目加入到笔记
-  def add_problem(paper_xml, question_id, problem_path, answer_text, collection_xml)
+  def auto_add_problem(paper_xml, question_id, problem_path, answer_text, collection_xml)
     paper_problem = paper_xml.elements["#{problem_path}"]
     paper_problem.elements["questions"].each_element do |question|
       if question.attributes["id"].to_i != question_id.to_i
@@ -147,19 +147,21 @@ class Collection < ActiveRecord::Base
     paper_xml.root.elements["blocks"].each_element do |block|
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|
-          answer_question = answer_questions.elements["question[@id='#{question.attributes["id"]}']"]
-          if answer_question.attributes["score"].to_i != question.attributes["score"].to_i
-            collection_problem = collection.problem_in_collection(problem.attributes["id"], collection_xml)
-            if collection_problem
-              collection_question = collection.question_in_collection(collection_problem, question.attributes["id"])
-              if collection_question
-                collection.update_question(answer_question.elements["answer"].text, collection_question.xpath, collection_xml)
+          if question.attributes["correct_type"].to_i != Problem::QUESTION_TYPE[:CHARACTER]
+            answer_question = answer_questions.elements["question[@id='#{question.attributes["id"]}']"]
+            if answer_question.attributes["score"].to_i != question.attributes["score"].to_i
+              collection_problem = collection.problem_in_collection(problem.attributes["id"], collection_xml)
+              if collection_problem
+                collection_question = collection.question_in_collection(collection_problem, question.attributes["id"])
+                if collection_question
+                  collection.update_question(answer_question.elements["answer"].text, collection_question.xpath, collection_xml)
+                else
+                  collection.add_question(question, answer_question.elements["answer"].text, collection_problem, collection_xml)
+                end
               else
-                collection.add_question(question, answer_question.elements["answer"].text, collection_problem, collection_xml)
+                collection.auto_add_problem(paper_xml, question.attributes["id"], problem.xpath,
+                  answer_question.elements["answer"].text, collection_xml)
               end
-            else
-              collection.add_problem(paper_xml, question.attributes["id"], problem.xpath,
-                answer_question.elements["answer"].text, collection_xml)
             end
           end
         end
