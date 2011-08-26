@@ -41,6 +41,11 @@ ExamApp::Application.routes.draw do
         post "edit_score","edit_name"
       end
     end
+    resources :combine_practices do
+      member do
+        get "start","show2","show3","show4","show5","show6"
+      end
+    end
     resources :collections do
       collection do
         post "search"

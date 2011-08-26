@@ -97,8 +97,8 @@ class Paper < ActiveRecord::Base
     doc.root.elements["blocks"].each_element do |block|
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|
-          question.delete_element(question.elements["answer"])
-          question.delete_element(question.elements["analysis"])
+          doc.delete_element("#{question.xpath}/answer") if question.elements["answer"]
+          doc.delete_element("#{question.xpath}/analysis") if question.elements["analysis"]
         end
       end
     end
