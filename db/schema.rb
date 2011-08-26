@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110823030632) do
+ActiveRecord::Schema.define(:version => 20110826070205) do
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20110823030632) do
     t.text     "description"
     t.string   "answer"
     t.datetime "created_at"
+    t.integer  "question_id"
   end
 
   add_index "feedbacks", ["status"], :name => "index_feedbacks_on_status"
