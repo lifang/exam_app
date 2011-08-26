@@ -6,7 +6,7 @@ ExamApp::Application.routes.draw do
       post :edit
     end
   end
-
+  resources :combine_practices
   resources :item_pools do
     collection do
       post :search_condition,:choose_type,:colligation_choose_type,:update_problem,:item_pools_mavin_problem
