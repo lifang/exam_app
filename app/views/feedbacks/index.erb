@@ -35,17 +35,20 @@
               <td><%= feedback.description %></td>
               <td><%= feedback.user.name %></td>
               <td><%= feedback.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-              <% if feedback.answer.nil? %>
+              <% if feedback.status == true%>
+                <td>已处理</td>
+                <td></td>
+              <% else %>
                 <td>未处理 </td>
-                 <td><a href="/feedbacks/<%= feedback.id %>/edit" target="_blank">处理</a></td>
-                <% else %>
-                 <td>已处理</td>
-                 <td></td>
-                <% end %>           
+                <td><a href="/feedbacks/<%= feedback.id %>/edit" >处理</a></td>
+              <% end %>
             </tr>
           </tbody>
         <% end %>
       <% end %>
     </table>
+    <div class="pagination_box">
+      <%=will_paginate @papers ,:previous_label=>"«", :next_label=>"»", :inner_window => 1 %>
+    </div>
   </div>
 </div>

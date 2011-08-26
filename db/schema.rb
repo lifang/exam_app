@@ -276,13 +276,9 @@ ActiveRecord::Schema.define(:version => 20110826070205) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
-    t.integer  "code_id"
-    t.string   "code_type"
     t.integer  "belief"
   end
 
-  add_index "users", ["code_id"], :name => "index_users_on_code_id"
-  add_index "users", ["code_type"], :name => "index_users_on_code_type"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"

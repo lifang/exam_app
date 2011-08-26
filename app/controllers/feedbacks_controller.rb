@@ -1,6 +1,6 @@
 class FeedbacksController < ApplicationController
   def index
-    @feedbacks=Feedback.find_by_sql("select * from feedbacks f order by f.answer and f.created_at")
+    @feedbacks=Feedback.paginate_by_sql("select * from feedbacks f order by f.status,  f.created_at",:per_page =>10, :page => params[:page])
   end
 
 
@@ -10,8 +10,10 @@ class FeedbacksController < ApplicationController
 
   def update
     @feedback = Feedback.find(params[:id])
-    if @feedback.update_attributes(params[:feedback])
-      redirect_to "/feedbacks"
-    end
+    @feedback
+    @feedback.answer=params[:feedback]
+    @feedback.status = Feedback::STATUS[:SOLVED]
+    @feedback.save
+    redirect_to "/feedbacks"
   end
 end
