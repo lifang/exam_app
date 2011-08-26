@@ -180,11 +180,13 @@ class ExamUser < ActiveRecord::Base
                   q_answers = q_answer.elements["answer"].text.split(";|;")
                   all_answer = answers | q_answers
                   if all_answer == answers
-                    score = question.attributes["score"].to_i
+                    if answers - q_answers == []
+                      score = question.attributes["score"].to_i
+                    elsif q_answers.length < answers.length
+                      score = ((question.attributes["score"].to_i.to_f)/2).round
+                    end
                   elsif all_answer.length > answers.length
                     score = 0
-                  elsif all_answer.length < answers.length
-                    score = ((question.attributes["score"].to_i)/2).round
                   end
                 end
               end
@@ -222,7 +224,7 @@ class ExamUser < ActiveRecord::Base
 
   #显示答卷
   def self.show_result(paper_id, doc)
-    @xml = ExamRater.open_file("/papers/#{paper_id}.xml")
+    @xml = ExamRater.open_file("#{Constant::PAPER_PATH}/#{paper_id}.xml")
     @xml.elements["blocks"].each_element do  |block|
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|
