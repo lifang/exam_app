@@ -1,6 +1,6 @@
 class FeedbacksController < ApplicationController
   def index
-    @feedbacks=Feedback.all
+    @feedbacks=Feedback.find_by_sql("select * from feedbacks f order by f.answer and f.created_at")
   end
   def create
     @feedback=Feedback.new(:description=>params[:feedback][:description],:answer=>params[:feedback][:answer],:user_id=>"#{cookies[:user_id]}")
