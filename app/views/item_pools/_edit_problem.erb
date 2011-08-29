@@ -1,3 +1,4 @@
+
 <div id="item_pools_edit" style="position:absolute;z-index:999;padding:10px;float:left;margin-left:150px;background-color:#fff;width:450px;border:#ccc solid 1px;">
   <input type="hidden" name="edit_problem_<%= edit_problem.id %>" id="single_question_<%= edit_problem.id %>" value=""/>
   <div>
@@ -10,10 +11,10 @@
         <div class="clear"></div>
         <div>题面： </div>
         <div><input type="button" name="button" value="富文本" class="submit_btn"
-                    onclick="javascript:add_area('edit_title_<%= edit_problem.id %>', this);" /></div>
-         <% title = edit_problem.complete_title.nil? ? edit_problem.title : edit_problem.complete_title %>
+                    onclick="javascript:item_pools_add_area('item_pools_edit_title_<%= edit_problem.id %>', this);" /></div>
+         <% title = edit_problem.complete_title.nil? ? edit_problem.title.html_safe : edit_problem.complete_title.html_safe %>
           <%= f.text_area :title ,:cols=>"60", :rows=>"5", :class=>"textarea_style",
-            :id => "edit_title_#{edit_problem.id}", :value=>title %>
+            :id => "item_pools_edit_title_#{edit_problem.id}", :value=>title %>
         <br/>
         <% question_ids = []
         edit_problem.questions.each do |question|

@@ -1,0 +1,9 @@
+帮助考生解答疑问：
+<%= form_for (@feedback) do |f| %>
+  <div class="field">
+    <%= f.text_area :answer, :size => "40" %>
+  </div>
+  <div class="actions">
+    <%= f.submit "提交解答" %>
+  </div>
+<% end %>

@@ -217,7 +217,7 @@ function item_pools_colligation_question_validate(){
 function item_pools_new_problem_validate(){
     var problem_title = $("problem_title").value.replace(/<br \/>/g,"");
     var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
-    if(problem_title == null  || problem_title.length == 0 || checkspace(text_source)){
+    if(problem_title.length == 0 || checkspace(text_source)){
         alert("题面不能为空。");
         return false;
     }
@@ -489,3 +489,57 @@ function item_pools_edit_problem_validate(problem_id){
     }
 }
 
+//显示富文本编辑器
+function item_pools_add_area(content_id, button) {
+    var area = new nicEditor({
+        fullPanel : true
+    }).panelInstance(content_id);
+    button.value = "普通文本";
+    button.onclick = function onclick(event) {
+        javascript:remove_area(area, content_id, button);
+    };
+}
+
+//取消富文本编辑器
+function item_pools_remove_area(area,content_id, button) {
+    area.removeInstance(content_id);
+    button.value = "富文本";
+    button.onclick = function onclick(event) {
+        javascript:add_area(content_id, button);
+    };
+}
+
+//验证专家新建题目
+function item_pools_check_mavin_problem() {
+    $("span").innerHTML = "";
+    var mavin_title = $("mavin_problem_title").value;
+    if (mavin_title != null && checkspace(mavin_title)) {
+        $("span").innerHTML = "<font color='red'>请您填写好题目后再保存。</font>";
+        return false;
+    }
+    if (!mavin_title.include("[[") && !mavin_title.include("{{")) {
+        $("span").innerHTML = "<font color='red'>请您设置题点。</font>";
+        return false;
+    }
+    if ((mavin_title.include("[[") && !mavin_title.include("]]"))||(mavin_title.include("{{") && !mavin_title.include("}}"))) {
+        $("span").innerHTML = "<font color='red'>您的提点格式不正确，提点格式为[[提点内容]]。</font>";
+        return false;
+    }
+    if (!mavin_title.include("[(")) {
+        $("span").innerHTML = "<font color='red'>请您设置分值。</font>";
+        return false;
+    }
+    if (mavin_title.include("[(") && !mavin_title.include(")]")) {
+        $("span").innerHTML = "<font color='red'>您的分值格式不正确，提点格式为[(分数)]。</font>";
+        return false;
+    }
+    if (!mavin_title.include("[{")) {
+        $("span").innerHTML = "<font color='red'>请您设置解析。</font>";
+        return false;
+    }
+    if (mavin_title.include("[{") && !mavin_title.include("}]")) {
+        $("span").innerHTML = "<font color='red'>您的解析格式不正确，提点格式为[{解析}]。</font>";
+        return false;
+    }
+    sumbit_form("problem_form", "problem_submit", "spinner");
+}

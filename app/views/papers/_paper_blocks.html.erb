@@ -18,7 +18,7 @@
             <%= render :partial=>"/papers/question_info",:object=>problem %>
             <div id="edit_problem_<%= problem.attributes["id"].to_i %>"></div>
             <h2><a href="javascript:void(0)" onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
-                <%= truncate_u(problem.elements['title'].text.to_s.html_safe, 40) %></a>
+                <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40).to_s.html_safe %></a>
             </h2>
           </li>
           <div class="links">

@@ -1,0 +1,54 @@
+<script type="text/javascript" src="/javascripts/plugin_assets/My97DatePicker/WdatePicker.js" ></script>
+<div class="main_box_back">
+  <h2><span>错题提问列表</span></h2>
+  <div class="in">
+    <table>
+      <colgroup>
+        <col width="160" />
+        <col width="80" />
+        <col width="130" />
+        <col width="80" />
+        <col width="80" />
+        <col width="60" />
+        <col width="70" />
+        <col width="" />
+      </colgroup>
+      <% if @feedbacks.blank? %>
+        <tbody>
+          <tr>
+            <td align="center" colspan="8">目前还没有考生提出问题。</td>
+          </tr>
+        </tbody>
+      <% else %>
+        <thead>
+          <tr>
+            <th>问题描述</th>
+            <th>用户</th>
+            <th>提问时间</th>
+            <th>处理状态</th>
+            <th></th>
+          </tr>
+        </thead>
+        <% @feedbacks.each do |feedback| %>
+          <tbody>
+            <tr>
+              <td><%= feedback.description %></td>
+              <td><%= feedback.user.name %></td>
+              <td><%= feedback.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+              <% if feedback.status == true%>
+                <td>已处理</td>
+                <td></td>
+              <% else %>
+                <td>未处理 </td>
+                <td><a href="/feedbacks/<%= feedback.id %>/edit" >处理</a></td>
+              <% end %>
+            </tr>
+          </tbody>
+        <% end %>
+      <% end %>
+    </table>
+    <div class="pagination_box">
+      <%=will_paginate @papers ,:previous_label=>"«", :next_label=>"»", :inner_window => 1 %>
+    </div>
+  </div>
+</div>

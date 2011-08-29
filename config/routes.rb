@@ -1,7 +1,12 @@
 ExamApp::Application.routes.draw do
 
   match '/signout'=> 'sessions#destroy'
-
+  resources :feedbacks do
+    member do
+      post :edit
+    end
+  end
+  resources :combine_practices
   resources :item_pools do
     collection do
       post :search_condition,:choose_type,:colligation_choose_type,:update_problem,:item_pools_mavin_problem
@@ -34,6 +39,11 @@ ExamApp::Application.routes.draw do
         get "my_results"
         get "exam_user_affiremed"
         post "edit_score","edit_name"
+      end
+    end
+    resources :combine_practices do
+      member do
+        get "start","show2","show3","show4","show5","show6"
       end
     end
     resources :collections do
