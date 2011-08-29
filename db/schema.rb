@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110819073103) do
+ActiveRecord::Schema.define(:version => 20110822014445) do
 
   create_table "categories", :force => true do |t|
     t.string  "name"
@@ -133,7 +133,6 @@ ActiveRecord::Schema.define(:version => 20110819073103) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "time"
-    t.datetime "start_time"
   end
 
   add_index "paper_blocks", ["paper_id"], :name => "index_paper_blocks_on_paper_id"
