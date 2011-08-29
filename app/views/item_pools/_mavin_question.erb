@@ -2,7 +2,7 @@
   <div class="question_pic_box" style="top:0px;margin-left:270px;margin-top:250px;">
     <div class="in">
       <%= form_for :problem ,:url=>"/item_pools/item_pools_mavin_problem", :method => "post",
-        :html => {:class => "required-validate", :id => "problem_form", :name => "problem_form"} do |f| %>
+        :html => {:class => "required-validate", :id => "problem_form", :name => "problem_form",:onsubmit=>"return item_pools_check_mavin_problem();"} do |f| %>
         <input type="hidden" value="" name="real_type" id="real_type"/>
         <div class="title">题面：</div>
         <div id="span"></div>

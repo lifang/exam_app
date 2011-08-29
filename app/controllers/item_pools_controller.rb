@@ -8,6 +8,7 @@ class ItemPoolsController < ApplicationController
   def create
     @type = params[:problem][:real_type].to_i
     @problem = Problem.create(:category_id=>params[:category].to_i,:title=>params[:problem][:title].strip, :types =>@type)
+    @problem.update_attributes(:title=>@problem.title.gsub("audio_play('x')","audio_play(#{@problem.id})").gsub("id=\"audio_x\"","id='audio_#{@problem.id}'").gsub("id=\"audio_control_x\"","id='audio_control_#{@problem.id}'"))
     if params[:problem][:real_type].to_i==Problem::QUESTION_TYPE[:COLLIGATION]
       score_arr = Question.update_colligation_questions(@problem,
         Question.colligation_questions(params["single_question"]), "create")
