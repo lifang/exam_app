@@ -48,5 +48,14 @@ module Constant
     :english_fourth_level => ["英语四级",1],
     :english_sixth_level => ["英语六级",2]
   }
+
+  #综合训练音频文件播放次数
+  CANPLAYTIME={
+    :practice_2=>3,
+    :practice_3=>1,
+    :practice_4=>3,
+    :practice_5=>3,
+    :practice_6=>3,
+  }
  
 end

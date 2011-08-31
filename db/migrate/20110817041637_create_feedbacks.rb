@@ -6,6 +6,7 @@ class CreateFeedbacks < ActiveRecord::Migration
       t.text  :description
       t.string :answer
       t.datetime :created_at
+      t.integer :question_id
     end
     add_index :feedbacks,:user_id
     add_index :feedbacks,:status
