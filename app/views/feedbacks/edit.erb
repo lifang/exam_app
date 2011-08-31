@@ -1,4 +1,9 @@
+小题题目：<%= Problem.find(Question.find(@feedback.question_id).id).title %><br/>
+小题描述：<%= Question.find(@feedback.question_id).description  %><br/>
+<table>
 帮助考生解答疑问：
+
+
 <%= form_for (@feedback) do |f| %>
   <div class="field">
     <%= f.text_area :answer, :size => "40" %>
@@ -7,3 +12,4 @@
     <%= f.submit "提交解答" %>
   </div>
 <% end %>
+</table>
