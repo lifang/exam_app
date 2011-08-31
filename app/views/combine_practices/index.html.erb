@@ -1,67 +1,39 @@
 <script type="text/javascript">
-  function loading(){
-    $("#spaceused1").progressBar();
-    $("#spaceused2").progressBar();
-    $("#spaceused3").progressBar();
-    $("#spaceused4").progressBar();
-    $("#spaceused5").progressBar();
-  };
-  
-</script>
 
-<body onload="loading();">
+</script>
 <div class="main_box_back">
   <h2><span>综合训练列表</span></h2>
-  <div class="in">
-    <table style="text-align:center">
-      <thead>
-        <tr>
-          <th width="280" style="text-align:center">练习名称</th>
-          <th width="210" style="text-align:center">练习总数</th>
-          <th width="210" style="text-align:center">完成情况</th>
-          <th width="80" style="text-align:center"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="text-align:center">听力训练1</td>
-          <td style="text-align:center"><%= Examination.find_by_sql("select count(ex.id) count from examinations ex where types=2")[0].count %></td>
-          <td style="text-align:center"><span class="progressBar" id="spaceused1">78%</span></td>
-          <td style="text-align:center"><input type="button" style="padding:4px;" value="开始训练"/></td>
-        </tr>
-        <tr>
-          <td  style="text-align:center">听力训练2</td>
-          <td style="text-align:center"><%= Examination.find_by_sql("select count(ex.id) count from examinations ex where types=3")[0].count %></td>
-          <td style="text-align:center"><span class="progressBar" id="spaceused2">75%</span></td>
-          <td style="text-align:center"><input type="button" style="padding:4px;" value="开始训练"/></td>
-        </tr>
-        <tr>
-          <td  style="text-align:center">听力训练3</td>
-          <td style="text-align:center"><%= Examination.find_by_sql("select count(ex.id) count from examinations ex where types=4")[0].count %></td>
-          <td style="text-align:center"><span class="progressBar" id="spaceused3">15%</span></td>
-          <td style="text-align:center"><input type="button" style="padding:4px;" value="开始训练"/></td>
-        </tr>
-        <tr>
-          <td style="text-align:center">听力训练4</td>
-          <td style="text-align:center"><%= Examination.find_by_sql("select count(ex.id) count from examinations ex where types=5")[0].count %></td>
-          <td style="text-align:center"><span class="progressBar" id="spaceused4">35%</span></td>
-          <td style="text-align:center"><input type="button" style="padding:4px;" value="开始训练"/></td>
-        </tr>
-        <tr>
-          <td style="text-align:center">听力训练5</td>
-          <td style="text-align:center"><%= Examination.find_by_sql("select count(ex.id) count from examinations ex where types=6")[0].count %></td>
-          <td style="text-align:center"><span class="progressBar" id="spaceused5">95%</span></td>
-          <td style="text-align:center"><input type="button" style="padding:4px;" value="开始训练"/></td>
-        </tr>
+  <table style="text-align:center">
+    <thead>
 
-      </tbody>
-    </table>
-  </div>
+      <tr>
+        <th width="280" style="text-align:center">标题</th>
+        <th width="100" style="text-align:center">所属分类</th>
+        <th width="210" style="text-align:center">创建日期</th>
+        <th width="80" style="text-align:center">试题数</th>
+        <th width="80" style="text-align:center">总分</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @combine_practices.nil? %>
+      <td align="center" colspan="8">目前您还没有综合训练，您可以去试卷管理 <a href="/papers">安排综合训练</a></td>
+    <%else%>
+      <% @combine_practices.each do |combine_practice| %>
+        <tr>
+
+          <td style="text-align:center"><%= combine_practice.title %></td>
+          <td style="text-align:center"><%= Paper.find(combine_practice.id).category.name %></td>
+          <td style="text-align:center"><%= combine_practice.created_at.strftime("%Y-%m-%d %H:%M:%S")%></td>
+          <td style="text-align:center"><%= Paper.find(combine_practice.id).total_question_num %></td>
+          <td style="text-align:center"><%= Paper.find(combine_practice.id).total_score %></td>
+        </tr>
+      <%end%>
+    <%end%>
+    </tbody>
+  </table>
 </div>
- 
-</body>
-<div class="clear"></div>
-  <%= link_to "新建综合训练", "#" %>
-   <%= link_to "修改综合训练", "#" %>
+
+
+
 
 
