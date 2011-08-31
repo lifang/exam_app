@@ -2,7 +2,7 @@ class CreateFeedbacks < ActiveRecord::Migration
   def self.up
     create_table :feedbacks do |t|
       t.integer :user_id
-      t.boolean :status
+      t.boolean :status, :default => 0
       t.text  :description
       t.string :answer
       t.datetime :created_at

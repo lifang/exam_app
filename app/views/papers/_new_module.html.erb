@@ -18,8 +18,9 @@
             <input type="radio" id="fixup_time" value="0" name="fixup_time_0" checked="true" onclick="javascript:show_fixup_time(0, 0);"/>否
           </div>
           <div class="add_details" id="fixup_time_div_0" style="display:none;">
-            开始答题时间：<input type="text" name="hour" id="hour" class="input_style validate-number" value=""/>时&nbsp;&nbsp;
-            <input type="text" name="minute" id="minute" class="input_style validate-number" value=""/>分&nbsp;&nbsp;
+            开始答题时间：<input type="text" name="hour" id="hour" class="input_style validate-number" size="6" value=""/>小时&nbsp;&nbsp;
+            <input type="text" name="minute" id="minute" class="input_style validate-number max-value-59" size="6" value=""/>分&nbsp;&nbsp;<br/>
+            如：0小时30分(表示考试开始后30分钟才能答当前模块的题目，<font color="red">注：设置的时间不能超过考试时长，否则无效</font>)<br/><br/>
             请填写时长：<input type="text" name="fix_time_0" id="fix_time_0" class="input_style validate-number" value=""/>分钟&nbsp;&nbsp;&nbsp;&nbsp;如：30分钟
           </div>
           <div class="add_details">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110826070205) do
+ActiveRecord::Schema.define(:version => 20110829045145) do
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(:version => 20110826070205) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "time"
-    t.datetime "start_time"
+    t.string   "start_time"
   end
 
   add_index "paper_blocks", ["paper_id"], :name => "index_paper_blocks_on_paper_id"
@@ -276,9 +276,13 @@ ActiveRecord::Schema.define(:version => 20110826070205) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
+    t.integer  "code_id"
+    t.string   "code_type"
     t.integer  "belief"
   end
 
+  add_index "users", ["code_id"], :name => "index_users_on_code_id"
+  add_index "users", ["code_type"], :name => "index_users_on_code_type"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"

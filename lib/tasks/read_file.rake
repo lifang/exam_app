@@ -1,4 +1,4 @@
-# encoding: utf-8
+
 class File
   class << self
     def find(*args)
@@ -34,28 +34,46 @@ end
 
 namespace :file do
   task :read do
-    txt_files = File.find(:path =>"f:/exam_app/public/txts", :ext => [".txt"])
-    match_file = File.open("f:/exam_app/public/matching.txt","rb")
-    match_contents=""
-    match_contents=match_file.readlines
+    txt_files = File.find(:path =>"#{Rails.root}/public/txts", :ext => [".txt"])
+    match_file = File.open("#{Rails.root}/public/matching.txt","rb")
+    match_contents = match_file.readlines.join(" ")
+    match_contents = match_contents.gsub("\r\n", "").to_s.split(" ")
+    aleary_match = []
     txt_files.each do |file|
-      puts "begin to read"  
-      ordinary_file=File.open(file,"rb")
-      contents = ""
-      contents =ordinary_file.readlines
-      content1= (contents.to_s.split(" ")-(contents.to_s.split(" ")-match_contents.to_s.split(" ")))
-      n=0
+      puts "begin to read"
+      ordinary_file = File.open(file,"rb")
+      old_contents = ordinary_file.readlines.join(" ")
+      contents = old_contents.gsub(",", " ").gsub(".", " ").gsub(":", " ").
+        gsub("(", " ").gsub(")", " ").gsub("?", " ").downcase
+      content1 = contents.split(" ")
+      n = 0
+      new_content = old_contents.to_s
       match_contents.each do |match_content|
-        puts match_content
-        if (content1-match_content.split) !=content1
+        end_length = match_content.length - 2
+        if (content1.include?(match_content) or 
+              content1.include?(match_content + "ed") or content1.include?(match_content + "d") or
+              content1.include?(match_content + "ing") or content1.include?(match_content[0, end_length] + "ed") or
+              content1.include?(match_content[0, end_length] + "d") or content1.include?(match_content[0, end_length] + "ing"))
           n +=1
-          puts n
+          aleary_match << match_content unless aleary_match.include?(match_content)
+          new_content.gsub!(" #{match_content[0, end_length]}", " <<#{match_content}>>#{match_content[0, end_length]}")
+          if n == 16
+            break
+          end
         end
       end
-      if n>10
-        FileUtils.cp file, "f:/exam_app/public/matches/#{file.split("/").reverse[0]}"
+      if n == 16
+        #match_contents = match_contents - aleary_match
+        f = File.new("#{Rails.root}/public/matches/#{file.split("/").reverse[0]}", "w+")
+        f.write("#{new_content.force_encoding('UTF-8')}")
+        f.close
+        #FileUtils.cp file, "#{Rails.root}/public/matches/#{file.split("/").reverse[0]}"
+        puts "select success"
       end
       ordinary_file.close
+      mf = File.new("#{Rails.root}/public/matche_text.text", "w+")
+      mf.write("#{aleary_match.sort.join("\r\n").force_encoding('UTF-8')}")
+      mf.close
       puts "reade  over,and read next"
     end
     match_file.close
