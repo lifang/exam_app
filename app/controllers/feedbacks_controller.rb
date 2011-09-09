@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FeedbacksController < ApplicationController
   def index
     @feedbacks=Feedback.paginate_by_sql("select * from feedbacks f order by f.status,  f.created_at",:per_page =>10, :page => params[:page])
@@ -6,6 +7,8 @@ class FeedbacksController < ApplicationController
 
   def edit
     @feedback = Feedback.find(params[:id])
+    @question = Question.find(@feedback.question_id)
+    @problem = Problem.find(@question.id)
   end
 
   def update

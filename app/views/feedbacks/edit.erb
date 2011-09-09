@@ -1,15 +1,20 @@
-小题题目：<%= Problem.find(Question.find(@feedback.question_id).id).title %><br/>
-小题描述：<%= Question.find(@feedback.question_id).description  %><br/>
-<table>
-帮助考生解答疑问：
+<div class="main_box_back">
+  <div class="in">
+    相关题目：<%= @problem.title %><br/>
+    <% if @question.description %>小题描述：<%= @question.description  %><br/><% end %>
+    <br/>
+    用户提问：<%= @feedback.description %><br/><br/>
 
-
-<%= form_for (@feedback) do |f| %>
-  <div class="field">
-    <%= f.text_area :answer, :size => "40" %>
+    <table>
+      解答：
+      <%= form_for (@feedback) do |f| %>
+        <div class="field">
+          <%= f.text_area :answer, :rows => "5", :cols => "100" %>
+        </div>
+        <div class="actions">
+          <%= f.submit "提交解答" %>
+        </div>
+      <% end %>
+    </table>
   </div>
-  <div class="actions">
-    <%= f.submit "提交解答" %>
-  </div>
-<% end %>
-</table>
+</div>
