@@ -24,7 +24,8 @@ module Constant
   }
   #服务路径
   SERVER_PATH = "http://localhost:3000"
-
+  #前台服务
+  GANKAO_SERVER_PATH = "http://localhost:3001"
   #项目文件目录
   PUBLIC_PATH = "#{Rails.root}/public"
   #前台项目文件目录

@@ -25,10 +25,10 @@ function edit_block_info(id){
             }
         }
     }
-    if (fix_flag && ($("fix_time_" + id).value == "" || $("fix_time_" + id).value == "0")) {
-        alert("请填写单独固定时间答完当前模块的时间，且数值大于0");
-        return false;
-    }
+//    if (fix_flag && ($("fix_time_" + id).value == "" || $("fix_time_" + id).value == "0")) {
+//        alert("请填写单独固定时间答完当前模块的时间，且数值大于0");
+//        return false;
+//    }
     return true;
 }
 
@@ -194,10 +194,10 @@ function new_module_validate(){
             }
         }
     }
-    if (fix_flag && ($("fix_time_0").value == "" || $("fix_time_0").value == "0")) {
-        alert("请填写单独固定时间答完当前模块的时间，并且数值要大于0");
-        return false;
-    }
+//    if (fix_flag && ($("fix_time_0").value == "" || $("fix_time_0").value == "0")) {
+//        alert("请填写单独固定时间答完当前模块的时间，并且数值要大于0");
+//        return false;
+//    }
     sumbit_form("module_form", "module_submit", "spinner_new_module");
     
 }

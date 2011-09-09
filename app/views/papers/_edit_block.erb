@@ -11,20 +11,28 @@
             :value=>edit_block.elements["base_info"].elements["title"].text,:id=>"edit_block_title_#{edit_block.attributes["id"]}" %>
         </div>
         <div class="add_details">
-            模块是否需要单独固定时间答完：
-            <input type="radio" id="fixup_time_<%= edit_block.attributes["id"] %>" name="fixup_time_<%= edit_block.attributes["id"] %>" value="1"
-                   <% unless edit_block.attributes["time"].nil? or edit_block.attributes["time"] == "" %>checked="true"<% end %>
-                   onclick="javascript:show_fixup_time(1, <%= edit_block.attributes["id"] %>);" />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" id="fixup_time_<%= edit_block.attributes["id"] %>" value="0" name="fixup_time_<%= edit_block.attributes["id"] %>"
-                   <% if edit_block.attributes["time"].nil? or edit_block.attributes["time"] == "" %>checked="true"<% end %>
-                   onclick="javascript:show_fixup_time(0, <%= edit_block.attributes["id"] %>);"/>否
-          </div>
-          <div class="add_details" id="fixup_time_div_<%= edit_block.attributes["id"] %>"
-               style="<% if edit_block.attributes["time"].nil? or edit_block.attributes["time"] == "" %>display:none;<% end %>">
-            请填写时间：<input type="input" name="fix_time_<%= edit_block.attributes["id"] %>"
-                         id="fix_time_<%= edit_block.attributes["id"] %>" class="input_style validate-number"
-                         value="<%= edit_block.attributes["time"] %>"/>分钟&nbsp;&nbsp;&nbsp;&nbsp;
-          </div>
+          模块是否需要单独固定时间答完：
+          <input type="radio" id="fixup_time_<%= edit_block.attributes["id"] %>" name="fixup_time_<%= edit_block.attributes["id"] %>" value="1"
+                 <% unless edit_block.attributes["time"].nil? or edit_block.attributes["time"] == "" %>checked="true"<% end %>
+                 onclick="javascript:show_fixup_time(1, <%= edit_block.attributes["id"] %>);" />是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="fixup_time_<%= edit_block.attributes["id"] %>" value="0" name="fixup_time_<%= edit_block.attributes["id"] %>"
+                 <% if edit_block.attributes["time"].nil? or edit_block.attributes["time"] == "" %>checked="true"<% end %>
+                 onclick="javascript:show_fixup_time(0, <%= edit_block.attributes["id"] %>);"/>否
+        </div>
+        <% unless edit_block.attributes["start_time"].nil? or edit_block.attributes["start_time"] == ""
+          start_time = edit_block.attributes["start_time"]
+        end %>
+        <div class="add_details" id="fixup_time_div_<%= edit_block.attributes["id"] %>"
+             style="<% unless start_time %>display:none;<% end %>">
+          开始答题时间：<input type="text" name="hour" id="hour" class="input_style validate-number"
+                        size="6" value="<%= start_time.split(":")[0] if start_time %>"/>小时&nbsp;&nbsp;
+          <input type="text" name="minute" id="minute" class="input_style validate-number max-value-59" size="6"
+                 value="<%= start_time.split(":")[1] if start_time %>"/>分&nbsp;&nbsp;<br/>
+          如：0小时30分(表示考试开始后30分钟才能答当前模块的题目，<font color="red">注：设置的时间不能超过考试时长，否则无效</font>)<br/><br/>
+          请填写时间：<input type="input" name="fix_time_<%= edit_block.attributes["id"] %>"
+                       id="fix_time_<%= edit_block.attributes["id"] %>" class="input_style validate-number"
+                       value="<%= edit_block.attributes["time"] %>"/>分钟&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
         <div class="paper_block">
           试卷模块描述：<%= f.text_area :description ,:cols=>"37",:rows=>"3",:class=>"textarea_style max-length-100" ,
             :value=>edit_block.elements["base_info"].elements["description"].text%>

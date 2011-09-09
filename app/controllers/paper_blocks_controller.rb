@@ -1,3 +1,4 @@
+# encoding: utf-8
 class PaperBlocksController < ApplicationController
 
   require 'rexml/document'
