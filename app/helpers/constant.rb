@@ -28,7 +28,7 @@ module Constant
   #项目文件目录
   PUBLIC_PATH = "#{Rails.root}/public"
   #前台项目文件目录
-  FRONT_PUBLIC_PATH = "E:/gankao/public"
+  FRONT_PUBLIC_PATH = "D:/gankao/public"
   #试卷生成路径
   PAPER_PATH = "#{PUBLIC_PATH}/papers"
   #试卷服务器访问路径
