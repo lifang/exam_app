@@ -47,7 +47,7 @@ class User::CombinePracticesController < ApplicationController
 
   def save_result
     @exam_user = ExamUser.find_by_examination_id_and_user_id(params[:id], cookies[:user_id])
-    if @exam_user and (@exam_user.is_submited.nil? or @exam_user.is_submited == false)
+    if @exam_user&&@exam_user.is_submited == 0
       question_hash = {}
       question_ids = params[:all_quesiton_ids].split(",") if params[:all_quesiton_ids]
       question_ids.each do |question_id|
