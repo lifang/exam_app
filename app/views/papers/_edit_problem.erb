@@ -15,7 +15,7 @@
                onclick="javascript:add_area('edit_title_<%= edit_problem.attributes["id"].to_i %>', this);" />
         <% title = edit_problem.elements["title"].nil? ? edit_problem.elements["complete_title"].text :
           edit_problem.elements["title"].text %>
-        <%= f.text_area :title ,:cols=>"45", :rows=>"3", :class=>"textarea_style",
+        <%= f.text_area :title ,:cols=>"58", :rows=>"20", :class=>"textarea_style",
           :id => "edit_title_#{edit_problem.attributes["id"].to_i}", :value=>title %>    
         <% question_ids = []
         edit_problem.elements["questions"].each_element do |question|

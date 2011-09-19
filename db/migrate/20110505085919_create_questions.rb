@@ -2,7 +2,7 @@ class CreateQuestions < ActiveRecord::Migration
   def self.up
     create_table :questions do |t|
       t.integer :problem_id, :null => false
-      t.string :description
+      t.text :description
       t.text :answer
       t.integer :correct_type, :default => 0
       t.text :analysis
