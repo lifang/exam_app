@@ -67,7 +67,7 @@
                  <%  puts "attr_key#{edit_other_question.attributes['id']}"   %>
         </div>
       <% else %>
-        <textarea cols="40" rows="3" id="problem_answer" name="problem[answer]"><%= answer.text %></textarea>
+        <textarea cols="58" rows="8" id="problem_answer" name="problem[answer]"><%= answer.text %></textarea>
       <% end
     end %>
   </div>
@@ -79,7 +79,7 @@
 </div>
 <div class="title">解析：<br/>
   <% analysis = edit_other_question.elements["analysis"] %>
-  <textarea cols="45" rows="3" name="problem[analysis]" id="problem_analysis"><%= (analysis and !analysis.nil?) ? analysis.text : "" %></textarea>
+  <textarea cols="58" rows="8" name="problem[analysis]" id="problem_analysis"><%= (analysis and !analysis.nil?) ? analysis.text : "" %></textarea>
 </div>
 <div class="tag">标签：<input type="text" name="tag" id="tag" class="input_style" value="<%= edit_other_question.elements["tags"].text %>" size="35"/><br/>
   <span class="tag_input">多个标签，以“<font color="red">空格</font>”隔开</span>

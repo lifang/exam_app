@@ -34,7 +34,7 @@
                        value="<%= edit_block.attributes["time"] %>"/>分钟&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <div class="paper_block">
-          试卷模块描述：<%= f.text_area :description ,:cols=>"37",:rows=>"3",:class=>"textarea_style max-length-100" ,
+          试卷模块描述：<%= f.text_area :description ,:cols=>"47",:rows=>"20",:class=>"textarea_style max-length-1000" ,
             :value=>edit_block.elements["base_info"].elements["description"].text%>
         </div>
         <div><%= f.submit "更新" ,:class=>"submit_btn" %></div>
