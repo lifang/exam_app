@@ -13,7 +13,11 @@ class FeedbacksController < ApplicationController
 
   def update
     @feedback = Feedback.find(params[:id])
+<<<<<<< HEAD
+    @feedback.answer=params[:feedback]
+=======
     @feedback.answer = params[:feedback]
+>>>>>>> 9bae257732af355664c7aee7e25c4942cb98ac16
     @feedback.status = Feedback::STATUS[:SOLVED]
     @feedback.save
     redirect_to "/feedbacks"
