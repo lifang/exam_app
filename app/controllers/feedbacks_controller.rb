@@ -10,7 +10,6 @@ class FeedbacksController < ApplicationController
 
   def update
     @feedback = Feedback.find(params[:id])
-    @feedback
     @feedback.answer=params[:feedback]
     @feedback.status = Feedback::STATUS[:SOLVED]
     @feedback.save
