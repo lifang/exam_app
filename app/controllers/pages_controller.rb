@@ -2,7 +2,8 @@
 class PagesController < ApplicationController
 
   def index
-    
+
+    render :layout=>"gankao_index"
   end
 
   def show

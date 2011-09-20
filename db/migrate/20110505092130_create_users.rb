@@ -10,6 +10,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :encrypted_password
       t.integer :status, :default => 0
       t.string :active_code
+      t.integer :code_id
+      t.string :code_type
       
       t.timestamps
       

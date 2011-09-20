@@ -1,6 +1,6 @@
 # encoding: utf-8
 class UserMailer < ActionMailer::Base
-  default :from => "from@example.com"
+  default :from => "lifang@gmail.com"
 
   def welcome_email(user)
     @user = user
