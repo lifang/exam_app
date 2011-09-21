@@ -127,7 +127,7 @@ function new_question(block_id) {
                 }
             }
         }
-    } else if (parseFloat($("problem_correct_type").value) == 1) {
+    } else if (parseFloat($("problem_correct_type").value) == 1 || parseFloat($("problem_correct_type").value) == 6) {
         for (var k=1; k<=parseFloat($("problem_attr_sum").value); k++) {
             if($("problem_attr" + k + "_value")!=null){
                 attr_value += $("problem_attr" + k + "_value").value;
@@ -286,7 +286,7 @@ function generate_edit_questions(problem_id, problem_type) {
                                 hash_str += ",|,tag=>" +  inputs[k].value + "";
                             }
                         }
-                    } else if (parseFloat(inputs[0].value) == 1) {
+                    } else if (parseFloat(inputs[0].value) == 1 || parseFloat(inputs[0].value) == 6) {
                         var attr_array = [];
                         var answer_sum = 0;
                         for (var l=2; l<inputs.length; l++) {

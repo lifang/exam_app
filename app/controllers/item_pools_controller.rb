@@ -40,7 +40,7 @@ class ItemPoolsController < ApplicationController
       end
       answer_question_attr << attrs_array
       
-    elsif problem_type == Problem::QUESTION_TYPE[:MORE_CHOSE]
+    elsif problem_type == Problem::QUESTION_TYPE[:MORE_CHOSE] or problem_type == Problem::QUESTION_TYPE[:MORE_BLANKS]
       answer_index = []
       (1..attr_num).each do |i|
         if !params["attr#{i}_key#{question_id}"].nil? and params["attr#{i}_key#{question_id}"] != ""
@@ -164,6 +164,8 @@ class ItemPoolsController < ApplicationController
       render :partial=>"/item_pools/colligation"
     elsif @problem_type==Problem::QUESTION_TYPE[:CHARACTER]
       render :partial=>"/item_pools/fill_blank"
+    else
+      render :partial=>"/item_pools/more_choose"
     end
   end
 
@@ -180,6 +182,8 @@ class ItemPoolsController < ApplicationController
       render :partial=>"/item_pools/fill_blank"
     elsif @question_type==Problem::QUESTION_TYPE[:CHARACTER]
       render :partial=>"/item_pools/fill_blank"
+    else
+      render :partial=>"/item_pools/more_choose"
     end
   end
 
