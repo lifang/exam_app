@@ -8,9 +8,16 @@
           <% end %>
 <div class="clear"></div>
 <%  if edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>
-  <div class="title">选项：<div class="chose_add"><a href="javascript:void(0);" onClick="javascript:new_attr_edit('single_choose',<%=  edit_other_question.attributes["id"] %>);">增加选项</a></div></div>
-<% elsif edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:MORE_CHOSE] %>
-  <div class="title">选项：<div class="chose_add"><a href="javascript:void(0);" onClick="javascript:new_attr_edit('more_choose',<%=  edit_other_question.attributes["id"] %>);">增加选项</a></div></div>
+  <div class="title">选项：<div class="chose_add">
+      <a href="javascript:void(0);"
+         onClick="javascript:new_attr_edit('single_choose',<%=  edit_other_question.attributes["id"] %>);">增加选项</a>
+    </div></div>
+<% elsif edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:MORE_CHOSE] or
+    edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:MORE_BLANKS] %>
+  <div class="title">选项：<div class="chose_add">
+      <a href="javascript:void(0);"
+         onClick="javascript:new_attr_edit('more_choose',<%=  edit_other_question.attributes["id"] %>);">增加选项</a>
+    </div></div>
 <% else %>
   <div class="title">答案：</div>
 <% end %>
@@ -39,7 +46,8 @@
                    class="input_style" size="15" value="<%= attrs_array[i-1] %>" />
                    <%= link_to "删除","javascript:void(0);", :onclick=>"javascript:delete_attr_edit(#{i},#{edit_other_question.attributes["id"]})"%>
           </div>
-        <% elsif edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:MORE_CHOSE]
+        <% elsif edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:MORE_CHOSE] or
+            edit_other_question.attributes["correct_type"].to_i == Problem::QUESTION_TYPE[:MORE_BLANKS]
           is_answer_flag = false
           if !answer.nil?  and !answer.text.nil?
             answers = answer.text.split(";|;")

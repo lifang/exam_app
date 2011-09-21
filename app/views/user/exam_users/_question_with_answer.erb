@@ -24,7 +24,8 @@
   %>
     <div class="attr" <% if is_answer %>style="border: 1px green solid;"<% end %>>
       <% if !correct_type.nil? %>
-        <% if correct_type.to_i == Problem::QUESTION_TYPE[:MORE_CHOSE] %>
+        <% if correct_type.to_i == Problem::QUESTION_TYPE[:MORE_CHOSE] or
+          correct_type.to_i == Problem::QUESTION_TYPE[:MORE_BLANKS] %>
           <input type="checkbox" name="question_attr_<%= question_with_answer.attributes["id"].to_i %>"
                  id="question_attr_<%= i %>"  <% if is_user_answer %>checked="true"<% end %> />
                <% elsif correct_type.to_i == Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>

@@ -1,6 +1,8 @@
 <div class="question">
  <% if show_single_question.elements["description"] %>小题描述：<% end %>
-  <%= show_single_question.elements["description"].text if show_single_question.elements["description"] %>
+ <div style="word-wrap:break-word; word-break:break-all;">
+  <%= show_single_question.elements["description"].text.to_s.html_safe if show_single_question.elements["description"] %>
+ </div>
   [<%= show_single_question.attributes["score"] %>分]
   <% attrs_str = show_single_question.elements["questionattrs"].text
   attrs_array = attrs_str.split(";-;") unless attrs_str.nil?
@@ -13,7 +15,7 @@
     <div class="attr" <% if is_answer %>style="border: 1px green solid;"<% end %>>
 
       <% if !correct_type.nil? %>
-        <% if correct_type.to_i == Problem::QUESTION_TYPE[:MORE_CHOSE] %>
+        <% if correct_type.to_i == Problem::QUESTION_TYPE[:MORE_CHOSE] or correct_type.to_i == Problem::QUESTION_TYPE[:MORE_BLANKS] %>
           <input type="checkbox" name="question_attr_<%= show_single_question.attributes["id"].to_i %>"
                  id="question_attr_<%= i %>"  <% if is_answer %>checked="true"<% end %> />
                <% elsif correct_type.to_i == Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>

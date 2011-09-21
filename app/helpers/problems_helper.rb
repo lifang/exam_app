@@ -13,7 +13,7 @@ module ProblemsHelper
         end
       end
       answer_question_attr << attrs_array
-    elsif problem_type == Problem::QUESTION_TYPE[:MORE_CHOSE]
+    elsif problem_type == Problem::QUESTION_TYPE[:MORE_CHOSE] or problem_type == Problem::QUESTION_TYPE[:MORE_BLANKS]
       answer_index = []
       (1..attr_num).each do |i|
         if !params["attr#{i}_key#{question_id}"].nil? and params["attr#{i}_key#{question_id}"] != ""

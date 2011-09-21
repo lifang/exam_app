@@ -24,6 +24,10 @@
     <input type="radio" name="type_radio_<%= choose_question_type.attributes['id'] %>"
           value="<%= Problem::QUESTION_TYPE[:CHARACTER] %>" id="radio6" />简答题
   </div>
+  <div style="float: left;padding-right: 20px;">
+    <input type="radio" name="type_radio_<%= choose_question_type.attributes['id'] %>"
+          value="<%= Problem::QUESTION_TYPE[:MORE_BLANKS] %>" id="radio7" />完型填空题
+  </div>
   <div class="clear"></div>
   <input type="button" value="确定" class="submit_btn"
          onClick="javascript:create_question(<%= choose_question_type.attributes['id'] %>, <%= @xml.attributes['id'] %>)"/>

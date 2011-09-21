@@ -33,6 +33,12 @@
            onclick="javascript:get_question_type(<%= @block_id %>, <%= @paper_id %>, 
                     <%= Problem::QUESTION_TYPE[:CHARACTER] %>, 'remote_que_div_');"/>简答题
   </div>
+  <div style="float: left;padding-right: 20px;">
+    <input type="radio" name="type_radio_<%= @block_id %>"
+           value="<%= Problem::QUESTION_TYPE[:MORE_BLANKS] %>" id="radio7"
+           onclick="javascript:get_question_type(<%= @block_id %>, <%= @paper_id %>,
+                    <%= Problem::QUESTION_TYPE[:MORE_BLANKS] %>, 'remote_que_div_');"/>完型填空题
+  </div>
 </div>
 <div class="clear"></div>
 <div id="choose_coll_que_link_<%= @block_id %>">
