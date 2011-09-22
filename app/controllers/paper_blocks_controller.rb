@@ -44,8 +44,10 @@ class PaperBlocksController < ApplicationController
       render :partial => "/common/fill_blank"
     elsif @question_type == Problem::QUESTION_TYPE[:COLLIGATION]
       render :partial => "/common/colligation"
-    else 
+    elsif @question_type == Problem::QUESTION_TYPE[:CHARACTER]
       render :partial => "/common/fill_blank"
+    else
+      render :partial => "/common/more_choose"
     end
 
   end

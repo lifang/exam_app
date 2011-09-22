@@ -43,7 +43,7 @@ function item_pools_get_question_type(type) {
 }
 
 //将选中的题目的类型提交给新创建试题块的type隐藏域
-function item_pools_colligation_question_type(question_type) {
+function item_pools_colligation_question_type(q_type) {
     var problem_type = 4;
     var question_type = "";
     var types = document.getElementsByName("colligation_type_radio");

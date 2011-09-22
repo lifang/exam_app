@@ -26,6 +26,10 @@
       <input type="radio" name="type_radio"
              value="<%= Problem::QUESTION_TYPE[:CHARACTER] %>" id="radio6" />简答题
     </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:MORE_BLANKS] %>" id="radio7" />简答题
+    </div>
     <div class="clear"></div>
     <input type="button" value="确定" class="submit_btn"
            onClick="javascript:create_question()"/>

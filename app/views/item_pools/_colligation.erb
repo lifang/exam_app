@@ -7,27 +7,32 @@
   <div style="float: left;padding-right: 20px;">
     <input type="radio" name="colligation_type_radio"
            value="<%= Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>" id="radio1"
-           onclick="javascript:item_pools_colligation_question_type(0);"/>单选题
+           onclick="javascript:item_pools_colligation_question_type(<%= Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>);"/>单选题
   </div>
   <div style="float: left;padding-right: 20px;">
     <input type="radio" name="colligation_type_radio"
            value="<%= Problem::QUESTION_TYPE[:MORE_CHOSE] %>" id="radio2"
-           onclick="javascript:item_pools_colligation_question_type(1);"/>多选题
+           onclick="javascript:item_pools_colligation_question_type(<%= Problem::QUESTION_TYPE[:MORE_CHOSE] %>);"/>多选题
   </div>
   <div style="float: left;padding-right: 20px;">
     <input type="radio" name="colligation_type_radio"
            value="<%= Problem::QUESTION_TYPE[:JUDGE] %>" id="radio3"
-           onclick="javascript:item_pools_colligation_question_type(2);"/>判断题
+           onclick="javascript:item_pools_colligation_question_type(<%= Problem::QUESTION_TYPE[:JUDGE] %>);"/>判断题
   </div>
   <div style="float: left;padding-right: 20px;">
     <input type="radio" name="colligation_type_radio"
            value="<%= Problem::QUESTION_TYPE[:SINGLE_CALK] %>" id="radio4"
-           onclick="javascript:item_pools_colligation_question_type(3);"/>填空题
+           onclick="javascript:item_pools_colligation_question_type(<%= Problem::QUESTION_TYPE[:SINGLE_CALK] %>);"/>填空题
   </div>
   <div style="float: left;padding-right: 20px;">
     <input type="radio" name="colligation_type_radio"
            value="<%= Problem::QUESTION_TYPE[:CHARACTER] %>" id="radio6"
-           onclick="javascript:item_pools_colligation_question_type(5);"/>简答题
+           onclick="javascript:item_pools_colligation_question_type(<%= Problem::QUESTION_TYPE[:CHARACTER] %>);"/>简答题
+  </div>
+  <div style="float: left;padding-right: 20px;">
+    <input type="radio" name="colligation_type_radio"
+           value="<%= Problem::QUESTION_TYPE[:MORE_BLANKS] %>" id="radio7"
+           onclick="javascript:item_pools_colligation_question_type(<%= Problem::QUESTION_TYPE[:MORE_BLANKS] %>);"/>完型填空题
   </div>
 </div>
 <div class="clear"></div>
