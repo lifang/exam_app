@@ -17,7 +17,15 @@
         当前模块需要在<%= block.attributes["time"] %>分钟内完成<% end %>
     </font>
     <ul>
-      <% block.elements['problems'].each_element do |problem| %>
+      <% block.elements['problems'].each_element do |problem| 
+      if problem.attributes["id"].nil?
+      %>
+      <li><%= problem.text %></li>
+      <div class="links">
+        <a href="#">编辑</a>&nbsp;|&nbsp;
+        <a href="#">删除</a>
+      </div>
+      <% else %>
         <li>
           <%= render :partial=>"/papers/question_info",:object=>problem %>
           <div id="edit_problem_<%= problem.attributes["id"].to_i %>"></div>
@@ -38,6 +46,7 @@
             <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%= problem.attributes['id']%>').submit();">删除</a>
           <% end %>
         </div>
+        <% end %>
         <div class="clear"></div>
       <% end %>
       <li>

@@ -28,24 +28,27 @@
     </font>
     <ul>
       <% if !block.elements['problems'].nil? %>
-        <% block.elements['problems'].each_element do |problem| %>
-
-          <li>
-            <%= render :partial=>"/papers/question_info",:object=>problem %>
-            <h2>
-              <% if problem.elements['title'].nil? or problem.elements["title"].text.nil? or
-                  problem.elements["title"].text == "" %>
-                <a href="javascript:void(0)"
-                   onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">暂无标题</a>
-                 <% else %>
-                <a href="javascript:void(0)"
-                   onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
-                     <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40).to_s.html_safe %>
-                </a>
-              <% end %>
-            </h2>
-          </li>
-
+        <% block.elements['problems'].each_element do |problem|
+          if problem.attributes["id"].nil?
+          %>
+            <li><%= problem.text %></li>
+          <% else %>
+            <li>
+              <%= render :partial=>"/papers/question_info",:object=>problem %>
+              <h2>
+                <% if problem.elements['title'].nil? or problem.elements["title"].text.nil? or
+                    problem.elements["title"].text == "" %>
+                  <a href="javascript:void(0)"
+                     onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">暂无标题</a>
+                   <% else %>
+                  <a href="javascript:void(0)"
+                     onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
+                       <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40).to_s.html_safe %>
+                  </a>
+                <% end %>
+              </h2>
+            </li>
+          <% end %>
         <% end %>
       <% end %>
     </ul>
