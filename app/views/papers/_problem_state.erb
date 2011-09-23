@@ -1,0 +1,20 @@
+<div class="question_list_style_box">
+  <div class="arrow" style="top:35px;"></div>
+  <div class="question_pic_box" style="top:0px;">
+    <div class="in">
+      <%= form_for :problem ,:url=>"/problems/#{problem_state.attributes['id']}/create_part_description", :method => "post",
+        :html => {:onsubmit => "return validate_blank(#{problem_state.attributes['id']});" , :class => "required-validate", :id => "problem_form", :name => "problem_form"} do |f| %>
+        <%= f.hidden_field :paper_id ,:value=>@xml.attributes['id']  %>
+        <input type="hidden" value="" name="real_type" id="real_type_<%= problem_state.attributes['id'] %>"/>
+        <div class="title">试题说明：</div>
+        <div id="span_<%= problem_state.attributes['id'] %>"></div>
+        <input type="button" name="button" value="富文本" class="submit_btn"
+               onclick="javascript:add_area('mavin_problem_title_<%= problem_state.attributes['id'] %>', this);" />
+        <textarea class="required textarea_style" cols="45" id="mavin_problem_title_<%=problem_state.attributes['id']  %>" name="mavin_problem_title_<%= problem_state.attributes['id'] %>" rows="8"></textarea>
+         <%= f.submit "提交" ,:class=>"submit_btn" %>
+          <%= image_tag "ajax-loader.gif", :id => "spinner_#{problem_state.attributes['id']}", :style => "display:none" %>
+       <% end %>
+    </div>
+  </div>
+</div>
+

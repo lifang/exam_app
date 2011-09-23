@@ -12,6 +12,8 @@ class PaperBlocksController < ApplicationController
     block = @xml.elements["blocks"].elements["block[@id='#{block_id}']"]
     if params[:type] == "create"
       render :partial =>"/papers/new_question",:object=>block
+    elsif params[:type]=="state"
+       render :partial =>"/papers/problem_state",:object=>block
     else
       render :partial =>"/papers/mavin_question",:object=>block
     end
