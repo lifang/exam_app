@@ -446,14 +446,14 @@ function item_pools_generate_edit_questions(problem_id, problem_type) {
 //验证 编辑题目
 function item_pools_edit_problem_validate(problem_id){
 
-    if($("edit_title_"+problem_id).value!=null){
-        var problem_title = $("edit_title_"+problem_id).value.replace(/<br \/>/g,"");
-        var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
-        if(problem_title=="" || checkspace(text_source)){
-            alert("题面不能为空。");
-            return false;
-        }
-    }
+//    if($("edit_title_"+problem_id).value!=null){
+//        var problem_title = $("edit_title_"+problem_id).value.replace(/<br \/>/g,"");
+//        var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
+//        if(problem_title=="" || checkspace(text_source)){
+//            alert("题面不能为空。");
+//            return false;
+//        }
+//    }
 
     var answer_array=[];
     if (document.getElementById("problem_attr_sum").value!=null){

@@ -13,8 +13,8 @@
         <div class="title">题面：</div>
         <input type="button" name="button" value="富文本" class="submit_btn"
                onclick="javascript:add_area('edit_title_<%= edit_problem.attributes["id"].to_i %>', this);" />
-        <% title = edit_problem.elements["title"].nil? ? edit_problem.elements["complete_title"].text :
-          edit_problem.elements["title"].text %>
+        <% title = (edit_problem.elements["title"].nil? or edit_problem.elements["title"].text.nil? or
+          edit_problem.elements["title"].text =="") ? "" : edit_problem.elements["title"].text  %>
         <%= f.text_area :title ,:cols=>"58", :rows=>"20", :class=>"textarea_style",
           :id => "edit_title_#{edit_problem.attributes["id"].to_i}", :value=>title %>    
         <% question_ids = []
