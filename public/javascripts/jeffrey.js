@@ -466,7 +466,6 @@ function load_edit_problem(problem_id,block_id,paper_id){
 
 //载入专家新建题目模板
 function load_mavin_problem(block_id, paper_id) {
-    manage_div(block_id, "mavin_question");
     if(close_mavin_question_id != 0 && close_mavin_question_id != block_id){
         document.getElementById("mavin_question_"+close_mavin_question_id).innerHTML = "";
     }
@@ -476,6 +475,20 @@ function load_mavin_problem(block_id, paper_id) {
     }
     close_mavin_question_id = block_id;
     
+}
+
+//载入试题说明
+function load_problem_state(block_id, paper_id) {
+    if(close_mavin_question_id != 0 && close_mavin_question_id != block_id){
+        document.getElementById("mavin_question_"+close_mavin_question_id).innerHTML = "";
+        document.getElementById("state_question_"+close_mavin_question_id).innerHTML = "";
+    }
+    document.getElementById("mavin_question_"+block_id).innerHTML = "";
+    if (close_mavin_question_id==0||document.getElementById("state_question_"+block_id).innerHTML == "") {
+        load_create_problem(block_id, paper_id, 'state');
+    }
+    close_mavin_question_id = block_id;
+
 }
 
 //载入新建题目面板

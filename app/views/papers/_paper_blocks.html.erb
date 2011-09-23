@@ -8,12 +8,13 @@
   </h1>
   <div id="create_question_<%= block.attributes["id"].to_i %>"></div>
   <%= render :partial=>"/papers/edit_block" ,:object=>block %>
+  <div id="state_question_<%= block.attributes["id"].to_i %>"></div>
   <div id="mavin_question_<%= block.attributes["id"].to_i %>"></div>
   <div class="biz_art_list_box">
     <%= block.elements["base_info"].elements["description"].text %>
     <font color="red">
-    <% if block.attributes["time"] != "" and block.attributes["time"] != "0" %>
-      当前模块需要在<%= block.attributes["time"] %>分钟内完成<% end %>
+      <% if block.attributes["time"] != "" and block.attributes["time"] != "0" %>
+        当前模块需要在<%= block.attributes["time"] %>分钟内完成<% end %>
     </font>
     <ul>
       <% block.elements['problems'].each_element do |problem| %>
@@ -39,6 +40,8 @@
         <input type="button" value="新建试题" class="submit_btn"  onClick="javascript:choose_question_type(<%= block.attributes['id'] %>);"/>
         <input type="button" value="新建专家试题" class="submit_btn"
                onclick="javascript:load_mavin_problem(<%= block.attributes['id'] %>, <%= @xml.attributes['id'] %>);"/>
+        <input type="button" value="新建试题说明" class="submit_btn"
+               onclick="javascript:load_problem_state(<%= block.attributes['id'] %>, <%= @xml.attributes['id'] %>);"/>
         <div style="display: none;" id="choose_que_type_div_<%= block.attributes['id'] %>">
           <%= render :partial => "choose_question_type", :object => block %>
         </div>
