@@ -3,7 +3,7 @@
   <div class="question_pic_box" style="top:0px;">
     <div class="in">
       <%= form_for :problem ,:url=>"/problems/#{problem_state.attributes['id']}/create_part_description", :method => "post",
-        :html => { :class => "required-validate", :id => "problem_form", :name => "problem_form"} do |f| %>
+        :html => {:onsubmit => "return validate_blank(#{problem_state.attributes['id']});" , :class => "required-validate", :id => "problem_form", :name => "problem_form"} do |f| %>
         <%= f.hidden_field :paper_id ,:value=>@xml.attributes['id']  %>
         <input type="hidden" value="" name="real_type" id="real_type_<%= problem_state.attributes['id'] %>"/>
         <div class="title">试题说明：</div>

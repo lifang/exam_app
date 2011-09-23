@@ -395,6 +395,13 @@ function add_area(content_id, button) {
     };
 }
 
+function validate_blank(id){
+   var description=$('mavin_problem_title_'+id).value;
+   if (description==""||description.length==0){alert("请输入试题说明");
+       return false;
+   }
+}
+
 //取消富文本编辑器
 function remove_area(area,content_id, button) {
     area.removeInstance(content_id);
