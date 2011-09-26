@@ -2,7 +2,14 @@
   <div class="arrow" style="top:35px;"></div>
   <div class="big_pic_box" style="top:0px;">
     <div class="in">
-      <div class="title"><%= question_info.elements["title"].text.to_s.html_safe %></div>
+      <div class="title">
+        <% if question_info.elements["title"].nil? or question_info.elements["title"].text.nil? or
+            question_info.elements["title"].text == "" %>
+        暂无标题
+        <% else %>
+        <%= question_info.elements["title"].text.to_s.html_safe %>
+        <% end %>
+      </div>
       <% question_info.elements["questions"].each_element do |question| %>
         <%= render :partial => "/common/show_single_question", :object => question %>
       <% end %>

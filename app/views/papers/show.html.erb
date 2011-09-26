@@ -23,20 +23,29 @@
   <div class="biz_art_list_box">
     <%= block.elements["base_info"].elements["description"].text %>&nbsp;&nbsp;
     <font color="red">
-    <% if block.attributes["time"] != "" and block.attributes["time"] != "0" %>
-      当前模块需要在<%= block.attributes["time"] %>分钟内完成<% end %>
+      <% if block.attributes["time"] != "" and block.attributes["time"] != "0" %>
+        当前模块需要在<%= block.attributes["time"] %>分钟内完成<% end %>
     </font>
     <ul>
       <% if !block.elements['problems'].nil? %>
-        <% block.elements['problems'].each_element do |problem| %>
-          <% if !problem.elements['title'].nil? %>
+        <% block.elements['problems'].each_element do |problem|
+          if problem.attributes["id"].nil?
+          %>
+            <li><%= problem.text %></li>
+          <% else %>
             <li>
               <%= render :partial=>"/papers/question_info",:object=>problem %>
               <h2>
-                <a href="javascript:void(0)"
-                   onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
-                     <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40).to_s.html_safe %>
-                </a>
+                <% if problem.elements['title'].nil? or problem.elements["title"].text.nil? or
+                    problem.elements["title"].text == "" %>
+                  <a href="javascript:void(0)"
+                     onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">暂无标题</a>
+                   <% else %>
+                  <a href="javascript:void(0)"
+                     onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
+                       <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40).to_s.html_safe %>
+                  </a>
+                <% end %>
               </h2>
             </li>
           <% end %>

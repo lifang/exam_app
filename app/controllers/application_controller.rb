@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
 
   def write_xml(url,doc)
     file = File.new(url, "w+")
-
     file.write(doc)
     file.close
   end

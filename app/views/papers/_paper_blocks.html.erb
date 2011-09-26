@@ -8,37 +8,53 @@
   </h1>
   <div id="create_question_<%= block.attributes["id"].to_i %>"></div>
   <%= render :partial=>"/papers/edit_block" ,:object=>block %>
+  <div id="state_question_<%= block.attributes["id"].to_i %>"></div>
   <div id="mavin_question_<%= block.attributes["id"].to_i %>"></div>
   <div class="biz_art_list_box">
     <%= block.elements["base_info"].elements["description"].text %>
     <font color="red">
-    <% if block.attributes["time"] != "" and block.attributes["time"] != "0" %>
-      当前模块需要在<%= block.attributes["time"] %>分钟内完成<% end %>
+      <% if block.attributes["time"] != "" and block.attributes["time"] != "0" %>
+        当前模块需要在<%= block.attributes["time"] %>分钟内完成<% end %>
     </font>
     <ul>
-      <% block.elements['problems'].each_element do |problem| %>
-        <% if !problem.elements['title'].nil? %>
-          <li>
-            <%= render :partial=>"/papers/question_info",:object=>problem %>
-            <div id="edit_problem_<%= problem.attributes["id"].to_i %>"></div>
-            <h2><a href="javascript:void(0)" onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
-                <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40).to_s.html_safe %></a>
-            </h2>
-          </li>
-          <div class="links">
-            <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
-              <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
-              <a href="javascript:void(0);" onClick="javascript:edit_problem(<%= problem.attributes["id"].to_i %>,<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>)" >编辑</a>&nbsp;|&nbsp;
-              <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%= problem.attributes['id']%>').submit();">删除</a>
-            <% end %>
-          </div>
-          <div class="clear"></div>
+      <% block.elements['problems'].each_element do |problem| 
+      if problem.attributes["id"].nil?
+      %>
+      <li><%= problem.text %></li>
+      <div class="links">
+        <a href="#">编辑</a>&nbsp;|&nbsp;
+        <a href="#">删除</a>
+      </div>
+      <% else %>
+        <li>
+          <%= render :partial=>"/papers/question_info",:object=>problem %>
+          <div id="edit_problem_<%= problem.attributes["id"].to_i %>"></div>
+          <h2>
+            <a href="javascript:void(0)" onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
+              <% if problem.elements['title'].nil? %>
+                暂无标题
+              <% else %>
+                <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40).to_s.html_safe %>
+              <% end %>
+            </a>
+          </h2>
+        </li>
+        <div class="links">
+          <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
+            <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
+            <a href="javascript:void(0);" onClick="javascript:edit_problem(<%= problem.attributes["id"].to_i %>,<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>)" >编辑</a>&nbsp;|&nbsp;
+            <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%= problem.attributes['id']%>').submit();">删除</a>
+          <% end %>
+        </div>
         <% end %>
+        <div class="clear"></div>
       <% end %>
       <li>
         <input type="button" value="新建试题" class="submit_btn"  onClick="javascript:choose_question_type(<%= block.attributes['id'] %>);"/>
         <input type="button" value="新建专家试题" class="submit_btn"
                onclick="javascript:load_mavin_problem(<%= block.attributes['id'] %>, <%= @xml.attributes['id'] %>);"/>
+        <input type="button" value="新建试题说明" class="submit_btn"
+               onclick="javascript:load_problem_state(<%= block.attributes['id'] %>, <%= @xml.attributes['id'] %>);"/>
         <div style="display: none;" id="choose_que_type_div_<%= block.attributes['id'] %>">
           <%= render :partial => "choose_question_type", :object => block %>
         </div>
