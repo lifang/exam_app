@@ -182,4 +182,11 @@ class ProblemsController < ApplicationController
     write_xml(url,doc)
     redirect_to request.referer
   end
+  def description_destroy
+    url="#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml"
+    doc=Problem.open_xml(File.open url).root
+    doc.delete_element(params[:problem_path])
+    write_xml(url,doc)
+    redirect_to request.referer
+  end
 end

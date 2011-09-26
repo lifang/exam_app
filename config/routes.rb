@@ -110,7 +110,7 @@ ExamApp::Application.routes.draw do
   end
   resources :problems do
     collection do
-      post "mavin_problem",:des
+      post "mavin_problem",:des,"description_destroy"
     end
     member do
       post "update_problem","create_part_description","load_edit_part","update_part_description"
