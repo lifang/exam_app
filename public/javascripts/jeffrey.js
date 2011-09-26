@@ -403,10 +403,11 @@ function add_area(content_id, button) {
 }
 
 function validate_blank(id){
-   var description=$('mavin_problem_title_'+id).value;
-   if (description==""||description.length==0){alert("请输入试题说明");
-       return false;
-   }
+    var description=$('mavin_problem_title_'+id).value;
+    if (description==""||description.length==0){
+        alert("请输入试题说明");
+        return false;
+    }
 }
 
 //取消富文本编辑器
@@ -461,9 +462,31 @@ function edit_problem(id,block_id,paper_id){
         load_edit_problem(id,block_id,paper_id);
     }
     close_edit_problem_id = id;
-
-
 }
+close_edit_state_id=0
+//编辑题目
+function edit_problem_state(block_id,paper_id,part_id){
+    if(close_edit_state_id != 0 && part_id !=close_edit_state_id){
+        document.getElementById("edit_descritpion_"+close_edit_state_id).innerHTML = "";
+    }
+    if (document.getElementById("edit_descritpion_"+part_id).innerHTML == "") {
+       load_problem_edit(block_id,paper_id,part_id);
+    }
+    close_edit_state_id=part_id
+}
+
+function load_problem_edit(block_id,paper_id,part_id){
+     new Ajax.Updater("edit_descritpion_" + part_id, "/problems/"+ part_id+"/load_edit_part",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:"post",
+            parameters: 'block_id=' + block_id + '&paper_id=' + paper_id+
+            '&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+        });
+        return false;
+}
+
 
 //载入修改题目面板
 function load_edit_problem(problem_id,block_id,paper_id){
@@ -630,7 +653,6 @@ function new_attr(type){
         var attr_sum_element=document.getElementById("problem_attr_sum");
         var attr_sum=attr_sum_element.value;
         attr_sum++;
-
         var attrs =  document.getElementById("attrs");
         var tmpObj = document.createElement("div");
         tmpObj.setAttribute("class", "attr");

@@ -31,7 +31,7 @@
         <% block.elements['problems'].each_element do |problem|
           if problem.attributes["id"].nil?
           %>
-            <li><%= problem.text %></li>
+            <li><%= problem.elements["part_description"].text %></li>
           <% else %>
             <li>
               <%= render :partial=>"/papers/question_info",:object=>problem %>
