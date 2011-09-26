@@ -2799,3 +2799,36 @@ a:hover{
     margin-left: 15px;
     margin-top: 10px;
 }
+
+.state_list_style_box{
+    position:relative;
+    float:right;
+    width:390px;
+}
+.state_pic_box{
+    position:absolute;
+    left:403px;
+    top:0px;
+    border:#a6a6a6 1px solid;
+    background:#e8e8e8;
+    width:450px;
+    height:960px;
+    padding:3px;
+    z-index:9;
+}
+.state_pic_box .in{
+    background:#FFF;
+    padding:5px;
+    width:440px;
+    height:950px;
+
+}
+.state_pic_box .in .title {
+    font-size:12px;
+    font-weight:bold;
+    word-wrap:break-word;
+    word-break:break-all;
+    background:url(/images/dot_line.gif) repeat-x bottom;
+    margin-top:2px;
+    margin-bottom:5px;
+}

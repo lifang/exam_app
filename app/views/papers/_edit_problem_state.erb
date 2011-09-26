@@ -1,6 +1,6 @@
-<div class="question_list_style_box">
-  <div class="arrow" style="top:35px;"></div>
-  <div class="question_pic_box" style="top:0px;">
+<div class="state_list_style_box">
+  <div class="arrow" style="top:35px;left:398px;"></div>
+  <div class="state_pic_box" style="top:0px;">
     <div class="in">
       <%= form_for :problem ,:url=>"/problems/#{edit_problem_state[0].attributes['part_id']}/update_part_description", :method => "post",
         :html => {:onsubmit => "return validate_blank(#{edit_problem_state[0].attributes['part_id']});" , :class => "required-validate", :id => "problem_form", :name => "problem_form"} do |f| %>

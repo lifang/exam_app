@@ -4,6 +4,7 @@ close_edit_problem_id = 0
 close_edit_block_id = 0
 close_mavin_question_id = 0
 close_state_question_id = 0
+close_edit_state_id = 0
 
 //if (window.onbeforeunload == undefined) {
 //    window.onbeforeunload=function() {
@@ -43,9 +44,12 @@ function manage_div(open_div_id, div_sup_name) {
     }
 
     if(close_state_question_id != 0  && div_sup_name != "state_question"){
-        alert(close_state_question_id);
-        document.getElementById("mavin_question_"+close_state_question_id).innerHTML="";
+        document.getElementById("state_question_"+close_state_question_id).innerHTML="";
         close_state_question_id = 0;
+    }
+    if(close_edit_state_id != 0  && div_sup_name != "edit_state"){
+        document.getElementById("edit_state_descritpion_"+close_edit_state_id).innerHTML="";
+        close_edit_state_id = 0;
     }
     
     if (div_sup_name == "new_module") {
@@ -463,20 +467,21 @@ function edit_problem(id,block_id,paper_id){
     }
     close_edit_problem_id = id;
 }
-close_edit_state_id=0
-//编辑题目
-function edit_problem_state(block_id,paper_id,part_id){
-    if(close_edit_state_id != 0 && part_id !=close_edit_state_id){
-        document.getElementById("edit_descritpion_"+close_edit_state_id).innerHTML = "";
+
+//编辑模块描述
+function edit_problem_state(block_id, paper_id, part_id){
+    manage_div(part_id, "edit_state");
+    if(close_edit_state_id != 0 && part_id != close_edit_state_id){
+        document.getElementById("edit_state_descritpion_"+close_edit_state_id).innerHTML = "";
     }
-    if (document.getElementById("edit_descritpion_"+part_id).innerHTML == "") {
+    if (document.getElementById("edit_state_descritpion_"+ part_id).innerHTML == "") {
        load_problem_edit(block_id,paper_id,part_id);
     }
-    close_edit_state_id=part_id
+    close_edit_state_id = part_id;
 }
 
 function load_problem_edit(block_id,paper_id,part_id){
-     new Ajax.Updater("edit_descritpion_" + part_id, "/problems/"+ part_id+"/load_edit_part",
+     new Ajax.Updater("edit_state_descritpion_" + part_id, "/problems/"+ part_id+"/load_edit_part",
         {
             asynchronous:true,
             evalScripts:true,
