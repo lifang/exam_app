@@ -157,11 +157,28 @@ class ProblemsController < ApplicationController
     url="#{Constant::PAPER_PATH}/#{params[:problem][:paper_id].to_i}.xml"
     doc=Problem.open_xml(File.open url).root
     part_description=doc.elements["blocks/block[@id='#{params[:id]}']/problems"]
-    if part_description.elements["part_description"].nil?
-      part_description.add_element("part_description").add_text(params["mavin_problem_title_#{params[:id]}"])
-    else
-      part_description.elements["part_description"].text=params["mavin_problem_title_#{params[:id]}"]
-    end
+    parts=part_description.get_elements("//part_description")
+    ids=[]
+    parts.each do |part|
+      ids << part.attributes["part_id"].to_i
+    end unless parts==[]
+    description=part_description.add_element("problem").add_element("part_description").add_text(params["mavin_problem_title_#{params[:id]}"])
+    description.add_attribute("part_id","#{ids.sort.last+1}")
+    write_xml(url,doc)
+    redirect_to request.referer
+  end
+
+  def load_edit_part
+    xml = REXML::Document.new(File.new("#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml")).root
+    problem=xml.elements["blocks/block[@id='#{params[:block_id]}']/problems//part_description[@part_id='#{params[:id]}']"]
+    puts [problem,params[:paper_id],params[:block_id]]
+    render :partial=>"/papers/edit_problem_state",:object=>[problem,params[:paper_id],params[:block_id]]
+  end
+
+  def update_part_description
+    url="#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml"
+    doc=Problem.open_xml(File.open url).root
+    doc.elements["blocks/block[@id='#{params[:block_id]}']/problems//part_description[@part_id='#{params[:id]}']"].text=params["mavin_problem_title_#{params[:id]}"]
     write_xml(url,doc)
     redirect_to request.referer
   end

@@ -113,7 +113,7 @@ ExamApp::Application.routes.draw do
       post "mavin_problem",:des
     end
     member do
-      post "update_problem","create_part_description"
+      post "update_problem","create_part_description","load_edit_part","update_part_description"
     end
   end
 

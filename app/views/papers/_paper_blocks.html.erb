@@ -17,35 +17,42 @@
         当前模块需要在<%= block.attributes["time"] %>分钟内完成<% end %>
     </font>
     <ul>
-      <% block.elements['problems'].each_element do |problem| 
-      if problem.attributes["id"].nil?
-      %>
-      <li><%= problem.text %></li>
-      <div class="links">
-        <a href="#">编辑</a>&nbsp;|&nbsp;
-        <a href="#">删除</a>
-      </div>
-      <% else %>
-        <li>
-          <%= render :partial=>"/papers/question_info",:object=>problem %>
-          <div id="edit_problem_<%= problem.attributes["id"].to_i %>"></div>
-          <h2>
-            <a href="javascript:void(0)" onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
-              <% if problem.elements['title'].nil? %>
-                暂无标题
-              <% else %>
-                <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40).to_s.html_safe %>
-              <% end %>
-            </a>
-          </h2>
-        </li>
-        <div class="links">
-          <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
-            <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
-            <a href="javascript:void(0);" onClick="javascript:edit_problem(<%= problem.attributes["id"].to_i %>,<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>)" >编辑</a>&nbsp;|&nbsp;
-            <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%= problem.attributes['id']%>').submit();">删除</a>
-          <% end %>
-        </div>
+      <% block.elements['problems'].each_element do |problem|
+        if problem.attributes["id"].nil?
+        %>
+          <li>
+            <div style="border: 10px #ccc solid;" id="edit_descritpion_<%= problem.elements["part_description"].attributes["part_id"].to_i %>"></div>
+            <h2><%= problem.elements["part_description"].text %></h2>
+          </li>
+          <div class="links">
+            <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.elements["part_description"].attributes["part_id"]}"}, :url=>"/papers/problem_destroy" do |f|%>
+              <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
+              <a href="javascript:void(0);" onClick="javascript:edit_problem_state(<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>,<%= problem.elements["part_description"].attributes["part_id"] %>)">编辑</a>&nbsp;|&nbsp;
+              <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%=problem.elements["part_description"].attributes["part_id"]%>').submit();">删除</a>
+            <% end %>
+          </div>
+          <div class="clear"></div>
+        <% else %>
+          <li>
+            <%= render :partial=>"/papers/question_info",:object=>problem %>
+            <div style="border: 10px #ccc solid;" id="edit_problem_<%= problem.attributes["id"].to_i %>"></div>
+            <h2>
+              <a href="javascript:void(0)" onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
+                <% if problem.elements['title'].nil? %>
+                  暂无标题
+                <% else %>
+                  <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40).to_s.html_safe %>
+                <% end %>
+              </a>
+            </h2>
+          </li>
+          <div class="links">
+            <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
+              <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
+              <a href="javascript:void(0);" onClick="javascript:edit_problem(<%= problem.attributes["id"].to_i %>,<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>)" >编辑</a>&nbsp;|&nbsp;
+              <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%= problem.attributes['id']%>').submit();">删除</a>
+            <% end %>
+          </div>
         <% end %>
         <div class="clear"></div>
       <% end %>
