@@ -3,6 +3,8 @@ close_create_question_id = 0
 close_edit_problem_id = 0
 close_edit_block_id = 0
 close_mavin_question_id = 0
+close_state_question_id = 0
+close_edit_state_id = 0
 
 //if (window.onbeforeunload == undefined) {
 //    window.onbeforeunload=function() {
@@ -39,6 +41,15 @@ function manage_div(open_div_id, div_sup_name) {
     if(close_mavin_question_id != 0  && div_sup_name != "mavin_question"){
         document.getElementById("mavin_question_"+close_mavin_question_id).innerHTML="";
         close_mavin_question_id = 0;
+    }
+
+    if(close_state_question_id != 0  && div_sup_name != "state_question"){
+        document.getElementById("state_question_"+close_state_question_id).innerHTML="";
+        close_state_question_id = 0;
+    }
+    if(close_edit_state_id != 0  && div_sup_name != "edit_state"){
+        document.getElementById("edit_state_descritpion_"+close_edit_state_id).innerHTML="";
+        close_edit_state_id = 0;
     }
     
     if (div_sup_name == "new_module") {
@@ -396,10 +407,11 @@ function add_area(content_id, button) {
 }
 
 function validate_blank(id){
-   var description=$('mavin_problem_title_'+id).value;
-   if (description==""||description.length==0){alert("请输入试题说明");
-       return false;
-   }
+    var description=$('mavin_problem_title_'+id).value;
+    if (description==""||description.length==0){
+        alert("请输入试题说明");
+        return false;
+    }
 }
 
 //取消富文本编辑器
@@ -454,9 +466,32 @@ function edit_problem(id,block_id,paper_id){
         load_edit_problem(id,block_id,paper_id);
     }
     close_edit_problem_id = id;
-
-
 }
+
+//编辑模块描述
+function edit_problem_state(block_id, paper_id, part_id){
+    manage_div(part_id, "edit_state");
+    if(close_edit_state_id != 0 && part_id != close_edit_state_id){
+        document.getElementById("edit_state_descritpion_"+close_edit_state_id).innerHTML = "";
+    }
+    if (document.getElementById("edit_state_descritpion_"+ part_id).innerHTML == "") {
+       load_problem_edit(block_id,paper_id,part_id);
+    }
+    close_edit_state_id = part_id;
+}
+
+function load_problem_edit(block_id,paper_id,part_id){
+     new Ajax.Updater("edit_state_descritpion_" + part_id, "/problems/"+ part_id+"/load_edit_part",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:"post",
+            parameters: 'block_id=' + block_id + '&paper_id=' + paper_id+
+            '&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+        });
+        return false;
+}
+
 
 //载入修改题目面板
 function load_edit_problem(problem_id,block_id,paper_id){
@@ -473,9 +508,9 @@ function load_edit_problem(problem_id,block_id,paper_id){
 
 //载入专家新建题目模板
 function load_mavin_problem(block_id, paper_id) {
+    manage_div(block_id, "mavin_question");
     if(close_mavin_question_id != 0 && close_mavin_question_id != block_id){
         document.getElementById("mavin_question_"+close_mavin_question_id).innerHTML = "";
-         document.getElementById("state_question_"+close_mavin_question_id).innerHTML = "";
     }
 
     if (document.getElementById("mavin_question_"+block_id).innerHTML == "") {
@@ -487,15 +522,14 @@ function load_mavin_problem(block_id, paper_id) {
 
 //载入试题说明
 function load_problem_state(block_id, paper_id) {
-    if(close_mavin_question_id != 0 && close_mavin_question_id != block_id){
-        document.getElementById("mavin_question_"+close_mavin_question_id).innerHTML = "";
-        document.getElementById("state_question_"+close_mavin_question_id).innerHTML = "";
+    manage_div(block_id, "state_question");
+    if(close_state_question_id != 0 && close_state_question_id != block_id){
+        document.getElementById("state_question_"+close_state_question_id).innerHTML = "";
     }
-    document.getElementById("mavin_question_"+block_id).innerHTML = "";
-    if (close_mavin_question_id==0||document.getElementById("state_question_"+block_id).innerHTML == "") {
+    if (document.getElementById("state_question_"+block_id).innerHTML == "") {
         load_create_problem(block_id, paper_id, 'state');
     }
-    close_mavin_question_id = block_id;
+    close_state_question_id = block_id;
 
 }
 
@@ -624,7 +658,6 @@ function new_attr(type){
         var attr_sum_element=document.getElementById("problem_attr_sum");
         var attr_sum=attr_sum_element.value;
         attr_sum++;
-
         var attrs =  document.getElementById("attrs");
         var tmpObj = document.createElement("div");
         tmpObj.setAttribute("class", "attr");
