@@ -166,35 +166,43 @@ class ExamUser < ActiveRecord::Base
   def self.generate_user_score(answer_doc, paper_doc)
     auto_score = 0
     paper_doc.root.elements["blocks"].each_element do |block|
+      block_score = 0
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|
           if question.attributes["correct_type"].to_i != Problem::QUESTION_TYPE[:CHARACTER]
-            q_answer = answer_doc.root.elements["paper/questions"].elements["question[@id='#{question.attributes["id"]}']"]
-            unless q_answer.nil? or q_answer.elements["answer"].nil?
-              score = 0
-              if q_answer.elements["answer"].text and q_answer.elements["answer"].text != ""
-                answers = question.elements["answer"].text.split(";|;")
-                if answers.length == 1
-                  score = answers[0].strip == q_answer.elements["answer"].text.strip ? question.attributes["score"].to_i : 0
-                else
-                  q_answers = q_answer.elements["answer"].text.split(";|;")
-                  all_answer = answers | q_answers
-                  if all_answer == answers
-                    if answers - q_answers == []
-                      score = question.attributes["score"].to_i
-                    elsif q_answers.length < answers.length
-                      score = ((question.attributes["score"].to_i.to_f)/2).round
+            unless answer_doc.root.elements["paper/questions"].nil?
+              q_answer = answer_doc.root.elements["paper/questions"].elements["question[@id='#{question.attributes["id"]}']"]
+              unless q_answer.nil? or q_answer.elements["answer"].nil?
+                score = 0
+                if q_answer.elements["answer"].text and q_answer.elements["answer"].text != ""
+                  answers = question.elements["answer"].text.split(";|;")
+                  if answers.length == 1
+                    score = answers[0].strip == q_answer.elements["answer"].text.strip ? question.attributes["score"].to_i : 0
+                  else
+                    q_answers = q_answer.elements["answer"].text.split(";|;")
+                    all_answer = answers | q_answers
+                    if all_answer == answers
+                      if answers - q_answers == []
+                        score = question.attributes["score"].to_i
+                      elsif q_answers.length < answers.length
+                        score = ((question.attributes["score"].to_i.to_f)/2).round
+                      end
+                    elsif all_answer.length > answers.length
+                      score = 0
                     end
-                  elsif all_answer.length > answers.length
-                    score = 0
                   end
                 end
+                q_answer.add_attribute("score", "#{score}")
+                block_score += score
+                auto_score += score
               end
-              q_answer.add_attribute("score", "#{score}")
-              auto_score += score
             end
           end
         end
+      end
+      unless answer_doc.root.elements["paper/blocks"].nil?
+        block_xml = answer_doc.root.elements["paper/blocks"].elements["block[@id='#{block.attributes["id"]}']"]
+        block_xml.add_attribute("score", "#{block_score}") unless block_xml.nil?
       end
     end
     answer_doc.root.elements["paper"].elements["auto_score"].text = auto_score
