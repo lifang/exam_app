@@ -167,12 +167,14 @@ class ExamUser < ActiveRecord::Base
     auto_score = 0
     paper_doc.root.elements["blocks"].each_element do |block|
       block_score = 0
+      old_block_score = 0
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|
           if question.attributes["correct_type"].to_i != Problem::QUESTION_TYPE[:CHARACTER]
             unless answer_doc.root.elements["paper/questions"].nil?
               q_answer = answer_doc.root.elements["paper/questions"].elements["question[@id='#{question.attributes["id"]}']"]
               unless q_answer.nil? or q_answer.elements["answer"].nil?
+                old_block_score += q_answer.attributes["score"].to_i
                 score = 0
                 if q_answer.elements["answer"].text and q_answer.elements["answer"].text != ""
                   answers = question.elements["answer"].text.split(";|;")
@@ -202,7 +204,8 @@ class ExamUser < ActiveRecord::Base
       end
       unless answer_doc.root.elements["paper/blocks"].nil?
         block_xml = answer_doc.root.elements["paper/blocks"].elements["block[@id='#{block.attributes["id"]}']"]
-        block_xml.add_attribute("score", "#{block_score}") unless block_xml.nil?
+        block_xml.add_attribute("score", 
+          "#{block_xml.attributes["score"].to_i - old_block_score + block_score}") unless block_xml.nil?
       end
     end
     answer_doc.root.elements["paper"].elements["auto_score"].text = auto_score
@@ -319,19 +322,27 @@ class ExamUser < ActiveRecord::Base
   end
 
   #编辑考分
-  def self.edit_scores(user_id,id,score)
-    url="/result/#{user_id}.xml"
-    doc=ExamRater.open_file(url)
-    doc.elements["paper"].elements["questions"].each_element do |question|
-      if question.attributes["id"]==id
-        exam_user=ExamUser.find(user_id)
-        exam_user.total_score += (score.to_i-question.attributes["score"].to_i )
-        doc.elements["paper"].attributes["score"]=exam_user.total_score
-        exam_user.save
-        question.attributes["score"]=score
+  def edit_scores(id, score, block_ids)
+    url = self.answer_sheet_url
+    doc = ExamRater.open_file("#{Constant::FRONT_PUBLIC_PATH}" + url)
+    old_question_score = 0
+    unless doc.elements["paper"].elements["questions"].nil?
+      question = doc.elements["/exam/paper/questions/question[@id=#{id}]"]
+      unless question.nil? 
+        old_question_score = question.attributes["score"].to_i
+        self.total_score += (score.to_i-question.attributes["score"].to_i )
+        doc.elements["paper"].attributes["score"]=self.total_score
+        self.save
+        question.attributes["score"] = score
+        unless doc.elements["paper"].elements["blocks"].nil?
+          block = doc.elements["/exam/paper/blocks/block[@id=#{block_ids}]"]
+          unless block.nil?
+            block.attributes["score"] = block.attributes["score"].to_i - old_question_score + score.to_i
+          end
+        end
       end
-    end
-    Problem.write_xml("#{Rails.root}/public"+url, doc)
+    end    
+    Problem.write_xml("#{Constant::FRONT_PUBLIC_PATH}"+url, doc)
   end
 
   #导出当前考试未确认的考生名单

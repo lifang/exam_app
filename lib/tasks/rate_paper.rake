@@ -10,17 +10,15 @@ namespace :paper do
         left join rater_user_relations rur on rur.exam_user_id = e.id
         inner join examinations exm on exm.id = e.examination_id
         where e.is_submited = 1 and e.answer_sheet_url is not null 
-        and e.is_auto_rate = 0 and exm.types = #{Examination::TYPES[:SIMULATION]} ")#
+        and e.is_auto_rate = 0 and exm.types = #{Examination::TYPES[:SIMULATION]} ")
     dir = Constant::FRONT_PUBLIC_PATH
     paper_dir = "#{Rails.root}/public"
     exam_users.each do |exam_user|
       if exam_user.is_should_rate == 0 or
           (exam_user.is_should_rate == 1 and !exam_user.is_authed.nil? and exam_user.is_authed != 0)
-        puts exam_user.id
         paper_xml = Document.new(File.open(paper_dir + exam_user.paper_url))
         answer_xml = Document.new(File.open(dir + exam_user.answer_sheet_url))
         answer_xml = ExamUser.generate_user_score(answer_xml, paper_xml)
-        puts exam_user.is_should_rate
         f = File.new(dir + exam_user.answer_sheet_url,"w")
         f.write("#{answer_xml.to_s.force_encoding('UTF-8')}")
         f.close
