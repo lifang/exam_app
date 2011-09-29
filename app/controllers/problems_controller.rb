@@ -23,7 +23,7 @@ class ProblemsController < ApplicationController
         tag_name = params[:tag].strip.split(" ")
         @question.question_tags(Tag.create_tag(tag_name))
       end
-      score_arr[@question.id] = params[:problem][:score].to_i
+      score_arr[@question.id] = params[:problem][:score].to_f
     end
     @problem.update_problem_tags
     create_xml(@problem, score_arr)
@@ -56,7 +56,7 @@ class ProblemsController < ApplicationController
         tag_name = params[:tag].strip.split(" ")
         @question.question_tags(Tag.create_tag(tag_name))
       end
-      score_arr[@question.id] = params[:problem][:score].to_i
+      score_arr[@question.id] = params[:problem][:score].to_f
     end
     @problem.update_problem_tags
 
@@ -106,7 +106,7 @@ class ProblemsController < ApplicationController
         @question = Question.create_question(@problem,
           {:answer => questions[i][:answer], :analysis => questions[i][:analysis],
             :correct_type => questions[i][:correct_type].to_i}, questions[i][:question_attr])
-        score_arr[@question.id] = scores[i].nil? ? 0 : scores[i]
+        score_arr[@question.id] = scores[i].nil? ? 0.0 : scores[i]
         #创建标签
         if !questions[i][:tag].nil? and questions[i][:tag] != ""
           tag_name = questions[i][:tag].split(" ")

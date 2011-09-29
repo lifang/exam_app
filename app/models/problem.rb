@@ -55,8 +55,8 @@ class Problem < ActiveRecord::Base
     #更新题目、试卷模块和试卷的分数
     problem_score = self.generate_problem_score(options)
     problem.add_attribute("score","#{problem_score}")
-    block.attributes["total_score"] = block.attributes["total_score"].to_i + problem_score             #更新模块总分
-    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i + problem_score       #更新试卷总分
+    block.attributes["total_score"] = block.attributes["total_score"].to_f + problem_score             #更新模块总分
+    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_f + problem_score       #更新试卷总分
     #更新试卷模块、试卷题目数
     block.attributes["total_num"] = block.attributes["total_num"].to_i + questions.size                #更新模块总题数
     doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i + questions.size          #更新试卷总题数
@@ -75,8 +75,8 @@ class Problem < ActiveRecord::Base
       problem.elements['questions'].each_element {|q| question_num += 1 }
       doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - question_num
       block.attributes["total_num"] = block.attributes["total_num"].to_i - question_num
-      block.attributes["total_score"] = block.attributes["total_score"].to_i - problem.attributes["score"].to_i
-      doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_i - problem.attributes["score"].to_i
+      block.attributes["total_score"] = block.attributes["total_score"].to_f - problem.attributes["score"].to_f
+      doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_f - problem.attributes["score"].to_f
       doc.delete_element(problem_path)
     end
     return doc
@@ -84,9 +84,9 @@ class Problem < ActiveRecord::Base
 
   #根据提点的分值计算题目的总分
   def generate_problem_score(options = {})
-    problem_score = 0
+    problem_score = 0.0
     options[:score].values.each do |value|
-      problem_score += value.to_i
+      problem_score += value.to_f
     end if !options.empty? and !options[:score].nil?
     return problem_score
   end
@@ -139,7 +139,7 @@ class Problem < ActiveRecord::Base
     old_score = {}
     problem = doc.elements["#{problem_path}"]
     problem.elements["questions"].each_element do |que|
-      old_score[que.attributes["id"].to_i] = que.attributes["score"].to_i
+      old_score[que.attributes["id"].to_i] = que.attributes["score"].to_f
     end
     return old_score.merge(score_arr)
   end
