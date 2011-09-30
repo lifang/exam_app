@@ -19,7 +19,7 @@ namespace :paper do
         paper_xml = Document.new(File.open(paper_dir + exam_user.paper_url))
         answer_xml = Document.new(File.open(dir + exam_user.answer_sheet_url))
         answer_xml = ExamUser.generate_user_score(answer_xml, paper_xml)
-        f=File.new(dir + exam_user.answer_sheet_url,"w")
+        f = File.new(dir + exam_user.answer_sheet_url,"w")
         f.write("#{answer_xml.to_s.force_encoding('UTF-8')}")
         f.close
         eu = ExamUser.find(exam_user.id)

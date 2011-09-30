@@ -171,7 +171,6 @@ class ProblemsController < ApplicationController
   def load_edit_part
     xml = REXML::Document.new(File.new("#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml")).root
     problem=xml.elements["blocks/block[@id='#{params[:block_id]}']/problems//part_description[@part_id='#{params[:id]}']"]
-    puts [problem,params[:paper_id],params[:block_id]]
     render :partial=>"/papers/edit_problem_state",:object=>[problem,params[:paper_id],params[:block_id]]
   end
 

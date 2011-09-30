@@ -26,7 +26,7 @@
         <% block.elements['problems'].each_element do |problem| %>
           <% if !problem.elements['title'].nil? %>
             <li>
-              <%= render :partial=>"/user/exam_users/single_question",:object=>problem %>
+              <%= render :partial=>"/user/exam_users/single_question",:object=>[problem, block.attributes['id']] %>
               <h2>
                 <a href="javascript:void(0)"
                    onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
