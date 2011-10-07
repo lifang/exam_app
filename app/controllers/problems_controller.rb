@@ -163,7 +163,11 @@ class ProblemsController < ApplicationController
       ids << part.attributes["part_id"].to_i
     end unless parts==[]
     description=part_description.add_element("problem").add_element("part_description").add_text(params["mavin_problem_title_#{params[:id]}"])
-    description.add_attribute("part_id","#{ids.sort.last+1}")
+    unless ids == []
+      description.add_attribute("part_id","#{ids.sort.last+1}")
+    else
+      description.add_attribute("part_id","1")
+    end
     write_xml(url,doc)
     redirect_to request.referer
   end

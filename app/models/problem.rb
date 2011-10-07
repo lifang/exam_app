@@ -55,8 +55,8 @@ class Problem < ActiveRecord::Base
     #更新题目、试卷模块和试卷的分数
     problem_score = self.generate_problem_score(options)
     problem.add_attribute("score","#{problem_score}")
-    block.attributes["total_score"] = block.attributes["total_score"].to_f + problem_score             #更新模块总分
-    doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_f + problem_score       #更新试卷总分
+    block.attributes["total_score"] = (block.attributes["total_score"].to_f + problem_score.to_f).round(2)      #更新模块总分
+    doc.root.attributes["total_score"] = (doc.root.attributes["total_score"].to_f + problem_score).round(2)     #更新试卷总分
     #更新试卷模块、试卷题目数
     block.attributes["total_num"] = block.attributes["total_num"].to_i + questions.size                #更新模块总题数
     doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i + questions.size          #更新试卷总题数
@@ -75,8 +75,8 @@ class Problem < ActiveRecord::Base
       problem.elements['questions'].each_element {|q| question_num += 1 }
       doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - question_num
       block.attributes["total_num"] = block.attributes["total_num"].to_i - question_num
-      block.attributes["total_score"] = block.attributes["total_score"].to_f - problem.attributes["score"].to_f
-      doc.root.attributes["total_score"] = doc.root.attributes["total_score"].to_f - problem.attributes["score"].to_f
+      block.attributes["total_score"] = (block.attributes["total_score"].to_f - problem.attributes["score"].to_f).round(2)
+      doc.root.attributes["total_score"] = (doc.root.attributes["total_score"].to_f - problem.attributes["score"].to_f).round(2)
       doc.delete_element(problem_path)
     end
     return doc
