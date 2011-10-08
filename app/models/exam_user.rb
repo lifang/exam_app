@@ -164,18 +164,18 @@ class ExamUser < ActiveRecord::Base
 
   #自动统计考试的分数
   def self.generate_user_score(answer_doc, paper_doc)
-    auto_score = 0
+    auto_score = 0.0
     paper_doc.root.elements["blocks"].each_element do |block|
-      block_score = 0
-      old_block_score = 0
+      block_score = 0.0
+      old_block_score = 0.0
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|
           if question.attributes["correct_type"].to_i != Problem::QUESTION_TYPE[:CHARACTER]
             unless answer_doc.root.elements["paper/questions"].nil?
               q_answer = answer_doc.root.elements["paper/questions"].elements["question[@id='#{question.attributes["id"]}']"]
               unless q_answer.nil? or q_answer.elements["answer"].nil?
-                old_block_score += q_answer.attributes["score"].to_i
-                score = 0
+                old_block_score += q_answer.attributes["score"].to_f
+                score = 0.0
                 if q_answer.elements["answer"].text and q_answer.elements["answer"].text != ""
                   answers = question.elements["answer"].text.split(";|;")
                   if answers.length == 1
@@ -185,9 +185,9 @@ class ExamUser < ActiveRecord::Base
                     all_answer = answers | q_answers
                     if all_answer == answers
                       if answers - q_answers == []
-                        score = question.attributes["score"].to_i
+                        score = question.attributes["score"].to_f
                       elsif q_answers.length < answers.length
-                        score = ((question.attributes["score"].to_i.to_f)/2).round
+                        score = (question.attributes["score"].to_f)/2
                       end
                     elsif all_answer.length > answers.length
                       score = 0
@@ -205,7 +205,7 @@ class ExamUser < ActiveRecord::Base
       unless answer_doc.root.elements["paper/blocks"].nil?
         block_xml = answer_doc.root.elements["paper/blocks"].elements["block[@id='#{block.attributes["id"]}']"]
         block_xml.add_attribute("score", 
-          "#{block_xml.attributes["score"].to_i - old_block_score + block_score}") unless block_xml.nil?
+          "#{block_xml.attributes["score"].to_f - old_block_score + block_score}") unless block_xml.nil?
       end
     end
     answer_doc.root.elements["paper"].elements["auto_score"].text = auto_score
@@ -325,19 +325,19 @@ class ExamUser < ActiveRecord::Base
   def edit_scores(id, score, block_ids)
     url = self.answer_sheet_url
     doc = ExamRater.open_file("#{Constant::FRONT_PUBLIC_PATH}" + url)
-    old_question_score = 0
+    old_question_score = 0.0
     unless doc.elements["paper"].elements["questions"].nil?
       question = doc.elements["/exam/paper/questions/question[@id=#{id}]"]
       unless question.nil? 
-        old_question_score = question.attributes["score"].to_i
-        self.total_score += (score.to_i-question.attributes["score"].to_i )
+        old_question_score = question.attributes["score"].to_f
+        self.total_score += (score.to_i-question.attributes["score"].to_f )
         doc.elements["paper"].attributes["score"]=self.total_score
         self.save
         question.attributes["score"] = score
         unless doc.elements["paper"].elements["blocks"].nil?
           block = doc.elements["/exam/paper/blocks/block[@id=#{block_ids}]"]
           unless block.nil?
-            block.attributes["score"] = block.attributes["score"].to_i - old_question_score + score.to_i
+            block.attributes["score"] = block.attributes["score"].to_f - old_question_score + score.to_f
           end
         end
       end

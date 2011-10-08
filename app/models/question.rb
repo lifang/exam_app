@@ -69,7 +69,7 @@ class Question < ActiveRecord::Base
         tag_name = question_hash["tag"].split(" ")
         question.question_tags(Tag.create_tag(tag_name))
       end
-      score_arr[question.id] = question_hash["score"].to_i
+      score_arr[question.id] = question_hash["score"].to_f
     end
     return score_arr
   end

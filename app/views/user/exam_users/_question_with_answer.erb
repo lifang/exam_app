@@ -3,7 +3,7 @@
   <%= question_with_answer[0].elements["description"].text if question_with_answer[0].elements["description"] %>
   [<%= question_with_answer[0].attributes["score"] %>分]
   [<span id="user_score_<%= question_with_answer[0].attributes["id"].to_i %>">
-    <font color="red">得<%= question_with_answer[0].attributes["user_score"].to_i.to_s+"分" %></font>
+    <font color="red">得<%= question_with_answer[0].attributes["user_score"].to_s+"分" %></font>
 <%#if @exam and is_paper_creater? and cookies[:user_id].to_i != @exam.user_id %>
     <a href="javascript:void(0);"
        onclick="javascript:load_score_edit(<%= question_with_answer[0].attributes["id"].to_i %>,
