@@ -415,7 +415,7 @@ function give_me_value(in1,id){
     return false;
    
 }
-function edit_score(id, user_id, question_score){
+function edit_score(id, user_id, question_score, block_id){
     var score=$("edit_score_"+id).value;
     if ((question_score < parseInt(score)) || parseInt(score)<0){
         $("last_score_"+id).innerHTML="您输入的分值有误";
@@ -429,7 +429,8 @@ function edit_score(id, user_id, question_score){
             onComplete:function(request){
                 update_score(id, score, user_id, question_score)
             },
-            parameters:'score='+score +'&user_id='+user_id +'&authenticity_token=' + encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+            parameters:'score='+score +'&user_id='+user_id +'&block_id='+block_id +'&authenticity_token=' +
+                encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
         });
         return false;
     }
@@ -437,9 +438,9 @@ function edit_score(id, user_id, question_score){
 }
 
 //将小题的分值变成可编辑状态
-function load_score_edit(question_id, user_score, exam_user_id, score) {
+function load_score_edit(question_id, user_score, exam_user_id, score, block_id) {
     var str = "得<input size='4' id='edit_score_"+ question_id +"' value='"+ user_score +"' />分\n\
-        <input type='button' onclick='javascript:edit_score("+ question_id +","+ exam_user_id +",\""+ score +"\")' value='确定' />";
+        <input type='button' onclick='javascript:edit_score("+ question_id +","+ exam_user_id +",\""+ score +"\", "+ block_id +")' value='确定' />";
     $("user_score_" + question_id).innerHTML = str;
 }
 

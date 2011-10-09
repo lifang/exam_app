@@ -11,15 +11,17 @@ namespace :paper do
         inner join examinations exm on exm.id = e.examination_id
         where e.is_submited = 1 and e.answer_sheet_url is not null 
         and e.is_auto_rate = 0 and exm.types = #{Examination::TYPES[:SIMULATION]} ")
+    puts exam_users.size
     dir = Constant::FRONT_PUBLIC_PATH
     paper_dir = "#{Rails.root}/public"
     exam_users.each do |exam_user|
-      if exam_user.is_should_rate == 0 or
-          (exam_user.is_should_rate == 1 and !exam_user.is_authed.nil? and exam_user.is_authed != 0)
+      #if exam_user.is_should_rate == 0 or
+      #    (exam_user.is_should_rate == 1 and !exam_user.is_authed.nil? and exam_user.is_authed != 0)
+        puts exam_user.is_should_rate
         paper_xml = Document.new(File.open(paper_dir + exam_user.paper_url))
         answer_xml = Document.new(File.open(dir + exam_user.answer_sheet_url))
         answer_xml = ExamUser.generate_user_score(answer_xml, paper_xml)
-        f=File.new(dir + exam_user.answer_sheet_url,"w")
+        f = File.new(dir + exam_user.answer_sheet_url,"w")
         f.write("#{answer_xml.to_s.force_encoding('UTF-8')}")
         f.close
         eu = ExamUser.find(exam_user.id)
@@ -29,7 +31,7 @@ namespace :paper do
         puts exam_user.id.to_s + " rate success"
         Collection.auto_add_collection(answer_xml, paper_xml, exam_user.user_id)
         puts exam_user.id.to_s + " collection success"
-      end
+      #end
     end unless exam_users.blank?
   end
 end

@@ -191,10 +191,10 @@ function new_question(block_id) {
 
 //验证添加综合题的小题
 function question_validate(){
-    if ($("problem_description")!= null && $("problem_description").value == "") {
-        alert("小题描述不能为空。");
-        return false;
-    }
+//    if ($("problem_description")!= null && $("problem_description").value == "") {
+//        alert("小题描述不能为空。");
+//        return false;
+//    }
     if (parseFloat($("problem_correct_type").value) == 0 ||parseFloat($("problem_correct_type").value) == 1){
         var answer_array=new Array;
         for (var i=1; i<=parseFloat($("problem_attr_sum").value); i++) {

@@ -79,17 +79,17 @@ function edit_problem_validate(problem_id){
 }
 
 function edit_colligation_validate(){
-    var question_titles = document.getElementsByName("problem[description]");
-    for(var i=0;i<question_titles.length;i++){
-        if (question_titles[i].value.replace(/<br \/>/g,"")!=null){
-            var question_title = question_titles[i].value.replace(/<br \/>/g,"");
-            var text_source = question_title.replace(/^\s+/, "").replace(/ \s+$/, "");
-            if(question_title=="" || checkspace(text_source)){
-                alert("小题描述不能为空。");
-                return false;
-            }
-        }
-    }
+//    var question_titles = document.getElementsByName("problem[description]");
+//    for(var i=0;i<question_titles.length;i++){
+//        if (question_titles[i].value.replace(/<br \/>/g,"")!=null){
+//            var question_title = question_titles[i].value.replace(/<br \/>/g,"");
+//            var text_source = question_title.replace(/^\s+/, "").replace(/ \s+$/, "");
+//            if(question_title=="" || checkspace(text_source)){
+//                alert("小题描述不能为空。");
+//                return false;
+//            }
+//        }
+//    }
 
 
     var answer_values = document.getElementsByName("problem[answer]");

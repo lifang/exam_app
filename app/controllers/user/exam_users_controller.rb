@@ -14,7 +14,8 @@ class User::ExamUsersController < ApplicationController
   end
 
   def edit_score
-    ExamUser.edit_scores(params[:user_id],params[:id],params[:score])
+    @exam_user = ExamUser.find(params[:user_id].to_i)
+    @exam_user.edit_scores(params[:id],params[:score],params[:block_id]) if @exam_user
     render :inline => ""
   end
 
