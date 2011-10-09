@@ -39,7 +39,8 @@
             <div id="edit_problem_<%= problem.attributes["id"].to_i %>"></div>
             <h2>
               <a href="javascript:void(0)" onclick="javascript:question_info(<%= problem.attributes["id"].to_i %>)">
-                <% if problem.elements['title'].nil? %>
+                <% if problem.elements['title'].nil? or problem.elements['title'].text.nil? or
+                    problem.elements["title"].text == "" %>
                   暂无标题
                 <% else %>
                   <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40).to_s.html_safe %>

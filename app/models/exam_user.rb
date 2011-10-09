@@ -200,7 +200,7 @@ class ExamUser < ActiveRecord::Base
               end
             end
           end
-        end
+        end unless problem.elements["questions"].nil?
       end
       unless answer_doc.root.elements["paper/blocks"].nil?
         block_xml = answer_doc.root.elements["paper/blocks"].elements["block[@id='#{block.attributes["id"]}']"]
