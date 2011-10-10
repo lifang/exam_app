@@ -108,12 +108,12 @@ function edit_colligation_validate(){
 
 //验证 新建试题
 function new_problem_validate(block_id){
-    var problem_title = $("problem_title_"+block_id).value.replace(/<br \/>/g,"");
-    var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
-    if(problem_title == null  || problem_title.length == 0 || checkspace(text_source)){
-        alert("题面不能为空。");
-        return false;
-    }
+//    var problem_title = $("problem_title_"+block_id).value.replace(/<br \/>/g,"");
+//    var text_source = problem_title.replace(/^\s+/, "").replace(/ \s+$/, "");
+//    if(problem_title == null  || problem_title.length == 0 || checkspace(text_source)){
+//        alert("题面不能为空。");
+//        return false;
+//    }
 
     if(document.getElementById("problem_description")!=null){           //验证小题描述不能为空
         var problem_description = document.getElementById("problem_description").value;
