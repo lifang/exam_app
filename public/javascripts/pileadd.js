@@ -123,16 +123,12 @@ function compare_time(time,hour,minute,acesstime,timeout,timelimit) {
             }
         }
     }
-    if (isNaN($("price").value)) {
-        $("notice").innerHTML="<font color = 'red'>请填入正确的价格!</font>";
-        submit_flag = false;
-    }
     if (submit_flag){
         sumbit_form("exam_form", "create", "spinner_for_submit");
     } else {
-        return false;
+        submit_flag = false;
     }
-    
+    return submit_flag;
 }
 //    js提供了parseInt()和parseFloat()两个转换函数
 
@@ -264,7 +260,8 @@ function checkinfo(){
     if (name== null || name.length ==0||name.length>10){
         document.getElementById("nameErr").innerHTML="用户名不能为空或长度不能超过10位字符";
         return false;
-    }else{
+    }
+    else{
         if (address == null || address.length ==0 || address.length > 100) {
             document.getElementById("addressErr").innerHTML="工作单位不能为空或长度不能超过100位字符";
             return false;
@@ -430,7 +427,7 @@ function edit_score(id, user_id, question_score, block_id){
                 update_score(id, score, user_id, question_score)
             },
             parameters:'score='+score +'&user_id='+user_id +'&block_id='+block_id +'&authenticity_token=' +
-                encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
+            encodeURIComponent('5kqVHCOuTTCFFQkywU0UzTAENJi1jcPs0+QKEpVa4lQ=')
         });
         return false;
     }
