@@ -791,3 +791,39 @@ function audio_play(id,src){
     });
     jQuery("#jquery_jplayer").jPlayer("play");
 }
+
+function audio_element(problem_title, flag_id) {
+    var final_title = generate_audio_element(flag_id);
+    document.write(final_title);
+    generate_jplayer(problem_title, flag_id);
+}
+
+function generate_audio_element(flag_id) {
+    var final_title = "<div id='jquery_jplayer_"+flag_id+"' class='jp-jplayer'></div>"
+    + "<div id='jp_container_1' class='jp-audio'><div class='jp-type-single'><div class='jp-gui jp-interface'>"
+    + "<ul class='jp-controls'><li><a href='javascript:;' class='jp-play' tabindex='1'>play</a></li>"
+    + "<li><a href='javascript:;' class='jp-pause' tabindex='1'>pause</a></li>"
+    + "<li><a href='javascript:;' class='jp-stop' tabindex='1'>stop</a></li>"
+    + "<li><a href='javascript:;' class='jp-mute' tabindex='1' title='mute'>mute</a></li>"
+    + "<li><a href='javascript:;' class='jp-unmute' tabindex='1' title='unmute'>unmute</a></li>"
+    + "<li><a href='javascript:;' class='jp-volume-max' tabindex='1' title='max volume'>max volume</a></li></ul>"
+    + "<div class='jp-progress'><div class='jp-seek-bar'><div class='jp-play-bar'></div></div></div>"
+    + "<div class='jp-volume-bar'><div class='jp-volume-bar-value'></div></div>"
+    + "<div class='jp-time-holder'><div class='jp-current-time'></div><div class='jp-duration'></div></div></div></div></div>";
+    return final_title;
+}
+
+function generate_jplayer(problem_title, flag_id) {
+    (function(){
+        jQuery("#jquery_jplayer_"+flag_id).jPlayer({
+            ready: function (event) {
+                jQuery(this).jPlayer("setMedia", {
+                    mp3:""+problem_title
+                });
+            },
+            swfPath: "/javascripts/jplayer",
+            supplied: "mp3",
+            wmode: "window"
+        });
+    })(jQuery)
+}

@@ -12,13 +12,13 @@
 </script>
 <div id="jquery_jplayer" style="height:0px;width:0px;"></div>
 <script language="javascript" type="text/javascript">
+  if (jQuery("#jquery_jplayer") != null)
   jQuery("#jquery_jplayer").jPlayer({
     swfPath: "/javascripts/jplayer",
     supplied: "mp3",
     preload:"auto"
   });
 </script>
-
 
 <%= javascript_include_tag 'jeff_paper_validate' %>
 <%= render :partial=>"/common/paper_items_info" %>
