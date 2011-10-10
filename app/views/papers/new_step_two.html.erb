@@ -1,14 +1,28 @@
 <!--<script type="text/javascript" charset="utf-8" src="/kindeditor/build/kindeditor.js"></script>-->
+<script type="text/javascript" src="/javascripts/jquery-1.5.2.js"></script>
+<%= javascript_include_tag 'cookie' %>
+<%= javascript_include_tag :defaults %>
+<%= use_validate_js_tooltip %>
 <script type="text/javascript">
   var back_server_path="<%= Constant::SERVER_PATH %>";
 </script>
-<script type="text/javascript" charset="utf-8" src="/javascripts/nicEdit/nicEdit.js"></script>
+<%= javascript_include_tag 'jplayer/jquery.jplayer.min.js' %>
+<script type="text/javascript" charset="utf-8" src="/javascripts/nicEdit/nicEdit.js">
+  jQuery.noConflict();
+</script>
+<div id="jquery_jplayer" style="height:0px;width:0px;"></div>
+<script language="javascript" type="text/javascript">
+  jQuery("#jquery_jplayer").jPlayer({
+    swfPath: "/javascripts/jplayer",
+    supplied: "mp3",
+    preload:"auto"
+  });
+</script>
 
 
-  <%= javascript_include_tag 'jeff_paper_validate' %>
-  <%= render :partial=>"/common/paper_items_info" %>
-  <div id="paper_edit_info" style="display:none;">
-    <%= render :partial=>"/papers/edit_paper_info" %>
-  </div>
-  <%= render :partial=>"/papers/paper_blocks" %>
-
+<%= javascript_include_tag 'jeff_paper_validate' %>
+<%= render :partial=>"/common/paper_items_info" %>
+<div id="paper_edit_info" style="display:none;">
+  <%= render :partial=>"/papers/edit_paper_info" %>
+</div>
+<%= render :partial=>"/papers/paper_blocks" %>

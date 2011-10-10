@@ -6,7 +6,7 @@ class ProblemsController < ApplicationController
     @paper = Paper.find(params[:problem][:paper_id].to_i)
     #创建题目
     @problem = Problem.create_problem(@paper, {:title=>params[:problem][:title].strip, :types => params[:real_type].to_i,:status=>Problem::PROBLEM_STATUS[:USED]})
-    #    @problem.update_attributes(:title=>@problem.title.gsub("audio_play('x')","audio_play(#{@problem.id})").gsub("id=\"audio_x\"","id='audio_#{@problem.id}'").gsub("id=\"audio_control_x\"","id='audio_control_#{@problem.id}'").gsub("problem_x_dropplace","problem_#{@problem.id}_dropplace").gsub("problem_x_writefont","problem_#{@problem.id}_writefont"))
+    @problem.update_attributes(:title=>@problem.title.gsub("audio_play('x')","audio_play(#{@problem.id})").gsub("id=\"audio_x\"","id='audio_#{@problem.id}'").gsub("id=\"audio_control_x\"","id='audio_control_#{@problem.id}'").gsub("problem_x_dropplace","problem_#{@problem.id}_dropplace").gsub("problem_x_writefont","problem_#{@problem.id}_writefont"))
     #创建题点
     score_arr = {}
     if params[:real_type].to_i == Problem::QUESTION_TYPE[:COLLIGATION]
@@ -36,7 +36,7 @@ class ProblemsController < ApplicationController
     @problem = Problem.find(params[:problem][:problem_id].to_i)
     #更新题面
     @problem.update_attributes(:title=>params[:problem][:title].strip, :updated_at=>Time.now)
-    #       @problem.update_attributes(:title=>@problem.title.gsub("audio_play('x')","audio_play(#{@problem.id})").gsub("id=\"audio_x\"","id='audio_#{@problem.id}'").gsub("id=\"audio_control_x\"","id='audio_control_#{@problem.id}'").gsub("problem_x_dropplace","problem_#{@problem.id}_dropplace").gsub("problem_x_writefont","problem_#{@problem.id}_writefont"))
+    @problem.update_attributes(:title=>@problem.title.gsub("audio_play('x'","audio_play(#{@problem.id}").gsub("id=\"audio_x\"","id='audio_#{@problem.id}'").gsub("id=\"audio_control_x\"","id='audio_control_#{@problem.id}'").gsub("problem_x_dropplace","problem_#{@problem.id}_dropplace").gsub("problem_x_writefont","problem_#{@problem.id}_writefont"))
     #打开xml
     url = File.open "#{Constant::PAPER_PATH}/#{params[:problem][:paper_id].to_i}.xml"
     doc = Problem.open_xml(url)

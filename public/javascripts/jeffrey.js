@@ -191,10 +191,10 @@ function new_question(block_id) {
 
 //验证添加综合题的小题
 function question_validate(){
-//    if ($("problem_description")!= null && $("problem_description").value == "") {
-//        alert("小题描述不能为空。");
-//        return false;
-//    }
+    //    if ($("problem_description")!= null && $("problem_description").value == "") {
+    //        alert("小题描述不能为空。");
+    //        return false;
+    //    }
     if (parseFloat($("problem_correct_type").value) == 0 ||parseFloat($("problem_correct_type").value) == 1){
         var answer_array=new Array;
         for (var i=1; i<=parseFloat($("problem_attr_sum").value); i++) {
@@ -475,21 +475,21 @@ function edit_problem_state(block_id, paper_id, part_id){
         document.getElementById("edit_state_descritpion_"+close_edit_state_id).innerHTML = "";
     }
     if (document.getElementById("edit_state_descritpion_"+ part_id).innerHTML == "") {
-       load_problem_edit(block_id,paper_id,part_id);
+        load_problem_edit(block_id,paper_id,part_id);
     }
     close_edit_state_id = part_id;
 }
 
 function load_problem_edit(block_id,paper_id,part_id){
-     new Ajax.Updater("edit_state_descritpion_" + part_id, "/problems/"+ part_id+"/load_edit_part",
-        {
-            asynchronous:true,
-            evalScripts:true,
-            method:"post",
-            parameters: 'block_id=' + block_id + '&paper_id=' + paper_id+
-            '&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
-        });
-        return false;
+    new Ajax.Updater("edit_state_descritpion_" + part_id, "/problems/"+ part_id+"/load_edit_part",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters: 'block_id=' + block_id + '&paper_id=' + paper_id+
+        '&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+    });
+    return false;
 }
 
 
@@ -743,49 +743,51 @@ function delete_question(question_id) {
     $("question_list_" + question_id).innerHTML = "";
 }
 
+//
+//function audio_play(id){
+//    if(getCookie("audio_"+id)==null){
+//        setCookie(("audio_"+id),0)
+//    }
+//    if(get_canplay_time()==0||$("audio_control_"+id).title=="停止"||getCookie("audio_"+id)<get_canplay_time()){  //设置播放次数
+//        if($("audio_"+id).paused){
+//            $("audio_"+id).load();
+//            $("audio_"+id).play();
+//            $("audio_control_"+id).src="/images/paper/zanting_icon.png";
+//            if(id!="x"){
+//                setCookie(("audio_"+id),parseInt(getCookie("audio_"+id))+1);
+//                $("audio_control_"+id).title="停止";
+//                $("audio_control_"+id).src="/images/paper/zanting_icon.png";
+//            }
+//        }
+//        else{
+//            if(get_canplay_time()==0){
+//                setCookie(("audio_"+id),0);
+//                $("audio_"+id).pause();
+//                $("audio_control_"+id).title="播放";
+//                $("audio_control_"+id).src="/images/paper/play_icon.png";
+//            }else{
+//                if(confirm("该音频有播放次数限制，\"停止\"播放也会记录播放次数。这可能导致你的损失。你确定要停止么？\n 当前播放次数/总次数 ："+getCookie("audio_"+id)+"/"+get_canplay_time())){
+//                    $("audio_"+id).pause();
+//                    $("audio_control_"+id).title="播放";
+//                    $("audio_control_"+id).src="/images/paper/play_icon.png";
+//                }
+//            }
+//        }
+//    }
+//    else{
+//        $("audio_"+id).pause();
+//        $("audio_control_"+id).title="播放";
+//        $("audio_control_"+id).src="/images/paper/play_icon.png";
+//        alert("该录音已经播放了"+get_canplay_time()+"次！不能再播放！");
+//    }
+//}
+//
 
-function audio_play(id){
-    if(getCookie("audio_"+id)==null){
-        setCookie(("audio_"+id),0)
-    }
-    if(get_canplay_time()==0||$("audio_control_"+id).title=="停止"||getCookie("audio_"+id)<get_canplay_time()){  //设置播放次数
-        if($("audio_"+id).paused){
-            $("audio_"+id).load();
-            $("audio_"+id).play();
-            $("audio_control_"+id).src="/images/paper/zanting_icon.png";
-            if(id!="x"){
-                setCookie(("audio_"+id),parseInt(getCookie("audio_"+id))+1);
-                $("audio_control_"+id).title="停止";
-                $("audio_control_"+id).src="/images/paper/zanting_icon.png";
-            }
-        }
-        else{
-            if(get_canplay_time()==0){
-                setCookie(("audio_"+id),0);
-                $("audio_"+id).pause();
-                $("audio_control_"+id).title="播放";
-                $("audio_control_"+id).src="/images/paper/play_icon.png";
-            }else{
-                if(confirm("该音频有播放次数限制，\"停止\"播放也会记录播放次数。这可能导致你的损失。你确定要停止么？\n 当前播放次数/总次数 ："+getCookie("audio_"+id)+"/"+get_canplay_time())){
-                    $("audio_"+id).pause();
-                    $("audio_control_"+id).title="播放";
-                    $("audio_control_"+id).src="/images/paper/play_icon.png";
-                }
-            }
-        }
-    }
-    else{
-        $("audio_"+id).pause();
-        $("audio_control_"+id).title="播放";
-        $("audio_control_"+id).src="/images/paper/play_icon.png";
-        alert("该录音已经播放了"+get_canplay_time()+"次！不能再播放！");
-    }
-}
-//取得播放次数
-function get_canplay_time(){
-
-    if($("canplaytime")!=null){
-        return $("canplaytime").value;    //第一类综合训练播放3次
-    }
-    return 0;
+// jplayer播放器控制
+function audio_play(id,src){
+    var this_src = src.replace("~http://back_server_path~",back_server_path);
+    jQuery("#jquery_jplayer").jPlayer("setMedia", {
+        mp3: this_src
+    });
+    jQuery("#jquery_jplayer").jPlayer("play");
 }
