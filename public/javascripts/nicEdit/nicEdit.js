@@ -1577,7 +1577,7 @@ var nicMediaButton = nicEditorAdvancedButton.extend({
             else {
                 var div = document.createElement("div");  //新div
                 this.form.appendChild(div);
-                div.innerHTML = "<img title='播放' src='/images/paper/play_icon.png' id='audio_control_x' onclick=\"javascript:audio_play('x');\"></img> <audio src="+src+" id='audio_x'></audio>";
+                div.innerHTML = "<img title='播放' src='/images/paper/play_icon.png' id='audio_control_x' onclick=\"javascript:audio_play('x','~http://back_server_path~"+src+"');\"/>";
                 this.ne.nicCommand("insertHtml",div.innerHTML);
             }
         }
