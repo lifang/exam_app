@@ -37,7 +37,7 @@
           </li>
           <div class="links">
             <%= form_for :delete,:html => { :id =>"delete_form_#{problem.elements["part_description"].attributes["part_id"]}"}, :url=>"/problems/description_destroy" do |f|%>
-            <input type="hidden" value="<%= problem.xpath %>"  name="problem_path" /><input type="hidden" value="<%= block.attributes["id"].to_i %>" name="block_id" />
+            <input type="hidden" value="<%= problem.xpath %>"  name="problem_path" />
             <input type="hidden" value="<%= @xml.root.attributes["id"] %>" name="paper_id" />
             <a href="javascript:void(0);" onClick="javascript:edit_problem_state(<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>,<%= problem.elements["part_description"].attributes["part_id"] %>);">编辑</a>&nbsp;|&nbsp;
               <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%=problem.elements["part_description"].attributes["part_id"]%>').submit();">删除</a>
