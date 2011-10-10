@@ -128,12 +128,29 @@ class Collection < ActiveRecord::Base
         paper_xml.delete_element(question.xpath)
       end
     end if paper_problem
+    add_audio_to_title(paper_xml, paper_problem)
     last_question = paper_problem.elements["questions"].elements["question[@id='#{question_id.to_i}']"]
     last_question.add_element("user_answer").add_text("#{answer_text}")
     last_question.add_attribute("repeat_num", "1")
     last_question.add_attribute("error_percent", "0")
     collection_xml.elements["/collection/problems"].elements.add(paper_problem)
     self.generate_collection_url(collection_xml.to_s, Constant::FRONT_PUBLIC_PATH, self.collection_url)
+  end
+
+  #根据问题的路径取出block中的音频文件
+  def add_audio_to_title(paper_xml, problem)
+    block_audio = ""
+    block_path = problem.xpath.split("/problems")[0]
+    block = paper_xml.elements["#{block_path}"]
+    if !block.nil? and !block.elements["base_info"].elements["description"].nil? and
+        block.elements["base_info"].elements["description"].text.to_s.html_safe =~ /<mp3>/
+      block_audio = block.elements["base_info"].elements["description"].text.to_s.html_safe.split("<mp3>")[1]
+      unless problem.elements["title"].nil?
+        problem.elements["title"].text = problem.elements["title"].text + "<mp3>" + block_audio + "<mp3>"
+      else
+        problem.add_element("title").add_text("<mp3>#{block_audio}<mp3>")
+      end
+    end
   end
 
   #自动阅卷保存错题
@@ -164,7 +181,7 @@ class Collection < ActiveRecord::Base
               end
             end
           end
-        end
+        end unless problem.elements["questions"].nil?
       end
     end
   end
