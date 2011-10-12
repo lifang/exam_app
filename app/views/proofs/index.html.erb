@@ -1,0 +1,31 @@
+<div class="main_box_back">
+  <div class="in">
+    <table>
+      <thead>
+        <tr >
+          <th width="30" style="text-align: center;">编号</th>
+          <th width="30" style="text-align: center;">用户ID</th>
+          <th width="80" style="text-align: center;">用户名</th>
+          <th width="400" style="text-align: center;">凭证</th>
+          <th width="60" style="text-align: center;"></th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @proofs.each do |proof| %>
+        <tr>
+          <td style="text-align: center;"><%= proof.id %></td>
+          <td style="text-align: center;"><%= proof.user.id %></td>
+          <td style="text-align: center;"><%= proof.user.name %></td>
+          <td style="text-align: center;"><%= proof.text %></td>
+          <td><a href="/proofs/<%= proof.id %>/approve_vip">批准</a> | <a href="/proofs/<%= proof.id %>/reject_vip">驳回</a></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+    <div class="pagination_box">
+    <%=will_paginate @proofs ,:prev_label=>"«", :next_label=>"»", :inner_window => 1 %>
+    </div>
+    <br/>
+    <div id="set_role_div"></div>
+  </div>
+</div>

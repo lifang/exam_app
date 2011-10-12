@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many:papers, :foreign_key=>"creater_id"
   has_many:orders
   has_many:feedbacks
+  has_many:proofs
 
   default_scope :order=>'users.created_at desc'
   #email_regex=/\A[\w+\.]+@[a-z\d\-.]+\.[a-z]+\z/i

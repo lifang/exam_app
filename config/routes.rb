@@ -1,5 +1,11 @@
 ExamApp::Application.routes.draw do
 
+  resources :proofs do
+    member do
+      get "approve_vip","reject_vip"
+    end
+  end
+
   match '/signout'=> 'sessions#destroy'
   resources :feedbacks do
     member do

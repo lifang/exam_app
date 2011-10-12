@@ -25,6 +25,11 @@ class UserMailer < ActionMailer::Base
     @url  = Constant::SERVER_PATH
     mail(:to => @rater.email, :subject => "赶考网阅卷老师确认")
   end
+
+  def congratulation_vip(user)
+    @user=user
+    mail(:to => @user.email, :subject => "恭喜，您已成为赶考网VIP会员")
+  end
   
   def receive(email)
     page = Page.find_by_address(email.to.first)
