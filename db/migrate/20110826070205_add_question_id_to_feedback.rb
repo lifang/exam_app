@@ -1,9 +1,9 @@
 class AddQuestionIdToFeedback < ActiveRecord::Migration
   def self.up
-    add_column :feedbacks, :question_id, :integer
+    add_index :feedbacks,:question_id
   end
 
   def self.down
-    remove_column :feedbacks, :question_id
+    remove_index :feedbacks, :question_id
   end
 end
