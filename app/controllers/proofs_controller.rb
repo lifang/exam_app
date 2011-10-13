@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ProofsController < ApplicationController
   
   def index
