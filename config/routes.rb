@@ -1,5 +1,8 @@
 ExamApp::Application.routes.draw do
 
+
+  resources :report_errors
+
   resources :proofs do
     member do
       get "approve_vip","reject_vip"
