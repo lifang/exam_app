@@ -8,6 +8,7 @@ class PapersController < ApplicationController
 
   def index
     @papers = Paper.search_mothod(cookies[:user_id].to_i, nil, nil, nil, nil, 10, params[:page])
+    puts url_encode("ssssssssss")
   end
 
   def hand_in
