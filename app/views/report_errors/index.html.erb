@@ -1,0 +1,34 @@
+<div class="main_box_back">
+  <div class="in">
+    <table>
+      <thead>
+        <tr >
+          <th  style="text-align: center;">用户ID</th>
+          <th  style="text-align: center;">用户名</th>
+          <th  style="text-align: center;">试卷名称</th>
+          <th  style="text-align: center;">小题序号</th>
+          <th  style="text-align: center;">错误类型</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @report_errors.each do |report_error| %>
+        <tr>
+          <td style="text-align: center;"><%= report_error.user_id %></td>
+          <td style="text-align: center;"><%= report_error.user_name %></td>
+          <td style="text-align: center;"><%= report_error.paper_title %></td>
+          <td style="text-align: center;"><%= report_error.question_index %></td>
+          <td style="text-align: center;"><%= ReportError::ERROR_TYPE[report_error.error_type] %></td>
+          
+          <td><%= link_to "删除 ", report_error,:method=>:delete %></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+    <div class="pagination_box">
+    <%=will_paginate @report_errors ,:prev_label=>"«", :next_label=>"»", :inner_window => 1 %>
+    </div>
+    <br/>
+    <div id="set_role_div"></div>
+  </div>
+</div>
