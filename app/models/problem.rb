@@ -36,7 +36,7 @@ class Problem < ActiveRecord::Base
   end
 
   #创建问题的xml
-  def create_problem_xml(doc, block_id, options = {})
+  def create_problem_xml(doc, block_id, remove_problem,options = {})
     #添加问题的xml
     block = doc.root.elements["blocks"].elements["block[@id='#{block_id}']"]
     problems = block.elements["problems"]
@@ -47,7 +47,7 @@ class Problem < ActiveRecord::Base
     title.add_text("#{self.title}")
     problem.add_element("category").add_text("#{self.category_id}")
     problem.add_element("complete_title").add_text("#{self.complete_title}") unless self.complete_title.nil?
-
+    problem.parent.insert_after(remove_problem,problem)
     #添加题点xml
     questions = problem.add_element("questions")
     self.update_question_xml(questions, options)
@@ -64,6 +64,13 @@ class Problem < ActiveRecord::Base
     
     return doc
   end
+
+  #指定题目位置
+  def change_position(doc, problem, position ,options = {})
+    problem.parent.insert_before(doc.elements["#{problem.parent.xpath}/problem[#{position}]"],problem)
+    return doc
+  end
+
 
   #删除试题
   def self.remove_problem_xml(doc, problem_path)
