@@ -178,7 +178,8 @@ class ExamUser < ActiveRecord::Base
               unless q_answer.nil? or q_answer.elements["answer"].nil?
                 old_block_score += q_answer.attributes["score"].to_f
                 score = 0.0
-                if q_answer.elements["answer"].text != nil and q_answer.elements["answer"].text != ""
+                if q_answer.elements["answer"].text != nil and q_answer.elements["answer"].text != "" and
+                    question.elements["answer"] != nil and question.elements["answer"].text != nil
                   answers = question.elements["answer"].text.split(";|;")
                   if answers.length == 1
                     score = answers[0].strip == q_answer.elements["answer"].text.strip ? question.attributes["score"].to_i : 0
