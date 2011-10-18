@@ -240,10 +240,10 @@ function test_exam_edit(n,mobile,email){
     } 
 }
 function show_name(first,second) {
-    $("div_" + first).style.display ="block";
-    $("li_" + first).className = "actived";
-    $("div_" + second).style.display ="none";
-    $("li_" + second).className = "none";
+    $( first).style.display ="block";
+    $(first).className = "actived";
+    $(second).style.display ="none";
+    $(second).className = "none";
 }
 function change_paper() {
     var change_papers_div = $("change_papers_div").style;
@@ -341,7 +341,7 @@ function compare_value(id,compare_id){
     active_button();
 }
 function active_button(){
-    $("flash_notice").innerHTML="";
+    $("notice").innerHTML="";
     var flag=0;
     var str=$("problem_id").value;
     var n=str.split(",");
