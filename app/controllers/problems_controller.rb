@@ -69,7 +69,6 @@ class ProblemsController < ApplicationController
     end
     Problem.write_xml(url, doc)
     redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
-
   end
 
   def mavin_problem
