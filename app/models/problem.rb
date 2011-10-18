@@ -47,7 +47,9 @@ class Problem < ActiveRecord::Base
     title.add_text("#{self.title}")
     problem.add_element("category").add_text("#{self.category_id}")
     problem.add_element("complete_title").add_text("#{self.complete_title}") unless self.complete_title.nil?
-    problem.parent.insert_after(remove_problem,problem)
+    if remove_problem!=nil
+      problem.parent.insert_after(remove_problem,problem)
+    end
     #添加题点xml
     questions = problem.add_element("questions")
     self.update_question_xml(questions, options)
