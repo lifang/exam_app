@@ -126,8 +126,7 @@ class ProblemsController < ApplicationController
   def create_xml(problem, score_arr)
     #更新试卷xml
     url = File.open "#{Constant::PAPER_PATH}/#{params[:problem][:paper_id].to_i}.xml"
-    doc = problem.create_problem_xml(Problem.open_xml(url), params[:problem][:block_id],
-      {:score => score_arr})
+    doc = problem.create_problem_xml(Problem.open_xml(url), params[:problem][:block_id],nil,{:score => score_arr})
     Problem.write_xml(url, doc)
   end
 
