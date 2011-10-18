@@ -41,6 +41,7 @@
                id="all_question_ids_<%= edit_problem.attributes["id"] %>" value="<%= question_ids.to_s %>" />
         <input type="hidden" name="edit_coll_question_<%= edit_problem.attributes["id"] %>"
                id="edit_coll_question_<%= edit_problem.attributes["id"] %>" value=""/>
+        <br/><p>题目的位置：<input type="text" name="insert_position" value=""/> 注：不填则保持原位</p>
         <%= f.submit "提交" , :class=>"submit_btn" %>
       <% end %>
     </div>
