@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(:version => 20111014063633) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.boolean  "status"
+    t.datetime "created_at"
   end
 
   add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
@@ -304,6 +305,7 @@ ActiveRecord::Schema.define(:version => 20111014063633) do
     t.integer  "code_id"
     t.string   "code_type"
     t.string   "belief_url"
+    t.string   "open_id"
   end
 
   add_index "users", ["code_id"], :name => "index_users_on_code_id"
