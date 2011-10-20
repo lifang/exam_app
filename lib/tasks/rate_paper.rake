@@ -26,7 +26,7 @@ namespace :paper do
         f.close
         eu = ExamUser.find(exam_user.id)
         total_score = answer_xml.root.elements["paper"].attributes["score"].nil? ? 0
-        : answer_xml.root.elements["paper"].attributes["score"].to_i
+        : answer_xml.root.elements["paper"].attributes["score"].to_f.round
         eu.set_auto_rater(total_score)
         puts exam_user.id.to_s + " rate success"
         Collection.auto_add_collection(answer_xml, paper_xml, exam_user.user_id)

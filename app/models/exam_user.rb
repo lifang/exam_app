@@ -180,11 +180,13 @@ class ExamUser < ActiveRecord::Base
                 score = 0.0
                 if q_answer.elements["answer"].text != nil and q_answer.elements["answer"].text != "" and
                     question.elements["answer"] != nil and question.elements["answer"].text != nil
-                  answers = question.elements["answer"].text.split(";|;")
+                  answers = []
+                  question.elements["answer"].text.split(";|;").collect { |item| answers << item.strip }
                   if answers.length == 1
                     score = answers[0].strip == q_answer.elements["answer"].text.strip ? question.attributes["score"].to_i : 0
                   else
-                    q_answers = q_answer.elements["answer"].text.split(";|;")
+                    q_answers = []
+                    q_answer.elements["answer"].text.split(";|;").collect { |item| q_answers << item.strip }
                     all_answer = answers | q_answers
                     if all_answer == answers
                       if answers - q_answers == []
@@ -215,9 +217,9 @@ class ExamUser < ActiveRecord::Base
     rate_score = answer_doc.root.elements["paper"].elements["rate_score"]
     total_score = auto_score
     unless rate_score.text.nil? or rate_score.text == ""
-      total_score += answer_doc.root.elements["paper"].elements["rate_score"].text.to_i
+      total_score += answer_doc.root.elements["paper"].elements["rate_score"].text.to_f
     end
-    answer_doc.root.elements["paper"].add_attribute("score", "#{total_score}")
+    answer_doc.root.elements["paper"].add_attribute("score", "#{total_score.round}")
     puts "generate_user_score success"
     return answer_doc
   end
