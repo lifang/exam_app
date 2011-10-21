@@ -23,6 +23,17 @@ ExamApp::Application.configure do
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+    #:location       => '/usr/sbin/sendmail',
+    #:arguments      => '-i -t'
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :domain => "gmail.com",
+    :authentication => :plain,
+    :user_name => "robot@gankao.co",
+    :password => "comdo2010"
+  }
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store

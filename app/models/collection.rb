@@ -164,9 +164,10 @@ class Collection < ActiveRecord::Base
     paper_xml.root.elements["blocks"].each_element do |block|
       block.elements["problems"].each_element do |problem|
         problem.elements["questions"].each_element do |question|
-          if question.attributes["correct_type"].to_i != Problem::QUESTION_TYPE[:CHARACTER]
+          if question.attributes["correct_type"].to_i != Problem::QUESTION_TYPE[:CHARACTER] and
+              question.attributes["correct_type"].to_i != Problem::QUESTION_TYPE[:SINGLE_CALK]
             answer_question = answer_questions.elements["question[@id='#{question.attributes["id"]}']"]
-            if answer_question.attributes["score"].to_i != question.attributes["score"].to_i
+            if answer_question.attributes["score"].to_f != question.attributes["score"].to_f
               collection_problem = collection.problem_in_collection(problem.attributes["id"], collection_xml)
               if collection_problem
                 collection_question = collection.question_in_collection(collection_problem, question.attributes["id"])

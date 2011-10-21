@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111023032511) do
+ActiveRecord::Schema.define(:version => 20111014063633) do
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -217,7 +217,7 @@ ActiveRecord::Schema.define(:version => 20111023032511) do
 
   create_table "questions", :force => true do |t|
     t.integer "problem_id",                    :null => false
-    t.string  "description"
+    t.text    "description"
     t.text    "answer"
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
@@ -308,6 +308,8 @@ ActiveRecord::Schema.define(:version => 20111023032511) do
     t.string   "open_id"
   end
 
+  add_index "users", ["code_id"], :name => "index_users_on_code_id"
+  add_index "users", ["code_type"], :name => "index_users_on_code_type"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"

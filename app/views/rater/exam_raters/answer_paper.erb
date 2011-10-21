@@ -16,7 +16,7 @@
     <h1 class="biz_art_title" id="block_show"><%= block.elements['base_info'].elements['title'].text %> (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
     </h1>
     <div class="biz_art_list_box">
-      <%= block.elements["base_info"].elements["description"].text %>
+      <%= block.elements["base_info"].elements["description"].text.to_s.html_safe %>
       <ul>
         <% if !block.elements['problems'].nil? %>
           <% block.elements['problems'].each_element do |problem| %>
@@ -24,7 +24,7 @@
               <li>
                 <%= render :partial=>"/rater/exam_raters/single_question",:object=>problem %>
                 <h2><a href="javascript:void(0)" onclick="javascript:compare_value(<%= problem.attributes["id"].to_i %>,0)">
-                    <%= truncate_u(problem.elements['title'].text.to_s.html_safe, 40) %>
+                    <%= truncate_u(problem.elements['title'].text.to_s.html_safe.gsub(/<[^{><}]*>/, ""), 40) %>
                   </a>
                 </h2>
               </li>

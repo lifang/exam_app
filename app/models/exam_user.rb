@@ -35,8 +35,9 @@ class ExamUser < ActiveRecord::Base
   #组装查询学生的sql语句
   def ExamUser.generate_sql(examination_id, options={})
     sql = "select e.examination_id, e.id, e.user_id, e.is_user_affiremed, e.is_submited,
-        e.open_to_user, e.answer_sheet_url, u.name, u.mobilephone, u.email, e.total_score
+        e.open_to_user, e.answer_sheet_url, u.name, u.mobilephone, u.email, e.total_score, o.id order_id
         from exam_users e inner join users u on u.id = e.user_id
+        left join orders o on o.user_id = u.id
         where e.examination_id = #{examination_id} "
     options.each do |key, value|
       sql += " and #{key} #{value} "
@@ -177,12 +178,15 @@ class ExamUser < ActiveRecord::Base
               unless q_answer.nil? or q_answer.elements["answer"].nil?
                 old_block_score += q_answer.attributes["score"].to_f
                 score = 0.0
-                if q_answer.elements["answer"].text and q_answer.elements["answer"].text != ""
-                  answers = question.elements["answer"].text.split(";|;")
+                if q_answer.elements["answer"].text != nil and q_answer.elements["answer"].text != "" and
+                    question.elements["answer"] != nil and question.elements["answer"].text != nil
+                  answers = []
+                  question.elements["answer"].text.split(";|;").collect { |item| answers << item.strip }
                   if answers.length == 1
                     score = answers[0].strip == q_answer.elements["answer"].text.strip ? question.attributes["score"].to_i : 0
                   else
-                    q_answers = q_answer.elements["answer"].text.split(";|;")
+                    q_answers = []
+                    q_answer.elements["answer"].text.split(";|;").collect { |item| q_answers << item.strip }
                     all_answer = answers | q_answers
                     if all_answer == answers
                       if answers - q_answers == []
@@ -213,9 +217,10 @@ class ExamUser < ActiveRecord::Base
     rate_score = answer_doc.root.elements["paper"].elements["rate_score"]
     total_score = auto_score
     unless rate_score.text.nil? or rate_score.text == ""
-      total_score += answer_doc.root.elements["paper"].elements["rate_score"].text.to_i
+      total_score += answer_doc.root.elements["paper"].elements["rate_score"].text.to_f
     end
-    answer_doc.root.elements["paper"].add_attribute("score", "#{total_score}")
+    answer_doc.root.elements["paper"].add_attribute("score", "#{total_score.round}")
+    puts "generate_user_score success"
     return answer_doc
   end
 

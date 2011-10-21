@@ -3,8 +3,9 @@
 <table>
   <colgroup>
     <col width="160"/>
-    <col width="180" />
-    <col width="180" />
+    <col width="150" />
+    <col width="150" />
+    <col width="60" />
     <col width="80"/>
   </colgroup>
   <thead>
@@ -12,6 +13,7 @@
       <th>姓名</th>
       <th>手机号码</th>
       <th>email</th>
+      <th>VIP</th>
       <th></th>
     </tr>
   </thead>
@@ -60,15 +62,15 @@
     <% else %>
       <%= render :partial=>"/examinations/show_exam_user" %>
       <tr>
-        <td colspan="4">
+        <td colspan="5">
           <input type="hidden" id="add_rows" name="add_rows" value="2" />
           <input type="hidden" id="textarea" name="textarea" />
           <%= link_to "追加","javascript:void(0);",
-            :onclick=>"javascript:add_item('add', '/exam_users/create_exam_user', 'exam_user_list', '#{@examination.id}','exam_user', 4)" %>
+            :onclick=>"javascript:add_item('add', '/exam_users/create_exam_user', 'exam_user_list', '#{@examination.id}','exam_user', 5)" %>
         </td>
       </tr>
       <tr>
-        <td colspan="4">
+        <td colspan="5">
           <div class="pagination_box">
             <%=will_paginate_remote(@exam_users , "kind=exam_user" , {:update => 'exam_user_list', :url => "/examinations/#{@examination.id}"})%>
           </div>
