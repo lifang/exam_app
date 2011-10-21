@@ -3,27 +3,18 @@
 
   <h1>请输入密码：</h1>
   <p><input type="password" id="password_textfield"/></p>
+  <div id="ajax_div"></div>
   <p><input type="button" value="确认" onclick="javascript:download_logs(document.getElementById('password_textfield').value);" /></p>
 </center>
-<div id="ajax_div"></div>
+
 <script type="text/javascript" >
   function download_logs(password){
-    if(password==""){
-      alert("请输入密码");
-    }else{
-      if(password!="gankao2011"){
-        alert("密码输入错误");
-      }else{
-        //ajax操作
-        new Ajax.Updater("ajax_div", "/logs/download_logs",
-        {
-          asynchronous:true,
-          evalScripts:true,
-          method:"post",
-          parameters:'authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
-        });
-      }
-    }
-
+    new Ajax.Updater("ajax_div", "/logs/download_logs",
+    {
+      asynchronous:true,
+      evalScripts:true,
+      method:"post",
+      parameters:'password='+password+'&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+    });
   }
 </script>
