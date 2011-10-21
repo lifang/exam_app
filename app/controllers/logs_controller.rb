@@ -3,6 +3,10 @@ class LogsController < ApplicationController
   end
 
   def download_logs
+    if params["password"]!=Constant::LOG_PASSWORD
+      render :inline => "<script>alert('密码输入错误');</script>"
+      return 0
+    end
     url = Constant::PUBLIC_PATH + Constant::LOG_PATH
     file_url = "/#{1.day.ago.strftime("%Y_%m_%d")}_count_log.xls"
     if File.exist?(url+file_url)
