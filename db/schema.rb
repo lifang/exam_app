@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111014063633) do
+ActiveRecord::Schema.define(:version => 20111023032511) do
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -221,7 +221,7 @@ ActiveRecord::Schema.define(:version => 20111014063633) do
     t.text    "answer"
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
-    t.string  "question_attrs"
+    t.text    "question_attrs"
     t.integer "score_percent"
   end
 
