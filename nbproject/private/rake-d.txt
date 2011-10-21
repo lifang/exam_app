@@ -1,5 +1,6 @@
 about=List versions of all Rails frameworks and the environment
 check\:title=rate paper
+count_log\:execl=count_log
 db\:abort_if_pending_migrations=
 db\:charset=
 db\:collation=

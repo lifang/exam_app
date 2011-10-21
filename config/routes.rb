@@ -1,6 +1,12 @@
 ExamApp::Application.routes.draw do
 
 
+
+  resources :logs do
+    collection do
+      post "download_logs"
+    end
+  end
   resources :report_errors
 
   resources :proofs do

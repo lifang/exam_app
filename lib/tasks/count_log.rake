@@ -5,8 +5,8 @@ require 'spreadsheet'
 
 namespace :count_log do
   desc "count_log"
-  task(:execl => :environment) do
-    url="#{Rails.root}/public/count_log/#{1.day.ago.strftime('%Y_%m_%d')}_count_log.xls"
+  task(:excel => :environment) do
+    url="#{Rails.root}/public/count_log/#{2.day.ago.strftime('%Y_%m_%d')}_count_log.xls"
     Spreadsheet.client_encoding = "UTF-8"
     if(!File.exist?(url))
       puts "create"
@@ -25,8 +25,8 @@ namespace :count_log do
         true_practice= type.sum   if type.types==1
         simulate_exam= type.sum  if type.types==0
       end
-      sheet.row(1).concat ["#{Time.now.strftime('%Y年%m月%d日')}", "#{new_user}", "#{new_vip}","#{combine_practice}","#{true_practice}","#{simulate_exam}"]
-      book.write "#{Rails.root}/public/count_log/#{Time.now.strftime('%Y_%m_%d')}_count_log.xls"
+      sheet.row(1).concat ["#{1.day.ago.strftime('%Y%m%d')}", "#{new_user}", "#{new_vip}","#{combine_practice}","#{true_practice}","#{simulate_exam}"]
+      book.write "#{Rails.root}/public/count_log/#{1.day.ago.strftime('%Y_%m_%d')}_count_log.xls"
     else
       puts "edit"
       old_book = Spreadsheet.open(url)
@@ -51,8 +51,8 @@ namespace :count_log do
         row_num+=1
       end
       puts row_num
-      new_sheet.row(row_num).concat ["#{Time.now.strftime('%Y年%m月%d日')}", "#{new_user}", "#{new_vip}","#{combine_practice}","#{true_practice}","#{simulate_exam}"]
-      new_book.write"#{Rails.root}/public/count_log/#{Time.now.strftime('%Y_%m_%d')}_count_log.xls"
+      new_sheet.row(row_num).concat ["#{1.day.ago.strftime('%Y%m%d')}", "#{new_user}", "#{new_vip}","#{combine_practice}","#{true_practice}","#{simulate_exam}"]
+      new_book.write"#{Rails.root}/public/count_log/#{1.day.ago.strftime('%Y_%m_%d')}_count_log.xls"
     end
   end
 end
