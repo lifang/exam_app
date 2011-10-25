@@ -29,7 +29,7 @@ module Constant
   #项目文件目录
   PUBLIC_PATH = "#{Rails.root}/public"
   #前台项目文件目录
-  FRONT_PUBLIC_PATH = "e:/gankao/public"
+  FRONT_PUBLIC_PATH = "f:/gankao/public"
   #试卷生成路径
   PAPER_PATH = "#{PUBLIC_PATH}/papers"
   #试卷服务器访问路径
@@ -49,7 +49,7 @@ module Constant
     :english_fourth_level => ["英语四级",1],
     :english_sixth_level => ["英语六级",2]
   }
-
+  PROOF_CHECK="jameswang@comdosoft.com"
   #综合训练音频文件播放次数
   CANPLAYTIME={
     :practice_2=>3,
