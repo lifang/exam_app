@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111023032511) do
+ActiveRecord::Schema.define(:version => 20111025013040) do
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20111023032511) do
     t.boolean  "is_auto_rate",      :default => false
     t.boolean  "is_free",           :default => false
     t.integer  "correct_percent"
+    t.string   "rank"
   end
 
   add_index "exam_users", ["examination_id"], :name => "index_exam_users_on_examination_id"
