@@ -5,7 +5,7 @@ namespace :check do
   task(:proof => :environment) do
     proofs=Proof.where("checked=0")
     unless proofs==[]
-      UserMailer.check_proofs.deliver
+      UserMailer.check_proofs(proofs.size).deliver
     end
   end
 end

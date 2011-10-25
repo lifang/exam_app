@@ -41,9 +41,9 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def check_proofs
-#    Constant::PROOF_CHECK
-     mail(:to =>"er6788@126.com", :subject => "凭证列表")
+  def check_proofs(num)
+    @num=num
+    mail(:to =>Constant::PROOF_CHECK, :subject => "审核vip分享凭证")
   end
 
   
