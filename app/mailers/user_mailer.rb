@@ -40,5 +40,11 @@ class UserMailer < ActionMailer::Base
       end
     end
   end
+
+  def check_proofs(num)
+    @num=num
+    mail(:to =>Constant::PROOF_CHECK, :subject => "审核vip分享凭证")
+  end
+
   
 end
