@@ -1,3 +1,4 @@
+
 about=List versions of all Rails frameworks and the environment
 check\:proof=check proof right
 check\:title=rate paper
@@ -107,3 +108,4 @@ tmp\:create=Creates tmp directories for sessions, cache, sockets, and pids
 tmp\:pids\:clear=
 tmp\:sessions\:clear=
 tmp\:sockets\:clear=
+

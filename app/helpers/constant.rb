@@ -44,7 +44,10 @@ module Constant
   COLLECTION_PATH = "/collections"
   #txt文件路径
   TXTS_PATH = SERVER_PATH + "/txts"
-
+  #统计信息路径
+  LOG_PATH = "/count_log"
+  #下载LOG
+  LOG_PASSWORD = "gankao2011"
   RIGHTS = {
     :english_fourth_level => ["英语四级",1],
     :english_sixth_level => ["英语六级",2]

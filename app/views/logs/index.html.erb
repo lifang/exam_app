@@ -1,0 +1,20 @@
+
+<center>
+
+  <h1>请输入密码：</h1>
+  <p><input type="password" id="password_textfield"/></p>
+  <div id="ajax_div"></div>
+  <p><input type="button" value="确认" onclick="javascript:download_logs(document.getElementById('password_textfield').value);" /></p>
+</center>
+
+<script type="text/javascript" >
+  function download_logs(password){
+    new Ajax.Updater("ajax_div", "/logs/download_logs",
+    {
+      asynchronous:true,
+      evalScripts:true,
+      method:"post",
+      parameters:'password='+password+'&authenticity_token=' + encodeURIComponent('kfCK9k5+iRMgBOGm6vykZ4ekez8CB77n9iApbq0omBs=')
+    });
+  }
+</script>

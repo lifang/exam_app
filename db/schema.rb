@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110923032510) do
+ActiveRecord::Schema.define(:version => 20111014063633) do
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(:version => 20110923032510) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.boolean  "status"
+    t.datetime "created_at"
   end
 
   add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
@@ -200,6 +201,12 @@ ActiveRecord::Schema.define(:version => 20110923032510) do
   add_index "problems", ["category_id"], :name => "index_problems_on_category_id"
   add_index "problems", ["types"], :name => "index_problems_on_types"
 
+  create_table "proofs", :force => true do |t|
+    t.string  "text"
+    t.integer "user_id", :null => false
+    t.boolean "checked"
+  end
+
   create_table "question_tag_relations", :force => true do |t|
     t.integer "tag_id",      :null => false
     t.integer "question_id", :null => false
@@ -210,7 +217,7 @@ ActiveRecord::Schema.define(:version => 20110923032510) do
 
   create_table "questions", :force => true do |t|
     t.integer "problem_id",                    :null => false
-    t.string  "description"
+    t.text    "description"
     t.text    "answer"
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
@@ -236,6 +243,17 @@ ActiveRecord::Schema.define(:version => 20110923032510) do
   add_index "rater_user_relations", ["is_authed"], :name => "index_rater_user_relations_on_is_authed"
   add_index "rater_user_relations", ["is_checked"], :name => "index_rater_user_relations_on_is_checked"
   add_index "rater_user_relations", ["is_marked"], :name => "index_rater_user_relations_on_is_marked"
+
+  create_table "report_errors", :force => true do |t|
+    t.integer  "paper_id"
+    t.string   "paper_title"
+    t.integer  "user_id"
+    t.string   "user_name"
+    t.integer  "error_type"
+    t.integer  "question_index"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "roles", :force => true do |t|
     t.string "name"
@@ -287,8 +305,11 @@ ActiveRecord::Schema.define(:version => 20110923032510) do
     t.integer  "code_id"
     t.string   "code_type"
     t.string   "belief_url"
+    t.string   "open_id"
   end
 
+  add_index "users", ["code_id"], :name => "index_users_on_code_id"
+  add_index "users", ["code_type"], :name => "index_users_on_code_type"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"

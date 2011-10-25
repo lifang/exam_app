@@ -117,7 +117,7 @@ class ItemPoolsController < ApplicationController
       problem.questions.each do |question|
         score_arr[question.id] = params["question_score#{params[:block_id]}"].to_i
       end
-      xml=problem.create_problem_xml(doc,params[:block_id], {:score => score_arr})
+      xml=problem.create_problem_xml(doc,params[:block_id],nil, {:score => score_arr})
       xml.root.elements["problem_ids"].text=str.chop
       Problem.write_xml(url, xml)
     end    

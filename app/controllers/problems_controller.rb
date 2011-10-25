@@ -61,11 +61,14 @@ class ProblemsController < ApplicationController
     @problem.update_problem_tags
 
     #更新xml
+    remove_problem=doc.elements[params[:problem][:problem_xpath]]
+    doc = @problem.create_problem_xml(doc, params[:problem][:block_id], remove_problem, {:score => score_arr})
     doc = Problem.remove_problem_xml(doc, params[:problem][:problem_xpath])
-    doc = @problem.create_problem_xml(doc, params[:problem][:block_id], {:score => score_arr})
+    if params["insert_position"]!=""&&params["insert_position"].to_i!=0
+      doc = @problem.change_position(doc, doc.elements[params[:problem][:problem_xpath]], params["insert_position"].to_i, {:score => score_arr})
+    end
     Problem.write_xml(url, doc)
     redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
-
   end
 
   def mavin_problem
@@ -123,8 +126,7 @@ class ProblemsController < ApplicationController
   def create_xml(problem, score_arr)
     #更新试卷xml
     url = File.open "#{Constant::PAPER_PATH}/#{params[:problem][:paper_id].to_i}.xml"
-    doc = problem.create_problem_xml(Problem.open_xml(url), params[:problem][:block_id],
-      {:score => score_arr})
+    doc = problem.create_problem_xml(Problem.open_xml(url), params[:problem][:block_id],nil,{:score => score_arr})
     Problem.write_xml(url, doc)
   end
 

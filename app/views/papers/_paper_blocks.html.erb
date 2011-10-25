@@ -1,4 +1,5 @@
 <% @xml.elements['blocks'].each_element do |block|%>
+  <% @question_index=0 %>
   <h1 class="biz_art_title">
     <%= block.elements['base_info'].elements['title'].text %>
     (共<%= block.attributes['total_num'] %>题，总分:<%= block.attributes['total_score'] %>分)
@@ -19,10 +20,10 @@
         <%= description.split("<mp3>")[0] %>
         <img title="播放" src="/images/paper/play_icon.png" id="audio_control_52"
              onclick="javascript:audio_play(52,'~http://back_server_path~<%= description.split("<mp3>")[1] %>');"/>
-      <% else %>
-        <%= description %>
-      <% end %>
-    <% end %>
+           <% else %>
+             <%= description %>
+           <% end %>
+         <% end %>
     <font color="red">
       <% if block.attributes["time"] != "" and block.attributes["time"] != "0" %>
         当前模块需要在<%= block.attributes["time"] %>分钟内完成<% end %>
@@ -37,9 +38,9 @@
           </li>
           <div class="links">
             <%= form_for :delete,:html => { :id =>"delete_form_#{problem.elements["part_description"].attributes["part_id"]}"}, :url=>"/problems/description_destroy" do |f|%>
-            <input type="hidden" value="<%= problem.xpath %>"  name="problem_path" />
-            <input type="hidden" value="<%= @xml.root.attributes["id"] %>" name="paper_id" />
-            <a href="javascript:void(0);" onClick="javascript:edit_problem_state(<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>,<%= problem.elements["part_description"].attributes["part_id"] %>);">编辑</a>&nbsp;|&nbsp;
+              <input type="hidden" value="<%= problem.xpath %>"  name="problem_path" />
+              <input type="hidden" value="<%= @xml.root.attributes["id"] %>" name="paper_id" />
+              <a href="javascript:void(0);" onClick="javascript:edit_problem_state(<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>,<%= problem.elements["part_description"].attributes["part_id"] %>);">编辑</a>&nbsp;|&nbsp;
               <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%=problem.elements["part_description"].attributes["part_id"]%>').submit();">删除</a>
             <% end %>
           </div>
@@ -62,6 +63,8 @@
           <div class="links">
             <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
               <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
+              <span>&nbsp;(<%= @paper_index+=1 %>)&nbsp;</span>
+              <span>&nbsp;(<%= @question_index+=1 %>)&nbsp;</span>
               <a href="javascript:void(0);" onClick="javascript:edit_problem(<%= problem.attributes["id"].to_i %>,<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>)" >编辑</a>&nbsp;|&nbsp;
               <a href="javascript:void(0);" onclick="javascript:document.getElementById('delete_form_<%= problem.attributes['id']%>').submit();">删除</a>
             <% end %>

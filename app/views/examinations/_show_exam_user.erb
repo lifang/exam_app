@@ -9,6 +9,7 @@
           <td><%= exam_user.name %></td>
           <td><%= exam_user.mobilephone %></td>
           <td><%= exam_user.email %></td>
+          <td><% if exam_user.order_id %>VIP<% end %></td>
           <td> <%= link_to_remote "编辑", :url => "/exam_users/#{exam_user.id}/edit", :method => :get,
               :update => "tr_exam_user_#{exam_user.id}" %>&nbsp;|&nbsp;
             <%= link_to_remote "删除", :url => "/exam_users/#{exam_user.id}", :method => :delete,
