@@ -25,6 +25,7 @@ class SessionsController < ApplicationController
           else
             cookies[:user_id]=@user.id
             cookies[:user_name]=@user.name
+            cookie_role(cookies[:user_id])
             if is_paper_creater?
               redirect_to "/papers"
             else

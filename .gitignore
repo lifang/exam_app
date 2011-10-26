@@ -2,7 +2,7 @@
 db/*.sqlite3
 log/*.log
 tmp/
-nbproject/
+nbproject/*.*
 config/database.yml     
 public/papers/*.xml
 public/excels/*.xls
