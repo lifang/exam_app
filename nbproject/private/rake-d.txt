@@ -1,7 +1,7 @@
-
 about=List versions of all Rails frameworks and the environment
 check\:proof=check proof right
 check\:title=rate paper
+count_log\:excel=count_log
 db\:abort_if_pending_migrations=
 db\:charset=
 db\:collation=
@@ -108,4 +108,3 @@ tmp\:create=Creates tmp directories for sessions, cache, sockets, and pids
 tmp\:pids\:clear=
 tmp\:sessions\:clear=
 tmp\:sockets\:clear=
-
