@@ -1,0 +1,41 @@
+<div class="main_box_back">
+  <div class="in">
+    <table>
+      <thead>
+        <tr>
+          <th>&nbsp;&nbsp;导出用户信息</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% n = Time.now.year.to_i - 2011 %>
+        <% (0..n).each do |i| %>
+          <tr>
+            <td>
+              <div>
+                <input type="checkbox" name="year" id="year_<%= Time.now.year - i %>" onclick="javascript:select_month('<%= Time.now.year - i %>');" />
+                &nbsp;&nbsp;&nbsp;&nbsp;<%= Time.now.year - i %>年
+              </div>
+              <div style="border-top: 1px #ccc dashed;padding-top: 5px;">
+                <% (1..12).each do |j| %>
+                  <div style="width:16%;float: left;">
+                    <input type="checkbox" name="<%= Time.now.year - i %>" id="<%= Time.now.year - i %>_<%= j %>"
+                           onclick="javascript:select_year(<%= Time.now.year - i %>);"/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<%= j %>月
+                  </div>
+                  <% if j%6 == 0 %>
+                    <div class="clear"></div>
+                  <% end %>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td><input type="checkbox" title="选中全部" name="year_all" onclick="javascript:select_all();" />
+            &nbsp;&nbsp;&nbsp;&nbsp;<a href="#">导出</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

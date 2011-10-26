@@ -70,7 +70,7 @@ ExamApp::Application.routes.draw do
   
   resources :users do
     collection do
-      get "roles_manage"
+      get "roles_manage", "export_info"
       get "get_proof_code", "get_register_code", "re_active", "active_success", "active_false"
       post "add_role","load_set_right","set_right","load_edit_role","edit_role","load_set_role","set_role","index_search"
     end

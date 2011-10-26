@@ -110,3 +110,52 @@ function create_ex(checkbox){
 
     document.getElementById("exam_getvalue").value = checked_ids;
 }
+
+
+function select_month(year) {
+    var all_select = true;
+    var y = document.getElementsByName("year");
+    if (y != null) {
+        for (var m=0; m<y.length; m++) {
+            var months = document.getElementsByName(year);
+            if (y[m].id == "year_" + year) {
+                if (months != null) {
+                    for (var i=0; i<months.length; i++) {
+                        months[i].checked = y[m].checked;
+                    }
+                }
+            }
+            if (y[m].checked == false) {
+                all_select = false;
+            }
+        }
+    }
+    if (all_select) {
+        var all = document.getElementsByName("year_all");
+        if (all != null) {
+            for (var n=0; n<all.length; n++) {
+                all[n].checked = true;
+            }
+        }
+    }
+}
+
+function select_all() {
+    var y = document.getElementsByName("year");
+    if (y != null) {
+        for (var m=0; m<y.length; m++) {
+            y[m].checked = true;
+            var months = document.getElementsByName(y[m].id.split("year_")[1]);
+            if (months != null) {
+                for (var i=0; i<months.length; i++) {
+                    months[i].checked = y[m].checked;
+                }
+            }
+        }
+    }
+}
+
+function select_year(year) {
+    
+}
+
