@@ -3,7 +3,7 @@
     <table>
       <thead>
         <tr>
-          <th>&nbsp;&nbsp;导出用户信息</th>
+          <th>&nbsp;&nbsp;导出用户信息（请选择您要导出哪一时段的用户）</th>
         </tr>
       </thead>
       <tbody>
@@ -16,11 +16,11 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;<%= Time.now.year - i %>年
               </div>
               <div style="border-top: 1px #ccc dashed;padding-top: 5px;">
-                <% (1..12).each do |j| %>
+                <% (1..2).each do |j| %>
                   <div style="width:16%;float: left;">
                     <input type="checkbox" name="<%= Time.now.year - i %>" id="<%= Time.now.year - i %>_<%= j %>"
                            onclick="javascript:select_year(<%= Time.now.year - i %>);"/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<%= j %>月
+                    &nbsp;&nbsp;&nbsp;&nbsp;<%= (j-1)*6 + 1 %>~<%= j*6 %>月
                   </div>
                   <% if j%6 == 0 %>
                     <div class="clear"></div>
@@ -31,11 +31,13 @@
           </tr>
         <% end %>
         <tr>
-          <td><input type="checkbox" title="选中全部" name="year_all" onclick="javascript:select_all();" />
-            &nbsp;&nbsp;&nbsp;&nbsp;<a href="#">导出</a>
+          <td>
+            <input type="checkbox" title="选中全部" name="year_all" id="year_all" onclick="javascript:select_all();" />
+            &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="javascript:export_info();">导出</a>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+<div id="export_div"></div>
