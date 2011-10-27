@@ -866,6 +866,7 @@ function generate_jplayer(problem_title, flag_id) {
 
 function add_small_question(problem_id,block_id,paper_id,problem_title,problem_index){
     manage_div(null, ""); //关闭所有其它面板
+    document.getElementById("problem_correct_type").value="";
     document.getElementById("small_question_main_div").innerHTML="";
     document.getElementById('new_small_question_paper_id').value=paper_id;
     document.getElementById('new_small_question_block_id').value=block_id;
