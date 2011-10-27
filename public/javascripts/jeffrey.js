@@ -272,6 +272,15 @@ function question_validate(){
     }   //验证答案不能为空
 }   
 
+//整理新建综合题小题，验证通过后提交表单
+function post_form_small_question(type){
+    if(type==null||type==""){
+        alert("操作有误，请选择小题类型");
+        return false;
+    }
+    return question_validate();
+}
+
 //修改综合题小题
 function generate_edit_questions(problem_id, problem_type) {
 
@@ -853,4 +862,28 @@ function generate_jplayer(problem_title, flag_id) {
             wmode: "window"
         });
     })(jQuery)
+}
+
+function add_small_question(problem_id,block_id,paper_id,problem_title,problem_index){
+    manage_div(null, ""); //关闭所有其它面板
+    document.getElementById("small_question_main_div").innerHTML="";
+    document.getElementById('new_small_question_paper_id').value=paper_id;
+    document.getElementById('new_small_question_block_id').value=block_id;
+    document.getElementById('new_small_question_problem_id').value=problem_id;
+    document.getElementById('new_small_question_title').innerHTML=" ("+problem_index+") "+problem_title;
+    document.getElementById('new_small_question_div').style.display='block';
+    
+}
+
+function choose_small_question_type(question_type,partial){
+    document.getElementById("problem_correct_type").value=question_type;
+    new Ajax.Updater("small_question_main_div", "/questions/ajax_small_question_type",
+    {
+        asynchronous:true,
+        evalScripts:true,
+        method:"post",
+        parameters:'partial=' + partial + '&authenticity_token='
+        + encodeURIComponent('Q3CnqJgIgZEqWnlCyD902sexHwkF7phBA8hPYM1Tqxc=')
+    });
+    return false;
 }

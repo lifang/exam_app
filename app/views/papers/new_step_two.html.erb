@@ -13,11 +13,11 @@
 <div id="jquery_jplayer" style="height:0px;width:0px;"></div>
 <script language="javascript" type="text/javascript">
   if (jQuery("#jquery_jplayer") != null)
-  jQuery("#jquery_jplayer").jPlayer({
-    swfPath: "/javascripts/jplayer",
-    supplied: "mp3",
-    preload:"auto"
-  });
+    jQuery("#jquery_jplayer").jPlayer({
+      swfPath: "/javascripts/jplayer",
+      supplied: "mp3",
+      preload:"auto"
+    });
 </script>
 
 <%= javascript_include_tag 'jeff_paper_validate' %>
@@ -26,3 +26,55 @@
   <%= render :partial=>"/papers/edit_paper_info" %>
 </div>
 <%= render :partial=>"/papers/paper_blocks" %>
+
+
+<div id="new_small_question_div"style="display:none;position:fixed;z-index:999;bottom:5px;left:500px;padding:5px;background-color:#fff;width:450px;height:600px;border:black solid 2px;">
+  <%= form_for :small_question ,:html=>{:id=>"small_question_form",:onsubmit=>"return post_form_small_question(document.getElementById('problem_correct_type').value);"}, :url=>"/questions/create_small_question" do |f| %>
+  <p><b id="new_small_question_title">（3）综合题描述</b></p><br/><hr/>
+  <input type="hidden" id="new_small_question_paper_id" name="new_small_question_paper_id"/>
+  <input type="hidden" id="new_small_question_block_id" name="new_small_question_block_id"/>
+  <input type="hidden" id="new_small_question_problem_id" name="new_small_question_problem_id"/>
+  <input type="hidden" id="new_small_question_info" name="new_small_question_info"/>
+  <input type="hidden" id="problem_correct_type" name="new_small_question_type"/>
+  <div id="choose_small_question_type">
+    <div class="title">请选择小题类型</div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>" id="radio1"
+             onclick="javascript:choose_small_question_type(<%= Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>,'/common/single_choose');"/>单选题
+    </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:MORE_CHOSE] %>" id="radio2"
+             onclick="javascript:choose_small_question_type(<%= Problem::QUESTION_TYPE[:MORE_CHOSE] %>,'/common/more_choose');"/>多选题
+    </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:JUDGE] %>" id="radio3"
+             onclick="javascript:choose_small_question_type(<%= Problem::QUESTION_TYPE[:JUDGE] %>,'/common/judge');"/>判断题
+    </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:SINGLE_CALK] %>" id="radio4"
+             onclick="javascript:choose_small_question_type(<%= Problem::QUESTION_TYPE[:SINGLE_CALK] %>,'/common/fill_blank');"/>填空题
+    </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:CHARACTER] %>" id="radio6"
+             onclick="javascript:choose_small_question_type(<%= Problem::QUESTION_TYPE[:CHARACTER] %>,'/common/fill_blank');"/>简答题
+    </div>
+    <div style="float: left;padding-right: 20px;">
+      <input type="radio" name="type_radio"
+             value="<%= Problem::QUESTION_TYPE[:MORE_BLANKS] %>" id="radio7"
+             onclick="javascript:choose_small_question_type(<%= Problem::QUESTION_TYPE[:MORE_BLANKS] %>,'/common/more_choose');"/>完型填空题
+    </div>
+  </div>
+  <br/><hr/>
+  <div id="small_question_main_div"></div>
+  <li>&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="submit" value="确定" class="submit_btn" />
+    <input type="button" value="取消" class="submit_btn" onclick="javascript:document.getElementById('new_small_question_div').style.display='none';"/>
+  </li><br/>
+  <% end %>
+</div>
+<%= draggable_element("new_small_question_div", :revert => false) %>
