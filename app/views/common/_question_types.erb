@@ -1,0 +1,13 @@
+<% if question_types.to_i == Problem::QUESTION_TYPE[:MORE_CHOSE] %>
+  多选题
+<% elsif question_types.to_i == Problem::QUESTION_TYPE[:MORE_BLANKS] %>
+  完型填空题
+<% elsif question_types.to_i == Problem::QUESTION_TYPE[:JUDGE] %>
+  判断题
+<% elsif question_types.to_i == Problem::QUESTION_TYPE[:SINGLE_CALK] %>
+  填空题
+<% elsif question_types.to_i == Problem::QUESTION_TYPE[:CHARACTER] %>
+  简答题
+<% elsif question_types.to_i == Problem::QUESTION_TYPE[:SINGLE_CHOSE] %>
+  单选题
+<% end %>

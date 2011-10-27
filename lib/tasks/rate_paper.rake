@@ -41,7 +41,7 @@ namespace :paper do
         where e.is_submited = 1 and e.total_score is not null
         and exm.types = #{Examination::TYPES[:SIMULATION]} group by e.examination_id")
     exam_user_count.each do |e|
-      if e.user_count >= 2
+      if e.user_count >= 1000
         puts e.examination_id.to_s + "prepare"
         exam_records = ExamUser.find_by_sql("select e.*
             from exam_users e inner join orders o on o.user_id = e.user_id
