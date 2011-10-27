@@ -110,3 +110,128 @@ function create_ex(checkbox){
 
     document.getElementById("exam_getvalue").value = checked_ids;
 }
+
+
+function select_month(year) {
+    var all_select = true;
+    var y = document.getElementsByName("year");
+    if (y != null) {
+        for (var m=0; m<y.length; m++) {
+            var months = document.getElementsByName(year);
+            if (y[m].id == "year_" + year) {
+                if (months != null) {
+                    for (var i=0; i<months.length; i++) {
+                        months[i].checked = y[m].checked;
+                    }
+                }
+            }
+            if (y[m].checked == false) {
+                all_select = false;
+            }
+        }
+    }
+    var all = document.getElementById("year_all");
+    if (all_select) {
+        all.checked = true;
+    } else {
+        all.checked = false;
+    }
+}
+
+function select_all() {
+    var all = document.getElementById("year_all");
+    var y = document.getElementsByName("year");
+    if (y != null) {
+        for (var m=0; m<y.length; m++) {
+            y[m].checked = all.checked;
+            var months = document.getElementsByName(y[m].id.split("year_")[1]);
+            if (months != null) {
+                for (var i=0; i<months.length; i++) {
+                    months[i].checked = y[m].checked;
+                }
+            }
+        }
+    }
+}
+
+function select_year(year) {
+    var year_select = true;
+    var all_select = true;
+    var y = document.getElementsByName("year");
+    var months = document.getElementsByName(year);
+    if (months != null) {
+        for (var i=0; i<months.length; i++) {
+            if (months[i].checked == false) {
+                year_select = false;
+                break;
+            }
+        }
+    }
+    var current_year = document.getElementById("year_"+year);
+    if (year_select) {
+        current_year.checked = true;
+    } else {
+        current_year.checked = false;
+    }
+    if (y != null) {
+        for (var k=0; k<y.length; k++) {
+            if (y[k].checked == false) {
+                all_select = false;
+                break;
+            }
+        }
+    }
+    var all = document.getElementById("year_all");
+    if (all_select) {
+        all.checked = true;
+    } else {
+        all.checked = false;
+    }
+}
+
+function export_info() {
+    var all = document.getElementById("year_all");
+    var all_flag = false;
+    if (all != null && all.checked == true) {
+        all_flag = true;
+    }
+    var year_arr = "";
+    var y = document.getElementsByName("year");
+    if (y != null) {
+        for (var k=0; k<y.length; k++) {
+            var current_year = y[k].id.split("year_")[1];
+            if (y[k].checked == true) {
+                year_arr += current_year + ",1,2;";
+            } else {
+                var months = document.getElementsByName(y[k].id.split("year_")[1]);
+                if (months != null) {
+                    var month_arr = "";
+                    for (var i=0; i<months.length; i++) {
+                        if (months[i].checked == true) {
+                            if (month_arr != "") {
+                                month_arr += ",";
+                            }
+                            month_arr += months[i].id.split(current_year + "_")[1];
+                        }
+                    }
+                    if (month_arr != "") {
+                        year_arr += current_year + "," + month_arr + ";";
+                    }
+                }
+            }
+        }
+    }
+    if (all_flag == false && month_arr == "") {
+        alert("请选择您要导出哪一时段的用户");
+    } else {
+        new Ajax.Updater("export_div", "/users/do_export_info",
+        {
+            asynchronous:true,
+            evalScripts:true,
+            method:"post",
+            parameters:"all="+all_flag +"&year_arr="+year_arr+"&authenticity_token=" + encodeURIComponent('BgLpQ3SADBr4tuiYZOJeoOvY4VOHogJvqQEpMwYVBM4=')
+        });
+        return false;
+    }
+}
+

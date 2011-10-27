@@ -1,6 +1,7 @@
 # encoding: utf-8
 class UsersController < ApplicationController
-
+  require 'spreadsheet'
+  
   def update #更新密码
     @user =User.find(params[:id])
     if @user.has_password?(params[:user][:old_password])
@@ -174,6 +175,51 @@ class UsersController < ApplicationController
       end
     end
     redirect_to "/users"
+  end
+
+  def do_export_info
+    if params[:all].to_s == "true"
+      users = User.find_by_sql("select u.name, u.email from users u where u.status = #{User::STATUS[:NORMAL]} ")
+    else
+      other_sql = ""
+      year = params[:year_arr].split(";")
+      year.each do |y|
+        month = y.split(",")
+        unless month[1].nil?
+          day = (month[1].to_i*6 < 10) ? ("0" + (month[1].to_i*6).to_s + "30") : ((month[1].to_i*6).to_s + "31")
+          start_day = (month[0] + "0" + ((month[1].to_i-1)*6 + 1).to_s + "01").to_date
+          end_day = (month[0] + day).to_date
+          other_sql += " (u.created_at >= '#{start_day}' and u.created_at <= '#{end_day} 23:59:59') "
+        end
+        unless month[2].nil?
+          start_day = (month[0] + "0" +  ((month[2].to_i-1)*6 + 1).to_s + "01").to_date
+          end_day = (month[0] + (month[2].to_i*6).to_s + "31").to_date
+          other_sql += " or " unless other_sql.nil?
+          other_sql += " (u.created_at >= '#{start_day}' and u.created_at <= '#{end_day} 23:59:59') "
+        end
+        users = User.find_by_sql(["select u.name, u.email from users u where (#{other_sql})
+          and  u.status = #{User::STATUS[:NORMAL]}"])
+      end unless year.blank?
+    end
+    if users.blank?
+      render :inline => "<script>alert('您选择的时间段内没有注册的用户。');</script>"
+    else
+      url = Constant::PUBLIC_PATH + "/user_info"
+      unless File.directory?(url)               #判断dir目录是否存在，不存在则创建 下3行
+        Dir.mkdir(url)
+      end
+      file_url = "/#{Time.now.strftime("%Y%m%d%H%M%S")}.xls"
+      Spreadsheet.client_encoding = "UTF-8"
+      book = Spreadsheet::Workbook.new
+      sheet = book.create_worksheet
+      sheet.row(0).concat %w{姓名 邮箱}
+      users.each_with_index do |exam_user, index|
+        sheet.row(index+1).concat ["#{exam_user.name}", "#{exam_user.email}"]
+      end
+      book.write url + file_url
+      render :inline => "<script>window.location.href='/user_info#{file_url}';</script>"
+    end
+    
   end
 
 

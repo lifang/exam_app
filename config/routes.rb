@@ -25,7 +25,8 @@ ExamApp::Application.routes.draw do
   resources :item_pools do
     collection do
       post :search_condition,:choose_type,:colligation_choose_type,:update_problem,:item_pools_mavin_problem
-      post :create_paper,:items_search,:ajax_item_pools_problem_info,:ajax_item_pools_edit_problem,:ajax_item_pools_edit_question,:ajax_item_pools_mavin_problem
+      post :create_paper,:items_search,:ajax_item_pools_problem_info,:ajax_item_pools_edit_problem,
+        :ajax_item_pools_edit_question,:ajax_item_pools_mavin_problem
       get :paper_item, :new_page,:index_search
     end
     member do
@@ -70,9 +71,10 @@ ExamApp::Application.routes.draw do
   
   resources :users do
     collection do
-      get "roles_manage"
+      get "roles_manage", "export_info"
       get "get_proof_code", "get_register_code", "re_active", "active_success", "active_false"
-      post "add_role","load_set_right","set_right","load_edit_role","edit_role","load_set_role","set_role","index_search"
+      post "add_role","load_set_right","set_right","load_edit_role","edit_role","load_set_role",
+        "set_role","index_search","do_export_info"
     end
     member do
       get "active", "user_active"

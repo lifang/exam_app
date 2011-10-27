@@ -3,6 +3,7 @@
  <div style="word-wrap:break-word; word-break:break-all;">
   <%= show_single_question.elements["description"].text.to_s.html_safe if show_single_question.elements["description"] %>
  </div>
+ <%= render :partial=>"/common/question_types", :object => show_single_question.attributes["correct_type"] %>
   [<%= show_single_question.attributes["score"] %>分]
   <% attrs_str = show_single_question.elements["questionattrs"].text
   attrs_array = attrs_str.split(";-;") unless attrs_str.nil?
