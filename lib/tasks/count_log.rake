@@ -8,10 +8,10 @@ namespace :count_log do
   task(:excel => :environment) do
     url="#{Rails.root}/public/count_log/#{2.day.ago.strftime('%Y_%m_%d')}_count_log.xls"
     Spreadsheet.client_encoding = "UTF-8"
-    new_user = User.count('id', :conditions => ["created_at >? and created_at <?", 1.day.ago.to_date,Time.now.to_date])
-    new_vip = Order.count('id', :conditions => ["created_at >? and created_at <?", 1.day.ago.to_date,Time.now.to_date])
-    str ="select count(ex.id) sum,ex.types from exam_users eu inner join examinations ex on ex.id=eu.examination_id where ex.created_at>? and ex.created_at <? group by ex.types"
-    info = ExamUser.find_by_sql([str,1.day.ago.to_date,Time.now.to_date])
+    new_user = User.count('id', :conditions => ["created_at >? and created_at <?", 10.day.ago.to_date,Time.now.to_date])
+    new_vip = Order.count('id', :conditions => ["created_at >? and created_at <?", 10.day.ago.to_date,Time.now.to_date])
+    str ="select count(ex.id) sum,ex.types from exam_users eu left join examinations ex on ex.id=eu.examination_id where eu.created_at>? and eu.created_at <? group by ex.types"
+    info = ExamUser.find_by_sql([str,10.day.ago.to_date,Time.now.to_date])
     combine_practice=0
     true_practice=0
     simulate_exam=0
