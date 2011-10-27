@@ -873,7 +873,6 @@ function add_small_question(problem_id,block_id,paper_id,problem_title,problem_i
     document.getElementById('new_small_question_problem_id').value=problem_id;
     document.getElementById('new_small_question_title').innerHTML=" ("+problem_index+") "+problem_title;
     document.getElementById('new_small_question_div').style.display='block';
-    
 }
 
 function choose_small_question_type(question_type,partial){

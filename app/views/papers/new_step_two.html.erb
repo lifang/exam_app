@@ -30,7 +30,8 @@
 
 <div id="new_small_question_div"style="display:none;position:fixed;z-index:999;bottom:5px;left:500px;padding:5px;background-color:#fff;width:450px;height:600px;border:black solid 2px;">
   <%= form_for :small_question ,:html=>{:id=>"small_question_form",:onsubmit=>"return post_form_small_question(document.getElementById('problem_correct_type').value);"}, :url=>"/questions/create_small_question" do |f| %>
-  <p><b id="new_small_question_title">（3）综合题描述</b></p><br/><hr/>
+  <div style="text-align:right;"><a href="javascript:void(0);" onclick="javascript:document.getElementById('new_small_question_div').style.display='none';">X&nbsp;&nbsp;</a></div>
+  <p><b id="new_small_question_title"></b></p><br/><hr/>
   <input type="hidden" id="new_small_question_paper_id" name="new_small_question_paper_id"/>
   <input type="hidden" id="new_small_question_block_id" name="new_small_question_block_id"/>
   <input type="hidden" id="new_small_question_problem_id" name="new_small_question_problem_id"/>
