@@ -229,7 +229,7 @@ function export_info() {
             asynchronous:true,
             evalScripts:true,
             method:"post",
-            parameters:"all="+false +"&year_arr="+year_arr+"&authenticity_token=" + encodeURIComponent('BgLpQ3SADBr4tuiYZOJeoOvY4VOHogJvqQEpMwYVBM4=')
+            parameters:"all="+all_flag +"&year_arr="+year_arr+"&authenticity_token=" + encodeURIComponent('BgLpQ3SADBr4tuiYZOJeoOvY4VOHogJvqQEpMwYVBM4=')
         });
         return false;
     }
