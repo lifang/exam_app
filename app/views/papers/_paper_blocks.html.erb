@@ -65,6 +65,7 @@
             <%= form_for :delete,:html => {:name=>"delete_form_#{problem.attributes['id']}", :id =>"delete_form_#{problem.attributes['id']}"}, :url=>"/papers/problem_destroy" do |f|%>
               <%= f.hidden_field :xpath,:value=>problem.xpath %><%= f.hidden_field :paper_id,:value=>@xml.root.attributes["id"] %>
               <span>&nbsp;(<%= @question_index+=1 %>)&nbsp;</span>
+              <% if problem.attributes["types"]=="4" %><a href="javascript:void(0);" onClick="javascript:add_small_question(<%= problem.attributes["id"].to_i %>,<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>,'<%= problem.elements['title'].text %>',<%= @question_index %>)" >添加小题</a>&nbsp;|&nbsp;<% end %>
               <a href="javascript:void(0);" onClick="javascript:edit_problem(<%= problem.attributes["id"].to_i %>,<%= block.attributes["id"].to_i %>,<%= @xml.attributes["id"].to_i %>)" >编辑</a>&nbsp;|&nbsp;
               <a href="javascript:void(0);" onclick="javascript:delete_problem_form('delete_form_<%= problem.attributes['id']%>');">删除</a>
             <% end %>

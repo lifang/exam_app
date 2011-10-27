@@ -115,6 +115,9 @@ ExamApp::Application.routes.draw do
     member do
       post "edit_question"
     end
+    collection do
+      post "ajax_small_question_type","create_small_question"
+    end
   end
   resources :paper_blocks do
     member do
