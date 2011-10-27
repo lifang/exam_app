@@ -47,7 +47,6 @@ class PapersController < ApplicationController
   def new_step_two
     paper = Paper.find(params[:id].to_i)
     @question_index=0
-    @paper_index=0
     begin
       file = File.open("#{Constant::PUBLIC_PATH}#{paper.paper_url}")
       @xml=Document.new(file).root
