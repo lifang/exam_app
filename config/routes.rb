@@ -127,6 +127,7 @@ ExamApp::Application.routes.draw do
   end
   resources :problems do
     collection do
+      get "delete_colligation_question","change_colligation_position"
       post "mavin_problem",:des,"description_destroy"
     end
     member do

@@ -108,6 +108,15 @@ function get_question_type(block_id, paper_id, correct_type, remote_div) {
 }
 
 //增加综合题的小题
+var question_types = {
+    0:"单选题",
+    1:"多选题",
+    2:"判断题",
+    3:"填空题",
+    5:"简答题",
+    6:"完形填空题"
+}
+var small_questions = [];
 function new_question(block_id) {
     if(question_validate()==false){
         return false;
@@ -181,13 +190,22 @@ function new_question(block_id) {
     var parent = $("real_single_question_" + block_id);
     var div_length = parent.childNodes.length + 1;
     var div = document.createElement("div");
-    div.innerHTML = "<div id='question_'"+ div_length +">" + $("problem_description").value + "</div><div>" + attr_value.split(";|;") +"</div>";
-    div.innerHTML += "<div style='float:right;'><a herf='#'>删除</a></div><div class='clear'></div>";
+    div.id = "new_small_question_"+div_length;
+    $("single_question_" + block_id).value += hash_str;
+    div.innerHTML = "<div id='question_"+ div_length +"'>" + $("problem_description").value + "</div><div>"+ question_types[parseFloat($("problem_correct_type").value)]+"</div><div>" + attr_value.split(";|;") +"</div><div style='float:right;'><a herf='javascript:void(0);' onclick='javascript:delete_new_question("+block_id+",this,"+(div_length-1)+");'>删除</a></div><div class='clear'></div>";
     parent.appendChild(div);
     $("remote_que_div_" + block_id).innerHTML = "";
-    $("choose_coll_que_link_" + block_id).style.display = "block";
-    $("single_question_" + block_id).value += hash_str;
+    $("choose_coll_que_link_" + block_id).style.display = "block"; 
 }
+
+//删除新建的综合题小题
+function delete_new_question(block_id,element,index) {
+    $('real_single_question_'+block_id).removeChild(element.parentNode.parentNode);
+    var array = $("single_question_" + block_id).value.split("||");
+    array.splice(index,1,"");
+    $("single_question_" + block_id).value = array.join("||");
+}
+
 
 //验证添加综合题的小题
 function question_validate(){
@@ -268,7 +286,7 @@ function generate_edit_questions(problem_id, problem_type) {
             var attr_value = "";
             var attr_answer ="";
             var question_div = $("remote_question_" + question_ids[i]);
-            if (question_div != null && $("make_edit_" + question_ids[i]).value == "1") {
+            if (question_div != null && $("question_list_" + question_ids[i])!=null &&$("make_edit_" + question_ids[i]).value == "1") {
                 var inputs = question_div.getElementsByTagName("input");
                 hash_str += "{1=>1,|,question_id=>" + question_ids[i];
                 if (inputs != null && inputs[0] != null) {
@@ -387,6 +405,7 @@ function generate_edit_questions(problem_id, problem_type) {
     }
     $("edit_form_" + problem_id).submit();
 }
+
 
 //取消添加小题
 function cancel_question(block_id) {
@@ -797,6 +816,14 @@ function audio_element(problem_title, flag_id) {
     document.write(final_title);
     generate_jplayer(problem_title, flag_id);
 }
+
+//new_step_two 删除题目
+function delete_problem_form(form_id){
+    if(confirm("你确定要删除么？")){
+        document.getElementById(form_id).submit();
+    }
+}
+
 
 function generate_audio_element(flag_id) {
     var final_title = "<div id='jquery_jplayer_"+flag_id+"' class='jp-jplayer'></div>"

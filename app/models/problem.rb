@@ -68,8 +68,13 @@ class Problem < ActiveRecord::Base
   end
 
   #指定题目位置
-  def change_position(doc, problem, position ,options = {})
+  def change_position(doc, problem, position)
     problem.parent.insert_before(doc.elements["#{problem.parent.xpath}/problem[#{position}]"],problem)
+    return doc
+  end
+
+  def change_colligation_position(doc,question,position)
+    question.parent.insert_before(doc.elements["#{question.parent.xpath}/question[#{position}]"],question)
     return doc
   end
 

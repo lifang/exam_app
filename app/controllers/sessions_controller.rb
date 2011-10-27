@@ -23,8 +23,8 @@ class SessionsController < ApplicationController
             flash[:error] = "您的账号还未激活，请查找您注册邮箱的激活信进行激活"
             redirect_to '/sessions/new'
           else
-            cookies[:user_id]=@user.id
-            cookies[:user_name]=@user.name
+            cookies[:user_id]={:value =>@user.id, :path => "/", :secure  => false}
+            cookies[:user_name]={:value =>@user.name, :path => "/", :secure  => false}
             cookie_role(cookies[:user_id])
             if is_paper_creater?
               redirect_to "/papers"

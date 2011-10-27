@@ -64,8 +64,8 @@ class ProblemsController < ApplicationController
     remove_problem=doc.elements[params[:problem][:problem_xpath]]
     doc = @problem.create_problem_xml(doc, params[:problem][:block_id], remove_problem, {:score => score_arr})
     doc = Problem.remove_problem_xml(doc, params[:problem][:problem_xpath])
-    if params["insert_position"]!=""&&params["insert_position"].to_i!=0
-      doc = @problem.change_position(doc, doc.elements[params[:problem][:problem_xpath]], params["insert_position"].to_i, {:score => score_arr})
+    if params["insert_position"]!=""&&params["insert_position"].to_i>0
+      doc = @problem.change_position(doc, doc.elements[params[:problem][:problem_xpath]], params["insert_position"].to_i)
     end
     Problem.write_xml(url, doc)
     redirect_to  "/papers/#{params[:problem][:paper_id]}/new_step_two"
@@ -130,6 +130,30 @@ class ProblemsController < ApplicationController
     Problem.write_xml(url, doc)
   end
 
+  #删除综合题小题
+  def delete_colligation_question
+    Question.delete(params["question_id"])
+    #打开xml
+    url = File.open "#{Constant::PAPER_PATH}/#{params['xml_id']}.xml"
+    doc = Problem.open_xml(url)
+    doc.delete_element(params["question_xpath"])
+    Problem.write_xml(url, doc)
+    redirect_to request.referer
+  end
+
+  #更改综合题小题顺序
+  def change_colligation_position
+    if params["position"]!=""&&params["position"].to_i>0
+      #打开xml
+      url = File.open "#{Constant::PAPER_PATH}/#{params['xml_id']}.xml"
+      doc = Problem.open_xml(url)
+      doc = Problem.new.change_colligation_position(doc, doc.elements[params["question_xpath"]], params["position"].to_i)
+      Problem.write_xml(url, doc)
+    end
+    redirect_to request.referer
+  end
+
+
   def destroy
     @problem = Problem.find(params[:id])
     if @problem.status==1
@@ -183,10 +207,16 @@ class ProblemsController < ApplicationController
   def update_part_description
     url="#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml"
     doc=Problem.open_xml(File.open url).root
-    doc.elements["blocks/block[@id='#{params[:block_id]}']/problems//part_description[@part_id='#{params[:id]}']"].text=params["mavin_problem_title_#{params[:id]}"]
+    part_element = doc.elements["blocks/block[@id='#{params[:block_id]}']/problems//part_description[@part_id='#{params[:id]}']"]
+    part_element.text = params["mavin_problem_title_#{params[:id]}"]
+    if params["insert_position"]!=""&&params["insert_position"].to_i!=0
+      doc = Problem.new.change_position(doc,part_element.parent , params["insert_position"].to_i)
+    end
     write_xml(url,doc)
     redirect_to request.referer
   end
+
+  
   def description_destroy
     url="#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml"
     doc=Problem.open_xml(File.open url).root
