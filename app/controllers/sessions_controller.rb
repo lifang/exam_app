@@ -16,10 +16,9 @@ class SessionsController < ApplicationController
       else
         unless  @user.has_password?(params[:session][:password])
           flash[:error] = "密码错误"
-          
           redirect_to '/sessions/new'
         else
-          if @user.status == User::STATUS[:LOCK]
+          if @user.status != User::STATUS[:NORMAL]
             flash[:error] = "您的账号还未激活，请查找您注册邮箱的激活信进行激活"
             redirect_to '/sessions/new'
           else
