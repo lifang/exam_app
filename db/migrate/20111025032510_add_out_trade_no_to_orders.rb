@@ -1,4 +1,4 @@
-class AddDetailToOrders < ActiveRecord::Migration
+class AddOutTradeNoToOrders < ActiveRecord::Migration
   def self.up
     add_column :orders, :out_trade_no, :string
   end

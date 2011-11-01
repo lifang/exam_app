@@ -140,8 +140,12 @@ ActiveRecord::Schema.define(:version => 20111025013040) do
     t.datetime "end_time"
     t.boolean  "status"
     t.datetime "created_at"
+    t.string   "out_trade_no"
+    t.integer  "pay_type"
   end
 
+  add_index "orders", ["out_trade_no"], :name => "index_orders_on_out_trade_no"
+  add_index "orders", ["pay_type"], :name => "index_orders_on_pay_type"
   add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
 
   create_table "paper_blocks", :force => true do |t|
@@ -218,7 +222,7 @@ ActiveRecord::Schema.define(:version => 20111025013040) do
 
   create_table "questions", :force => true do |t|
     t.integer "problem_id",                    :null => false
-    t.string  "description"
+    t.text    "description"
     t.text    "answer"
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
