@@ -40,6 +40,7 @@ class ProblemsController < ApplicationController
     #打开xml
     url = File.open "#{Constant::PAPER_PATH}/#{params[:problem][:paper_id].to_i}.xml"
     doc = Problem.open_xml(url)
+    url.close
     #更新提点
     score_arr = {}
     if @problem.types == Problem::QUESTION_TYPE[:COLLIGATION]

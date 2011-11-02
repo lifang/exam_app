@@ -162,7 +162,9 @@ class Collection < ActiveRecord::Base
     path = Constant::FRONT_PUBLIC_PATH
     url = COLLECTION_PATH + "/#{collection.id}.xml"
     collection.set_collection_url(path, url)
-    collection_xml = Document.new(File.open(path + collection.collection_url))
+    file = File.open(path + collection.collection_url)
+    collection_xml = Document.new(file)
+    file.close
     answer_questions = answer_xml.elements["exam"].elements["paper"].elements["questions"]
     paper_xml.root.elements["blocks"].each_element do |block|
       block.elements["problems"].each_element do |problem|

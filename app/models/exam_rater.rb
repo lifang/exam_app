@@ -16,6 +16,7 @@ class ExamRater < ActiveRecord::Base
   def ExamRater.open_file(url)
     file=File.open(url)
     doc=Document.new(file).root
+    file.close
     return doc
   end
 
