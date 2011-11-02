@@ -176,18 +176,20 @@ class Collection < ActiveRecord::Base
           if question.attributes["correct_type"].to_i != Problem::QUESTION_TYPE[:CHARACTER] and
               question.attributes["correct_type"].to_i != Problem::QUESTION_TYPE[:SINGLE_CALK]
             answer_question = answer_questions.elements["question[@id='#{question.attributes["id"]}']"]
-            if answer_question.attributes["score"].to_f != question.attributes["score"].to_f
+            if answer_question.nil? or (answer_question.attributes["score"].to_f != question.attributes["score"].to_f)
               collection_problem = collection.problem_in_collection(problem.attributes["id"], collection_xml)
+              answer = (answer_question.nil? or answer_question.elements["answer"].nil?) ? ""
+                    : answer_question.elements["answer"].text
               if collection_problem
                 collection_question = collection.question_in_collection(collection_problem, question.attributes["id"])
                 if collection_question
-                  collection_xml = collection.update_question(answer_question.elements["answer"].text, collection_question.xpath, collection_xml)
+                  collection_xml = collection.update_question(answer, collection_question.xpath, collection_xml)
                 else
-                  collection_xml = collection.add_question(question, answer_question.elements["answer"].text, collection_problem, collection_xml)
+                  collection_xml = collection.add_question(question, answer, collection_problem, collection_xml)
                 end
               else
                 collection_xml = collection.auto_add_problem(paper_xml, question.attributes["id"], problem.xpath,
-                  answer_question.elements["answer"].text, collection_xml)
+                  answer, collection_xml)
               end
             end
           end
