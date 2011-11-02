@@ -26,6 +26,13 @@ class UserMailer < ActionMailer::Base
     mail(:to => @rater.email, :subject => "赶考网阅卷老师确认")
   end
 
+  def notice_rater(exam_rater,examination)
+    @rater=exam_rater
+    @examination=examination
+    @url  = Constant::SERVER_PATH
+    mail(:to => @rater.email, :subject => "赶考网阅卷提醒")
+  end
+
   def congratulation_vip(user)
     @user=user
     mail(:to => @user.email, :subject => "恭喜，您已成为赶考网VIP会员")

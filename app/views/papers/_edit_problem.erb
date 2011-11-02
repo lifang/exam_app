@@ -32,7 +32,7 @@
                 <div class="chose_add">
                   <a href="javascript:void(0);"
                    onclick="javascript:document.getElementById('change_position_div_<%= question.attributes["id"] %>').style.display='block';">换序(<%= @colligation_index %>)</a>&nbsp;
-                  <a href="/problems/delete_colligation_question?question_id=<%= question.attributes["id"].to_i %>&xml_id=<%= @xml.attributes["id"] %>&question_xpath=<%= question.xpath %>">删除</a>&nbsp;
+                  <a href="/problems/delete_colligation_question?question_id=<%= question.attributes["id"].to_i %>&xml_id=<%= @xml.attributes["id"] %>&question_xpath=<%= question.xpath %>" onclick ="return confirm('确认要删除该小题么 ?')" >删除</a>&nbsp;
                   <a href="javascript:void(0);"
                      onclick="javascript:edit_question(<%= question.attributes["id"].to_i %>,'<%= @xml.attributes["id"] %>', '<%= question.xpath %>')">编辑</a>
                 </div>
