@@ -138,7 +138,7 @@ class ExamUser < ActiveRecord::Base
     end
     file_name = "/#{self.id}.xml"
     url = dir + file_name
-    f=File.new(url, File::CREAT|File::TRUNC|File::RDWR, 0777)
+    f=File.new(url,"w+")
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
     return "/" + path + file_name
