@@ -111,7 +111,8 @@ class Collection < ActiveRecord::Base
       que.add_attribute("error_percent", "0")
     end
     que.add_element("user_answer").add_text("#{answer_text}")
-    self.generate_collection_url(collection_xml.to_s, Constant::FRONT_PUBLIC_PATH, self.collection_url)
+    return collection_xml
+#    self.generate_collection_url(collection_xml.to_s, Constant::FRONT_PUBLIC_PATH, self.collection_url)
   end
   
   #如果当前题目有题点已经收藏过，就只收藏题点
@@ -121,7 +122,8 @@ class Collection < ActiveRecord::Base
     question.add_attribute("error_percent", "0")
     questions = collection_xml.elements["#{collection_problem.xpath}/questions"]
     questions.elements.add(question)
-    self.generate_collection_url(collection_xml.to_s, Constant::FRONT_PUBLIC_PATH, self.collection_url)
+    return collection_xml
+#    self.generate_collection_url(collection_xml.to_s, Constant::FRONT_PUBLIC_PATH, self.collection_url)
   end
 
   #如果当前题目没有做过笔记，则将题目加入到笔记
@@ -138,7 +140,8 @@ class Collection < ActiveRecord::Base
     last_question.add_attribute("repeat_num", "1")
     last_question.add_attribute("error_percent", "0")
     collection_xml.elements["/collection/problems"].elements.add(paper_problem)
-    self.generate_collection_url(collection_xml.to_s, Constant::FRONT_PUBLIC_PATH, self.collection_url)
+    return collection_xml
+#    self.generate_collection_url(collection_xml.to_s, Constant::FRONT_PUBLIC_PATH, self.collection_url)
   end
 
   #根据问题的路径取出block中的音频文件
@@ -178,12 +181,12 @@ class Collection < ActiveRecord::Base
               if collection_problem
                 collection_question = collection.question_in_collection(collection_problem, question.attributes["id"])
                 if collection_question
-                  collection.update_question(answer_question.elements["answer"].text, collection_question.xpath, collection_xml)
+                  collection_xml = collection.update_question(answer_question.elements["answer"].text, collection_question.xpath, collection_xml)
                 else
-                  collection.add_question(question, answer_question.elements["answer"].text, collection_problem, collection_xml)
+                  collection_xml = collection.add_question(question, answer_question.elements["answer"].text, collection_problem, collection_xml)
                 end
               else
-                collection.auto_add_problem(paper_xml, question.attributes["id"], problem.xpath,
+                collection_xml = collection.auto_add_problem(paper_xml, question.attributes["id"], problem.xpath,
                   answer_question.elements["answer"].text, collection_xml)
               end
             end
@@ -191,6 +194,7 @@ class Collection < ActiveRecord::Base
         end unless problem.elements["questions"].nil?
       end
     end
+    self.generate_collection_url(collection_xml.to_s, Constant::FRONT_PUBLIC_PATH, self.collection_url)
   end
 
 end
