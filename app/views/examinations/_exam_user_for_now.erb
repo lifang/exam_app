@@ -20,7 +20,7 @@
   <tbody id="add" >
     <% if @exam_users.blank? %>
       <tr id="1">
-        <td colspan="4">
+        <td colspan="5">
           <%= form_remote_tag :url => "/exam_users/create_exam_user" , :method => "get",
             :html => {:class => "required-validate" },:before => "button_fail('user_button1', 'spinner_user1')",:condition => "test_exam(1,'exam_user')",  :update => "exam_user_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
@@ -36,7 +36,7 @@
         </td>
       </tr>
       <tr id="2">
-        <td colspan="4">
+        <td colspan="5">
           <%= form_remote_tag :url => "/exam_users/create_exam_user" , :method => "get",
             :html => {:class => "required-validate"},:before => "button_fail('user_button2', 'spinner_user2')",:condition => "test_exam(2,'exam_user')", :update => "exam_user_list"  do -%>
             <input type="hidden" name="examination_id" id="examination_id" value="<%= @examination.id %>"/>
@@ -52,7 +52,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="4">
+        <td colspan="5">
           <input type="hidden" id="add_rows" name="add_rows" value="2" />
           <input type="hidden" id="textarea" name="textarea" />
           <%= link_to "追加","javascript:void(0);",

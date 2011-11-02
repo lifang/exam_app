@@ -194,7 +194,7 @@ class Collection < ActiveRecord::Base
         end unless problem.elements["questions"].nil?
       end
     end
-    self.generate_collection_url(collection_xml.to_s, Constant::FRONT_PUBLIC_PATH, self.collection_url)
+    collection.generate_collection_url(collection_xml.to_s, Constant::FRONT_PUBLIC_PATH, collection.collection_url)
   end
 
 end
