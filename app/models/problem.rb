@@ -30,7 +30,7 @@ class Problem < ActiveRecord::Base
 
   #将新的内容写进xml
   def self.write_xml(url, doc)
-    file = File.new(url, "w+")
+    file = File.new(url, File::CREAT|File::TRUNC|File::RDWR, 0777)
     file.write(doc)
     file.close
   end

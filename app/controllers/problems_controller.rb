@@ -127,6 +127,7 @@ class ProblemsController < ApplicationController
     #更新试卷xml
     url = File.open "#{Constant::PAPER_PATH}/#{params[:problem][:paper_id].to_i}.xml"
     doc = problem.create_problem_xml(Problem.open_xml(url), params[:problem][:block_id],nil,{:score => score_arr})
+    url.close
     Problem.write_xml(url, doc)
   end
 
@@ -136,6 +137,7 @@ class ProblemsController < ApplicationController
     #打开xml
     url = File.open "#{Constant::PAPER_PATH}/#{params['xml_id']}.xml"
     doc = Problem.open_xml(url)
+    url.close
     doc.delete_element(params["question_xpath"])
     Problem.write_xml(url, doc)
     redirect_to request.referer
@@ -147,6 +149,7 @@ class ProblemsController < ApplicationController
       #打开xml
       url = File.open "#{Constant::PAPER_PATH}/#{params['xml_id']}.xml"
       doc = Problem.open_xml(url)
+      url.close
       doc = Problem.new.change_colligation_position(doc, doc.elements[params["question_xpath"]], params["position"].to_i)
       Problem.write_xml(url, doc)
     end
@@ -181,7 +184,9 @@ class ProblemsController < ApplicationController
 
   def create_part_description
     url="#{Constant::PAPER_PATH}/#{params[:problem][:paper_id].to_i}.xml"
-    doc=Problem.open_xml(File.open url).root
+    file=File.open url
+    doc=Problem.open_xml(file).root
+    file.close
     part_description=doc.elements["blocks/block[@id='#{params[:id]}']/problems"]
     parts=part_description.get_elements("//part_description")
     ids=[]
@@ -199,14 +204,18 @@ class ProblemsController < ApplicationController
   end
 
   def load_edit_part
-    xml = REXML::Document.new(File.new("#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml")).root
+    file=File.new("#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml", File::CREAT|File::TRUNC|File::RDWR, 0777)
+    xml = REXML::Document.new(file).root
+    file.close
     problem=xml.elements["blocks/block[@id='#{params[:block_id]}']/problems//part_description[@part_id='#{params[:id]}']"]
     render :partial=>"/papers/edit_problem_state",:object=>[problem,params[:paper_id],params[:block_id]]
   end
 
   def update_part_description
     url="#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml"
-    doc=Problem.open_xml(File.open url).root
+    file=File.open url
+    doc=Problem.open_xml(file).root
+    file.close
     part_element = doc.elements["blocks/block[@id='#{params[:block_id]}']/problems//part_description[@part_id='#{params[:id]}']"]
     part_element.text = params["mavin_problem_title_#{params[:id]}"]
     if params["insert_position"]!=""&&params["insert_position"].to_i!=0
@@ -219,7 +228,9 @@ class ProblemsController < ApplicationController
   
   def description_destroy
     url="#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml"
-    doc=Problem.open_xml(File.open url).root
+    file=File.open url
+    doc=Problem.open_xml(file).root
+    file.close
     doc.delete_element(params[:problem_path])
     write_xml(url,doc)
     redirect_to request.referer

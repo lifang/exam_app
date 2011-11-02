@@ -76,6 +76,7 @@ class ItemPoolsController < ApplicationController
     begin
       file = File.open("#{Constant::PUBLIC_PATH}#{@paper.paper_url}")
       @xml=Document.new(file).root
+      file.close
     rescue
       flash[:error] = "当前试卷不能正常打开，请检查试卷是否正常。"
       redirect_to papers_path
@@ -94,6 +95,7 @@ class ItemPoolsController < ApplicationController
     url="#{Constant::PUBLIC_PATH}/papers/#{params[:paper_id]}.xml"
     file = File.open(url)
     doc=Document.new(file).root
+    file.close
     @id=params[:id]
     @problems=Problem.search_items_num(params[:item_tag], params[:item_style], params[:item_sort],
       doc.elements["problem_ids"].text)
@@ -107,6 +109,7 @@ class ItemPoolsController < ApplicationController
     url="#{Constant::PUBLIC_PATH}#{@paper.paper_url}"
     file = File.open(url)
     doc=Document.new(file)
+    file.close
     @problems=Problem.search_items(condition[0], condition[1], condition[2],
       params["question_num#{params[:block_id]}"].to_i, doc.root.elements["problem_ids"].text)
     score_arr={}

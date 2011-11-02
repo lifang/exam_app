@@ -15,7 +15,8 @@ class ExamRater < ActiveRecord::Base
   #打开xml文件
   def ExamRater.open_file(url)
     file=File.open(url)
-    return Document.new(file).root
+    doc=Document.new(file).root
+    return doc
   end
 
 

@@ -6,7 +6,9 @@ class PaperBlock < ActiveRecord::Base
   belongs_to :paper
 
   def create_block_xml(url)
-    doc=Document.new( File.open(url) )
+    file=File.open(url)
+    doc=Document.new(file)
+    file.close
     doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y-%m-%d %H:%M")
     blocks = doc.root.elements["blocks"]
     block = blocks.add_element("block")
@@ -25,7 +27,9 @@ class PaperBlock < ActiveRecord::Base
   end
 
   def update_block_xml(xpath)
-    doc = Document.new(File.open("#{Rails.root}/public"+self.paper.paper_url))
+    file=File.open("#{Rails.root}/public"+self.paper.paper_url)
+    doc = Document.new(file)
+    file.close
     doc.root.elements["base_info"].elements["updated_at"].text=Time.now.strftime("%Y-%m-%d %H:%M")
     block=doc.elements[xpath]
     block.add_attribute("time", "#{self.time}")
@@ -36,7 +40,9 @@ class PaperBlock < ActiveRecord::Base
   end
 
   def delete_block_xml
-    doc = Document.new(File.open("#{Rails.root}/public"+self.paper.paper_url))
+    file=File.open("#{Rails.root}/public"+self.paper.paper_url)
+    doc = Document.new(file)
+    file.close
     doc.delete_element "paper/blocks/block[@id='#{self.id}']"
     self.write_xml("#{Rails.root}/public"+self.paper.paper_url, doc)
   end

@@ -138,7 +138,7 @@ class ExamUser < ActiveRecord::Base
     end
     file_name = "/#{self.id}.xml"
     url = dir + file_name
-    f=File.new(url,"w")
+    f=File.new(url, File::CREAT|File::TRUNC|File::RDWR, 0777)
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
     return "/" + path + file_name
@@ -159,7 +159,9 @@ class ExamUser < ActiveRecord::Base
   def open_xml
     dir = "#{Rails.root}/public"
     url = File.open(dir + self.answer_sheet_url)
-    return Document.new(url)
+    doc=Document.new(url)
+    url.close
+    return doc
   end
 
   #自动统计考试的分数

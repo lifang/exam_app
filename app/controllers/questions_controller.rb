@@ -5,7 +5,9 @@ class QuestionsController < ApplicationController
   include REXML
 
   def edit_question
-    doc=Document.new(File.open "#{PAPER_PATH}/#{params[:paper_id].to_i}.xml")
+    file=File.open "#{PAPER_PATH}/#{params[:paper_id].to_i}.xml"
+    doc=Document.new(file)
+    file.close
     question = doc.elements["#{params[:xpath]}"]
     render :partial => "/common/edit_other_question", :object => question
   end
@@ -31,6 +33,7 @@ class QuestionsController < ApplicationController
     #打开xml
     url = File.open "#{Constant::PAPER_PATH}/#{paper_id}.xml"
     doc = Problem.open_xml(url)
+    url.close
     score_arr={}
     answer_question_attr = answer_text(correct_type.to_i,
       params[:problem][:attr_sum].to_i, params[:problem][:answer])
