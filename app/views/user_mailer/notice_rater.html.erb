@@ -1,5 +1,5 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<h4><%= @rater.name %>,您好！您已成为<font><%= @examination.title %></font>阅卷老师</h4>
+<h4><%= @rater.name %>,您好！模拟考试(<font><%= @examination.title %></font>)还有未批阅完成的卷子，请尽快批阅，谢谢。</h4>
 <p><h4>您的阅卷码：<%= @rater.author_code %></h4></p>
 欢迎使用赶考，请点击如下链接来进行批阅：<br/>
 <a href="<%= Constant::GANKAO_SERVER_PATH %>/rater/exam_raters/<%= @rater.id %>/rater_session?examination=<%= @examination.id %>" target="_blank">

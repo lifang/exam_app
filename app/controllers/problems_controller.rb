@@ -138,6 +138,18 @@ class ProblemsController < ApplicationController
     url = File.open "#{Constant::PAPER_PATH}/#{params['xml_id']}.xml"
     doc = Problem.open_xml(url)
     url.close
+    
+    this_question = doc.elements[params["question_xpath"]]
+    #更新题目、试卷模块和试卷的分数
+    question_score = this_question.attributes["score"]
+    block = this_question.parent.parent.parent.parent
+    problem = this_question.parent.parent
+    problem.attributes["score"] = (problem.attributes["score"].to_f - question_score.to_f).round(2)          #更新problem总分
+    block.attributes["total_score"] = (block.attributes["total_score"].to_f - question_score.to_f).round(2)      #更新模块总分
+    doc.root.attributes["total_score"] = (doc.root.attributes["total_score"].to_f - question_score.to_f).round(2)     #更新试卷总分
+    #更新试卷模块、试卷题目数
+    block.attributes["total_num"] = block.attributes["total_num"].to_i - 1                #更新模块总题数
+    doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - 1          #更新试卷总题数
     doc.delete_element(params["question_xpath"])
     Problem.write_xml(url, doc)
     redirect_to request.referer

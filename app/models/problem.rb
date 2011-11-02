@@ -53,12 +53,11 @@ class Problem < ActiveRecord::Base
     #添加题点xml
     questions = problem.add_element("questions")
     self.update_question_xml(questions, options)
-
     #更新题目、试卷模块和试卷的分数
     problem_score = self.generate_problem_score(options)
     problem.add_attribute("score","#{problem_score}")
     block.attributes["total_score"] = (block.attributes["total_score"].to_f + problem_score.to_f).round(2)      #更新模块总分
-    doc.root.attributes["total_score"] = (doc.root.attributes["total_score"].to_f + problem_score).round(2)     #更新试卷总分
+    doc.root.attributes["total_score"] = (doc.root.attributes["total_score"].to_f + problem_score.to_f).round(2)     #更新试卷总分
     #更新试卷模块、试卷题目数
     block.attributes["total_num"] = block.attributes["total_num"].to_i + questions.size                #更新模块总题数
     doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i + questions.size          #更新试卷总题数
