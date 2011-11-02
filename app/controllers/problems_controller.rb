@@ -217,7 +217,7 @@ class ProblemsController < ApplicationController
   end
 
   def load_edit_part
-    file=File.new("#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml", File::CREAT|File::TRUNC|File::RDWR, 0777)
+    file=File.open("#{Constant::PAPER_PATH}/#{params[:paper_id].to_i}.xml")
     xml = REXML::Document.new(file).root
     file.close
     problem=xml.elements["blocks/block[@id='#{params[:block_id]}']/problems//part_description[@part_id='#{params[:id]}']"]

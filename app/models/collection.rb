@@ -17,7 +17,7 @@ class Collection < ActiveRecord::Base
     unless File.directory?(path)
       Dir.mkdir(path)
     end
-    f=File.new(path + url, File::CREAT|File::TRUNC|File::RDWR, 0777)
+    f=File.new(path + url,"w+")
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
     return url

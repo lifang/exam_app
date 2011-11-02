@@ -7,8 +7,9 @@ class PaperBlocksController < ApplicationController
   def load_create_problem
     paper_id = params[:paper_id]
     block_id = params[:block_id]
-    file = File.new("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml","r+")
+    file = File.open("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml")
     @xml = REXML::Document.new(file).root
+    file.close
     block = @xml.elements["blocks"].elements["block[@id='#{block_id}']"]
     if params[:type] == "create"
       render :partial =>"/papers/new_question",:object=>block
@@ -24,7 +25,7 @@ class PaperBlocksController < ApplicationController
     paper_id = params[:paper_id]
     block_id = params[:block_id]
     problem_id = params[:problem_id] 
-    file = File.new("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml", File::CREAT|File::TRUNC|File::RDWR, 0777)
+    file = File.open("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml")
     @xml = REXML::Document.new(file).root
     file.close
     problem = @xml.elements["blocks"].elements["block[@id='#{block_id}']"]
