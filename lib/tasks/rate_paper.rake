@@ -19,10 +19,15 @@ namespace :paper do
       #if exam_user.is_should_rate == 0 or
       #    (exam_user.is_should_rate == 1 and !exam_user.is_authed.nil? and exam_user.is_authed != 0)
       puts exam_user.is_should_rate
-      paper_xml = Document.new(File.open(paper_dir + exam_user.paper_url))
-      answer_xml = Document.new(File.open(dir + exam_user.answer_sheet_url))
+      p_file = File.open(paper_dir + exam_user.paper_url)
+      a_file = File.open(dir + exam_user.answer_sheet_url)
+      paper_xml = Document.new(p_file)
+      answer_xml = Document.new(a_file)
+      p_file.close
+      a_file.close
       answer_xml = ExamUser.generate_user_score(answer_xml, paper_xml)
-      f = File.new(dir + exam_user.answer_sheet_url,"w")
+      f = File.new(dir + exam_user.answer_sheet_url,"w+")
+      f.chmod(0777)
       f.write("#{answer_xml.to_s.force_encoding('UTF-8')}")
       f.close
       eu = ExamUser.find(exam_user.id)
