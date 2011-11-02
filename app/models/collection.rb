@@ -17,7 +17,7 @@ class Collection < ActiveRecord::Base
     unless File.directory?(path)
       Dir.mkdir(path)
     end
-    f=File.new(path + url,"w")
+    f=File.new(path + url, File::CREAT|File::TRUNC|File::RDWR, 0777)
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
     return url
@@ -36,7 +36,10 @@ class Collection < ActiveRecord::Base
 
   def open_xml
     dir = "#{Rails.root}/public"
-    return Document.new(File.open(dir + self.collection_url))
+    file=File.open(dir + self.collection_url)
+    doc=Document.new(file)
+    file.close
+    return doc
   end
 
   #添加题目xml

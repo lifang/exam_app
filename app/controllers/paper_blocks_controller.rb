@@ -13,7 +13,7 @@ class PaperBlocksController < ApplicationController
     if params[:type] == "create"
       render :partial =>"/papers/new_question",:object=>block
     elsif params[:type]=="state"
-       render :partial =>"/papers/problem_state",:object=>block
+      render :partial =>"/papers/problem_state",:object=>block
     else
       render :partial =>"/papers/mavin_question",:object=>block
     end
@@ -24,10 +24,11 @@ class PaperBlocksController < ApplicationController
     paper_id = params[:paper_id]
     block_id = params[:block_id]
     problem_id = params[:problem_id] 
-    file = File.new("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml","r+")
+    file = File.new("#{Constant::PAPER_PATH}/#{paper_id.to_i}.xml", File::CREAT|File::TRUNC|File::RDWR, 0777)
     @xml = REXML::Document.new(file).root
+    file.close
     problem = @xml.elements["blocks"].elements["block[@id='#{block_id}']"]
-        .elements["problems"].elements["problem[@id='#{problem_id}']"]
+    .elements["problems"].elements["problem[@id='#{problem_id}']"]
     render :partial => "/papers/edit_problem",:object => problem
   end
 

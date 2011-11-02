@@ -38,6 +38,7 @@ class PapersController < ApplicationController
     begin
       file = File.open("#{Constant::PAPER_PATH}/#{params[:id]}.xml")
       @xml=Document.new(file).root
+      file.close
     rescue
       flash[:error] = "当前试卷不能正常打开，请检查试卷是否正常。"
       redirect_to papers_path
@@ -50,6 +51,7 @@ class PapersController < ApplicationController
     begin
       file = File.open("#{Constant::PUBLIC_PATH}#{paper.paper_url}")
       @xml=Document.new(file).root
+      file.close
     rescue
       flash[:error] = "当前试卷不能正常打开，请检查试卷是否正常。"
       redirect_to papers_path
@@ -77,6 +79,7 @@ class PapersController < ApplicationController
   def problem_destroy
     url= File.open "#{Constant::PAPER_PATH}/#{params[:delete][:paper_id]}.xml"
     doc = Problem.remove_problem_xml(Problem.open_xml(url), params[:delete][:xpath])
+    url.close
     Problem.write_xml(url, doc)
     redirect_to request.referrer
   end
