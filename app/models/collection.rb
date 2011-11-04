@@ -18,7 +18,6 @@ class Collection < ActiveRecord::Base
       Dir.mkdir(path)
     end
     f=File.new(path + url,"w+")
-    f.chmod(0644)
     f.write("#{str.force_encoding('UTF-8')}")
     f.close
     return url
