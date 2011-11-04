@@ -27,7 +27,7 @@ namespace :paper do
       a_file.close
       answer_xml = ExamUser.generate_user_score(answer_xml, paper_xml)
       f = File.new(dir + exam_user.answer_sheet_url,"w+")
-      f.chmod(0777)
+      f.chmod(0644)
       f.write("#{answer_xml.to_s.force_encoding('UTF-8')}")
       f.close
       eu = ExamUser.find(exam_user.id)
