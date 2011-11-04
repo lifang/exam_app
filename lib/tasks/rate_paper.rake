@@ -62,7 +62,7 @@ namespace :paper do
           record.save
         end unless exam_records.blank?
       else
-        puts e.examination_id.to_s + "not enough"
+        puts e.examination_id.to_s + " not enough"
       end
     end unless exam_user_count.blank?
   end
