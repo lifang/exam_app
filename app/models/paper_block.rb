@@ -43,7 +43,13 @@ class PaperBlock < ActiveRecord::Base
     file=File.open("#{Rails.root}/public"+self.paper.paper_url)
     doc = Document.new(file)
     file.close
-    doc.delete_element "paper/blocks/block[@id='#{self.id}']"
+    block = doc.root.elements["blocks/block[@id='#{self.id}']"]
+    puts doc.root
+    doc.root.attributes["total_score"] = (doc.root.attributes["total_score"].to_f - block.attributes["total_score"].to_f).round(2)     #更新试卷总分
+    #更新试卷模块、试卷题目数
+    doc.root.attributes["total_num"] = doc.root.attributes["total_num"].to_i - block.attributes["total_num"].to_i          #更新试卷总题数
+    doc.delete_element("paper/blocks/block[@id='#{self.id}']")
+
     self.write_xml("#{Rails.root}/public"+self.paper.paper_url, doc)
   end
 

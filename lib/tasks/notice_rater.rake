@@ -18,6 +18,7 @@ namespace :notice_rater do
         @examination.exam_raters.each do |exam_rater|
           puts exam_rater.name
           UserMailer.notice_rater(exam_rater,@examination).deliver
+          sleep(30)
         end
       end
     end
@@ -35,6 +36,7 @@ namespace :notice_rater do
           @examination.exam_raters.each do |exam_rater|
             puts exam_rater.name
             UserMailer.notice_rater(exam_rater,@examination).deliver
+            sleep(30)
           end
         end
       end
