@@ -10,7 +10,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :encrypted_password
       t.integer :status, :default => 0
       t.string :active_code
-      t.integer :code_id
+      t.string :code_id
       t.string :code_type
       
       t.timestamps
@@ -19,6 +19,8 @@ class CreateUsers < ActiveRecord::Migration
     add_index :users,:name
     add_index :users,:email
     add_index :users,:status
+    add_index :users,:code_id
+    add_index :users,:code_type
   end
 
   def self.down
