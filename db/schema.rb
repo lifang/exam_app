@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111101082239) do
+ActiveRecord::Schema.define(:version => 20111107055125) do
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(:version => 20111101082239) do
   end
 
   add_index "collections", ["user_id"], :name => "index_collections_on_user_id"
+
+  create_table "competes", :force => true do |t|
+    t.integer "user_id"
+    t.date    "created_at"
+    t.integer "pirce"
+    t.string  "remark"
+  end
+
+  add_index "competes", ["user_id"], :name => "index_competes_on_user_id"
 
   create_table "exam_raters", :force => true do |t|
     t.datetime "created_at"
