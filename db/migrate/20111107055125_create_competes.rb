@@ -3,7 +3,7 @@ class CreateCompetes < ActiveRecord::Migration
     create_table :competes do |t|
       t.integer :user_id
       t.date :created_at
-      t.integer :pirce
+      t.integer :price
       t.string  :remark
     end
     add_index :competes, :user_id

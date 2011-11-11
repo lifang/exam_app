@@ -17,13 +17,12 @@ namespace :notice_rater do
         puts info.examination_id
         exam_array<<info.examination_id
         @examination.exam_raters.each do |exam_rater|
-          puts exam_rater.name
           UserMailer.notice_rater(exam_rater,@examination).deliver
         end unless @examination.exam_raters.blank?
       end
     end
 
-    sql_str ="select count(e.id) sum,e.examination_id from exam_users e inner join orders o on o.user_id = e.user_id
+    sql_str ="select count(e.id) sum,e.examination_id, r.exam_rater_id from exam_users e inner join orders o on o.user_id = e.user_id
         inner join examinations ex on ex.id=e.examination_id
         left join rater_user_relations r on r.exam_user_id= e.id
         where e.is_submited=1 and r.is_marked=#{RaterUserRelation::MARK[:NO]} and ex.types=#{Examination::TYPES[:SIMULATION]} group by e.examination_id,r.exam_rater_id"
@@ -34,14 +33,37 @@ namespace :notice_rater do
         unless exam_array.include?(info.examination_id)
           puts info.examination_id
           @examination=Examination.find(info.examination_id)
-          @examination.examrate_raters.each do |exam_rater|
-            puts exam_rater.name
+          @examination.exam_raters.each do |exam_rater|
             UserMailer.notice_rater(exam_rater,@examination).deliver
-          end unless @examination.examrate_raters.blank?
+          end unless @examination.exam_raters.blank?
         end
       end
     end
 
+    #一下为考试大赛部分内容
+    exam_sql = "select count(e.id) from exam_users e 
+        left join rater_user_relations r on r.exam_user_id = e.id
+        where e.is_submited=1 and r.is_marked is null and e.examination_id = #{Constant::EXAMINATION_ID}"
+    info3 = ExamUser.count_by_sql(exam_sql)
+    puts info3
+    if info3 > 0
+      @examination=Examination.find(Constant::EXAMINATION_ID)
+      @examination.exam_raters.each do |exam_rater|
+        UserMailer.notice_rater(exam_rater,@examination).deliver
+      end unless @examination.exam_raters.blank?
+    else
+      exam_sql = "select count(e.id) from exam_users e 
+        left join rater_user_relations r on r.exam_user_id= e.id
+        where e.is_submited=1 and r.is_marked=#{RaterUserRelation::MARK[:NO]} and e.examination_id = #{Constant::EXAMINATION_ID}"
+      info4 = ExamUser.count_by_sql(exam_sql)
+      puts info4
+      if info4 > 0
+        @examination=Examination.find(Constant::EXAMINATION_ID)
+        @examination.exam_raters.each do |exam_rater|
+          UserMailer.notice_rater(exam_rater,@examination).deliver
+        end unless @examination.exam_raters.blank?
+      end
+    end
   end
 end
 

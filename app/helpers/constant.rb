@@ -61,5 +61,8 @@ module Constant
     :practice_5=>3,
     :practice_6=>3,
   }
+
+  #大赛考试
+  EXAMINATION_ID = 21
  
 end
