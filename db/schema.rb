@@ -231,11 +231,11 @@ ActiveRecord::Schema.define(:version => 20111107055125) do
 
   create_table "questions", :force => true do |t|
     t.integer "problem_id",                    :null => false
-    t.string  "description"
+    t.text    "description"
     t.text    "answer"
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
-    t.string  "question_attrs"
+    t.text    "question_attrs"
     t.integer "score_percent"
   end
 
@@ -316,12 +316,14 @@ ActiveRecord::Schema.define(:version => 20111107055125) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
-    t.integer  "code_id"
+    t.string   "code_id"
     t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id"
   end
 
+  add_index "users", ["code_id"], :name => "index_users_on_code_id"
+  add_index "users", ["code_type"], :name => "index_users_on_code_type"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"
