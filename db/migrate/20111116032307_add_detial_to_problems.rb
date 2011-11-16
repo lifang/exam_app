@@ -8,6 +8,6 @@ class AddDetialToProblems < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :problems, :is_in_title
+    remove_column :problems, :question_type
   end
 end
