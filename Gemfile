@@ -13,6 +13,8 @@ gem 'faker', '0.3.1'
 gem 'spreadsheet', '0.6.5.5'
 gem 'rubyzip', '0.9.4'
 #gem 'prototype_legacy_helper', '0.0.0'
+gem 'mechanize', '2.0.1'
+gem 'hpricot', '0.8.4'
 
 group :development do
   gem 'rspec-rails', '2.0.0'
