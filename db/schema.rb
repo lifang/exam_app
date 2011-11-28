@@ -10,7 +10,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111107055125) do
+ActiveRecord::Schema.define(:version => 20111128024841) do
+
+  create_table "action_logs", :force => true do |t|
+    t.integer  "user_id",     :null => false
+    t.integer  "type"
+    t.integer  "category_id"
+    t.string   "remark"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
+  add_index "action_logs", ["type"], :name => "index_action_logs_on_type"
+  add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
@@ -19,6 +32,15 @@ ActiveRecord::Schema.define(:version => 20111107055125) do
 
   add_index "categories", ["name"], :name => "index_categories_on_name"
   add_index "categories", ["parent_id"], :name => "index_categories_on_parent_id"
+
+  create_table "category_manages", :force => true do |t|
+    t.integer  "category_id", :null => false
+    t.string   "user_id"
+    t.datetime "created_at"
+  end
+
+  add_index "category_manages", ["category_id"], :name => "index_category_manages_on_category_id"
+  add_index "category_manages", ["user_id"], :name => "index_category_manages_on_user_id"
 
   create_table "collections", :force => true do |t|
     t.integer  "user_id",        :null => false
@@ -32,11 +54,19 @@ ActiveRecord::Schema.define(:version => 20111107055125) do
   create_table "competes", :force => true do |t|
     t.integer "user_id"
     t.date    "created_at"
-    t.integer "pirce"
+    t.integer "price"
     t.string  "remark"
   end
 
   add_index "competes", ["user_id"], :name => "index_competes_on_user_id"
+
+  create_table "courses", :force => true do |t|
+    t.string "title"
+    t.text   "description"
+    t.date   "created_at"
+  end
+
+  add_index "courses", ["title"], :name => "index_courses_on_title"
 
   create_table "exam_raters", :force => true do |t|
     t.datetime "created_at"
@@ -210,9 +240,12 @@ ActiveRecord::Schema.define(:version => 20111107055125) do
     t.datetime "updated_at"
     t.text     "complete_title"
     t.integer  "status"
+    t.integer  "question_type"
   end
 
   add_index "problems", ["category_id"], :name => "index_problems_on_category_id"
+  add_index "problems", ["question_type"], :name => "index_problems_on_question_type"
+  add_index "problems", ["status"], :name => "index_problems_on_status"
   add_index "problems", ["types"], :name => "index_problems_on_types"
 
   create_table "proofs", :force => true do |t|
