@@ -14,12 +14,12 @@ namespace :notice_rater do
       puts "is_marked = null"
       info1.each do |info|
         @examination=Examination.find(info.examination_id)
+        puts info.examination_id
         exam_array<<info.examination_id
         @examination.exam_raters.each do |exam_rater|
           puts exam_rater.name
           UserMailer.notice_rater(exam_rater,@examination).deliver
-          sleep(30)
-        end
+        end unless @examination.exam_raters.blank?
       end
     end
 
@@ -32,12 +32,12 @@ namespace :notice_rater do
       puts "is_marked=0"
       info2.each do |info|
         unless exam_array.include?(info.examination_id)
+          puts info.examination_id
           @examination=Examination.find(info.examination_id)
-          @examination.exam_raters.each do |exam_rater|
+          @examination.examrate_raters.each do |exam_rater|
             puts exam_rater.name
             UserMailer.notice_rater(exam_rater,@examination).deliver
-            sleep(30)
-          end
+          end unless @examination.examrate_raters.blank?
         end
       end
     end
