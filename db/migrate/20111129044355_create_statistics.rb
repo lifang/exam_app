@@ -1,4 +1,4 @@
-class Statistics < ActiveRecord::Migration
+class CreateStatistics < ActiveRecord::Migration
   def self.up
     create_table :statistics do |t|
       t.datetime :created_at
