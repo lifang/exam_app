@@ -184,7 +184,7 @@ class ExamUser < ActiveRecord::Base
                   answers = []
                   question.elements["answer"].text.split(";|;").collect { |item| answers << item.strip }
                   if answers.length == 1
-                    score = answers[0].strip == q_answer.elements["answer"].text.strip ? question.attributes["score"].to_i : 0
+                    score = (answers[0].strip == q_answer.elements["answer"].text.strip) ? question.attributes["score"].to_f : 0.0
                   else
                     q_answers = []
                     q_answer.elements["answer"].text.split(";|;").collect { |item| q_answers << item.strip }
@@ -196,7 +196,7 @@ class ExamUser < ActiveRecord::Base
                         score = (question.attributes["score"].to_f)/2
                       end
                     elsif all_answer.length > answers.length
-                      score = 0
+                      score = 0.0
                     end
                   end
                 end
