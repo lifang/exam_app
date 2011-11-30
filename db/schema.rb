@@ -23,12 +23,14 @@ ActiveRecord::Schema.define(:version => 20111130051053) do
   end
 
   add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
+
   add_index "action_logs", ["types"], :name => "index_action_logs_on_type"
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
     t.integer "parent_id", :default => 0, :null => false
+    t.integer "price"
   end
 
   add_index "categories", ["name"], :name => "index_categories_on_name"
@@ -266,11 +268,11 @@ ActiveRecord::Schema.define(:version => 20111130051053) do
 
   create_table "questions", :force => true do |t|
     t.integer "problem_id",                    :null => false
-    t.text    "description"
+    t.string  "description"
     t.text    "answer"
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
-    t.text    "question_attrs"
+    t.string  "question_attrs"
     t.integer "score_percent"
   end
 
@@ -316,6 +318,7 @@ ActiveRecord::Schema.define(:version => 20111130051053) do
 
   add_index "score_levels", ["examination_id"], :name => "index_score_levels_on_examination_id"
   add_index "score_levels", ["key"], :name => "index_score_levels_on_key"
+
 
   create_table "statistics", :force => true do |t|
     t.datetime "created_at"
@@ -372,14 +375,12 @@ ActiveRecord::Schema.define(:version => 20111130051053) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
-    t.string   "code_id"
+    t.integer  "code_id"
     t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id"
   end
 
-  add_index "users", ["code_id"], :name => "index_users_on_code_id"
-  add_index "users", ["code_type"], :name => "index_users_on_code_type"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"
