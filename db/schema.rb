@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111129044355) do
+ActiveRecord::Schema.define(:version => 20111130051053) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20111129044355) do
     t.string   "remark"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "total_num"
   end
 
   add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
@@ -135,6 +136,7 @@ ActiveRecord::Schema.define(:version => 20111129044355) do
     t.integer  "category_id"
     t.boolean  "is_should_rate"
     t.integer  "types"
+    t.boolean  "is_free"
   end
 
   add_index "examinations", ["category_id"], :name => "index_examinations_on_category_id"
@@ -329,6 +331,17 @@ ActiveRecord::Schema.define(:version => 20111129044355) do
     t.string  "name"
     t.integer "num",  :default => 0
   end
+
+  create_table "user_action_logs", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "total_num"
+    t.integer  "week_num"
+    t.datetime "last_update_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_action_logs", ["user_id"], :name => "index_user_action_logs_on_user_id"
 
   create_table "user_beliefs", :force => true do |t|
     t.integer "user_id"
