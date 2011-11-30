@@ -10,15 +10,38 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111107055125) do
+ActiveRecord::Schema.define(:version => 20111128144407) do
+
+  create_table "action_logs", :force => true do |t|
+    t.integer  "user_id",     :null => false
+    t.integer  "type"
+    t.integer  "category_id"
+    t.string   "remark"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
+  add_index "action_logs", ["type"], :name => "index_action_logs_on_type"
+  add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
 
   create_table "categories", :force => true do |t|
     t.string  "name",                     :null => false
     t.integer "parent_id", :default => 0, :null => false
+    t.integer "price"
   end
 
   add_index "categories", ["name"], :name => "index_categories_on_name"
   add_index "categories", ["parent_id"], :name => "index_categories_on_parent_id"
+
+  create_table "category_manages", :force => true do |t|
+    t.integer  "category_id", :null => false
+    t.string   "user_id"
+    t.datetime "created_at"
+  end
+
+  add_index "category_manages", ["category_id"], :name => "index_category_manages_on_category_id"
+  add_index "category_manages", ["user_id"], :name => "index_category_manages_on_user_id"
 
   create_table "collections", :force => true do |t|
     t.integer  "user_id",        :null => false
@@ -37,6 +60,14 @@ ActiveRecord::Schema.define(:version => 20111107055125) do
   end
 
   add_index "competes", ["user_id"], :name => "index_competes_on_user_id"
+
+  create_table "courses", :force => true do |t|
+    t.string "title"
+    t.text   "description"
+    t.date   "created_at"
+  end
+
+  add_index "courses", ["title"], :name => "index_courses_on_title"
 
   create_table "exam_raters", :force => true do |t|
     t.datetime "created_at"
@@ -210,9 +241,14 @@ ActiveRecord::Schema.define(:version => 20111107055125) do
     t.datetime "updated_at"
     t.text     "complete_title"
     t.integer  "status"
+    t.integer  "question_type"
+    t.integer  "course_id"
   end
 
   add_index "problems", ["category_id"], :name => "index_problems_on_category_id"
+  add_index "problems", ["course_id"], :name => "index_problems_on_course_id"
+  add_index "problems", ["question_type"], :name => "index_problems_on_question_type"
+  add_index "problems", ["status"], :name => "index_problems_on_status"
   add_index "problems", ["types"], :name => "index_problems_on_types"
 
   create_table "proofs", :force => true do |t|
@@ -231,11 +267,11 @@ ActiveRecord::Schema.define(:version => 20111107055125) do
 
   create_table "questions", :force => true do |t|
     t.integer "problem_id",                    :null => false
-    t.text    "description"
+    t.string  "description"
     t.text    "answer"
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
-    t.text    "question_attrs"
+    t.string  "question_attrs"
     t.integer "score_percent"
   end
 
@@ -282,6 +318,16 @@ ActiveRecord::Schema.define(:version => 20111107055125) do
   add_index "score_levels", ["examination_id"], :name => "index_score_levels_on_examination_id"
   add_index "score_levels", ["key"], :name => "index_score_levels_on_key"
 
+  create_table "statistic_datas", :force => true do |t|
+    t.datetime "created_at"
+    t.integer  "register_num"
+    t.integer  "action_num"
+    t.integer  "pay_num"
+    t.integer  "money_num"
+  end
+
+  add_index "statistic_datas", ["created_at"], :name => "index_statistic_datas_on_created_at"
+
   create_table "tags", :force => true do |t|
     t.string  "name"
     t.integer "num",  :default => 0
@@ -316,14 +362,12 @@ ActiveRecord::Schema.define(:version => 20111107055125) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
-    t.string   "code_id"
+    t.integer  "code_id"
     t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id"
   end
 
-  add_index "users", ["code_id"], :name => "index_users_on_code_id"
-  add_index "users", ["code_type"], :name => "index_users_on_code_type"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"

@@ -4,7 +4,7 @@ gem 'rails', '3.0.5'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-gem 'rake', '0.8.7'
+gem 'rake', '0.9.2.2'
 #gem 'sqlite3'
 gem 'mysql2', '0.2.6'
 gem 'gravatar_image_tag', '0.1.0'
@@ -13,8 +13,8 @@ gem 'faker', '0.3.1'
 gem 'spreadsheet', '0.6.5.5'
 gem 'rubyzip', '0.9.4'
 #gem 'prototype_legacy_helper', '0.0.0'
-gem 'mechanize', '2.0.1'
-gem 'hpricot', '0.8.4'
+#gem 'mechanize', '2.0.1'
+#gem 'hpricot', '0.8.4'
 
 group :development do
   gem 'rspec-rails', '2.0.0'
