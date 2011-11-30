@@ -2,7 +2,7 @@ class ActionLogs < ActiveRecord::Migration
   def self.up
     create_table :action_logs do |t|
       t.integer :user_id, :null => false
-      t.integer :type
+      t.integer :types
       t.integer :category_id
       t.string :remark
       t.timestamps

@@ -10,11 +10,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111128144407) do
+
+ActiveRecord::Schema.define(:version => 20111129044355) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
-    t.integer  "type"
+    t.integer  "types"
     t.integer  "category_id"
     t.string   "remark"
     t.datetime "created_at"
@@ -22,7 +23,8 @@ ActiveRecord::Schema.define(:version => 20111128144407) do
   end
 
   add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
-  add_index "action_logs", ["type"], :name => "index_action_logs_on_type"
+
+  add_index "action_logs", ["types"], :name => "index_action_logs_on_type"
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
 
   create_table "categories", :force => true do |t|
@@ -36,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20111128144407) do
 
   create_table "category_manages", :force => true do |t|
     t.integer  "category_id", :null => false
-    t.string   "user_id"
+    t.integer  "user_id"
     t.datetime "created_at"
   end
 
@@ -55,7 +57,7 @@ ActiveRecord::Schema.define(:version => 20111128144407) do
   create_table "competes", :force => true do |t|
     t.integer "user_id"
     t.date    "created_at"
-    t.integer "pirce"
+    t.integer "price"
     t.string  "remark"
   end
 
@@ -242,11 +244,9 @@ ActiveRecord::Schema.define(:version => 20111128144407) do
     t.text     "complete_title"
     t.integer  "status"
     t.integer  "question_type"
-    t.integer  "course_id"
   end
 
   add_index "problems", ["category_id"], :name => "index_problems_on_category_id"
-  add_index "problems", ["course_id"], :name => "index_problems_on_course_id"
   add_index "problems", ["question_type"], :name => "index_problems_on_question_type"
   add_index "problems", ["status"], :name => "index_problems_on_status"
   add_index "problems", ["types"], :name => "index_problems_on_types"
@@ -318,7 +318,8 @@ ActiveRecord::Schema.define(:version => 20111128144407) do
   add_index "score_levels", ["examination_id"], :name => "index_score_levels_on_examination_id"
   add_index "score_levels", ["key"], :name => "index_score_levels_on_key"
 
-  create_table "statistic_datas", :force => true do |t|
+
+  create_table "statistics", :force => true do |t|
     t.datetime "created_at"
     t.integer  "register_num"
     t.integer  "action_num"
@@ -326,7 +327,7 @@ ActiveRecord::Schema.define(:version => 20111128144407) do
     t.integer  "money_num"
   end
 
-  add_index "statistic_datas", ["created_at"], :name => "index_statistic_datas_on_created_at"
+  add_index "statistics", ["created_at"], :name => "index_statistics_on_created_at"
 
   create_table "tags", :force => true do |t|
     t.string  "name"

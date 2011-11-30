@@ -1,16 +1,16 @@
-class StatisticDatas < ActiveRecord::Migration
+class CreateStatistics < ActiveRecord::Migration
   def self.up
-    create_table :statistic_datas do |t|
+    create_table :statistics do |t|
       t.datetime :created_at
       t.integer :register_num
       t.integer :action_num
       t.integer :pay_num
       t.integer :money_num
     end
-    add_index :statistic_datas,:created_at
+    add_index :statistics,:created_at
   end
 
   def self.down
-    drop_table :statistic_datas
+    drop_table :statistics
   end
 end
