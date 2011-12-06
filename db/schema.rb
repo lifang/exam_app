@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111130051053) do
+ActiveRecord::Schema.define(:version => 20111206044425) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -58,8 +58,10 @@ ActiveRecord::Schema.define(:version => 20111130051053) do
     t.date    "created_at"
     t.integer "price"
     t.string  "remark"
+    t.integer "category_id"
   end
 
+  add_index "competes", ["category_id"], :name => "index_competes_on_category_id"
   add_index "competes", ["user_id"], :name => "index_competes_on_user_id"
 
   create_table "courses", :force => true do |t|
@@ -184,6 +186,7 @@ ActiveRecord::Schema.define(:version => 20111130051053) do
     t.datetime "created_at"
     t.string   "out_trade_no"
     t.integer  "pay_type"
+    t.integer  "category_id"
   end
 
   add_index "orders", ["out_trade_no"], :name => "index_orders_on_out_trade_no"
