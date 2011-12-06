@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111206063757) do
+ActiveRecord::Schema.define(:version => 20111206072647) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -360,10 +360,12 @@ ActiveRecord::Schema.define(:version => 20111206063757) do
     t.integer  "category_id"
     t.integer  "status"
     t.datetime "created_at"
+    t.integer  "types"
   end
 
   add_index "user_category_relations", ["category_id"], :name => "index_user_category_relations_on_category_id"
   add_index "user_category_relations", ["status"], :name => "index_user_category_relations_on_status"
+  add_index "user_category_relations", ["types"], :name => "index_user_category_relations_on_types"
   add_index "user_category_relations", ["user_id"], :name => "index_user_category_relations_on_user_id"
 
   create_table "user_role_relations", :force => true do |t|
