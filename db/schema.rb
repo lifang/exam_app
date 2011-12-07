@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111207032610) do
+ActiveRecord::Schema.define(:version => 20111207051725) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -223,6 +223,18 @@ ActiveRecord::Schema.define(:version => 20111207032610) do
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
   add_index "papers", ["types"], :name => "index_papers_on_types"
 
+  create_table "plan_tasks", :force => true do |t|
+    t.integer  "study_plan_id"
+    t.integer  "task_types"
+    t.integer  "period_types"
+    t.integer  "num"
+    t.datetime "created_at"
+  end
+
+  add_index "plan_tasks", ["period_types"], :name => "index_plan_tasks_on_period_types"
+  add_index "plan_tasks", ["study_plan_id"], :name => "index_plan_tasks_on_study_plan_id"
+  add_index "plan_tasks", ["task_types"], :name => "index_plan_tasks_on_task_types"
+
   create_table "problem_tag_relations", :force => true do |t|
     t.integer "tag_id",     :null => false
     t.integer "problem_id", :null => false
@@ -331,25 +343,12 @@ ActiveRecord::Schema.define(:version => 20111207032610) do
 
   add_index "statistics", ["created_at"], :name => "index_statistics_on_created_at"
 
-  create_table "study_plan_users", :force => true do |t|
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "ended_at"
-  end
-
-  add_index "study_plan_users", ["created_at"], :name => "index_study_plan_users_on_created_at"
-  add_index "study_plan_users", ["ended_at"], :name => "index_study_plan_users_on_ended_at"
-  add_index "study_plan_users", ["user_id"], :name => "index_study_plan_users_on_user_id"
-
   create_table "study_plans", :force => true do |t|
+    t.integer "category_id"
     t.integer "study_date"
-    t.integer "task_types"
-    t.integer "period_types"
-    t.integer "task_num"
   end
 
-  add_index "study_plans", ["period_types"], :name => "index_study_plans_on_period_types"
-  add_index "study_plans", ["task_types"], :name => "index_study_plans_on_task_types"
+  add_index "study_plans", ["category_id"], :name => "index_study_plans_on_category_id"
 
   create_table "tags", :force => true do |t|
     t.string  "name"
@@ -387,6 +386,18 @@ ActiveRecord::Schema.define(:version => 20111207032610) do
   add_index "user_category_relations", ["status"], :name => "index_user_category_relations_on_status"
   add_index "user_category_relations", ["types"], :name => "index_user_category_relations_on_types"
   add_index "user_category_relations", ["user_id"], :name => "index_user_category_relations_on_user_id"
+
+  create_table "user_plan_relations", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "study_plan_id"
+    t.datetime "created_at"
+    t.datetime "ended_at"
+  end
+
+  add_index "user_plan_relations", ["created_at"], :name => "index_user_plan_relations_on_created_at"
+  add_index "user_plan_relations", ["ended_at"], :name => "index_user_plan_relations_on_ended_at"
+  add_index "user_plan_relations", ["study_plan_id"], :name => "index_user_plan_relations_on_study_plan_id"
+  add_index "user_plan_relations", ["user_id"], :name => "index_user_plan_relations_on_user_id"
 
   create_table "user_role_relations", :force => true do |t|
     t.integer "role_id", :null => false
