@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111206072647) do
+ActiveRecord::Schema.define(:version => 20111207032610) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -330,6 +330,26 @@ ActiveRecord::Schema.define(:version => 20111206072647) do
   end
 
   add_index "statistics", ["created_at"], :name => "index_statistics_on_created_at"
+
+  create_table "study_plan_users", :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "ended_at"
+  end
+
+  add_index "study_plan_users", ["created_at"], :name => "index_study_plan_users_on_created_at"
+  add_index "study_plan_users", ["ended_at"], :name => "index_study_plan_users_on_ended_at"
+  add_index "study_plan_users", ["user_id"], :name => "index_study_plan_users_on_user_id"
+
+  create_table "study_plans", :force => true do |t|
+    t.integer "study_date"
+    t.integer "task_types"
+    t.integer "period_types"
+    t.integer "task_num"
+  end
+
+  add_index "study_plans", ["period_types"], :name => "index_study_plans_on_period_types"
+  add_index "study_plans", ["task_types"], :name => "index_study_plans_on_task_types"
 
   create_table "tags", :force => true do |t|
     t.string  "name"
