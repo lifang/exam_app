@@ -48,14 +48,9 @@ ActiveRecord::Schema.define(:version => 20111229044355) do
 
   create_table "charts", :force => true do |t|
     t.integer  "types"
-<<<<<<< HEAD
-    t.datetime "created_at"
-    t.string   "image_url"
-=======
     t.string   "image_url"
     t.datetime "created_at"
     t.datetime "updated_at"
->>>>>>> 181b1b8a65a8c5ab1df89df10c1d67b6ac62cb5b
   end
 
   create_table "collections", :force => true do |t|
