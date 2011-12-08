@@ -10,7 +10,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+
 ActiveRecord::Schema.define(:version => 20111229044355) do
+
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -46,8 +48,14 @@ ActiveRecord::Schema.define(:version => 20111229044355) do
 
   create_table "charts", :force => true do |t|
     t.integer  "types"
+<<<<<<< HEAD
     t.datetime "created_at"
     t.string   "image_url"
+=======
+    t.string   "image_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+>>>>>>> 181b1b8a65a8c5ab1df89df10c1d67b6ac62cb5b
   end
 
   create_table "collections", :force => true do |t|
@@ -174,6 +182,24 @@ ActiveRecord::Schema.define(:version => 20111229044355) do
   end
 
   add_index "notes", ["user_id"], :name => "index_notes_on_user_id"
+
+  create_table "notices", :force => true do |t|
+    t.integer  "category_id"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "send_types"
+    t.integer  "send_id"
+    t.integer  "target_id"
+    t.string   "description"
+    t.datetime "created_at"
+  end
+
+  add_index "notices", ["category_id"], :name => "index_notices_on_category_id"
+  add_index "notices", ["ended_at"], :name => "index_notices_on_ended_at"
+  add_index "notices", ["send_id"], :name => "index_notices_on_send_id"
+  add_index "notices", ["send_types"], :name => "index_notices_on_send_types"
+  add_index "notices", ["started_at"], :name => "index_notices_on_started_at"
+  add_index "notices", ["target_id"], :name => "index_notices_on_target_id"
 
   create_table "orders", :force => true do |t|
     t.integer  "user_id"
