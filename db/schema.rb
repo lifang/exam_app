@@ -10,9 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
-ActiveRecord::Schema.define(:version => 20111229044355) do
-
+ActiveRecord::Schema.define(:version => 20111212030047) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -78,6 +76,12 @@ ActiveRecord::Schema.define(:version => 20111229044355) do
   end
 
   add_index "courses", ["title"], :name => "index_courses_on_title"
+
+  create_table "discriminates", :force => true do |t|
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "exam_raters", :force => true do |t|
     t.datetime "created_at"
@@ -445,5 +449,38 @@ ActiveRecord::Schema.define(:version => 20111229044355) do
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"
+
+  create_table "word_discriminate_relations", :force => true do |t|
+    t.integer  "word_id"
+    t.integer  "discriminate_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "word_discriminate_relations", ["discriminate_id"], :name => "index_word_discriminate_relations_on_discriminate_id"
+  add_index "word_discriminate_relations", ["word_id"], :name => "index_word_discriminate_relations_on_word_id"
+
+  create_table "word_sentences", :force => true do |t|
+    t.integer  "word_id"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "word_sentences", ["word_id"], :name => "index_word_sentences_on_word_id"
+
+  create_table "words", :force => true do |t|
+    t.string   "name"
+    t.integer  "category_id"
+    t.string   "en_mean"
+    t.string   "ch_mean"
+    t.integer  "types"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "phonetic"
+    t.string   "enunciate_url"
+  end
+
+  add_index "words", ["name"], :name => "index_words_on_name"
 
 end
