@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111212030047) do
+ActiveRecord::Schema.define(:version => 20111232021310) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -46,9 +46,8 @@ ActiveRecord::Schema.define(:version => 20111212030047) do
 
   create_table "charts", :force => true do |t|
     t.integer  "types"
-    t.string   "image_url"
     t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "image_url"
   end
 
   create_table "collections", :force => true do |t|
@@ -336,6 +335,9 @@ ActiveRecord::Schema.define(:version => 20111212030047) do
     t.integer  "question_index"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "question_id"
+    t.integer  "status",         :default => 0
+    t.string   "description"
   end
 
   create_table "roles", :force => true do |t|
@@ -459,6 +461,16 @@ ActiveRecord::Schema.define(:version => 20111212030047) do
 
   add_index "word_discriminate_relations", ["discriminate_id"], :name => "index_word_discriminate_relations_on_discriminate_id"
   add_index "word_discriminate_relations", ["word_id"], :name => "index_word_discriminate_relations_on_word_id"
+
+  create_table "word_question_relations", :force => true do |t|
+    t.integer  "word_id"
+    t.integer  "question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "word_question_relations", ["question_id"], :name => "index_word_question_relations_on_question_id"
+  add_index "word_question_relations", ["word_id"], :name => "index_word_question_relations_on_word_id"
 
   create_table "word_sentences", :force => true do |t|
     t.integer  "word_id"
