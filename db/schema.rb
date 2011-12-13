@@ -10,10 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111229044356) do
+ActiveRecord::Schema.define(:version => 20111232021310) do
+
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
-    t.integer  "type"
+    t.integer  "types"
     t.integer  "category_id"
     t.string   "remark"
     t.datetime "created_at"
@@ -22,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20111229044356) do
   end
 
   add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
-  add_index "action_logs", ["type"], :name => "index_action_logs_on_type"
+  add_index "action_logs", ["types"], :name => "index_action_logs_on_type"
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
 
   create_table "categories", :force => true do |t|
@@ -36,7 +37,7 @@ ActiveRecord::Schema.define(:version => 20111229044356) do
 
   create_table "category_manages", :force => true do |t|
     t.integer  "category_id", :null => false
-    t.string   "user_id"
+    t.integer  "user_id"
     t.datetime "created_at"
   end
 
@@ -62,7 +63,7 @@ ActiveRecord::Schema.define(:version => 20111229044356) do
   create_table "competes", :force => true do |t|
     t.integer "user_id"
     t.date    "created_at"
-    t.integer "pirce"
+    t.integer "price"
     t.string  "remark"
     t.integer "category_id"
   end
@@ -128,6 +129,14 @@ ActiveRecord::Schema.define(:version => 20111229044356) do
 
   add_index "examination_paper_relations", ["examination_id"], :name => "index_examination_paper_relations_on_examination_id"
   add_index "examination_paper_relations", ["paper_id"], :name => "index_examination_paper_relations_on_paper_id"
+
+  create_table "examination_tag_relations", :force => true do |t|
+    t.integer "examination_id"
+    t.integer "tag_id"
+  end
+
+  add_index "examination_tag_relations", ["examination_id"], :name => "index_examination_tag_relations_on_examination_id"
+  add_index "examination_tag_relations", ["tag_id"], :name => "index_examination_tag_relations_on_tag_id"
 
   create_table "examinations", :force => true do |t|
     t.string   "title"
@@ -248,6 +257,7 @@ ActiveRecord::Schema.define(:version => 20111229044356) do
     t.datetime "updated_at"
     t.string   "paper_js_url"
     t.integer  "types"
+    t.integer  "time"
   end
 
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
@@ -289,12 +299,10 @@ ActiveRecord::Schema.define(:version => 20111229044356) do
     t.text     "complete_title"
     t.integer  "status"
     t.integer  "question_type"
-    t.integer  "course_id"
     t.string   "description"
   end
 
   add_index "problems", ["category_id"], :name => "index_problems_on_category_id"
-  add_index "problems", ["course_id"], :name => "index_problems_on_course_id"
   add_index "problems", ["question_type"], :name => "index_problems_on_question_type"
   add_index "problems", ["status"], :name => "index_problems_on_status"
   add_index "problems", ["types"], :name => "index_problems_on_types"
@@ -351,6 +359,8 @@ ActiveRecord::Schema.define(:version => 20111229044356) do
     t.integer  "question_index"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "question_id"
+    t.boolean  "status"
   end
 
   create_table "roles", :force => true do |t|
@@ -365,16 +375,6 @@ ActiveRecord::Schema.define(:version => 20111229044356) do
 
   add_index "score_levels", ["examination_id"], :name => "index_score_levels_on_examination_id"
   add_index "score_levels", ["key"], :name => "index_score_levels_on_key"
-
-  create_table "statistic_datas", :force => true do |t|
-    t.datetime "created_at"
-    t.integer  "register_num"
-    t.integer  "action_num"
-    t.integer  "pay_num"
-    t.integer  "money_num"
-  end
-
-  add_index "statistic_datas", ["created_at"], :name => "index_statistic_datas_on_created_at"
 
   create_table "statistics", :force => true do |t|
     t.datetime "created_at"
@@ -485,6 +485,16 @@ ActiveRecord::Schema.define(:version => 20111229044356) do
 
   add_index "word_discriminate_relations", ["discriminate_id"], :name => "index_word_discriminate_relations_on_discriminate_id"
   add_index "word_discriminate_relations", ["word_id"], :name => "index_word_discriminate_relations_on_word_id"
+
+  create_table "word_question_relations", :force => true do |t|
+    t.integer  "word_id"
+    t.integer  "question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "word_question_relations", ["question_id"], :name => "index_word_question_relations_on_question_id"
+  add_index "word_question_relations", ["word_id"], :name => "index_word_question_relations_on_word_id"
 
   create_table "word_sentences", :force => true do |t|
     t.integer  "word_id"
