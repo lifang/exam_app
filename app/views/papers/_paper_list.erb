@@ -34,8 +34,9 @@
         <td>  <%= paper.title  %></td>
         <td>  <%= paper.category.name  %></td>
         <td><% Examination::TYPE_NAMES.values.each do |t| %>
-          <%= t[1] if t[0] == paper.types %>
-          <% end %></td>
+            <%= t[1] if t[0] == paper.types %>
+          <% end %>
+        </td>
         <td> <%= paper.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
         <td> <%= paper.total_question_num %></td>
         <td> <%= paper.total_score %></td>

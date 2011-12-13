@@ -9,7 +9,7 @@ class CreateWords < ActiveRecord::Migration
       t.timestamps
     end
     add_index :words, :name
-    add_index :category_id
+    add_index :words, :category_id
   end
 
   def self.down
