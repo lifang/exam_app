@@ -26,15 +26,9 @@ ActiveRecord::Schema.define(:version => 20111229044356) do
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
 
   create_table "categories", :force => true do |t|
-<<<<<<< HEAD
     t.string  "name",                     :null => false
     t.integer "parent_id", :default => 0, :null => false
     t.float   "price"
-=======
-    t.string  "name",                                                    :null => false
-    t.integer "parent_id",                                :default => 0, :null => false
-    t.decimal "price",     :precision => 16, :scale => 6
->>>>>>> d9ae5e5e859143cbc8f0e27e2e4364e8725b0392
   end
 
   add_index "categories", ["name"], :name => "index_categories_on_name"
