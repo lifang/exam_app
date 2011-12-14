@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111232021310) do
+ActiveRecord::Schema.define(:version => 20111232021312) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -378,10 +378,11 @@ ActiveRecord::Schema.define(:version => 20111232021310) do
 
   create_table "statistics", :force => true do |t|
     t.datetime "created_at"
-    t.integer  "register"
-    t.integer  "action"
-    t.integer  "pay"
-    t.integer  "money"
+    t.string   "register"
+    t.string   "action"
+    t.string   "pay"
+    t.string   "money"
+    t.string   "login"
   end
 
   add_index "statistics", ["created_at"], :name => "index_statistics_on_created_at"
