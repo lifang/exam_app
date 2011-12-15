@@ -10,9 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
-ActiveRecord::Schema.define(:version => 20111232021312) do
-
+ActiveRecord::Schema.define(:version => 20111249044359) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -363,6 +361,7 @@ ActiveRecord::Schema.define(:version => 20111232021312) do
     t.datetime "updated_at"
     t.integer  "question_id"
     t.boolean  "status"
+    t.string   "description"
   end
 
   create_table "roles", :force => true do |t|
