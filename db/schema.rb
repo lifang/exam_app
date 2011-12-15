@@ -29,15 +29,9 @@ ActiveRecord::Schema.define(:version => 20111232021312) do
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
 
   create_table "categories", :force => true do |t|
-<<<<<<< HEAD
-    t.string  "name"
-    t.integer "parent_id"
-    t.integer "price"
-=======
     t.string  "name",                     :null => false
     t.integer "parent_id", :default => 0, :null => false
     t.float   "price"
->>>>>>> 6cbfa5c6fc163bdfae97e34cd69786ae015c2c06
   end
 
   add_index "categories", ["name"], :name => "index_categories_on_name"
@@ -307,10 +301,7 @@ ActiveRecord::Schema.define(:version => 20111232021312) do
     t.text     "complete_title"
     t.integer  "status"
     t.integer  "question_type"
-<<<<<<< HEAD
-=======
     t.string   "description"
->>>>>>> 6cbfa5c6fc163bdfae97e34cd69786ae015c2c06
   end
 
   add_index "problems", ["category_id"], :name => "index_problems_on_category_id"
