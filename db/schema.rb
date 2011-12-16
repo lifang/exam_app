@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111249044360) do
+ActiveRecord::Schema.define(:version => 20111349044360) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -259,9 +259,11 @@ ActiveRecord::Schema.define(:version => 20111249044360) do
     t.string   "paper_js_url"
     t.integer  "types"
     t.integer  "time"
+    t.boolean  "status"
   end
 
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
+  add_index "papers", ["status"], :name => "index_papers_on_status"
   add_index "papers", ["types"], :name => "index_papers_on_types"
 
   create_table "plan_tasks", :force => true do |t|
