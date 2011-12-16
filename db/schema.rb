@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111249044359) do
+ActiveRecord::Schema.define(:version => 20111249044360) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -27,9 +27,10 @@ ActiveRecord::Schema.define(:version => 20111249044359) do
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
 
   create_table "categories", :force => true do |t|
-    t.string  "name",                     :null => false
-    t.integer "parent_id", :default => 0, :null => false
-    t.float   "price"
+    t.string   "name",                     :null => false
+    t.integer  "parent_id", :default => 0, :null => false
+    t.float    "price"
+    t.datetime "next_time"
   end
 
   add_index "categories", ["name"], :name => "index_categories_on_name"
@@ -360,7 +361,7 @@ ActiveRecord::Schema.define(:version => 20111249044359) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "question_id"
-    t.boolean  "status"
+    t.integer  "status"
     t.string   "description"
   end
 
