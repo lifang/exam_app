@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111349044360) do
+ActiveRecord::Schema.define(:version => 20111349044361) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -520,8 +520,10 @@ ActiveRecord::Schema.define(:version => 20111349044360) do
     t.datetime "updated_at"
     t.string   "phonetic"
     t.string   "enunciate_url"
+    t.integer  "level"
   end
 
+  add_index "words", ["level"], :name => "index_words_on_level"
   add_index "words", ["name"], :name => "index_words_on_name"
 
 end
