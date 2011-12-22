@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111349044361) do
+ActiveRecord::Schema.define(:version => 20111349044362) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -454,6 +454,15 @@ ActiveRecord::Schema.define(:version => 20111349044361) do
 
   add_index "user_role_relations", ["role_id"], :name => "index_user_role_relations_on_role_id"
   add_index "user_role_relations", ["user_id"], :name => "index_user_role_relations_on_user_id"
+
+  create_table "user_word_relations", :force => true do |t|
+    t.datetime "created_at"
+    t.integer  "user_id"
+    t.integer  "word_id"
+  end
+
+  add_index "user_word_relations", ["user_id"], :name => "index_user_word_relations_on_user_id"
+  add_index "user_word_relations", ["word_id"], :name => "index_user_word_relations_on_word_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"
