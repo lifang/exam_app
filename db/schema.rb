@@ -10,6 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+
 ActiveRecord::Schema.define(:version => 20111349044360) do
 
   create_table "action_logs", :force => true do |t|
@@ -264,6 +265,7 @@ ActiveRecord::Schema.define(:version => 20111349044360) do
   end
 
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
+  add_index "papers", ["status"], :name => "index_papers_on_status"
   add_index "papers", ["types"], :name => "index_papers_on_types"
 
   create_table "plan_tasks", :force => true do |t|
@@ -455,6 +457,15 @@ ActiveRecord::Schema.define(:version => 20111349044360) do
   add_index "user_role_relations", ["role_id"], :name => "index_user_role_relations_on_role_id"
   add_index "user_role_relations", ["user_id"], :name => "index_user_role_relations_on_user_id"
 
+  create_table "user_word_relations", :force => true do |t|
+    t.datetime "created_at"
+    t.integer  "user_id"
+    t.integer  "word_id"
+  end
+
+  add_index "user_word_relations", ["user_id"], :name => "index_user_word_relations_on_user_id"
+  add_index "user_word_relations", ["word_id"], :name => "index_user_word_relations_on_word_id"
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "username"
@@ -520,9 +531,11 @@ ActiveRecord::Schema.define(:version => 20111349044360) do
     t.datetime "updated_at"
     t.string   "phonetic"
     t.string   "enunciate_url"
+    t.integer  "level"
   end
 
   add_index "words", ["category_id"], :name => "index_words_on_category_id"
+  add_index "words", ["level"], :name => "index_words_on_level"
   add_index "words", ["name"], :name => "index_words_on_name"
 
 end
