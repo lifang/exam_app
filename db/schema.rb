@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
   end
 
   add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
-  add_index "action_logs", ["types"], :name => "index_action_logs_on_type"
+  add_index "action_logs", ["types"], :name => "index_action_logs_on_types"
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
 
   create_table "categories", :force => true do |t|
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
   create_table "competes", :force => true do |t|
     t.integer "user_id"
     t.date    "created_at"
-    t.integer "price"
+    t.integer "pirce",       :default => 10
     t.string  "remark"
     t.integer "category_id"
   end
@@ -171,13 +171,14 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
-    t.boolean  "status"
+    t.boolean  "status",      :default => false
     t.text     "description"
     t.string   "answer"
     t.datetime "created_at"
     t.integer  "question_id"
   end
 
+  add_index "feedbacks", ["question_id"], :name => "index_feedbacks_on_question_id"
   add_index "feedbacks", ["status"], :name => "index_feedbacks_on_status"
   add_index "feedbacks", ["user_id"], :name => "index_feedbacks_on_user_id"
 
@@ -330,7 +331,7 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
     t.text    "answer"
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
-    t.text    "question_attrs"
+    t.string  "question_attrs"
     t.integer "score_percent"
   end
 
@@ -476,11 +477,11 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
     t.string   "encrypted_password"
     t.integer  "status",             :default => 0
     t.string   "active_code"
+    t.string   "code_id"
+    t.string   "code_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
-    t.string   "code_id"
-    t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id"
     t.string   "cert"
@@ -534,6 +535,7 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
     t.integer  "level"
   end
 
+  add_index "words", ["category_id"], :name => "index_words_on_category_id"
   add_index "words", ["level"], :name => "index_words_on_level"
   add_index "words", ["name"], :name => "index_words_on_name"
 
