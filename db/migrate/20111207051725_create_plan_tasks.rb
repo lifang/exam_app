@@ -4,7 +4,7 @@ class CreatePlanTasks < ActiveRecord::Migration
       t.integer :study_plan_id
       t.integer :task_types
       t.integer :period_types
-      t.integer :num
+      t.integer :num,:default=>0
       t.datetime :created_at
     end
     add_index :plan_tasks, :study_plan_id
