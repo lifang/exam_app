@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111349044363) do
+ActiveRecord::Schema.define(:version => 20120213055812) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -23,8 +23,15 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
   end
 
   add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
-  add_index "action_logs", ["types"], :name => "index_action_logs_on_types"
+  add_index "action_logs", ["types"], :name => "index_action_logs_on_type"
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
+
+  create_table "buses", :force => true do |t|
+    t.string   "num"
+    t.datetime "created_at"
+  end
+
+  add_index "buses", ["num"], :name => "index_buses_on_num"
 
   create_table "categories", :force => true do |t|
     t.string   "name",                     :null => false
@@ -64,7 +71,7 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
   create_table "competes", :force => true do |t|
     t.integer "user_id"
     t.date    "created_at"
-    t.integer "pirce",       :default => 10
+    t.integer "price"
     t.string  "remark"
     t.integer "category_id"
   end
@@ -171,16 +178,29 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
-    t.boolean  "status",      :default => false
+    t.boolean  "status"
     t.text     "description"
     t.string   "answer"
     t.datetime "created_at"
     t.integer  "question_id"
   end
 
-  add_index "feedbacks", ["question_id"], :name => "index_feedbacks_on_question_id"
   add_index "feedbacks", ["status"], :name => "index_feedbacks_on_status"
   add_index "feedbacks", ["user_id"], :name => "index_feedbacks_on_user_id"
+
+  create_table "invite_codes", :force => true do |t|
+    t.string   "code"
+    t.datetime "created_at"
+    t.integer  "vicegerent_id"
+    t.integer  "user_id"
+    t.integer  "bus_id"
+    t.datetime "use_time"
+    t.integer  "status"
+  end
+
+  add_index "invite_codes", ["code"], :name => "index_invite_codes_on_code"
+  add_index "invite_codes", ["user_id"], :name => "index_invite_codes_on_user_id"
+  add_index "invite_codes", ["vicegerent_id"], :name => "index_invite_codes_on_vicegerent_id"
 
   create_table "model_roles", :force => true do |t|
     t.integer "role_id"
@@ -331,7 +351,7 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
     t.text    "answer"
     t.integer "correct_type",   :default => 0
     t.text    "analysis"
-    t.string  "question_attrs"
+    t.text    "question_attrs"
     t.integer "score_percent"
   end
 
@@ -477,11 +497,11 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
     t.string   "encrypted_password"
     t.integer  "status",             :default => 0
     t.string   "active_code"
-    t.string   "code_id"
-    t.string   "code_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
+    t.string   "code_id"
+    t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id"
     t.string   "cert"
@@ -492,6 +512,16 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["status"], :name => "index_users_on_status"
+
+  create_table "vicegerents", :force => true do |t|
+    t.string   "name"
+    t.string   "phone"
+    t.string   "inline"
+    t.string   "address"
+    t.datetime "created_at"
+  end
+
+  add_index "vicegerents", ["name"], :name => "index_vicegerents_on_name"
 
   create_table "word_discriminate_relations", :force => true do |t|
     t.integer  "word_id"
@@ -535,7 +565,6 @@ ActiveRecord::Schema.define(:version => 20111349044363) do
     t.integer  "level"
   end
 
-  add_index "words", ["category_id"], :name => "index_words_on_category_id"
   add_index "words", ["level"], :name => "index_words_on_level"
   add_index "words", ["name"], :name => "index_words_on_name"
 
