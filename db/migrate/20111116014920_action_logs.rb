@@ -8,7 +8,7 @@ class ActionLogs < ActiveRecord::Migration
       t.timestamps
     end
     add_index :action_logs,:user_id
-    add_index :action_logs,:type
+    add_index :action_logs,:types
     add_index :action_logs,:category_id
   end
 

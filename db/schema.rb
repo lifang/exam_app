@@ -10,7 +10,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120132021312) do
+
+ActiveRecord::Schema.define(:version => 20111349044363) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -23,13 +24,14 @@ ActiveRecord::Schema.define(:version => 20120132021312) do
   end
 
   add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
-  add_index "action_logs", ["types"], :name => "index_action_logs_on_type"
+  add_index "action_logs", ["types"], :name => "index_action_logs_on_types"
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
 
   create_table "categories", :force => true do |t|
-    t.string   "name"
-    t.integer  "parent_id"
-    t.integer  "price"
+
+    t.string   "name",                     :null => false
+    t.integer  "parent_id", :default => 0, :null => false
+    t.float    "price"
     t.datetime "next_time"
   end
 
@@ -63,7 +65,7 @@ ActiveRecord::Schema.define(:version => 20120132021312) do
   create_table "competes", :force => true do |t|
     t.integer "user_id"
     t.date    "created_at"
-    t.integer "price"
+    t.integer "pirce",       :default => 10
     t.string  "remark"
     t.integer "category_id"
   end
@@ -167,13 +169,14 @@ ActiveRecord::Schema.define(:version => 20120132021312) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
-    t.boolean  "status"
+    t.boolean  "status",      :default => false
     t.text     "description"
     t.string   "answer"
     t.datetime "created_at"
     t.integer  "question_id"
   end
 
+  add_index "feedbacks", ["question_id"], :name => "index_feedbacks_on_question_id"
   add_index "feedbacks", ["status"], :name => "index_feedbacks_on_status"
   add_index "feedbacks", ["user_id"], :name => "index_feedbacks_on_user_id"
 
@@ -259,6 +262,7 @@ ActiveRecord::Schema.define(:version => 20120132021312) do
   end
 
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
+  add_index "papers", ["status"], :name => "index_papers_on_status"
   add_index "papers", ["types"], :name => "index_papers_on_types"
 
   create_table "plan_tasks", :force => true do |t|
@@ -326,6 +330,7 @@ ActiveRecord::Schema.define(:version => 20120132021312) do
     t.integer "correct_type"
     t.text    "analysis"
     t.string  "question_attrs"
+    t.integer "score_percent"
   end
 
   add_index "questions", ["correct_type"], :name => "index_questions_on_correct_type"
@@ -447,6 +452,17 @@ ActiveRecord::Schema.define(:version => 20120132021312) do
   add_index "user_role_relations", ["role_id"], :name => "index_user_role_relations_on_role_id"
   add_index "user_role_relations", ["user_id"], :name => "index_user_role_relations_on_user_id"
 
+  create_table "user_word_relations", :force => true do |t|
+    t.datetime "created_at"
+    t.integer  "user_id"
+    t.integer  "word_id"
+    t.boolean  "status"
+  end
+
+  add_index "user_word_relations", ["status"], :name => "index_user_word_relations_on_status"
+  add_index "user_word_relations", ["user_id"], :name => "index_user_word_relations_on_user_id"
+  add_index "user_word_relations", ["word_id"], :name => "index_user_word_relations_on_word_id"
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "username"
@@ -457,6 +473,8 @@ ActiveRecord::Schema.define(:version => 20120132021312) do
     t.string   "encrypted_password"
     t.integer  "status"
     t.string   "active_code"
+    t.string   "code_id"
+    t.string   "code_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
@@ -515,6 +533,8 @@ ActiveRecord::Schema.define(:version => 20120132021312) do
     t.integer  "level"
   end
 
+  add_index "words", ["category_id"], :name => "index_words_on_category_id"
+  add_index "words", ["level"], :name => "index_words_on_level"
   add_index "words", ["name"], :name => "index_words_on_name"
 
 end

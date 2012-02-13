@@ -1,4 +1,4 @@
-class AddDetailToReportErrors < ActiveRecord::Migration
+class AddDescriptionToReportErrors < ActiveRecord::Migration
   def self.up
     add_column :report_errors, :description, :string
   end
