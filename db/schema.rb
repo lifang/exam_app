@@ -187,7 +187,6 @@ ActiveRecord::Schema.define(:version => 20120213055812) do
 
   create_table "invite_codes", :force => true do |t|
     t.string   "code"
-<<<<<<< HEAD
     t.datetime "created_at"
     t.integer  "vicegerent_id"
     t.integer  "user_id"
@@ -200,12 +199,6 @@ ActiveRecord::Schema.define(:version => 20120213055812) do
   add_index "invite_codes", ["user_id"], :name => "index_invite_codes_on_user_id"
   add_index "invite_codes", ["vicegerent_id"], :name => "index_invite_codes_on_vicegerent_id"
 
-=======
-    t.boolean  "is_used"
-    t.datetime "use_time"
-  end
-
->>>>>>> b5b54edd5530b5f9abad7be1aa72332d4cfee5e1
   create_table "model_roles", :force => true do |t|
     t.integer "role_id"
     t.integer "right_sum"
@@ -496,11 +489,7 @@ ActiveRecord::Schema.define(:version => 20120213055812) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
-<<<<<<< HEAD
     t.string   "code_id"
-=======
-    t.string   "code_id",            :limit => 30
->>>>>>> b5b54edd5530b5f9abad7be1aa72332d4cfee5e1
     t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id",            :limit => 40
