@@ -15,7 +15,8 @@ class Problem < ActiveRecord::Base
 
   PROBLEM_STATUS = {:USED=>1}
   #1 代表题目已经被试卷使用
-
+ #小题类型 题面外：0  题面内：1
+  QUESTION_TYPE = {:OUTER=>0,:INNER=>1}
   
   #创建problem
   def Problem.create_problem(paper, options = {})

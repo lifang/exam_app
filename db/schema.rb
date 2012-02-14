@@ -34,10 +34,9 @@ ActiveRecord::Schema.define(:version => 20120213055812) do
   add_index "buses", ["num"], :name => "index_buses_on_num"
 
   create_table "categories", :force => true do |t|
-
-    t.string   "name",                     :null => false
-    t.integer  "parent_id", :default => 0, :null => false
-    t.float    "price"
+    t.string   "name"
+    t.integer  "parent_id"
+    t.integer  "price"
     t.datetime "next_time"
   end
 
@@ -187,17 +186,10 @@ ActiveRecord::Schema.define(:version => 20120213055812) do
 
   create_table "invite_codes", :force => true do |t|
     t.string   "code"
-    t.datetime "created_at"
-    t.integer  "vicegerent_id"
-    t.integer  "user_id"
-    t.integer  "bus_id"
+    t.boolean  "is_used"
     t.datetime "use_time"
     t.integer  "status"
   end
-
-  add_index "invite_codes", ["code"], :name => "index_invite_codes_on_code"
-  add_index "invite_codes", ["user_id"], :name => "index_invite_codes_on_user_id"
-  add_index "invite_codes", ["vicegerent_id"], :name => "index_invite_codes_on_vicegerent_id"
 
   create_table "model_roles", :force => true do |t|
     t.integer "role_id"
@@ -275,7 +267,6 @@ ActiveRecord::Schema.define(:version => 20120213055812) do
   end
 
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
-  add_index "papers", ["status"], :name => "index_papers_on_status"
   add_index "papers", ["types"], :name => "index_papers_on_types"
 
   create_table "plan_tasks", :force => true do |t|
@@ -342,8 +333,7 @@ ActiveRecord::Schema.define(:version => 20120213055812) do
     t.string  "answer"
     t.integer "correct_type"
     t.text    "analysis"
-    t.text    "question_attrs"
-    t.integer "score_percent"
+    t.string  "question_attrs"
   end
 
   add_index "questions", ["correct_type"], :name => "index_questions_on_correct_type"
@@ -465,17 +455,6 @@ ActiveRecord::Schema.define(:version => 20120213055812) do
   add_index "user_role_relations", ["role_id"], :name => "index_user_role_relations_on_role_id"
   add_index "user_role_relations", ["user_id"], :name => "index_user_role_relations_on_user_id"
 
-  create_table "user_word_relations", :force => true do |t|
-    t.datetime "created_at"
-    t.integer  "user_id"
-    t.integer  "word_id"
-    t.boolean  "status"
-  end
-
-  add_index "user_word_relations", ["status"], :name => "index_user_word_relations_on_status"
-  add_index "user_word_relations", ["user_id"], :name => "index_user_word_relations_on_user_id"
-  add_index "user_word_relations", ["word_id"], :name => "index_user_word_relations_on_word_id"
-
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "username"
@@ -489,7 +468,7 @@ ActiveRecord::Schema.define(:version => 20120213055812) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
-    t.string   "code_id"
+    t.string   "code_id",            :limit => 30
     t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id",            :limit => 40
@@ -554,7 +533,6 @@ ActiveRecord::Schema.define(:version => 20120213055812) do
     t.integer  "level"
   end
 
-  add_index "words", ["level"], :name => "index_words_on_level"
   add_index "words", ["name"], :name => "index_words_on_name"
 
 end
