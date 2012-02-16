@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120213070158) do
+ActiveRecord::Schema.define(:version => 20120216032947) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -58,6 +58,16 @@ ActiveRecord::Schema.define(:version => 20120213070158) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "collection_infos", :force => true do |t|
+    t.integer  "paper_id"
+    t.integer  "user_id"
+    t.text     "question_ids"
+    t.datetime "created_at"
+  end
+
+  add_index "collection_infos", ["paper_id"], :name => "index_collection_infos_on_paper_id"
+  add_index "collection_infos", ["user_id"], :name => "index_collection_infos_on_user_id"
 
   create_table "collections", :force => true do |t|
     t.integer  "user_id",        :null => false
@@ -197,6 +207,7 @@ ActiveRecord::Schema.define(:version => 20120213070158) do
     t.datetime "use_time"
     t.integer  "status"
     t.datetime "ended_at"
+    t.integer  "category_id"
   end
 
   add_index "invite_codes", ["code"], :name => "index_invite_codes_on_code"
