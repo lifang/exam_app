@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120216032947) do
+ActiveRecord::Schema.define(:version => 20120224042127) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20120216032947) do
     t.string   "collection_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "category_id"
   end
 
   add_index "collections", ["user_id"], :name => "index_collections_on_user_id"
@@ -500,6 +501,8 @@ ActiveRecord::Schema.define(:version => 20120216032947) do
     t.string   "belief_url"
     t.string   "open_id",            :limit => 40
     t.string   "cert"
+    t.string   "access_token"
+    t.datetime "end_time"
   end
 
   add_index "users", ["code_id"], :name => "index_users_on_code_id"
