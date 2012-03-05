@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120223041354) do
+ActiveRecord::Schema.define(:version => 20120224042127) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -197,12 +197,13 @@ ActiveRecord::Schema.define(:version => 20120223041354) do
 
   create_table "invite_codes", :force => true do |t|
     t.string   "code"
+    t.boolean  "is_used"
+    t.datetime "use_time"
+    t.integer  "status"
     t.datetime "created_at"
     t.integer  "vicegerent_id"
     t.integer  "user_id"
     t.integer  "bus_id"
-    t.datetime "use_time"
-    t.integer  "status"
     t.datetime "ended_at"
     t.integer  "category_id"
   end
@@ -501,10 +502,13 @@ ActiveRecord::Schema.define(:version => 20120223041354) do
     t.datetime "updated_at"
     t.string   "school"
     t.integer  "code_id"
+    t.string   "code_id",            :limit => 30
     t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id",            :limit => 40
     t.string   "cert"
+    t.string   "access_token"
+    t.datetime "end_time"
   end
 
   add_index "users", ["code_id"], :name => "index_users_on_code_id"
