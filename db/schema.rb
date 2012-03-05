@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120216033818) do
+ActiveRecord::Schema.define(:version => 20120223041354) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(:version => 20120216033818) do
   add_index "buses", ["num"], :name => "index_buses_on_num"
 
   create_table "categories", :force => true do |t|
-    t.string   "name",                     :null => false
-    t.integer  "parent_id", :default => 0, :null => false
-    t.float    "price"
+    t.string   "name"
+    t.integer  "parent_id"
+    t.integer  "price"
     t.datetime "next_time"
   end
 
@@ -288,7 +288,6 @@ ActiveRecord::Schema.define(:version => 20120216033818) do
   end
 
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
-  add_index "papers", ["status"], :name => "index_papers_on_status"
   add_index "papers", ["types"], :name => "index_papers_on_types"
 
   create_table "plan_tasks", :force => true do |t|
@@ -355,8 +354,7 @@ ActiveRecord::Schema.define(:version => 20120216033818) do
     t.string  "answer"
     t.integer "correct_type"
     t.text    "analysis"
-    t.text    "question_attrs"
-    t.integer "score_percent"
+    t.string  "question_attrs"
   end
 
   add_index "questions", ["correct_type"], :name => "index_questions_on_correct_type"
@@ -502,7 +500,7 @@ ActiveRecord::Schema.define(:version => 20120216033818) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
-    t.string   "code_id"
+    t.integer  "code_id"
     t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id",            :limit => 40
@@ -567,7 +565,6 @@ ActiveRecord::Schema.define(:version => 20120216033818) do
     t.integer  "level"
   end
 
-  add_index "words", ["level"], :name => "index_words_on_level"
   add_index "words", ["name"], :name => "index_words_on_name"
 
 end
