@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120223041354) do
+ActiveRecord::Schema.define(:version => 20120301081639) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -492,13 +492,12 @@ ActiveRecord::Schema.define(:version => 20120223041354) do
   create_table "user_word_relations", :force => true do |t|
     t.datetime "created_at"
     t.integer  "user_id"
-    t.integer  "word_id"
-    t.boolean  "status"
+    t.text     "nomal_ids"
+    t.text     "recite_ids"
+    t.integer  "category_id"
   end
 
-  add_index "user_word_relations", ["status"], :name => "index_user_word_relations_on_status"
   add_index "user_word_relations", ["user_id"], :name => "index_user_word_relations_on_user_id"
-  add_index "user_word_relations", ["word_id"], :name => "index_user_word_relations_on_word_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"
