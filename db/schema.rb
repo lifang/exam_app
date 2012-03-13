@@ -508,9 +508,7 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.string   "recite_ids"
   end
 
-  add_index "user_word_relations", ["status"], :name => "index_user_word_relations_on_status"
   add_index "user_word_relations", ["user_id"], :name => "index_user_word_relations_on_user_id"
-  add_index "user_word_relations", ["word_id"], :name => "index_user_word_relations_on_word_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

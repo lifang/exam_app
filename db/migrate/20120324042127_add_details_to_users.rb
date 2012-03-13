@@ -5,7 +5,7 @@ class AddDetailsToUsers < ActiveRecord::Migration
   end
 
   def self.down
-    add_column :users, :access_token
-    add_column :users, :end_time
+    remove_column :users, :access_token
+    remove_column :users, :end_time
   end
 end

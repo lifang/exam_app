@@ -5,6 +5,7 @@ class AddDetailToReportErrors < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :report_errors
+    remove_column :report_errors, :question_id
+    remove_column :report_errors, :status
   end
 end
