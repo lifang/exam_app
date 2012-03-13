@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120224042127) do
+ActiveRecord::Schema.define(:version => 20120313014528) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -197,13 +197,12 @@ ActiveRecord::Schema.define(:version => 20120224042127) do
 
   create_table "invite_codes", :force => true do |t|
     t.string   "code"
-    t.boolean  "is_used"
-    t.datetime "use_time"
-    t.integer  "status"
     t.datetime "created_at"
     t.integer  "vicegerent_id"
     t.integer  "user_id"
     t.integer  "bus_id"
+    t.datetime "use_time"
+    t.integer  "status"
     t.datetime "ended_at"
     t.integer  "category_id"
   end
@@ -212,6 +211,28 @@ ActiveRecord::Schema.define(:version => 20120224042127) do
   add_index "invite_codes", ["created_at"], :name => "index_invite_codes_on_created_at"
   add_index "invite_codes", ["user_id"], :name => "index_invite_codes_on_user_id"
   add_index "invite_codes", ["vicegerent_id"], :name => "index_invite_codes_on_vicegerent_id"
+
+  create_table "ip_database", :id => false, :force => true do |t|
+    t.string "start"
+    t.string "end"
+    t.string "location"
+  end
+
+  create_table "ip_tables", :force => true do |t|
+    t.string "start_at"
+    t.string "end_at"
+    t.string "city"
+  end
+
+  add_index "ip_tables", ["end_at"], :name => "index_ip_tables_on_end_at"
+  add_index "ip_tables", ["start_at"], :name => "index_ip_tables_on_start_at"
+
+  create_table "ips", :force => true do |t|
+    t.string "start",    :limit => 40
+    t.string "end",      :limit => 40
+    t.string "location"
+    t.string "city"
+  end
 
   create_table "model_roles", :force => true do |t|
     t.integer "role_id"
@@ -482,6 +503,9 @@ ActiveRecord::Schema.define(:version => 20120224042127) do
     t.integer  "user_id"
     t.integer  "word_id"
     t.boolean  "status"
+    t.integer  "category_id"
+    t.string   "nomal_ids"
+    t.string   "recite_ids"
   end
 
   add_index "user_word_relations", ["status"], :name => "index_user_word_relations_on_status"
@@ -501,8 +525,7 @@ ActiveRecord::Schema.define(:version => 20120224042127) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
-    t.integer  "code_id"
-    t.string   "code_id",            :limit => 30
+    t.string   "code_id"
     t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id",            :limit => 40
