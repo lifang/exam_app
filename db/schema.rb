@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120313014528) do
+ActiveRecord::Schema.define(:version => 20120324052129) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
   add_index "action_logs", ["types"], :name => "index_action_logs_on_type"
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
+
+  create_table "adverts", :force => true do |t|
+    t.string  "content"
+    t.integer "region_id"
+  end
+
+  add_index "adverts", ["region_id"], :name => "index_adverts_on_region_id"
 
   create_table "buses", :force => true do |t|
     t.string   "num"
@@ -197,25 +204,15 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
 
   create_table "invite_codes", :force => true do |t|
     t.string   "code"
+    t.boolean  "is_used"
+    t.datetime "use_time"
+    t.integer  "status"
     t.datetime "created_at"
     t.integer  "vicegerent_id"
     t.integer  "user_id"
     t.integer  "bus_id"
-    t.datetime "use_time"
-    t.integer  "status"
     t.datetime "ended_at"
     t.integer  "category_id"
-  end
-
-  add_index "invite_codes", ["code"], :name => "index_invite_codes_on_code"
-  add_index "invite_codes", ["created_at"], :name => "index_invite_codes_on_created_at"
-  add_index "invite_codes", ["user_id"], :name => "index_invite_codes_on_user_id"
-  add_index "invite_codes", ["vicegerent_id"], :name => "index_invite_codes_on_vicegerent_id"
-
-  create_table "ip_database", :id => false, :force => true do |t|
-    t.string "start"
-    t.string "end"
-    t.string "location"
   end
 
   create_table "ip_tables", :force => true do |t|
@@ -228,10 +225,10 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   add_index "ip_tables", ["start_at"], :name => "index_ip_tables_on_start_at"
 
   create_table "ips", :force => true do |t|
-    t.string "start",    :limit => 40
-    t.string "end",      :limit => 40
-    t.string "location"
-    t.string "city"
+    t.string "start_area"
+    t.string "end_area"
+    t.string "region",     :limit => 40, :null => false
+    t.string "min_region"
   end
 
   create_table "model_roles", :force => true do |t|
@@ -396,6 +393,14 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   add_index "rater_user_relations", ["exam_user_id"], :name => "index_rater_user_relations_on_exam_user_id"
   add_index "rater_user_relations", ["is_marked"], :name => "index_rater_user_relations_on_is_marked"
 
+  create_table "regions", :force => true do |t|
+    t.string  "name"
+    t.integer "parent_id"
+  end
+
+  add_index "regions", ["name"], :name => "index_regions_on_name"
+  add_index "regions", ["parent_id"], :name => "index_regions_on_parent_id"
+
   create_table "report_errors", :force => true do |t|
     t.integer  "paper_id"
     t.string   "paper_title"
@@ -508,7 +513,9 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.string   "recite_ids"
   end
 
+  add_index "user_word_relations", ["status"], :name => "index_user_word_relations_on_status"
   add_index "user_word_relations", ["user_id"], :name => "index_user_word_relations_on_user_id"
+  add_index "user_word_relations", ["word_id"], :name => "index_user_word_relations_on_word_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"
@@ -523,7 +530,7 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "school"
-    t.string   "code_id"
+    t.string   "code_id",            :limit => 30
     t.string   "code_type"
     t.string   "belief_url"
     t.string   "open_id",            :limit => 40
