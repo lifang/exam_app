@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120324042130) do
+ActiveRecord::Schema.define(:version => 20120324052130) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(:version => 20120324042130) do
   add_index "action_logs", ["category_id"], :name => "index_action_logs_on_category_id"
   add_index "action_logs", ["types"], :name => "index_action_logs_on_type"
   add_index "action_logs", ["user_id"], :name => "index_action_logs_on_user_id"
+
+  create_table "adverts", :force => true do |t|
+    t.string   "content"
+    t.integer  "region_id"
+    t.datetime "created_at"
+  end
+
+  add_index "adverts", ["region_id"], :name => "index_adverts_on_region_id"
 
   create_table "buses", :force => true do |t|
     t.string   "num"
@@ -216,14 +224,16 @@ ActiveRecord::Schema.define(:version => 20120324042130) do
   add_index "invite_codes", ["vicegerent_id"], :name => "index_invite_codes_on_vicegerent_id"
 
   create_table "ip_tables", :force => true do |t|
-    t.string "start_at"
-    t.string "end_at"
-    t.string "city"
-    t.string "province_name"
-    t.string "city_name"
-    t.text   "start_at1",     :limit => 16777215
-    t.text   "end_at1",       :limit => 16777215
+    t.integer "start_at",      :limit => 8
+    t.integer "end_at",        :limit => 8
+    t.string  "province_name"
+    t.string  "city_name"
   end
+
+  add_index "ip_tables", ["city_name"], :name => "index_ip_tables_on_city_name"
+  add_index "ip_tables", ["end_at"], :name => "index_ip_tables_on_end_at"
+  add_index "ip_tables", ["province_name"], :name => "index_ip_tables_on_province_name"
+  add_index "ip_tables", ["start_at"], :name => "index_ip_tables_on_start_at"
 
   create_table "model_roles", :force => true do |t|
     t.integer "role_id"
@@ -517,6 +527,7 @@ ActiveRecord::Schema.define(:version => 20120324042130) do
     t.integer  "category_id"
   end
 
+  add_index "user_word_relations", ["category_id"], :name => "index_user_word_relations_on_category_id"
   add_index "user_word_relations", ["user_id"], :name => "index_user_word_relations_on_user_id"
 
   create_table "users", :force => true do |t|
