@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120313014528) do
+ActiveRecord::Schema.define(:version => 20120324042130) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   add_index "buses", ["num"], :name => "index_buses_on_num"
 
   create_table "categories", :force => true do |t|
-    t.string   "name"
-    t.integer  "parent_id"
-    t.integer  "price"
+    t.string   "name",                     :null => false
+    t.integer  "parent_id", :default => 0, :null => false
+    t.float    "price"
     t.datetime "next_time"
   end
 
@@ -54,8 +54,9 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
 
   create_table "charts", :force => true do |t|
     t.integer  "types"
-    t.datetime "created_at"
     t.string   "image_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "collection_infos", :force => true do |t|
@@ -86,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.integer "category_id"
   end
 
+  add_index "competes", ["category_id"], :name => "index_competes_on_category_id"
   add_index "competes", ["user_id"], :name => "index_competes_on_user_id"
 
   create_table "courses", :force => true do |t|
@@ -108,14 +110,14 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.string   "mobilephone"
     t.string   "email"
     t.string   "author_code"
-    t.integer  "examination_id"
+    t.integer  "examination_id", :null => false
   end
 
   add_index "exam_raters", ["author_code"], :name => "index_exam_raters_on_author_code"
   add_index "exam_raters", ["examination_id"], :name => "index_exam_raters_on_examination_id"
 
   create_table "exam_users", :force => true do |t|
-    t.integer  "examination_id"
+    t.integer  "examination_id",                       :null => false
     t.integer  "user_id"
     t.string   "password"
     t.datetime "created_at"
@@ -123,18 +125,19 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.datetime "started_at"
     t.datetime "submited_at"
     t.datetime "ended_at"
-    t.boolean  "is_submited"
-    t.boolean  "open_to_user"
+    t.boolean  "is_submited",       :default => false
+    t.boolean  "open_to_user",      :default => false
     t.string   "answer_sheet_url"
-    t.boolean  "is_user_affiremed"
+    t.boolean  "is_user_affiremed", :default => false
     t.integer  "total_score"
     t.boolean  "is_auto_rate",      :default => false
-    t.boolean  "is_free"
+    t.boolean  "is_free",           :default => false
     t.integer  "correct_percent"
     t.string   "rank"
   end
 
   add_index "exam_users", ["examination_id"], :name => "index_exam_users_on_examination_id"
+  add_index "exam_users", ["is_free"], :name => "index_exam_users_on_is_free"
   add_index "exam_users", ["paper_id"], :name => "index_exam_users_on_paper_id"
   add_index "exam_users", ["user_id"], :name => "index_exam_users_on_user_id"
 
@@ -156,20 +159,20 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
 
   create_table "examinations", :force => true do |t|
     t.string   "title"
-    t.integer  "creater_id"
+    t.integer  "creater_id",                          :null => false
     t.string   "description"
-    t.boolean  "is_score_open"
-    t.boolean  "is_paper_open"
+    t.boolean  "is_score_open",    :default => false
+    t.boolean  "is_paper_open",    :default => false
     t.string   "exam_password1"
     t.string   "exam_password2"
     t.datetime "start_at_time"
     t.datetime "start_end_time"
     t.integer  "exam_time"
-    t.boolean  "is_published"
+    t.boolean  "is_published",     :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "user_affirm"
-    t.integer  "status"
+    t.boolean  "user_affirm",      :default => false
+    t.integer  "status",           :default => 0
     t.integer  "price"
     t.datetime "get_free_end_at"
     t.datetime "exam_free_end_at"
@@ -179,6 +182,7 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.boolean  "is_free"
   end
 
+  add_index "examinations", ["category_id"], :name => "index_examinations_on_category_id"
   add_index "examinations", ["creater_id"], :name => "index_examinations_on_creater_id"
   add_index "examinations", ["is_paper_open"], :name => "index_examinations_on_is_paper_open"
   add_index "examinations", ["is_score_open"], :name => "index_examinations_on_is_score_open"
@@ -208,36 +212,25 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   end
 
   add_index "invite_codes", ["code"], :name => "index_invite_codes_on_code"
-  add_index "invite_codes", ["created_at"], :name => "index_invite_codes_on_created_at"
   add_index "invite_codes", ["user_id"], :name => "index_invite_codes_on_user_id"
   add_index "invite_codes", ["vicegerent_id"], :name => "index_invite_codes_on_vicegerent_id"
-
-  create_table "ip_database", :id => false, :force => true do |t|
-    t.string "start"
-    t.string "end"
-    t.string "location"
-  end
 
   create_table "ip_tables", :force => true do |t|
     t.string "start_at"
     t.string "end_at"
     t.string "city"
-  end
-
-  add_index "ip_tables", ["end_at"], :name => "index_ip_tables_on_end_at"
-  add_index "ip_tables", ["start_at"], :name => "index_ip_tables_on_start_at"
-
-  create_table "ips", :force => true do |t|
-    t.string "start",    :limit => 40
-    t.string "end",      :limit => 40
-    t.string "location"
-    t.string "city"
+    t.string "province_name"
+    t.string "city_name"
+    t.text   "start_at1",     :limit => 16777215
+    t.text   "end_at1",       :limit => 16777215
   end
 
   create_table "model_roles", :force => true do |t|
     t.integer "role_id"
     t.integer "right_sum"
   end
+
+  add_index "model_roles", ["role_id"], :name => "index_model_roles_on_role_id"
 
   create_table "notes", :force => true do |t|
     t.integer  "user_id",    :null => false
@@ -280,26 +273,30 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.integer  "category_id"
   end
 
+  add_index "orders", ["out_trade_no"], :name => "index_orders_on_out_trade_no"
+  add_index "orders", ["pay_type"], :name => "index_orders_on_pay_type"
+  add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
+
   create_table "paper_blocks", :force => true do |t|
-    t.integer  "paper_id"
+    t.integer  "paper_id",    :null => false
     t.string   "title"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "time"
-    t.datetime "start_time"
+    t.string   "start_time"
   end
 
   add_index "paper_blocks", ["paper_id"], :name => "index_paper_blocks_on_paper_id"
 
   create_table "papers", :force => true do |t|
-    t.integer  "category_id"
+    t.integer  "category_id",                           :null => false
     t.string   "title"
-    t.integer  "creater_id"
+    t.integer  "creater_id",                            :null => false
     t.string   "description"
-    t.integer  "total_score"
-    t.integer  "total_question_num"
-    t.boolean  "is_used"
+    t.integer  "total_score",        :default => 0
+    t.integer  "total_question_num", :default => 0
+    t.boolean  "is_used",            :default => false
     t.string   "paper_url"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -310,6 +307,7 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   end
 
   add_index "papers", ["category_id"], :name => "index_papers_on_category_id"
+  add_index "papers", ["status"], :name => "index_papers_on_status"
   add_index "papers", ["types"], :name => "index_papers_on_types"
 
   create_table "plan_tasks", :force => true do |t|
@@ -325,24 +323,24 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   add_index "plan_tasks", ["task_types"], :name => "index_plan_tasks_on_task_types"
 
   create_table "problem_tag_relations", :force => true do |t|
-    t.integer "tag_id"
-    t.integer "problem_id"
+    t.integer "tag_id",     :null => false
+    t.integer "problem_id", :null => false
   end
 
   add_index "problem_tag_relations", ["problem_id"], :name => "index_problem_tag_relations_on_problem_id"
   add_index "problem_tag_relations", ["tag_id"], :name => "index_problem_tag_relations_on_tag_id"
 
   create_table "problem_tags", :force => true do |t|
-    t.integer "problem_id"
-    t.integer "total_num"
+    t.integer "problem_id",                :null => false
+    t.integer "total_num",  :default => 1
   end
 
   add_index "problem_tags", ["problem_id"], :name => "index_problem_tags_on_problem_id"
 
   create_table "problems", :force => true do |t|
-    t.integer  "category_id"
+    t.integer  "category_id",                   :null => false
     t.text     "title"
-    t.integer  "types"
+    t.integer  "types",          :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "complete_title"
@@ -363,29 +361,30 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   end
 
   create_table "question_tag_relations", :force => true do |t|
-    t.integer "tag_id"
-    t.integer "question_id"
+    t.integer "tag_id",      :null => false
+    t.integer "question_id", :null => false
   end
 
   add_index "question_tag_relations", ["question_id"], :name => "index_question_tag_relations_on_question_id"
   add_index "question_tag_relations", ["tag_id"], :name => "index_question_tag_relations_on_tag_id"
 
   create_table "questions", :force => true do |t|
-    t.integer "problem_id"
-    t.string  "description"
-    t.string  "answer"
-    t.integer "correct_type"
+    t.integer "problem_id",                    :null => false
+    t.text    "description"
+    t.text    "answer"
+    t.integer "correct_type",   :default => 0
     t.text    "analysis"
-    t.string  "question_attrs"
+    t.text    "question_attrs"
+    t.integer "score_percent"
   end
 
   add_index "questions", ["correct_type"], :name => "index_questions_on_correct_type"
   add_index "questions", ["problem_id"], :name => "index_questions_on_problem_id"
 
   create_table "rater_user_relations", :force => true do |t|
-    t.integer  "exam_user_id"
-    t.integer  "exam_rater_id"
-    t.boolean  "is_marked"
+    t.integer  "exam_user_id",                     :null => false
+    t.integer  "exam_rater_id",                    :null => false
+    t.boolean  "is_marked",     :default => false
     t.boolean  "is_authed",     :default => false
     t.datetime "started_at"
     t.integer  "rate_time"
@@ -394,7 +393,19 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
 
   add_index "rater_user_relations", ["exam_rater_id"], :name => "index_rater_user_relations_on_exam_rater_id"
   add_index "rater_user_relations", ["exam_user_id"], :name => "index_rater_user_relations_on_exam_user_id"
+  add_index "rater_user_relations", ["is_authed"], :name => "index_rater_user_relations_on_is_authed"
+  add_index "rater_user_relations", ["is_checked"], :name => "index_rater_user_relations_on_is_checked"
   add_index "rater_user_relations", ["is_marked"], :name => "index_rater_user_relations_on_is_marked"
+
+  create_table "regions", :force => true do |t|
+    t.integer "city_index"
+    t.integer "parent_id"
+    t.string  "name"
+  end
+
+  add_index "regions", ["city_index"], :name => "index_regions_on_city_index"
+  add_index "regions", ["name"], :name => "index_regions_on_name"
+  add_index "regions", ["parent_id"], :name => "index_regions_on_parent_id"
 
   create_table "report_errors", :force => true do |t|
     t.integer  "paper_id"
@@ -406,7 +417,7 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "question_id"
-    t.integer  "status",         :default => 0
+    t.integer  "status"
     t.string   "description"
   end
 
@@ -415,7 +426,7 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   end
 
   create_table "score_levels", :force => true do |t|
-    t.integer "examination_id"
+    t.integer "examination_id", :null => false
     t.string  "key"
     t.string  "value"
   end
@@ -491,8 +502,8 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   add_index "user_plan_relations", ["user_id"], :name => "index_user_plan_relations_on_user_id"
 
   create_table "user_role_relations", :force => true do |t|
-    t.integer "role_id"
-    t.integer "user_id"
+    t.integer "role_id", :null => false
+    t.integer "user_id", :null => false
   end
 
   add_index "user_role_relations", ["role_id"], :name => "index_user_role_relations_on_role_id"
@@ -501,11 +512,9 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
   create_table "user_word_relations", :force => true do |t|
     t.datetime "created_at"
     t.integer  "user_id"
-    t.integer  "word_id"
-    t.boolean  "status"
+    t.text     "nomal_ids"
+    t.text     "recite_ids"
     t.integer  "category_id"
-    t.string   "nomal_ids"
-    t.string   "recite_ids"
   end
 
   add_index "user_word_relations", ["user_id"], :name => "index_user_word_relations_on_user_id"
@@ -518,7 +527,7 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.string   "address"
     t.string   "salt"
     t.string   "encrypted_password"
-    t.integer  "status"
+    t.integer  "status",             :default => 0
     t.string   "active_code"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -526,7 +535,7 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.string   "code_id"
     t.string   "code_type"
     t.string   "belief_url"
-    t.string   "open_id",            :limit => 40
+    t.string   "open_id"
     t.string   "cert"
     t.string   "access_token"
     t.datetime "end_time"
@@ -585,11 +594,12 @@ ActiveRecord::Schema.define(:version => 20120313014528) do
     t.integer  "types"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "phonetic",      :limit => 20
+    t.string   "phonetic"
     t.string   "enunciate_url"
     t.integer  "level"
   end
 
+  add_index "words", ["level"], :name => "index_words_on_level"
   add_index "words", ["name"], :name => "index_words_on_name"
 
 end
