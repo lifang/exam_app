@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120324052130) do
+ActiveRecord::Schema.define(:version => 20120324052131) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -504,10 +504,14 @@ ActiveRecord::Schema.define(:version => 20120324052130) do
     t.integer  "study_plan_id"
     t.datetime "created_at"
     t.datetime "ended_at"
+    t.integer  "num"
+    t.boolean  "status"
   end
 
   add_index "user_plan_relations", ["created_at"], :name => "index_user_plan_relations_on_created_at"
   add_index "user_plan_relations", ["ended_at"], :name => "index_user_plan_relations_on_ended_at"
+  add_index "user_plan_relations", ["num"], :name => "index_user_plan_relations_on_num"
+  add_index "user_plan_relations", ["status"], :name => "index_user_plan_relations_on_status"
   add_index "user_plan_relations", ["study_plan_id"], :name => "index_user_plan_relations_on_study_plan_id"
   add_index "user_plan_relations", ["user_id"], :name => "index_user_plan_relations_on_user_id"
 
