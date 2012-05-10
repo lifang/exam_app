@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120411071057) do
+ActiveRecord::Schema.define(:version => 20120509030615) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -321,6 +321,21 @@ ActiveRecord::Schema.define(:version => 20120411071057) do
   add_index "papers", ["status"], :name => "index_papers_on_status"
   add_index "papers", ["types"], :name => "index_papers_on_types"
 
+  create_table "phone_words", :force => true do |t|
+    t.string   "name"
+    t.integer  "category_id"
+    t.string   "ch_mean"
+    t.integer  "types"
+    t.string   "phonetic"
+    t.string   "enunciate_url"
+    t.integer  "level"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "phone_words", ["category_id"], :name => "index_phone_words_on_category_id"
+  add_index "phone_words", ["name"], :name => "index_phone_words_on_name"
+
   create_table "plan_tasks", :force => true do |t|
     t.integer  "study_plan_id"
     t.integer  "task_types"
@@ -535,9 +550,15 @@ ActiveRecord::Schema.define(:version => 20120411071057) do
     t.text     "nomal_ids"
     t.text     "recite_ids"
     t.integer  "category_id"
+    t.datetime "login_time"
+    t.integer  "all_study_time"
+    t.string   "practice_url"
   end
 
+  add_index "user_word_relations", ["all_study_time"], :name => "index_user_word_relations_on_all_study_time"
   add_index "user_word_relations", ["category_id"], :name => "index_user_word_relations_on_category_id"
+  add_index "user_word_relations", ["login_time"], :name => "index_user_word_relations_on_login_time"
+  add_index "user_word_relations", ["practice_url"], :name => "index_user_word_relations_on_practice_url"
   add_index "user_word_relations", ["user_id"], :name => "index_user_word_relations_on_user_id"
 
   create_table "users", :force => true do |t|
@@ -605,6 +626,7 @@ ActiveRecord::Schema.define(:version => 20120411071057) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "ch_mean"
   end
 
   add_index "word_sentences", ["word_id"], :name => "index_word_sentences_on_word_id"
