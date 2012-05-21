@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120514060309) do
+ActiveRecord::Schema.define(:version => 20120521021805) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -554,6 +554,7 @@ ActiveRecord::Schema.define(:version => 20120514060309) do
     t.integer  "all_study_time"
     t.string   "practice_url"
     t.integer  "study_role"
+    t.string   "timer"
   end
 
   add_index "user_word_relations", ["all_study_time"], :name => "index_user_word_relations_on_all_study_time"
